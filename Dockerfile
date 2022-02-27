@@ -18,8 +18,8 @@ RUN apt-get update && apt-get -yq dist-upgrade \
      openjdk-17-jdk-headless \
      emacs-nox \
      vim \
-     python \
-     python-pip
+     python3 \
+     python3-pip
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen
