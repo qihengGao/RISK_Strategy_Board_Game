@@ -30,8 +30,8 @@ RUN adduser --uid ${USER_ID} juser
 WORKDIR /home/juser
 
 # Setup a minimal emacs with dcoverage
-#USER juser
-#WORKDIR /home/juser
+USER juser
+WORKDIR /home/juser
 #COPY --chown=juser scripts/emacs-bare.sh ./
 #RUN mkdir -p /home/juser/.emacs.d/dcoverage
 #COPY --chown=juser scripts/dcoverage.el /home/juser/.emacs.d/dcoverage/
