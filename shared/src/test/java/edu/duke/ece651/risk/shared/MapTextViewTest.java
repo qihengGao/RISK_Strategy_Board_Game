@@ -1,4 +1,4 @@
-package edu.duke.ece651.risk.server;
+package edu.duke.ece651.risk.shared;
 
 import java.util.TreeMap;
 
@@ -25,6 +25,5 @@ public class MapTextViewTest {
     System.out.println(mtv.displayMapInit());
     
   }
-
 
 }

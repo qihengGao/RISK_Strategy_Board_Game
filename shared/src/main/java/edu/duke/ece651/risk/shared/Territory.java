@@ -1,10 +1,7 @@
-package edu.duke.ece651.risk.server;
+package edu.duke.ece651.risk.shared;
 
 import java.util.HashSet;
 
-/**
- * This class represents any territory in our RISK game
- */
 public class Territory {
   int OwnerID;
   final String name;
@@ -55,4 +52,5 @@ public class Territory {
     OwnerID = newID;
     return true;
   }
+
 }

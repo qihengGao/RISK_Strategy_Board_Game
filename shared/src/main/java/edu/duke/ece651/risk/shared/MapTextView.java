@@ -1,4 +1,4 @@
-package edu.duke.ece651.risk.server;
+package edu.duke.ece651.risk.shared;
 
 public class MapTextView {
   

@@ -1,4 +1,4 @@
-package edu.duke.ece651.risk.server;
+package edu.duke.ece651.risk.shared;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,5 +14,4 @@ public class TerritoryTest {
     assertTrue(t1.tryChangeOwnerTo(1));
     assertEquals(t1.getOwnerID(), 1);
   }
-
 }
