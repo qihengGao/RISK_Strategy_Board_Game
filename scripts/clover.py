@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 totalCodeCoverage = None
 
 try:
-    soup = BeautifulSoup(open("../build/reports/clover/html/dashboard.html"), "html.parser")
+    soup = BeautifulSoup(open("./build/reports/clover/html/dashboard.html"), "html.parser")
     totalCodeCoverage = soup.find(
         string=re.compile("Code coverage")).parent.parent.parent.find(
         name="span", attrs={"class": "sortValue"}).contents

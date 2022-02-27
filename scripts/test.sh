@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ./gradlew build || exit 1
-./gradlew cloverGenerateReport || exit 1
 ./gradlew cloverAggregateReports || exit 1
 ls build/reports
-scripts/coverage_summary.sh
+pip3 install bs4
+python3 scripts/clover.py
 cp -r build/reports/clover/html/* /coverage-out/ || exit 1
 
