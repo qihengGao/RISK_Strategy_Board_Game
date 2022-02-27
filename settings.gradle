@@ -8,8 +8,6 @@
  */
 
 rootProject.name = 'ece651-risk'
-include 'client'
-include 'server'
-include 'server'
-include 'shared'
-
+include('server')
+include('shared')
+include('client')
