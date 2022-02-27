@@ -1,8 +1,9 @@
 package edu.duke.ece651.risk.shared;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public class Territory {
+public class Territory implements Serializable {
   int OwnerID;
   final String name;
   final HashSet<Territory> neighbors;
