@@ -5,6 +5,7 @@
 build
 bin
 .idea
+.settings
 
 **/build/
 !src/**/build/
