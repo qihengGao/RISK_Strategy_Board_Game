@@ -4,8 +4,19 @@
  * This is a general purpose Gradle build.
  * Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.3.3/samples
  */
-plugins {
-    id 'com.bmuschko.clover' version '3.0.3'
+//plugins {
+//    id 'com.bmuschko.clover' version '3.0.3'
+//}
+buildscript {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-clover-plugin:3.0.3'
+    }
+
+
 }
 
 subprojects{
