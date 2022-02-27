@@ -39,12 +39,3 @@ test:
     paths:
       - coverage
 
-pages:
-  stage: coverage
-  dependencies:
-    - test
-  script:
-    - mv coverage public/
-  artifacts:
-    paths:
-      - public
