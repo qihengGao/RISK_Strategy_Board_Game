@@ -64,7 +64,9 @@ before_script:
 build:
   image: gradle:alpine
   stage: build
-  script: gradle --build-cache assemble
+  script:
+    - gradle resolveDependencies
+    - gradle --build-cache assemble
   tags:
     - docker
   cache:
