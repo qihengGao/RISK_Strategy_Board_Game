@@ -76,7 +76,7 @@ build:
       - build
       - .gradle
 
-test:
+clover-report:
   image: eclipse-temurin:11
   stage: test
   script: ./gradlew cloverAggregateReports
@@ -89,9 +89,9 @@ test:
       - build
       - .gradle
 
-test-coverage-summary:
+coverage-summary:
   image: python:3.7-alpine3.14
-  stage: test-coverage-summary
+  stage: test
   script:
     - pip3 install bs4
     - python3 scripts/clover.py
