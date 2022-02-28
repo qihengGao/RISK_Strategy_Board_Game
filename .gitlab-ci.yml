@@ -13,39 +13,70 @@
 #
 # For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
 
+#before_script:
+#  - hostname
+#  - whoami
+#  - pwd
+#  - ls -la
+#  - docker --version
+
+#stages:
+#  - build
+#  - test
+#  - coverage
+#  - deploy
+#  - test-deployment
+#
+#
+#build:
+#  stage: build
+#  script: docker build --build-arg LOCAL_USER_ID=`id -u`  --tag citest .
+#
+#test:
+#  stage: test
+#  script: scripts/run-tests-in-docker.sh
+#  artifacts:
+#    paths:
+#      - coverage
+#
+#pages:
+# stage: coverage
+# dependencies:
+#   - test
+# script:
+#   - mv coverage public/
+# artifacts:
+#   paths:
+#     - public
+
+image: gradle:alpine
+
+# Disable the Gradle daemon for Continuous Integration servers as correctness
+# is usually a priority over speed in CI environments. Using a fresh
+# runtime for each build is more reliable since the runtime is completely
+# isolated from any previous builds.
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
 before_script:
-  - hostname
-  - whoami
-  - pwd
-  - ls -la
-  - docker --version
-
-stages:
-  - build
-  - test
-  - coverage
-  - deploy
-  - test-deployment
-
+  - export GRADLE_USER_HOME=`pwd`/.gradle
 
 build:
   stage: build
-  script: docker build --build-arg LOCAL_USER_ID=`id -u`  --tag citest .
+  script: gradle --build-cache assemble
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
+    paths:
+      - build
+      - .gradle
 
 test:
   stage: test
-  script: scripts/run-tests-in-docker.sh
-  artifacts:
+  script: gradle check
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
     paths:
-      - coverage
-
-pages:
- stage: coverage
- dependencies:
-   - test
- script:
-   - mv coverage public/
- artifacts:
-   paths:
-     - public
-
+      - build
+      - .gradle
