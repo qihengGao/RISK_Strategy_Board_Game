@@ -90,8 +90,8 @@ test:
       - .gradle
 
 test-coverage-summary:
-  image: 3.7-alpine3.14
-  stage: test
+  image: python:3.7-alpine3.14
+  stage: test-coverage-summary
   script:
     - pip3 install bs4
     - python3 scripts/clover.py
