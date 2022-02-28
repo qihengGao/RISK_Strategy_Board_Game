@@ -97,6 +97,8 @@ coverage-summary:
     - python3 scripts/clover.py
   tags:
     - docker
+  needs:
+    - clover-report
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
