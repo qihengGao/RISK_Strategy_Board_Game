@@ -64,7 +64,7 @@ coverage-summary:
 
 pages:
   image: alpine:3.14
-  stage: deploy
+  stage: test
   tags:
     - docker
   needs:
