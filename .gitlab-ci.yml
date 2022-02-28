@@ -62,11 +62,11 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 build:
-  image: gradle:alpine
+  image: eclipse-temurin:11
   stage: build
   script:
-    - gradle resolveDependencies
-    - gradle --build-cache assemble
+    - ./gradlew resolveDependencies
+    - ./gradlew --build-cache assemble
   tags:
     - docker
   cache:
@@ -77,9 +77,9 @@ build:
       - .gradle
 
 test:
-  image: gradle:alpine
+  image: eclipse-temurin:11
   stage: test
-  script: gradle cloverAggregateReports
+  script: ./gradlew cloverAggregateReports
   tags:
     - docker
   cache:
