@@ -102,6 +102,6 @@ coverage-summary:
     - clover-report
   cache:
     key: "$CI_COMMIT_REF_NAME"
-    policy: push
+    policy: pull
     paths:
       - build
