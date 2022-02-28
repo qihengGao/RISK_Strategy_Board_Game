@@ -69,7 +69,12 @@ coverage-summary:
     paths:
       - build
 pages:
-  image: python:3.7-alpine3.14
+  image: alpine:3.14
+  stage: test
+  tags:
+    - docker
+  needs:
+    - clover-report
   script:
     - mkdir .public
     - cp -r build/reports/clover/html/* .public/
