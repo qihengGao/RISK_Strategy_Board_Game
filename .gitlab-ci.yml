@@ -62,7 +62,7 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 build:
-  image: eclipse-temurin:11
+  image: adoptopenjdk/openjdk11:alpine
   stage: build
   script:
     - ./gradlew resolveDependencies
@@ -77,7 +77,7 @@ build:
       - .gradle
 
 test:
-  image: eclipse-temurin:11
+  image: adoptopenjdk/openjdk11:alpine
   stage: test
   script: ./gradlew cloverAggregateReports
   tags:
