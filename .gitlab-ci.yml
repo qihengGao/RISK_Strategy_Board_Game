@@ -62,7 +62,7 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 build:
-  image: adoptopenjdk/openjdk11:alpine
+  image: eclipse-temurin:11
   stage: build
   script:
     - ./gradlew resolveDependencies
@@ -77,7 +77,7 @@ build:
       - .gradle
 
 test:
-  image: adoptopenjdk/openjdk11:alpine
+  image: eclipse-temurin:11
   stage: test
   script: ./gradlew cloverAggregateReports
   tags:
@@ -88,3 +88,17 @@ test:
     paths:
       - build
       - .gradle
+
+test-coverage-summary:
+  image: 3.7-alpine3.14
+  stage: test
+  script:
+    - pip3 install bs4
+    - python3 scripts/clover.py
+  tags:
+    - docker
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
+    paths:
+      - build
