@@ -61,7 +61,8 @@ coverage-summary:
     policy: pull
     paths:
       - build
-upload-coverage-report-using-artifacts:
+
+pages:
   image: alpine:3.14
   stage: test
   tags:
