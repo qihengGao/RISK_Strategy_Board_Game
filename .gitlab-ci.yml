@@ -17,12 +17,6 @@
 # is usually a priority over speed in CI environments. Using a fresh
 # runtime for each build is more reliable since the runtime is completely
 # isolated from any previous builds.
-variables:
-  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
-
-before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle
-
 build:
   image: eclipse-temurin:11
   stage: build
@@ -57,7 +51,6 @@ coverage-summary:
   stage: test
   script:
     - pip3 install bs4
-    - ls -a
     - python3 scripts/clover.py
   tags:
     - docker
@@ -68,7 +61,7 @@ coverage-summary:
     policy: pull
     paths:
       - build
-pages:
+upload-coverage-report-using-artifacts:
   image: alpine:3.14
   stage: test
   tags:
@@ -89,4 +82,3 @@ pages:
       - public
   only:
     - main
-    - 8-remove-the-unnecessary-scripts-and-upload-artifacts
