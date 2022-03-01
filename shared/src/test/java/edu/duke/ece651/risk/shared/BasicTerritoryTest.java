@@ -4,14 +4,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-public class TerritoryTest {
+public class BasicTerritoryTest {
   @Test
   public void test_newTerritory() {
-    Territory t1 = new Territory("FitzPatrick");
+    Territory t1 = new BasicTerritory("FitzPatrick");
     assertEquals(t1.getName(), "FitzPatrick");
     assertFalse(t1.getNeighbors().iterator().hasNext());
     assertEquals(t1.getOwnerID(), 0);
     assertTrue(t1.tryChangeOwnerTo(1));
     assertEquals(t1.getOwnerID(), 1);
   }
+
 }

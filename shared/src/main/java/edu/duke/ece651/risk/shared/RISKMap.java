@@ -1,33 +1,61 @@
 package edu.duke.ece651.risk.shared;
 
-import java.io.Serializable;
 import java.util.HashSet;
-import java.util.TreeMap;
 
-public class RISKMap implements Serializable {
-    TreeMap<String, Territory> continent;
+public class RISKMap implements Map {
+  private final HashSet<Territory> continent;
 
-    public RISKMap(TreeMap<String, Territory> new_continent) {
-        this.continent = new_continent;
+  public RISKMap(HashSet<Territory> new_continent) {
+    this.continent = new_continent;
+  }
+
+  /**
+   * Try to add territory into continent
+   * @return true if succeed
+   */
+  public boolean tryAddTerritory(Territory newTerr) {
+    if (getTerritoryByName(newTerr.getName())==null){
+      continent.add(newTerr);
+      return true;
     }
+    return false;
+  }
 
-    public boolean tryAddTerritory(Territory newTerr) {
-        continent.put(newTerr.getName(), newTerr);
-        return true;
+  /**
+   * get the territory object by the name of territory
+   * @param name: String
+   * @return territory if exist, null if not
+   */
+  public Territory getTerritoryByName(String name) {
+    for (Territory t : continent) {
+      if (t.getName() == name) {
+        return t;
+      }
     }
+    return null;
+    
+  }
 
-    public Territory getTerritoryByName(String name) {
-        return continent.get(name);
+  /**
+   * get the iterable of all territories in continent
+   * @return Iterable<Territory>
+   */
+  public Iterable<Territory> getContinent() {
+    return continent;
+  }
+  
+  /**
+   * get the iterable of territories by owner ID
+   * @param id: int
+   * @return Iterable<Territory>
+   */
+  public Iterable<Territory> getTerritoriesByOwnerID(int id) {
+    HashSet<Territory> ownedByMe = new HashSet<Territory>();
+    for (Territory t : continent) {
+      if (t.getOwnerID() == id) {
+        ownedByMe.add(t);
+      }
     }
-
-    public Iterable<Territory> getTerritoriesByOwnerID(int id) {
-        HashSet<Territory> ownedByMe = new HashSet<Territory>();
-        for (Territory t : continent.values()) {
-            if (t.getOwnerID() == id) {
-                ownedByMe.add(t);
-            }
-        }
-        return ownedByMe;
-    }
-
+    return ownedByMe;
+  }
 }

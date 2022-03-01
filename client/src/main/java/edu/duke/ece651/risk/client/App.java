@@ -3,8 +3,7 @@
  */
 package edu.duke.ece651.risk.client;
 
-import edu.duke.ece651.risk.shared.MapTextView;
-import edu.duke.ece651.risk.shared.RISKMap;
+import edu.duke.ece651.risk.shared.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,7 +14,7 @@ public class App {
 
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        RISKMap riskMap = null;
+        Map riskMap = null;
 
         Socket socket1;
         int portNumber = 1777;

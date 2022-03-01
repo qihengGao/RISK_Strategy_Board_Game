@@ -1,16 +1,29 @@
 package edu.duke.ece651.risk.shared;
 
-public class MapTextView {
+public class MapTextView implements MapView{
   
-  private final RISKMap toDisplay;
+  private final Map toDisplay;
 
-  public MapTextView(RISKMap toDisplay){
+  public MapTextView(Map toDisplay){
     this.toDisplay = toDisplay;
   }
 
+  /**
+   * Display the map at initial phase
+   * @return map information in string
+   */
   public String displayMapInit(){
-    StringBuilder ans = new StringBuilder(headerBuilder("Initial World Map:\n"));
-    for (Territory t : toDisplay.continent.values()){
+    return displayTerrGroup(toDisplay.getContinent(),"Initial World Map:\n");
+  }
+
+  /**
+   * Display a group of territories
+   * @param terrGroup: Iterable<Territory>: territories to display 
+   * @param groupHeader: String: header of the group
+   */
+  private String displayTerrGroup(Iterable<Territory> terrGroup, String groupHeader){
+    StringBuilder ans = new StringBuilder(headerBuilder(groupHeader));
+    for (Territory t : terrGroup){
       ans.append(" "+t.getName()+displayNeighbors(t));
     }
     return ans.toString();

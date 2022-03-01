@@ -10,14 +10,15 @@ import org.junit.jupiter.api.Test;
 public class RISKMapTest {
   @Test
   public void test_simpleMap() {
-    RISKMap map = new RISKMap(new TreeMap<String, Territory>());
-    Territory t1 = new Territory("FitzPatrick");
+    RISKMap map = new RISKMap(new HashSet<Territory>());
+    Territory t1 = new BasicTerritory("FitzPatrick");
     assertTrue(map.tryAddTerritory(t1));
     assertSame(map.getTerritoryByName("FitzPatrick"), t1);
     assertNull(map.getTerritoryByName("Valhalla"));
 
-    Territory t2 = new Territory("Valhalla");
+    Territory t2 = new BasicTerritory("Valhalla");
     assertTrue(map.tryAddTerritory(t2));
+    assertFalse(map.tryAddTerritory(t2));//can't add twice
 
     HashSet<Territory> group0 = new HashSet<Territory>();
     map.getTerritoriesByOwnerID(0).forEach(group0::add);
