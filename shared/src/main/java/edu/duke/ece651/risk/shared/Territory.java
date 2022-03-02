@@ -28,6 +28,11 @@ public interface Territory extends Serializable {
    */
   public HashSet<Territory> getNeighbors();
 
+  /**
+   * search the neighbor by name
+   * @return the neighbor: Territory; null if doesn't exist
+   */
+  public Territory getNeighborByName(String name);
   
   /**
    * Try to change the ownerID

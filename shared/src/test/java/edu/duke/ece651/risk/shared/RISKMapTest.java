@@ -35,4 +35,21 @@ public class RISKMapTest {
     assertFalse(group1.contains(t2));
   }
 
+  @Test
+  public void test_checkPath(){
+    AbstractMapFactory amf = new RandomMapFactory();
+    Map map = amf.createMapForNplayers(2);
+    
+    assertNull(map.getPath("Test0", "Test0"));//assert Path from myself to myself is null
+    assertNull(map.getPath("Test0", "Test6"));//assert dst not exist path is null
+    assertNull(map.getPath("TestNE", "Test6"));
+    for (int i = 0; i < 6; i++){
+      for (int j = 0; j < 6; j++){
+        if (i!=j){
+          assertNotEquals(map.getPath("Test"+i, "Test"+j), null);
+        }
+      }
+    }
+  }
+  
 }

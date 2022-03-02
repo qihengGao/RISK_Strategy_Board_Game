@@ -13,7 +13,7 @@ import edu.duke.ece651.risk.shared.*;
 
 public class App {
     public static void main(String[] args) throws IOException {
-      TestMapFactory tmf = new TestMapFactory();
+      AbstractMapFactory tmf = new RandomMapFactory();
       Map riskMap = tmf.createMapForNplayers(2);
 
       ServerSocket servSocket;

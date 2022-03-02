@@ -48,6 +48,19 @@ public class BasicTerritory implements Territory {
   }
 
   /**
+   * search the neighbor by name
+   * @return the neighbor: Territory; null if doesn't exist
+   */
+  public Territory getNeighborByName(String name){
+    for (Territory t : neighbors) {
+      if (t.getName().equals(name)) {
+        return t;
+      }
+    }
+    return null;
+  }
+
+  /**
    * Try to change the ownerID
    * @return true if success
    */

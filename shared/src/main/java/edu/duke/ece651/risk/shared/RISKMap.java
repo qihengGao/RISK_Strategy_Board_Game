@@ -1,5 +1,6 @@
 package edu.duke.ece651.risk.shared;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class RISKMap implements Map {
@@ -57,7 +58,7 @@ public class RISKMap implements Map {
     }
     return ownedByMe;
   }
-
+  
   /**
    * Add two territories as neighbors
    */
@@ -66,5 +67,44 @@ public class RISKMap implements Map {
     Territory t2 = getTerritoryByName(terr2);
     t1.tryAddNeighbor(t2);
     t2.tryAddNeighbor(t1);
+  }
+
+  /**
+   * check the validity of path from src to dst
+   * @param src (String): path origin
+   * @param dst (String): path destination
+   * @return pair of territory if exist such path; null if not
+   */
+  public HashMap<Territory, Territory> getPath(String src, String dst){
+    Territory start = getTerritoryByName(src);
+    Territory end = getTerritoryByName(dst);
+    if (start == null || end == null){
+      return null;
+    }
+    HashSet<Territory> visited = new HashSet<Territory>(); 
+    end = dfsToDst(start, dst, visited);
+    if (start.equals(end) || end == null){
+      return null;
+    }
+    HashMap<Territory, Territory> ans = new HashMap<Territory, Territory>();
+    ans.put(start, end);
+    return ans;
+  }
+
+  private Territory dfsToDst(Territory curr, String dst, HashSet<Territory> visited){
+    if (curr.getName().equals(dst)){
+      return getTerritoryByName(dst);
+    }
+    visited.add(curr);
+    Territory end;
+    for (Territory t: curr.getNeighbors()){
+      if (!visited.contains(t)){
+        end = dfsToDst(t, dst, visited);
+        if (end!=null){
+          return end;
+        }
+      }
+    }
+    return null;
   }
 }

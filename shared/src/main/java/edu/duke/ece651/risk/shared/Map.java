@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.shared;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public interface Map extends Serializable{
 
@@ -34,4 +35,12 @@ public interface Map extends Serializable{
    * Add two territories as neighbors
    */
   public void connectTerr(String terr1, String terr2);
+
+  /**
+   * check the validity of path from src to dst
+   * @param src (String): path origin
+   * @param dst (String): path destination
+   * @return pair of territory if exist such path; null if not
+   */
+  public HashMap<Territory, Territory> getPath(String src, String dst);
 }
