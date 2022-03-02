@@ -28,12 +28,11 @@ public class RISKMap implements Map {
    */
   public Territory getTerritoryByName(String name) {
     for (Territory t : continent) {
-      if (t.getName() == name) {
+      if (t.getName().equals(name)) {
         return t;
       }
     }
     return null;
-    
   }
 
   /**
@@ -57,5 +56,15 @@ public class RISKMap implements Map {
       }
     }
     return ownedByMe;
+  }
+
+  /**
+   * Add two territories as neighbors
+   */
+  public void connectTerr(String terr1, String terr2){
+    Territory t1 = getTerritoryByName(terr1);
+    Territory t2 = getTerritoryByName(terr2);
+    t1.tryAddNeighbor(t2);
+    t2.tryAddNeighbor(t1);
   }
 }

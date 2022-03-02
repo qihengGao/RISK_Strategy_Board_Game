@@ -29,4 +29,9 @@ public interface Map extends Serializable{
    * @return Iterable<Territory>
    */
   public Iterable<Territory> getTerritoriesByOwnerID(int id);
+
+  /**
+   * Add two territories as neighbors
+   */
+  public void connectTerr(String terr1, String terr2);
 }

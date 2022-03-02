@@ -32,7 +32,7 @@ public class BasicTerritory implements Territory {
    * such as "Gondor", "Oz", "Roshar".
    */
   public boolean tryAddNeighbor(Territory toAdd){
-    if (name!=toAdd.getName()){
+    if (!name.equals(toAdd.getName())){
       neighbors.add(toAdd);
       return true;
     }

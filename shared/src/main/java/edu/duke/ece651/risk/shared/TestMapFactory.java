@@ -11,29 +11,23 @@ public class TestMapFactory implements AbstractMapFactory {
    */
   @Override
   public Map createMapForNplayers(int n) {
-    Map map = new RISKMap(buildRandomContinent(n));
-    return map;
-  }
-
-  private HashSet<Territory> buildRandomContinent(int n) {
-    ArrayList<Territory> randCont = new ArrayList<Territory>();
+    Map map = new RISKMap(new HashSet<Territory>());
     for (int i = 0; i<n*3; i++){
       String terrName = "Test" + i;
-      randCont.add(new BasicTerritory(terrName));
+      map.tryAddTerritory(new BasicTerritory(terrName));
     }
 
-    randomConnect(randCont);
-    return new HashSet<Territory>(randCont);
+    map.connectTerr("Test0", "Test1");
+    map.connectTerr("Test0", "Test3");
+    map.connectTerr("Test0", "Test4");
+    map.connectTerr("Test1", "Test3");
+    map.connectTerr("Test2", "Test1");
+    map.connectTerr("Test2", "Test3");
+    map.connectTerr("Test2", "Test5");
+    map.connectTerr("Test3", "Test5");
+    map.connectTerr("Test4", "Test3");
+    map.connectTerr("Test4", "Test5");
+    
+    return map;
   }
-
-  private void randomConnect(ArrayList<Territory> randCont) {
-    Random generator = new Random(123);
-    for (Territory t : randCont){
-      for (int i = 0; i < 3; i++){
-        int idx = generator.nextInt(randCont.size());
-        t.tryAddNeighbor(randCont.get(idx));
-      }
-    }
-  }
-
 }
