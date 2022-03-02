@@ -38,4 +38,10 @@ class AppTest {
         assertThrows(EOFException.class, ()->App.readServerAddress("",new BufferedReader(new StringReader("")),printStreamMock));
 
     }
+
+    @Test
+    void main() {
+
+
+    }
 }
