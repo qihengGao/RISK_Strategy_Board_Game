@@ -11,6 +11,14 @@ public class RISKMap implements Map {
   }
 
   /**
+   * get the number of continents in the map
+   * @return int
+   */  
+  public int getNumOfContinents() {
+    return this.continent.size();
+  }
+
+  /**
    * Try to add territory into continent
    * @return true if succeed
    */

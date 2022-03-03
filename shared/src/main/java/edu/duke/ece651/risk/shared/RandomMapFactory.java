@@ -18,11 +18,12 @@ public class RandomMapFactory implements AbstractMapFactory {
     Random generator = new Random(123);
     HashSet<String> visited = new HashSet<String>();
     String curr = "Test0";
-    while (visited.size() < n*3){
+    while (visited.size() < n*3) {
       visited.add(curr);
       String toConnect = "Test" + generator.nextInt(n*3);
       while (map.getTerritoryByName(curr).getNeighbors().size()<2){
         toConnect = "Test" + generator.nextInt(n*3);
+        // TODO: change to tryConnect
         map.connectTerr(curr, toConnect);
       }
       curr = toConnect;

@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 public interface Map extends Serializable{
+  /**
+   * get the number of continents in the map
+   * @return int
+   */
+
+  public int getNumOfContinents();
 
   /**
    * get the iterable of all territories in continent

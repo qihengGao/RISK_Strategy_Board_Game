@@ -6,4 +6,10 @@ public interface MapView {
    * @return map information in string
    */
   public String displayMapInit();
+
+  /**
+   * Display the map
+   * @return map information in string
+   */
+  public String dispalyMap();
 }

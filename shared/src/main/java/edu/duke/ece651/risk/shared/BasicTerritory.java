@@ -8,7 +8,7 @@ public class BasicTerritory implements Territory {
   private final HashSet<Territory> neighbors;
   
   public BasicTerritory(String Name){
-    this.OwnerID = 0;
+    this.OwnerID = -1;
     this.name = Name;
     this.neighbors = new HashSet<Territory>();
   }
