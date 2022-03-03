@@ -4,11 +4,44 @@
 package edu.duke.ece651.risk.client;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+@ExtendWith(MockitoExtension.class)
 class AppTest {
+
+    @Mock
+    App appMcok;
+
+    @Mock
+    private PrintStream printStreamMock;
+
+
     @Test
-    public void failedTest(){
-        //assertEquals("1","2");
+    void readServerPort() throws IOException {
+        assertEquals(123,App.readServerPort("",new BufferedReader(new StringReader("123")),printStreamMock));
+        assertThrows(NumberFormatException.class, ()->App.readServerPort("",new BufferedReader(new StringReader("qwe")),printStreamMock));
+        assertThrows(EOFException.class, ()->App.readServerPort("",new BufferedReader(new StringReader("")),printStreamMock));
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(bytes, true);
+
+    }
+
+    @Test
+    void readServerAddress() throws IOException {
+        assertEquals("localhost",App.readServerAddress("",new BufferedReader(new StringReader("localhost")),printStreamMock));
+        assertThrows(EOFException.class, ()->App.readServerAddress("",new BufferedReader(new StringReader("")),printStreamMock));
+
+    }
+
+    @Test
+    void main() {
+
+
     }
 }

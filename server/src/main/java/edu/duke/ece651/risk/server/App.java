@@ -4,40 +4,19 @@
 package edu.duke.ece651.risk.server;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-import edu.duke.ece651.risk.shared.*;
+import java.util.Queue;
 
 public class App {
+
+    private static Queue<Client> clientQueue;
+
+
+
+
     public static void main(String[] args) throws IOException {
-      AbstractMapFactory tmf = new RandomMapFactory();
-      Map riskMap = tmf.createMapForNplayers(2);
 
-      ServerSocket servSocket;
-      Socket fromClientSocket;
-      int cTosPortNumber = 1777;
-
-      servSocket = new ServerSocket(cTosPortNumber);
-      System.out.println("Waiting for a connection on " + cTosPortNumber);
-
-      fromClientSocket = servSocket.accept();
-      System.out.println("Connection from " + fromClientSocket + "!");
-      ObjectOutputStream oos = new ObjectOutputStream(fromClientSocket.getOutputStream());
-      ObjectInputStream ois = new ObjectInputStream(fromClientSocket.getInputStream());
-
-
-      System.out.println("Sending map to the ServerSocket");
-      oos.writeObject(riskMap);
-
-
-      System.out.println("Closing socket and terminating program.");
-      ois.close();
-      oos.close();
-      fromClientSocket.close();
-
+        RiskGameServer riskGameServer = new RiskGameServer(1777, 3);
+        riskGameServer.start();
     }
 
 }
