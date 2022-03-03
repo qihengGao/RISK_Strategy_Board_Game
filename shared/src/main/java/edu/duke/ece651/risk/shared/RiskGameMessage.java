@@ -16,7 +16,7 @@ public class RiskGameMessage implements Serializable {
     private RISKMap riskMap;
     private State currentState;
     private String prompt;
-    private Color color;
+    private Color color = null;
 
     public RISKMap getRiskMap() {
         return riskMap;
@@ -36,5 +36,12 @@ public class RiskGameMessage implements Serializable {
         this.currentState = currentState;
         this.prompt = prompt;
         this.color = color;
+    }
+
+    public RiskGameMessage(long clientid, State currentState, RISKMap riskMap, String prompt) {
+        this.clientid = clientid;
+        this.riskMap = riskMap;
+        this.currentState = currentState;
+        this.prompt = prompt;
     }
 }
