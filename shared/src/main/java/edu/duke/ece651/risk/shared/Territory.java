@@ -3,55 +3,40 @@ package edu.duke.ece651.risk.shared;
 import java.io.Serializable;
 import java.util.HashSet;
 
-public class Territory implements Serializable {
-  int OwnerID;
-  final String name;
-  final HashSet<Territory> neighbors;
-  
-  public Territory(String Name){
-    this.OwnerID = 0;
-    this.name = Name;
-    this.neighbors = new HashSet<Territory> ();
-  }
-
-    /**    
+public interface Territory extends Serializable {
+  /**    
    * @return the ID of the Owner of this Territory, such as 1.
    */
-  public int getOwnerID(){
-    return OwnerID;
-  }
-  
+  public int getOwnerID();
+
   /**    
    * @return the name of this Territory, such as "Narnia".
    */
-  public String getName(){
-    return name;
-  }
-
-  /**    
-   * @return the iterable of the neighbors of this Territory, 
-   * such as "Gondor", "Oz", "Roshar".
-   */
-  public void tryAddNeighbor(Territory neighbor){
-    neighbors.add(neighbor);
-    neighbor.neighbors.add(this);
-  }
+  public String getName();
+  
   
   /**    
    * @return the iterable of the neighbors of this Territory, 
    * such as "Gondor", "Oz", "Roshar".
    */
-  public HashSet<Territory> getNeighbors(){
-    return neighbors;
-  }
+  public boolean tryAddNeighbor(Territory toAdd);
 
+  
+  /**    
+   * @return the iterable of the neighbors of this Territory, 
+   * such as "Gondor", "Oz", "Roshar".
+   */
+  public HashSet<Territory> getNeighbors();
+
+  /**
+   * search the neighbor by name
+   * @return the neighbor: Territory; null if doesn't exist
+   */
+  public Territory getNeighborByName(String name);
+  
   /**
    * Try to change the ownerID
    * @return true if success
    */
-  public boolean tryChangeOwnerTo(int newID){
-    OwnerID = newID;
-    return true;
-  }
-
+  public boolean tryChangeOwnerTo(int newID);
 }

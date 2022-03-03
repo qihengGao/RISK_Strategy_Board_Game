@@ -10,14 +10,15 @@ import org.junit.jupiter.api.Test;
 public class RISKMapTest {
   @Test
   public void test_simpleMap() {
-    RISKMap map = new RISKMap(new TreeMap<String, Territory>());
-    Territory t1 = new Territory("FitzPatrick");
+    RISKMap map = new RISKMap(new HashSet<Territory>());
+    Territory t1 = new BasicTerritory("FitzPatrick");
     assertTrue(map.tryAddTerritory(t1));
     assertSame(map.getTerritoryByName("FitzPatrick"), t1);
     assertNull(map.getTerritoryByName("Valhalla"));
 
-    Territory t2 = new Territory("Valhalla");
+    Territory t2 = new BasicTerritory("Valhalla");
     assertTrue(map.tryAddTerritory(t2));
+    assertFalse(map.tryAddTerritory(t2));//can't add twice
 
     HashSet<Territory> group0 = new HashSet<Territory>();
     map.getTerritoriesByOwnerID(0).forEach(group0::add);
@@ -34,4 +35,21 @@ public class RISKMapTest {
     assertFalse(group1.contains(t2));
   }
 
+  @Test
+  public void test_checkPath(){
+    AbstractMapFactory amf = new RandomMapFactory();
+    Map map = amf.createMapForNplayers(2);
+    
+    assertNull(map.getPath("Test0", "Test0"));//assert Path from myself to myself is null
+    assertNull(map.getPath("Test0", "Test6"));//assert dst not exist path is null
+    assertNull(map.getPath("TestNE", "Test6"));
+    for (int i = 0; i < 6; i++){
+      for (int j = 0; j < 6; j++){
+        if (i!=j){
+          assertNotEquals(map.getPath("Test"+i, "Test"+j), null);
+        }
+      }
+    }
+  }
+  
 }

@@ -1,16 +1,53 @@
 package edu.duke.ece651.risk.shared;
 
-public class MapTextView {
-  
-  private final RISKMap toDisplay;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.TreeMap;
 
-  public MapTextView(RISKMap toDisplay){
+public class MapTextView implements MapView{
+  
+  private final Map toDisplay;
+  // TODO: Color obj, hashing relationship between id and Color
+  // TODO: accomplish in assign phase
+  // Color
+  // this.name;
+  // this.value; 
+  // getDisInfo: return value;
+  private TreeMap<Integer, Color> idToColor;
+
+  public MapTextView(Map toDisplay){
     this.toDisplay = toDisplay;
+    this.idToColor = new TreeMap<>();
   }
 
+  public MapTextView(Map toDisplay, TreeMap<Integer, Color> idToColor) {
+    this.toDisplay = toDisplay;
+    this.idToColor = idToColor;
+  }
+
+  /**
+   * Display the map at initial phase
+   * @return map information in string
+   */
   public String displayMapInit(){
-    StringBuilder ans = new StringBuilder(headerBuilder("Initial World Map:\n"));
-    for (Territory t : toDisplay.continent.values()){
+    return displayTerrGroup(toDisplay.getContinent(),"Initial World Map:\n");
+  }
+
+  public String displayMap() {
+    for (int id : idToColor.keySet()) {
+      Iterable<Territory> territoriesOfId = toDisplay.getTerritoriesByOwnerID(id));
+      displayTerrGroup(territoriesOfId, idToColor.get(id).getName());
+    }
+  }
+
+  /**
+   * Display a group of territories
+   * @param terrGroup: Iterable<Territory>: territories to display 
+   * @param groupHeader: String: header of the group
+   */
+  private String displayTerrGroup(Iterable<Territory> terrGroup, String groupHeader){
+    StringBuilder ans = new StringBuilder(headerBuilder(groupHeader));
+    for (Territory t : terrGroup){
       ans.append(" "+t.getName()+displayNeighbors(t));
     }
     return ans.toString();
@@ -18,9 +55,11 @@ public class MapTextView {
 
   private String headerBuilder(String header) {
     StringBuilder ans = new StringBuilder(header);
-    for (int i = 0; i < header.length(); i++){
-      ans.append("-");
-    }
+    ans.append("\n");
+    // for (int i = 0; i < header.length(); i++){
+    //   ans.append("-");
+    // }
+    ans.append("-".repeat(header.length()));
     ans.append("\n");
     return ans.toString();
   }
@@ -34,4 +73,5 @@ public class MapTextView {
     ans.append(")\n");
     return ans.toString();
   }
+
 }
