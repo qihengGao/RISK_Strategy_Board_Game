@@ -25,6 +25,8 @@ public class GameHandler extends Thread {
         predefineColorList.add(new Color("Red"));
         predefineColorList.add(new Color("Green"));
         predefineColorList.add(new Color("Blue"));
+        predefineColorList.add(new Color("Yellow"));
+        predefineColorList.add(new Color("Purple"));
     }
 
     public void run() {
