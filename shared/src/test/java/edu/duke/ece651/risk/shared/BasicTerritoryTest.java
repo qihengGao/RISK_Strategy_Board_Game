@@ -10,7 +10,7 @@ public class BasicTerritoryTest {
     Territory t1 = new BasicTerritory("FitzPatrick");
     assertEquals(t1.getName(), "FitzPatrick");
     assertFalse(t1.getNeighbors().iterator().hasNext());
-    assertEquals(t1.getOwnerID(), 0);
+    assertEquals(t1.getOwnerID(), -1);
     assertTrue(t1.tryChangeOwnerTo(1));
     assertEquals(t1.getOwnerID(), 1);
   }

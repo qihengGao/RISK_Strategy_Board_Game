@@ -21,7 +21,7 @@ public class RISKMapTest {
     assertFalse(map.tryAddTerritory(t2));//can't add twice
 
     HashSet<Territory> group0 = new HashSet<Territory>();
-    map.getTerritoriesByOwnerID(0).forEach(group0::add);
+    map.getTerritoriesByOwnerID(-1).forEach(group0::add);
     
     assertTrue(group0.contains(t1));
     assertTrue(group0.contains(t2));
@@ -29,10 +29,10 @@ public class RISKMapTest {
     t2.tryChangeOwnerTo(1);
 
     HashSet<Territory> group1 = new HashSet<Territory>();
-    map.getTerritoriesByOwnerID(0).forEach(group1::add);
+    map.getTerritoriesByOwnerID(1).forEach(group1::add);
     
-    assertTrue(group1.contains(t1));
-    assertFalse(group1.contains(t2));
+    assertTrue(group1.contains(t2));
+    assertFalse(group1.contains(t1));
   }
 
   @Test
