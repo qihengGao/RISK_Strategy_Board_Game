@@ -1,13 +1,26 @@
 package edu.duke.ece651.risk.shared;
 
+import com.sun.source.tree.Tree;
+
 import java.io.*;
 import java.net.Socket;
+import java.util.TreeMap;
 
 public class ClientContext {
     private State gameState;
     private Socket socket;
     private RISKMap riskMap;
     private long playerID;
+    private TreeMap<Long,Color> idToColor;
+
+    public TreeMap<Long, Color> getIdToColor() {
+        return idToColor;
+    }
+
+    public void setIdToColor(TreeMap<Long, Color> idToColor) {
+        this.idToColor = idToColor;
+    }
+
     BufferedReader bufferedReader;
     PrintStream out;
     ObjectOutput oos;

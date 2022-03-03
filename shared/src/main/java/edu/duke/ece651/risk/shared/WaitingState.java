@@ -10,6 +10,7 @@ public class WaitingState extends State{
         contex.getOut().println(messageReceived.getPrompt());
         contex.setGameState(messageReceived.getCurrentState());
         contex.setRiskMap(messageReceived.getRiskMap());
+        contex.setIdToColor(messageReceived.getIdToColor());
         messageReceived.getCurrentState().doAction(contex);
     }
 }
