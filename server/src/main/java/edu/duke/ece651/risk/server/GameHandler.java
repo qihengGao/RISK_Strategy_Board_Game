@@ -38,6 +38,11 @@ public class GameHandler extends Thread {
         for (Client client: players) {
             idToColor.put(client.getClientID(),predefineColorList.remove(0));
         }
+        int count = 0;
+        for (Territory territory : riskMap.getContinent()) {
+            territory.tryChangeOwnerTo(count/3);
+            count++;
+        }
 
         for (Client client: players) {
 
