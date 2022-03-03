@@ -1,6 +1,8 @@
 package edu.duke.ece651.risk.shared;
 
-public class Color{
+import java.io.Serializable;
+
+public class Color implements Serializable {
     private final String colorName;
     private final String colorValue;
 

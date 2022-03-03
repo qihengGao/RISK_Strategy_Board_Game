@@ -5,6 +5,7 @@ import edu.duke.ece651.risk.shared.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -29,12 +30,10 @@ public class GameHandler extends Thread {
     public void run() {
         System.out.println("Game start. Sending map to client.");
 
-        TreeMap<String, Territory> continent = new TreeMap<String, Territory>();
-        continent.put("Test1", new Territory("Test1"));
-        continent.put("Test2", new Territory("Test2"));
-        continent.put("Test3", new Territory("Test3"));
-        continent.put("Test4", new Territory("Test4"));
-        RISKMap riskMap = new RISKMap(continent);
+        AbstractMapFactory tmf = new RandomMapFactory();
+        RISKMap riskMap = (RISKMap) tmf.createMapForNplayers(3);
+
+
         TreeMap<Long, Color> idToColor = new TreeMap<Long, Color>();
         for (Client client: players) {
             idToColor.put(client.getClientID(),predefineColorList.remove(0));

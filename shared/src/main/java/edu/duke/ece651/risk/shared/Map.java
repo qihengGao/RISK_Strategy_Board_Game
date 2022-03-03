@@ -35,7 +35,7 @@ public interface Map extends Serializable{
    * @param id: int
    * @return Iterable<Territory>
    */
-  public Iterable<Territory> getTerritoriesByOwnerID(int id);
+  public Iterable<Territory> getTerritoriesByOwnerID(long id);
 
   /**
    * Add two territories as neighbors

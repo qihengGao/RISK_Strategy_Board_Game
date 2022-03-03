@@ -57,7 +57,7 @@ public class RISKMap implements Map {
    * @param id: int
    * @return Iterable<Territory>
    */
-  public Iterable<Territory> getTerritoriesByOwnerID(int id) {
+  public Iterable<Territory> getTerritoriesByOwnerID(long id) {
     HashSet<Territory> ownedByMe = new HashSet<Territory>();
     for (Territory t : continent) {
       if (t.getOwnerID() == id) {

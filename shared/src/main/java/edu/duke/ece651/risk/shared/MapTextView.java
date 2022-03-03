@@ -12,14 +12,14 @@ public class MapTextView implements MapView{
   // this.name;
   // this.value; 
   // getDisInfo: return value;
-  private TreeMap<Integer, Color> idToColor;
+  private TreeMap<Long, Color> idToColor;
 
   public MapTextView(Map toDisplay){
     this.toDisplay = toDisplay;
     this.idToColor = new TreeMap<>();
   }
 
-  public MapTextView(Map toDisplay, TreeMap<Integer, Color> idToColor) {
+  public MapTextView(Map toDisplay, TreeMap<Long, Color> idToColor) {
     this.toDisplay = toDisplay;
     this.idToColor = idToColor;
   }
@@ -34,7 +34,7 @@ public class MapTextView implements MapView{
 
   public String displayMap() {
     StringBuilder ans = new StringBuilder();
-    for (int id : idToColor.keySet()) {
+    for (long id : idToColor.keySet()) {
       Iterable<Territory> territoriesOfId = toDisplay.getTerritoriesByOwnerID(id);
       ans.append(displayTerrGroup(territoriesOfId, idToColor.get(id).getColorName()));
     }
