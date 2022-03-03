@@ -1,10 +1,10 @@
 package edu.duke.ece651.risk.shared;
 
-public class Color<T>{
+public class Color{
     private final String colorName;
-    private final T colorValue;
+    private final String colorValue;
 
-    public Color(String _colorName, T _colorvalue){
+    public Color(String _colorName, String _colorvalue){
         this.colorName = _colorName;
         this.colorValue = _colorvalue;
     }
@@ -13,7 +13,7 @@ public class Color<T>{
         return this.colorName;
     }
 
-    public T getColorValue(){
+    public String getColorValue(){
         return this.colorValue;
     }
 }
