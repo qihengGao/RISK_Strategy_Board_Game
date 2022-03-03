@@ -17,6 +17,10 @@ public class ClientContext {
         return idToColor;
     }
 
+    public Color getClientColor() {
+        return this.idToColor.get(this.playerID);
+    }
+
     public void setIdToColor(TreeMap<Long, Color> idToColor) {
         this.idToColor = idToColor;
     }

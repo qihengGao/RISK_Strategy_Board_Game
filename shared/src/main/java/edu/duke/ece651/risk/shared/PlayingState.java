@@ -20,7 +20,7 @@ public class PlayingState extends State {
 
         System.out.println(mapTextView.displayMapInit());
         System.out.println(mapTextView.displayMap());
-
+        System.out.println("You are: " + contex.getClientColor().getColorName());
 //        System.out.println("Closing socket and terminating program.");
     }
 }

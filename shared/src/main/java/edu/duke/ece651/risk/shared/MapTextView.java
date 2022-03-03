@@ -51,6 +51,7 @@ public class MapTextView implements MapView{
     for (Territory t : terrGroup){
       ans.append(" "+t.getName()+displayNeighbors(t));
     }
+    ans.append("\n");
     return ans.toString();
   }
 
