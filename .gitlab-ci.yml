@@ -83,3 +83,24 @@ pages:
       - public
   only:
     - main
+
+uploadArtifactsForNotMainBracnh:
+  image: alpine:3.14
+  stage: test
+  tags:
+    - docker
+  needs:
+    - clover-report
+  script:
+    - mkdir coverageout
+    - cp -r build/reports/clover/html/* coverageout/
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
+    paths:
+      - build
+  artifacts:
+    paths:
+      - coverageout
+  except:
+    - main
