@@ -3,7 +3,7 @@ package edu.duke.ece651.risk.shared;
 import java.io.Serializable;
 
 public class RiskGameMessage implements Serializable {
-    private String command;
+
     private long clientid;
 
     public long getClientid() {
