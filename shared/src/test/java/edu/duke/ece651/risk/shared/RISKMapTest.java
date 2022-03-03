@@ -11,13 +11,16 @@ public class RISKMapTest {
   @Test
   public void test_simpleMap() {
     RISKMap map = new RISKMap(new HashSet<Territory>());
+    assertEquals(0, map.getNumOfContinents());
     Territory t1 = new BasicTerritory("FitzPatrick");
     assertTrue(map.tryAddTerritory(t1));
+    assertEquals(1, map.getNumOfContinents());
     assertSame(map.getTerritoryByName("FitzPatrick"), t1);
     assertNull(map.getTerritoryByName("Valhalla"));
 
     Territory t2 = new BasicTerritory("Valhalla");
     assertTrue(map.tryAddTerritory(t2));
+    assertEquals(2, map.getNumOfContinents());
     assertFalse(map.tryAddTerritory(t2));//can't add twice
 
     HashSet<Territory> group0 = new HashSet<Territory>();
