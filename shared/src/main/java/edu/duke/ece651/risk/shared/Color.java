@@ -15,10 +15,10 @@ public class Color{
     }
 
     public String getColorName(){
-        return this.colorName;
+        return colorName;
     }
 
     public String getColorValue(){
-        return this.colorValue;
+        return colorValue;
     }
 }

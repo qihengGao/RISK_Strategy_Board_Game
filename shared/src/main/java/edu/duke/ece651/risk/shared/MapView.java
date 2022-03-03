@@ -11,5 +11,5 @@ public interface MapView {
    * Display the map
    * @return map information in string
    */
-  public String dispalyMap();
+  public String displayMap();
 }

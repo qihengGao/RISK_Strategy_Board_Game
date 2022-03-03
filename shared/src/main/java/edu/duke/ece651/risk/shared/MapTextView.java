@@ -1,7 +1,6 @@
 package edu.duke.ece651.risk.shared;
 
-import java.awt.Color;
-import java.util.ArrayList;
+import edu.duke.ece651.risk.shared.*;
 import java.util.TreeMap;
 
 public class MapTextView implements MapView{
@@ -34,10 +33,12 @@ public class MapTextView implements MapView{
   }
 
   public String displayMap() {
+    StringBuilder ans = new StringBuilder();
     for (int id : idToColor.keySet()) {
-      Iterable<Territory> territoriesOfId = toDisplay.getTerritoriesByOwnerID(id));
-      displayTerrGroup(territoriesOfId, idToColor.get(id).getName());
+      Iterable<Territory> territoriesOfId = toDisplay.getTerritoriesByOwnerID(id);
+      ans.append(displayTerrGroup(territoriesOfId, idToColor.get(id).getColorName()));
     }
+    return ans.toString();
   }
 
   /**
