@@ -8,7 +8,7 @@ public class MapTextViewTest {
   @Test
   public void test_viewMap() {
     AbstractMapFactory tmf = new TestMapFactory();
-    Map map = tmf.createMapForNplayers(2);
+    GameMap map = tmf.createMapForNplayers(2);
     MapTextView mtv = new MapTextView(map);
 
     System.out.println(mtv.displayMapInit());
@@ -18,7 +18,7 @@ public class MapTextViewTest {
   @Test
   public void test_displayAll() {
     AbstractMapFactory tmf = new TestMapFactory();
-    Map map = tmf.createMapForNplayers(2);
+    GameMap map = tmf.createMapForNplayers(2);
     TreeMap<Long, Color> idToColor = new TreeMap<>();
     Color c1 = new Color("Green");
     Color c2 = new Color("Red");

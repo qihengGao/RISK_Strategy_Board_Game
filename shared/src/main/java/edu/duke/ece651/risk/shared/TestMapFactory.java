@@ -10,8 +10,8 @@ public class TestMapFactory implements AbstractMapFactory {
    * create random test map
    */
   @Override
-  public Map createMapForNplayers(int n) {
-    Map map = new RISKMap(new HashSet<Territory>());
+  public GameMap createMapForNplayers(int n) {
+    GameMap map = new RISKMap(new HashSet<Territory>());
     for (int i = 0; i<n*3; i++){
       String terrName = "Test" + i;
       map.tryAddTerritory(new BasicTerritory(terrName));

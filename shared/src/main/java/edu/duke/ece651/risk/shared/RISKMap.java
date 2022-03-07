@@ -3,7 +3,7 @@ package edu.duke.ece651.risk.shared;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class RISKMap implements Map {
+public class RISKMap implements GameMap {
   private final HashSet<Territory> continent;
 
   public RISKMap(HashSet<Territory> new_continent) {

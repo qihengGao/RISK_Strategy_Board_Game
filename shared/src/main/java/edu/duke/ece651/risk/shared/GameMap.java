@@ -3,7 +3,7 @@ package edu.duke.ece651.risk.shared;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public interface Map extends Serializable{
+public interface GameMap extends Serializable{
   /**
    * get the number of continents in the map
    * @return int

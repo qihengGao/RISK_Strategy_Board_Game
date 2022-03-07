@@ -14,6 +14,11 @@ public interface Territory extends Serializable {
    */
   public String getName();
   
+  /**
+   * Return the number of curr terrotory's neighbor
+   * @return int
+   */
+  public int getNumOfNeighbors();
   
   /**    
    * @return the iterable of the neighbors of this Territory, 
@@ -26,7 +31,7 @@ public interface Territory extends Serializable {
    * @return the iterable of the neighbors of this Territory, 
    * such as "Gondor", "Oz", "Roshar".
    */
-  public HashSet<Territory> getNeighbors();
+  public Iterable<Territory> getNeighbors();
 
   /**
    * search the neighbor by name

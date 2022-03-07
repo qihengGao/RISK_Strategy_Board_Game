@@ -1,16 +1,20 @@
 package edu.duke.ece651.risk.shared;
 
-import java.util.HashSet;
+// import java.util.HashSet;
+import java.util.TreeSet;
 
+/**
+ * Basic Territory serves for version1 RISK game.
+ */
 public class BasicTerritory implements Territory {
   private int OwnerID;
   private final String name;
-  private final HashSet<Territory> neighbors;
+  private final TreeSet<Territory> neighbors; // to make in order with repect to name
   
   public BasicTerritory(String Name){
     this.OwnerID = -1;
     this.name = Name;
-    this.neighbors = new HashSet<Territory>();
+    this.neighbors = new TreeSet<Territory>((t1, t2) -> t1.getName().compareTo(t2.getName()));
   }
 
   /**    
@@ -25,6 +29,13 @@ public class BasicTerritory implements Territory {
    */
   public String getName(){
     return name;
+  }
+
+  /**
+   * Return the number of neighbors.
+   */
+  public int getNumOfNeighbors() {
+    return this.neighbors.size();
   }
 
   /**    
@@ -43,7 +54,7 @@ public class BasicTerritory implements Territory {
    * @return the iterable of the neighbors of this Territory, 
    * such as "Gondor", "Oz", "Roshar".
    */
-  public HashSet<Territory> getNeighbors(){
+  public Iterable<Territory> getNeighbors(){
     return neighbors;
   }
 

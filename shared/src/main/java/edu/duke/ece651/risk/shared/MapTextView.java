@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 public class MapTextView implements MapView{
   
-  private final Map toDisplay;
+  private final GameMap toDisplay;
   // TODO: Color obj, hashing relationship between id and Color
   // TODO: accomplish in assign phase
   // Color
@@ -14,12 +14,12 @@ public class MapTextView implements MapView{
   // getDisInfo: return value;
   private TreeMap<Long, Color> idToColor;
 
-  public MapTextView(Map toDisplay){
+  public MapTextView(GameMap toDisplay){
     this.toDisplay = toDisplay;
     this.idToColor = new TreeMap<>();
   }
 
-  public MapTextView(Map toDisplay, TreeMap<Long, Color> idToColor) {
+  public MapTextView(GameMap toDisplay, TreeMap<Long, Color> idToColor) {
     this.toDisplay = toDisplay;
     this.idToColor = idToColor;
   }
