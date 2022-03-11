@@ -1,25 +1,18 @@
 package edu.duke.ece651.risk.shared;
 
-import edu.duke.ece651.risk.shared.*;
 import java.util.TreeMap;
 
 public class MapTextView implements MapView{
   
-  private final Map toDisplay;
-  // TODO: Color obj, hashing relationship between id and Color
-  // TODO: accomplish in assign phase
-  // Color
-  // this.name;
-  // this.value; 
-  // getDisInfo: return value;
+  private final GameMap toDisplay;
   private TreeMap<Long, Color> idToColor;
 
-  public MapTextView(Map toDisplay){
+  public MapTextView(GameMap toDisplay){
     this.toDisplay = toDisplay;
     this.idToColor = new TreeMap<>();
   }
 
-  public MapTextView(Map toDisplay, TreeMap<Long, Color> idToColor) {
+  public MapTextView(GameMap toDisplay, TreeMap<Long, Color> idToColor) {
     this.toDisplay = toDisplay;
     this.idToColor = idToColor;
   }
@@ -49,7 +42,7 @@ public class MapTextView implements MapView{
   private String displayTerrGroup(Iterable<Territory> terrGroup, String groupHeader){
     StringBuilder ans = new StringBuilder(headerBuilder(groupHeader));
     for (Territory t : terrGroup){
-      ans.append(" "+t.getName()+displayNeighbors(t));
+      ans.append(" " + displayUnitsOf(t) + t.getName()+displayNeighbors(t));
     }
     ans.append("\n");
     return ans.toString();
@@ -74,6 +67,21 @@ public class MapTextView implements MapView{
     ans.deleteCharAt(ans.length()-1);
     ans.append(")\n");
     return ans.toString();
+  }
+
+  private String displayUnitsOf(Territory t) {
+    StringBuilder units = new StringBuilder();
+    for (Unit unit : t.getUnits()) {
+      units.append(unit);
+      units.append("s");
+      units.append(", ");
+    }
+    if (units.length() == 0) { // have no units
+      return "";
+    }
+    units.setLength(units.length() - ", ".length()); // remove final ', '
+    units.append(" in ");
+    return units.toString();
   }
 
 }

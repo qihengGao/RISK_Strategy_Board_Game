@@ -8,8 +8,8 @@ public class RandomMapFactory implements AbstractMapFactory {
    * create random test map
    */
   @Override
-  public Map createMapForNplayers(int n) {
-    Map map = new RISKMap(new HashSet<Territory>());
+  public GameMap createMapForNplayers(int n) {
+    GameMap map = new RISKMap(new HashSet<Territory>());
     for (int i = 0; i<n*3; i++){
       String terrName = "Test" + i;
       map.tryAddTerritory(new BasicTerritory(terrName));
@@ -21,7 +21,7 @@ public class RandomMapFactory implements AbstractMapFactory {
     while (visited.size() < n*3) {
       visited.add(curr);
       String toConnect = "Test" + generator.nextInt(n*3);
-      while (map.getTerritoryByName(curr).getNeighbors().size()<2){
+      while (map.getTerritoryByName(curr).getNumOfNeighbors()<2){
         toConnect = "Test" + generator.nextInt(n*3);
         // TODO: change to tryConnect
         map.connectTerr(curr, toConnect);

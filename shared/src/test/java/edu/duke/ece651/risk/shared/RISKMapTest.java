@@ -41,7 +41,7 @@ public class RISKMapTest {
   @Test
   public void test_checkPath(){
     AbstractMapFactory amf = new RandomMapFactory();
-    Map map = amf.createMapForNplayers(2);
+    GameMap map = amf.createMapForNplayers(2);
     
     assertNull(map.getPath("Test0", "Test0"));//assert Path from myself to myself is null
     assertNull(map.getPath("Test0", "Test6"));//assert dst not exist path is null

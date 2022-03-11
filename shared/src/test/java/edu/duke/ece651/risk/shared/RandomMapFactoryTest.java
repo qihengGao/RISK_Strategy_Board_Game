@@ -8,7 +8,7 @@ public class RandomMapFactoryTest {
   @Test
   public void test_randomMF() {
     AbstractMapFactory tmf = new RandomMapFactory();
-    Map map = tmf.createMapForNplayers(5);
+    GameMap map = tmf.createMapForNplayers(5);
     MapTextView mtv = new MapTextView(map);
     
     System.out.println(mtv.displayMapInit());

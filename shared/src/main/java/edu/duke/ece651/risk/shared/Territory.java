@@ -14,10 +14,16 @@ public interface Territory extends Serializable {
    */
   public String getName();
   
+  /**
+   * Return the number of curr terrotory's neighbor
+   * @return int
+   */
+  public int getNumOfNeighbors();
   
-  /**    
-   * @return the iterable of the neighbors of this Territory, 
-   * such as "Gondor", "Oz", "Roshar".
+  /**
+   * Try to add the neighbor territory in the territory. True if added successfully.
+   * @param toAdd
+   * @return
    */
   public boolean tryAddNeighbor(Territory toAdd);
 
@@ -26,7 +32,7 @@ public interface Territory extends Serializable {
    * @return the iterable of the neighbors of this Territory, 
    * such as "Gondor", "Oz", "Roshar".
    */
-  public HashSet<Territory> getNeighbors();
+  public Iterable<Territory> getNeighbors();
 
   /**
    * search the neighbor by name
@@ -39,4 +45,21 @@ public interface Territory extends Serializable {
    * @return true if success
    */
   public boolean tryChangeOwnerTo(int newID);
+  
+  /**
+   * Returns the iterable list of units that the territory has.
+   */
+  public Iterable<Unit> getUnits();
+  
+  /**
+   * Try to add the unit in the territory. True if added successfully.
+   * @param toAdd
+   */
+  public boolean tryAddUnit(Unit toAdd);
+
+  /**
+   * Get the unit specified by type
+   * @param type
+   */
+  public Unit getUnitByType(String type);
 }

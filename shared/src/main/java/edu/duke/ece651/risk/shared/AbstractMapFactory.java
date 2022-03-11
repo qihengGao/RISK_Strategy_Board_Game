@@ -6,5 +6,5 @@ public interface AbstractMapFactory {
    * @param n: int: number of players
    * @return
    */
-  public Map createMapForNplayers(int n);
+  public GameMap createMapForNplayers(int n);
 }
