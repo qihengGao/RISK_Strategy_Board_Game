@@ -19,9 +19,6 @@ public class RiskGameMessage implements Serializable {
         this.idToColor = idToColor;
     }
 
-
-    //orders
-    //private ArrayList<>
     private RISKMap riskMap;
     private State currentState;
     private String prompt;

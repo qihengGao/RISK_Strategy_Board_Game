@@ -9,10 +9,7 @@ import java.util.Queue;
 public class App {
 
     private static Queue<Client> clientQueue;
-
-
-
-
+    
     public static void main(String[] args) throws IOException {
 
         RiskGameServer riskGameServer = new RiskGameServer(1777, 3);

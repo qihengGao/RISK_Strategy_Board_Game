@@ -1,11 +1,9 @@
 package edu.duke.ece651.risk.server;
 
-import com.sun.source.tree.Tree;
 import edu.duke.ece651.risk.shared.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -46,13 +44,15 @@ public class GameHandler extends Thread {
             count++;
         }
 
+        // Unit Placement State
         for (Client client: players) {
-
             try {
-                client.writeObject(new RiskGameMessage(client.getClientID(), new PlayingState(), riskMap, "Placing order!",idToColor));
+                client.writeObject(new RiskGameMessage(client.getClientID(), new UnitPlacementState(), riskMap, "Placing order!",idToColor));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+        // Playing State
     }
 }
