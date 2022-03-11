@@ -5,6 +5,7 @@ import edu.duke.ece651.risk.shared.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeMap;
@@ -31,25 +32,40 @@ public class GameHandler extends Thread {
 
     public void run() {
         System.out.println("Game start. Sending map to client.");
-
         AbstractMapFactory tmf = new RandomMapFactory();
         RISKMap riskMap = (RISKMap) tmf.createMapForNplayers(3);
-
-
         TreeMap<Long, Color> idToColor = new TreeMap<Long, Color>();
-        for (Client client: players) {
-            idToColor.put(client.getClientID(),predefineColorList.remove(0));
+
+        assignColorToPlayers(idToColor);
+        assignTerritoriesToPlayers(riskMap);
+        unitPlacementPhase(riskMap, idToColor);
+
+    }
+
+    public void assignColorToPlayers(TreeMap<Long, Color> idToColor) {
+        for (Client client : players) {
+            idToColor.put(client.getClientID(), predefineColorList.remove(0));
         }
-        int count = 0;
+    }
+
+    public void assignTerritoriesToPlayers(GameMap riskMap) {
+        ArrayList<Territory> randomized = new ArrayList<>();
         for (Territory territory : riskMap.getContinent()) {
-            territory.tryChangeOwnerTo(count/3);
+            randomized.add(territory);
+        }
+        Collections.shuffle(randomized);
+        int count = 0;
+        for (Territory territory : randomized) {
+            territory.tryChangeOwnerTo(count / 3);
             count++;
         }
+    }
 
-        for (Client client: players) {
-
+    public void unitPlacementPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor) {
+        for (Client client : players) {
             try {
-                client.writeObject(new RiskGameMessage(client.getClientID(), new PlayingState(), riskMap, "Placing order!",idToColor));
+                client.writeObject(new RiskGameMessage(client.getClientID(), new UnitPlaceState(), riskMap,
+                        "Placing order!", idToColor));
             } catch (IOException e) {
                 e.printStackTrace();
             }
