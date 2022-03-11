@@ -1,5 +1,7 @@
 package edu.duke.ece651.risk.shared;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -49,7 +51,9 @@ public class RISKMap implements GameMap {
    * @return Iterable<Territory>
    */
   public Iterable<Territory> getContinent() {
-    return continent;
+    ArrayList<Territory> result = new ArrayList<>(this.continent);
+    Collections.sort(result, (t1, t2) -> t1.getName().compareTo(t2.getName()));
+    return result;
   }
   
   /**
@@ -58,12 +62,13 @@ public class RISKMap implements GameMap {
    * @return Iterable<Territory>
    */
   public Iterable<Territory> getTerritoriesByOwnerID(long id) {
-    HashSet<Territory> ownedByMe = new HashSet<Territory>();
+    ArrayList<Territory> ownedByMe = new ArrayList<>();
     for (Territory t : continent) {
       if (t.getOwnerID() == id) {
         ownedByMe.add(t);
       }
     }
+    Collections.sort(ownedByMe, (t1, t2) -> t1.getName().compareTo(t2.getName()));
     return ownedByMe;
   }
   

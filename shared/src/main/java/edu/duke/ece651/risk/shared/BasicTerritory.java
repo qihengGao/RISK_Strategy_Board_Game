@@ -9,12 +9,14 @@ import java.util.TreeSet;
 public class BasicTerritory implements Territory {
   private int OwnerID;
   private final String name;
-  private final TreeSet<Territory> neighbors; // to make in order with repect to name
+  private TreeSet<Territory> neighbors; // to make in order with repect to name
+  private TreeSet<Unit> units; 
   
   public BasicTerritory(String Name){
     this.OwnerID = -1;
     this.name = Name;
     this.neighbors = new TreeSet<Territory>((t1, t2) -> t1.getName().compareTo(t2.getName()));
+    this.units = new TreeSet<Unit>((u1, u2) -> u1.getType().compareTo(u2.getType()));
   }
 
   /**    
@@ -38,9 +40,10 @@ public class BasicTerritory implements Territory {
     return this.neighbors.size();
   }
 
-  /**    
-   * @return the iterable of the neighbors of this Territory, 
-   * such as "Gondor", "Oz", "Roshar".
+  /**
+   * Try to add the neighbor territory in the territory. True if added successfully.
+   * @param toAdd
+   * @return
    */
   public boolean tryAddNeighbor(Territory toAdd){
     if (!name.equals(toAdd.getName())){
@@ -49,6 +52,16 @@ public class BasicTerritory implements Territory {
     }
     return false;
   }
+
+  /**
+   * Try to add the unit in the territory. True if added successfully.
+   * @param toAdd
+   * @return
+   */
+  public boolean tryAddUnit(Unit toAdd) {
+    this.units.add(toAdd);
+    return true;
+  }
   
   /**    
    * @return the iterable of the neighbors of this Territory, 
@@ -56,6 +69,13 @@ public class BasicTerritory implements Territory {
    */
   public Iterable<Territory> getNeighbors(){
     return neighbors;
+  }
+
+  /**
+   * Returns the iterable list of units that the territory has.
+   */
+  public Iterable<Unit> getUnits() {
+    return this.units;
   }
 
   /**
@@ -72,6 +92,20 @@ public class BasicTerritory implements Territory {
   }
 
   /**
+   * Get the unit specified by type
+   * @param type
+   */
+  @Override
+  public Unit getUnitByType(String type) {
+    for (Unit u : this.getUnits()) {
+      if (u.getType().equals(type)) {
+        return u;
+      }
+    }
+    return null;
+  }
+
+  /**
    * Try to change the ownerID
    * @return true if success
    */
@@ -79,4 +113,28 @@ public class BasicTerritory implements Territory {
     OwnerID = newID;
     return true;
   }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + name.hashCode();
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    BasicTerritory other = (BasicTerritory) obj;
+    if (!name.equals(other.name))
+      return false;
+    return true;
+  }
+
+  
 }
