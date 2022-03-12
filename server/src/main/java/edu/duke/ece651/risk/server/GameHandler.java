@@ -29,7 +29,7 @@ public class GameHandler extends Thread {
         predefineColorList.add(new Color("Purple"));
     }
 
-    public void run() {
+    public void run() throws ClassCastException {
         System.out.println("Game start. Sending map to client.");
         AbstractMapFactory tmf = new RandomMapFactory();
         RISKMap riskMap = (RISKMap) tmf.createMapForNplayers(3);
@@ -38,7 +38,12 @@ public class GameHandler extends Thread {
         assignColorToPlayers(idToColor);
         assignTerritoriesToPlayers(riskMap);
         unitPlacementPhase(riskMap, idToColor);
-
+        System.out.println("Placement Phase finish");
+        for (Territory t : riskMap.getContinent()) {
+            for (Unit u : t.getUnits()) {
+                System.out.println(u.getAmount() + " " + u.getType() + "in " + t.getName());
+            }
+        }
     }
 
     public void assignColorToPlayers(TreeMap<Long, Color> idToColor) {
@@ -60,7 +65,8 @@ public class GameHandler extends Thread {
         }
     }
 
-    public void unitPlacementPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor) {
+    public void unitPlacementPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
+            throws ClassCastException {
         for (Client client : players) {
             try {
                 client.writeObject(new RiskGameMessage(client.getClientID(), new UnitPlaceState(), riskMap,
@@ -69,5 +75,25 @@ public class GameHandler extends Thread {
                 e.printStackTrace();
             }
         }
+
+        for (Client client : players) {
+            try {
+                ArrayList<Territory> receive = (ArrayList<Territory>) client.readObject();
+                for (Territory t : receive) {
+                    riskMap.tryAddTerritory(t);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (Territory t : riskMap.getContinent()) {
+            for (Unit u : t.getUnits()) {
+                System.out.println(u.getAmount() + " " + u.getType() + "in " + t.getName());
+            }
+        }
+
     }
 }

@@ -3,6 +3,7 @@ package edu.duke.ece651.risk.shared;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 public class UnitPlaceState extends State {
 
@@ -26,6 +27,13 @@ public class UnitPlaceState extends State {
                         contex.getBufferedReader());
             }
         }
+
+        //send back to server
+        ArrayList<Territory> toSend = new ArrayList<>();
+        for (Territory territory : contex.getRiskMap().getTerritoriesByOwnerID(contex.getPlayerID())) {
+            toSend.add(territory);
+        }
+        contex.getOos().writeObject(toSend);
     }
 
     private int placeUnitOnTerritory(String unitType, Territory territory, int amountRest, PrintStream out,

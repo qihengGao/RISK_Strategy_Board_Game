@@ -21,7 +21,7 @@ public class RISKMapTest {
     Territory t2 = new BasicTerritory("Valhalla");
     assertTrue(map.tryAddTerritory(t2));
     assertEquals(2, map.getNumOfContinents());
-    assertFalse(map.tryAddTerritory(t2));//can't add twice
+    assertTrue(map.tryAddTerritory(t2));//overwrite terr
 
     HashSet<Territory> group0 = new HashSet<Territory>();
     map.getTerritoriesByOwnerID(-1).forEach(group0::add);
