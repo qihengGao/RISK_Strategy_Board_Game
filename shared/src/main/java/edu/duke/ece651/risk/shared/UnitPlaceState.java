@@ -21,8 +21,9 @@ public class UnitPlaceState extends State {
         // would the Unit type be more in the future??
         // for (String type : contex.getTypes())
         int amountRest = 30;
+        Iterable<Territory> allTerritories = contex.getRiskMap().getTerritoriesByOwnerID(contex.getPlayerID());
         while (amountRest > 0) {
-            for (Territory territory : contex.getRiskMap().getTerritoriesByOwnerID(contex.getPlayerID())) {
+            for(Territory territory: allTerritories){
                 amountRest = placeUnitOnTerritory("Soldier", territory, amountRest, contex.getOut(),
                         contex.getBufferedReader());
             }
@@ -30,7 +31,7 @@ public class UnitPlaceState extends State {
 
         //send back to server
         ArrayList<Territory> toSend = new ArrayList<>();
-        for (Territory territory : contex.getRiskMap().getTerritoriesByOwnerID(contex.getPlayerID())) {
+        for (Territory territory: allTerritories){
             toSend.add(territory);
         }
         contex.getOos().writeObject(toSend);
@@ -38,6 +39,14 @@ public class UnitPlaceState extends State {
 
     private int placeUnitOnTerritory(String unitType, Territory territory, int amountRest, PrintStream out,
             BufferedReader userInput) throws IOException {
+        
+        if(amountRest == 0){
+            out.println("You have no more available units to put in territory " + territory.getName() + 
+                ", adding 0 units");
+            territory.tryAddUnit(new BasicUnit(unitType, 0));
+            return 0;
+        }
+
         out.println("You have " + amountRest + " to put");
         out.println("How many " + unitType + "s you want to put in " + territory.getName());
 
@@ -52,7 +61,7 @@ public class UnitPlaceState extends State {
             out.println(amountToPutStr + "is an Invalid input! Try again!");
             return placeUnitOnTerritory(unitType, territory, amountRest, out, userInput);
         } catch (IllegalArgumentException e) {
-            out.println("amout to put must not exceed " + Integer.toString(amountRest));
+            out.println("amount to put must not exceed " + Integer.toString(amountRest));
             return placeUnitOnTerritory(unitType, territory, amountRest, out, userInput);
         }
 
