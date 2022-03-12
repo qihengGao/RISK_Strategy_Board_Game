@@ -40,7 +40,7 @@ class AppTest {
         RiskGameClient client1 = new RiskGameClient(context1);
         client1.start();
 
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.MILLISECONDS.sleep(100);
 
         ByteArrayOutputStream bytes2 = new ByteArrayOutputStream();
         ClientContext context2 = new ClientContext();
@@ -51,7 +51,7 @@ class AppTest {
         RiskGameClient client2 = new RiskGameClient(context2);
         client2.start();
 
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.MILLISECONDS.sleep(100);
 
         ByteArrayOutputStream bytes3 = new ByteArrayOutputStream();
         ClientContext context3 = new ClientContext();

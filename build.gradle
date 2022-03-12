@@ -28,7 +28,7 @@ allprojects{
     apply plugin: "com.bmuschko.clover"
 
     repositories {
-        mavenLocal()
+
         mavenCentral()
     }
 
@@ -44,7 +44,7 @@ allprojects{
         testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
 
         // This dependency is used by the application.
-        implementation 'com.google.guava:guava:31.0.1-jre'
+        //implementation 'com.google.guava:guava:31.0.1-jre'
 
         testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
 
@@ -62,7 +62,6 @@ allprojects{
             xml=true
             html = true
         }
-        enabled=false
 
 
     }
