@@ -13,9 +13,9 @@ public class UnitPlaceState extends State {
      */
     public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
         MapTextView mapTextView = new MapTextView(contex.getRiskMap(), contex.getIdToColor());
-        System.out.println(mapTextView.displayMapInit());
-        System.out.println(mapTextView.displayMap());
-        System.out.println("You are: " + contex.getClientColor().getColorName());
+        contex.getOut().println(mapTextView.displayMapInit());
+        contex.getOut().println(mapTextView.displayMap());
+        contex.getOut().println("You are: " + contex.getClientColor().getColorName());
 
         // intial amount limit is 30
         // would the Unit type be more in the future??
