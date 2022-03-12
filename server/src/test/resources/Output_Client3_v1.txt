@@ -1,19 +1,5 @@
 Waiting for game to start. Still need 0 player!
 Placing order!
-Initial World Map:
-
--------------------
- Test0 (next to: Test2, Test3, Test5, Test8)
- Test1 (next to: Test4, Test7)
- Test2 (next to: Test0, Test3, Test6)
- Test3 (next to: Test0, Test2, Test4)
- Test4 (next to: Test1, Test3, Test5)
- Test5 (next to: Test0, Test4, Test7, Test8)
- Test6 (next to: Test2, Test8)
- Test7 (next to: Test1, Test5)
- Test8 (next to: Test0, Test5, Test6)
-
-
 Red
 ---
  Test2 (next to: Test0, Test3, Test6)
@@ -36,7 +22,11 @@ Blue
 You are: Blue
 You have 30 to put
 How many Soldiers you want to put in Test3
-You have 20 to put
+You have 25 to put
 How many Soldiers you want to put in Test5
-You have 10 to put
+You have 19 to put
 How many Soldiers you want to put in Test7
+You have 12 to put
+How many Soldiers you want to put in Test3
+You have no more available units to put in territory Test5, adding 0 units
+You have no more available units to put in territory Test7, adding 0 units

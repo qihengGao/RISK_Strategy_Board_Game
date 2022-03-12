@@ -23,7 +23,6 @@ public class GameHandler extends Thread {
         predefineColorList.add(new Color("Blue"));
         predefineColorList.add(new Color("Yellow"));
         predefineColorList.add(new Color("Purple"));
-
     }
 
     public void run() throws ClassCastException {
@@ -36,11 +35,9 @@ public class GameHandler extends Thread {
         assignTerritoriesToPlayers(riskMap);
         unitPlacementPhase(riskMap, idToColor);
         System.out.println("Placement Phase finish");
-        for (Territory t : riskMap.getContinent()) {
-            for (Unit u : t.getUnits()) {
-                System.out.println(u.getAmount() + " " + u.getType() + "in " + t.getName());
-            }
-        }
+        //playingPhase(riskMap, idToColor);
+        MapTextView mapTextView = new MapTextView(riskMap, idToColor);
+        System.out.print(mapTextView.displayMap());
     }
 
     public void assignColorToPlayers(TreeMap<Long, Color> idToColor) {
@@ -85,12 +82,20 @@ public class GameHandler extends Thread {
                 e.printStackTrace();
             }
         }
-        //
-        // for (Territory t : riskMap.getContinent()) {
-        //     for (Unit u : t.getUnits()) {
-        //         System.out.println(u.getAmount() + " " + u.getType() + "in " + t.getName());
-        //     }
-        // }
 
     }
+
+  /**
+    public void playingPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
+            throws ClassCastException {
+        for (Client client : players) {
+            try {
+                client.writeObject(new RiskGameMessage(client.getClientID(), new PlayingState(), riskMap,
+                        "Placement Phase finished, now start playing!", idToColor));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+  */
 }

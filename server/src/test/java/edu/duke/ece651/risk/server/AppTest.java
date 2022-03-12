@@ -27,7 +27,7 @@ class AppTest {
 
     @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
     @Test
-    void main() throws IOException, ClassNotFoundException, InterruptedException {
+    void test_normalInput() throws IOException, ClassNotFoundException, InterruptedException {
         RiskGameServer riskGameServer = new RiskGameServer(3, new ServerSocket(1777));
         riskGameServer.start();
 
@@ -35,7 +35,7 @@ class AppTest {
         ClientContext context1 = new ClientContext();
         PrintStream out1 = new PrintStream(bytes1, true);
         context1.setOut(out1);
-        InputStream input1 = getClass().getClassLoader().getResourceAsStream("Input_v1.txt");
+        InputStream input1 = getClass().getClassLoader().getResourceAsStream("Input_Client1_v1.txt");
         context1.setBufferedReader(new BufferedReader(new InputStreamReader(input1)));
         RiskGameClient client1 = new RiskGameClient(context1);
         client1.start();
@@ -46,7 +46,7 @@ class AppTest {
         ClientContext context2 = new ClientContext();
         PrintStream out2 = new PrintStream(bytes2, true);
         context2.setOut(out2);
-        InputStream input2 = getClass().getClassLoader().getResourceAsStream("Input_v1.txt");
+        InputStream input2 = getClass().getClassLoader().getResourceAsStream("Input_Client2_v1.txt");
         context2.setBufferedReader(new BufferedReader(new InputStreamReader(input2)));
         RiskGameClient client2 = new RiskGameClient(context2);
         client2.start();
@@ -55,7 +55,7 @@ class AppTest {
 
         ByteArrayOutputStream bytes3 = new ByteArrayOutputStream();
         ClientContext context3 = new ClientContext();
-        InputStream input3 = getClass().getClassLoader().getResourceAsStream("Input_v1.txt");
+        InputStream input3 = getClass().getClassLoader().getResourceAsStream("Input_Client3_v1.txt");
         PrintStream out3 = new PrintStream(bytes3, true);
         context3.setBufferedReader(new BufferedReader(new InputStreamReader(input3)));
         context3.setOut(out3);

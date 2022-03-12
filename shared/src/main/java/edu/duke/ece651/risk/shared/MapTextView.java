@@ -22,7 +22,7 @@ public class MapTextView implements MapView{
    * @return map information in string
    */
   public String displayMapInit(){
-    return displayTerrGroup(toDisplay.getContinent(),"Initial World Map:\n");
+    return displayTerrGroup(toDisplay.getContinent(),"Initial World Map:");
   }
 
   public String displayMap() {
