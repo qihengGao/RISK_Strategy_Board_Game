@@ -1,13 +1,9 @@
 package edu.duke.ece651.risk.server;
 
-import com.sun.source.tree.Tree;
 import edu.duke.ece651.risk.shared.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
 public class GameHandler extends Thread {
     private final ArrayList<Color> predefineColorList = new ArrayList<>();
@@ -29,30 +25,77 @@ public class GameHandler extends Thread {
         predefineColorList.add(new Color("Purple"));
     }
 
-    public void run() {
+    public void run() throws ClassCastException {
         System.out.println("Game start. Sending map to client.");
-
         AbstractMapFactory tmf = new RandomMapFactory();
         RISKMap riskMap = (RISKMap) tmf.createMapForNplayers(3);
-
-
         TreeMap<Long, Color> idToColor = new TreeMap<Long, Color>();
-        for (Client client: players) {
-            idToColor.put(client.getClientID(),predefineColorList.remove(0));
+
+        assignColorToPlayers(idToColor);
+        assignTerritoriesToPlayers(riskMap);
+        unitPlacementPhase(riskMap, idToColor);
+        System.out.println("Placement Phase finish");
+        //playingPhase(riskMap, idToColor);
+        MapTextView mapTextView = new MapTextView(riskMap, idToColor);
+        System.out.print(mapTextView.displayMap());
+    }
+
+    public void assignColorToPlayers(TreeMap<Long, Color> idToColor) {
+        for (Client client : players) {
+            idToColor.put(client.getClientID(), predefineColorList.remove(0));
         }
-        int count = 0;
+    }
+
+    public void assignTerritoriesToPlayers(GameMap riskMap) {
+        ArrayList<Territory> randomized = new ArrayList<>();
         for (Territory territory : riskMap.getContinent()) {
-            territory.tryChangeOwnerTo(count/3);
+            randomized.add(territory);
+        }
+        Collections.shuffle(randomized,new Random(1777));
+        int count = 0;
+        for (Territory territory : randomized) {
+            territory.tryChangeOwnerTo(count / 3);
             count++;
         }
+    }
 
-        for (Client client: players) {
-
+    public void unitPlacementPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
+            throws ClassCastException {
+        for (Client client : players) {
             try {
-                client.writeObject(new RiskGameMessage(client.getClientID(), new PlayingState(), riskMap, "Placing order!",idToColor));
+                client.writeObject(new RiskGameMessage(client.getClientID(), new UnitPlaceState(), riskMap,
+                        "Placing order!", idToColor));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (Client client : players) {
+            try {
+                ArrayList<Territory> receive = (ArrayList<Territory>) client.readObject();
+                for (Territory t : receive) {
+                    riskMap.tryAddTerritory(t);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+  /**
+    public void playingPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
+            throws ClassCastException {
+        for (Client client : players) {
+            try {
+                client.writeObject(new RiskGameMessage(client.getClientID(), new PlayingState(), riskMap,
+                        "Placement Phase finished, now start playing!", idToColor));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+  */
 }

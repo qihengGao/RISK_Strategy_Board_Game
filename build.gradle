@@ -7,10 +7,14 @@
 //plugins {
 //    id 'com.bmuschko.clover' version '3.0.3'
 //}
+
 buildscript {
+
     repositories {
         mavenCentral()
         gradlePluginPortal()
+
+
     }
     dependencies {
         classpath 'com.bmuschko:gradle-clover-plugin:3.0.3'
@@ -22,9 +26,12 @@ buildscript {
 allprojects{
     apply plugin: "java"
     apply plugin: "com.bmuschko.clover"
+
     repositories {
+
         mavenCentral()
     }
+
 
     dependencies {
 
@@ -37,13 +44,15 @@ allprojects{
         testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
 
         // This dependency is used by the application.
-        implementation 'com.google.guava:guava:31.0.1-jre'
+        //implementation 'com.google.guava:guava:31.0.1-jre'
 
         testImplementation 'org.junit.platform:junit-platform-launcher:1.8.2'
 
         // Use JUnit Jupiter for testing.
         testImplementation 'org.mockito:mockito-core:4.3.1'
         testImplementation 'org.mockito:mockito-junit-jupiter:4.3.1'
+
+
     }
     clover{
         compiler{
@@ -53,6 +62,7 @@ allprojects{
             xml=true
             html = true
         }
+
 
     }
     test{
@@ -65,19 +75,27 @@ allprojects{
         // Use junit platform for unit tests
         useJUnitPlatform()
     }
+
 }
 
 // Project specific stuff
 project (':shared'){
+    dependencies {
+        testImplementation project(':server')
+        testImplementation project(':client')
+    }
 }
-project (':server'){
+
+project (':client'){
     dependencies {
         implementation project(':shared')
     }
 }
-project (':client'){
+
+project (':server'){
     dependencies {
         implementation project(':shared')
+        testImplementation project(':client')
     }
 }
 
@@ -109,3 +127,4 @@ task resolveDependencies {
         }
     }
 }
+

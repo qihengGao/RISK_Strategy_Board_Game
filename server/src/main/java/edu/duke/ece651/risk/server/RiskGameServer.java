@@ -9,9 +9,13 @@ import java.util.*;
 
 public class RiskGameServer extends Thread {
     private long clientIDCounter;
-    private final int portNumber;
+
     private ServerSocket serverSocket;
     private final LinkedList<Client> clientList;
+
+
+
+
     private final int roomSize;
 
     /**
@@ -21,32 +25,36 @@ public class RiskGameServer extends Thread {
      * name. Automatically generated names are of the form
      * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
      */
-    public RiskGameServer(int portNumber, int roomSize) {
-        this.portNumber = portNumber;
+    public RiskGameServer(int roomSize, ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
         this.roomSize = roomSize;
         clientList = new LinkedList<>();
+        this.clientIDCounter = 0;
+    }
+
+    /**
+     * Listen on the serverSocket and waiting for a new client.
+     * @throws IOException  Any of the usual Input/Output related exceptions.
+     */
+    Client acceptANewClient() throws IOException {
+        Client tmpClient = new Client(clientIDCounter++, serverSocket.accept());
+        System.out.println("New client! Client id: " + tmpClient.getClientID());
+        return tmpClient;
     }
 
     public void run() {
-        try {
-            serverSocket = new ServerSocket(portNumber);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.printf("Server up. Listening on port: %d.\n",portNumber);
+
+        System.out.printf("Server up. Listening on port: %d.\n",serverSocket.getLocalPort());
         while (true) {
             try {
                 Client tmpClient = new Client(clientIDCounter++, serverSocket.accept());
-
                 System.out.println("New client! Client id: " + tmpClient.getClientID());
-
                 clientList.add(tmpClient);
                 tmpClient.writeObject(new RiskGameMessage(tmpClient.getClientID(), new WaitingState(), null,
                         String.format("Waiting for game to start. Still need %d player!", roomSize - clientList.size())));
 
-
                 if (clientList.size() >= roomSize) {
-                    Set<Client> players = new HashSet<>();
+                    Set<Client> players = new LinkedHashSet<>();
                     for (int i = 0; i < roomSize; i++) {
                         players.add(clientList.poll());
                     }
