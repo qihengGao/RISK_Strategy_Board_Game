@@ -4,6 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
+import org.junit.jupiter.api.parallel.Resources;
+
+import java.io.*;
+import java.net.ServerSocket;
+import java.util.concurrent.TimeUnit;
 
 public class ColorTest {
 
@@ -63,4 +70,12 @@ public class ColorTest {
         assertNotEquals(color1.hashCode(), color3.hashCode());
         assertNotEquals(color1.hashCode(), color4.hashCode());
     }
+
+    @Test
+    static void assertEqualsIgnoreLineSeparator(String expected, String actual) {
+        assertEquals(expected.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")),
+                actual.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")));
+    }
+
+
 }
