@@ -23,4 +23,23 @@ public class Color implements Serializable {
     public String getColorValue(){
         return colorValue;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj.getClass().equals(this.getClass())){
+            Color c = (Color)obj;
+            return this.colorName == c.colorName && this.colorValue == c.colorValue;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString(){
+        return "<" + this.colorName + ": " + this.colorValue + ">";
+    }
+
+    @Override
+    public int hashCode(){
+        return this.toString().hashCode();
+    }
 }
