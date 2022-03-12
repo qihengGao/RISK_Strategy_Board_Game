@@ -17,7 +17,7 @@ public class InitiateSocketState extends State {
 //        int serverPortNumber = readServerPort("",contex.getBufferedReader(),contex.getOut());
         
         // 1. set sockets
-        String serverAddress = "vcm-24279.vm.duke.edu";
+        String serverAddress = "127.0.0.1";
         int serverPortNumber = 1777;
         Socket socket = new Socket(serverAddress, serverPortNumber);
 

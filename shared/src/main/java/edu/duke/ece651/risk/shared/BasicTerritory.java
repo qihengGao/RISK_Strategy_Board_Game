@@ -10,13 +10,13 @@ public class BasicTerritory implements Territory {
   private int OwnerID;
   private final String name;
   private TreeSet<Territory> neighbors; // to make in order with repect to name
-  private TreeSet<Unit> units; 
+  private TreeSet<Unit> units;
 
   public BasicTerritory(String Name){
     this.OwnerID = -1;
     this.name = Name;
-    this.neighbors = new TreeSet<Territory>((t1, t2) -> t1.getName().compareTo(t2.getName()));
-    this.units = new TreeSet<Unit>((u1, u2) -> u1.getType().compareTo(u2.getType()));
+    this.neighbors = new TreeSet<Territory>(new ThisIsSerializable());
+    this.units = new TreeSet<Unit>(new unitCompactor());
   }
 
   /**    

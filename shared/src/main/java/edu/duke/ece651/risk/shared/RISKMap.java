@@ -52,7 +52,7 @@ public class RISKMap implements GameMap {
    */
   public Iterable<Territory> getContinent() {
     ArrayList<Territory> result = new ArrayList<>(this.continent);
-    Collections.sort(result, (t1, t2) -> t1.getName().compareTo(t2.getName()));
+    Collections.sort(result, new ThisIsSerializable());
     return result;
   }
   
@@ -68,7 +68,7 @@ public class RISKMap implements GameMap {
         ownedByMe.add(t);
       }
     }
-    Collections.sort(ownedByMe, (t1, t2) -> t1.getName().compareTo(t2.getName()));
+    Collections.sort(ownedByMe, new ThisIsSerializable());
     return ownedByMe;
   }
   
