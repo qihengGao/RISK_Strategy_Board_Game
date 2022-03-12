@@ -89,11 +89,11 @@ public class GameHandler extends Thread {
             }
         }
 
-        for (Territory t : riskMap.getContinent()) {
-            for (Unit u : t.getUnits()) {
-                System.out.println(u.getAmount() + " " + u.getType() + "in " + t.getName());
-            }
-        }
+        // for (Territory t : riskMap.getContinent()) {
+        //     for (Unit u : t.getUnits()) {
+        //         System.out.println(u.getAmount() + " " + u.getType() + "in " + t.getName());
+        //     }
+        // }
 
     }
 }

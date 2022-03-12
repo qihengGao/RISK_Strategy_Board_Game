@@ -25,6 +25,9 @@ public class RISKMap implements GameMap {
    * @return true if succeed
    */
   public boolean tryAddTerritory(Territory newTerr) {
+    if(this.continent.contains(newTerr)){
+      this.continent.remove(newTerr);
+    }
     this.continent.add(newTerr);
     return true;
   }
