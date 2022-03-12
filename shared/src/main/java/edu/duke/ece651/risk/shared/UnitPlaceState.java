@@ -33,8 +33,6 @@ public class UnitPlaceState extends State {
     }
 
     // TO DO
-    // 这个方法是否应该放在这里？？
-    // where to get the player input?? System.in??
     private int readIntInputFromPlayer() {
         return 0;
     }
