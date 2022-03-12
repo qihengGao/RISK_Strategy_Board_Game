@@ -44,7 +44,7 @@ class AppTest {
         InputStream input2 = getClass().getClassLoader().getResourceAsStream("Input_v1.txt");
         context2.setBufferedReader(new BufferedReader(new InputStreamReader(input2)));
         new RiskGameClient(context2).start();
-
+        TimeUnit.SECONDS.sleep(1);
         ByteArrayOutputStream bytes3 = new ByteArrayOutputStream();
         ClientContext context3 = new ClientContext();
         InputStream input3 = getClass().getClassLoader().getResourceAsStream("Input_v1.txt");
