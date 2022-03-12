@@ -11,7 +11,7 @@ public class BasicTerritory implements Territory {
   private final String name;
   private TreeSet<Territory> neighbors; // to make in order with repect to name
   private TreeSet<Unit> units; 
-  
+
   public BasicTerritory(String Name){
     this.OwnerID = -1;
     this.name = Name;

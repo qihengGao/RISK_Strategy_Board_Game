@@ -1,6 +1,8 @@
 package edu.duke.ece651.risk.shared;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintStream;
 
 public class UnitPlaceState extends State {
 
@@ -18,22 +20,42 @@ public class UnitPlaceState extends State {
         // would the Unit type be more in the future??
         // for (String type : contex.getTypes())
         int amountRest = 30;
-        for (Territory territory : contex.getRiskMap().getTerritoriesByOwnerID(contex.getPlayerID())) {
-            amountRest = placeUnitOnTerritory("Soldier", territory, amountRest);
+        while (amountRest > 0) {
+            for (Territory territory : contex.getRiskMap().getTerritoriesByOwnerID(contex.getPlayerID())) {
+                amountRest = placeUnitOnTerritory("Soldier", territory, amountRest, contex.getOut(),
+                        contex.getBufferedReader());
+            }
         }
     }
 
-    private int placeUnitOnTerritory(String unitType, Territory territory, int amountRest) {
-        int amountToPut = readIntInputFromPlayer();
-        // TO DO: check
-        Unit unitToAdd = new BasicUnit(unitType, amountToPut);
-        territory.tryAddUnit(unitToAdd);
-        amountRest -= amountToPut;
-        return amountRest;
-    }
+    private int placeUnitOnTerritory(String unitType, Territory territory, int amountRest, PrintStream out,
+            BufferedReader userInput) throws IOException {
+        out.println("You have " + amountRest + " to put");
+        out.println("How many " + unitType + "s you want to put in " + territory.getName());
 
-    // TO DO
-    private int readIntInputFromPlayer() {
-        return 0;
+        String amountToPutStr = userInput.readLine();
+        int amountToPutInt;
+        try {
+            amountToPutInt = Integer.parseInt(amountToPutStr);
+            if (amountToPutInt > amountRest) {
+                throw new IllegalArgumentException();
+            }
+        } catch (NumberFormatException e) {
+            out.println(amountToPutStr + "is an Invalid input! Try again!");
+            return placeUnitOnTerritory(unitType, territory, amountRest, out, userInput);
+        } catch (IllegalArgumentException e) {
+            out.println("amout to put must not exceed " + Integer.toString(amountRest));
+            return placeUnitOnTerritory(unitType, territory, amountRest, out, userInput);
+        }
+
+        Unit unitToAdd = new BasicUnit(unitType, amountToPutInt);
+        Unit unitInCurrTerritory = territory.getUnitByType(unitType);
+        if (unitInCurrTerritory == null) {
+            territory.tryAddUnit(unitToAdd);
+        } else {
+            unitInCurrTerritory.tryIncreaseAmount(unitToAdd.getAmount());
+        }
+        amountRest -= amountToPutInt;
+        return amountRest;
     }
 }

@@ -69,7 +69,5 @@ public class GameHandler extends Thread {
                 e.printStackTrace();
             }
         }
-
-        // Playing State
     }
 }

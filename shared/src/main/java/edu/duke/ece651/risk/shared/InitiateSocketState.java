@@ -15,23 +15,26 @@ public class InitiateSocketState extends State {
 
 //        String serverAddress = readServerAddress("",contex.getBufferedReader(),contex.getOut());
 //        int serverPortNumber = readServerPort("",contex.getBufferedReader(),contex.getOut());
-        String serverAddress = "vcm-25035.vm.duke.edu";
+        
+        // 1. set sockets
+        String serverAddress = "vcm-24279.vm.duke.edu";
         int serverPortNumber = 1777;
         Socket socket = new Socket(serverAddress, serverPortNumber);
 
+        // 2. try connect to server
         contex.setOut(System.out);
         contex.setSocket(socket);
         contex.setOis(new ObjectInputStream(socket.getInputStream()));
         contex.setOos(new ObjectOutputStream(socket.getOutputStream()));
 
-
-
+        // 2. wait for server for context and parse
         RiskGameMessage messageReceived = (RiskGameMessage) contex.getOis().readObject();
         contex.setPlayerID(messageReceived.getClientid());
         contex.getOut().println(messageReceived.getPrompt());
+        contex.setBufferedReader(new BufferedReader(new InputStreamReader(System.in)));
         contex.setGameState(contex.getGameState());
 
-
+        // 3. execute the next state instructed by the server's context
         messageReceived.getCurrentState().doAction(contex);
     }
 }

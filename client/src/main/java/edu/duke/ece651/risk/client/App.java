@@ -48,7 +48,6 @@ public class App {
 
         ClientContext context = new ClientContext();
         new InitiateSocketState().doAction(context);
-        while()
 
     }
 }
