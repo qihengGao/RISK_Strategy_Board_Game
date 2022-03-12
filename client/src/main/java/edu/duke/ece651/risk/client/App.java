@@ -47,7 +47,11 @@ public class App {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         ClientContext context = new ClientContext();
-        new InitiateSocketState().doAction(context);
+        context.setBufferedReader(new BufferedReader(new InputStreamReader(System.in)));
+        context.setOut(System.out);
+        RiskGameClient client = new RiskGameClient(context);
+        client.start();
+
 
     }
 }

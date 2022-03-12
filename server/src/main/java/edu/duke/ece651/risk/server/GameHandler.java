@@ -3,11 +3,7 @@ package edu.duke.ece651.risk.server;
 import edu.duke.ece651.risk.shared.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
 public class GameHandler extends Thread {
     private final ArrayList<Color> predefineColorList = new ArrayList<>();
@@ -27,6 +23,7 @@ public class GameHandler extends Thread {
         predefineColorList.add(new Color("Blue"));
         predefineColorList.add(new Color("Yellow"));
         predefineColorList.add(new Color("Purple"));
+
     }
 
     public void run() throws ClassCastException {
@@ -57,7 +54,7 @@ public class GameHandler extends Thread {
         for (Territory territory : riskMap.getContinent()) {
             randomized.add(territory);
         }
-        Collections.shuffle(randomized);
+        Collections.shuffle(randomized,new Random(1777));
         int count = 0;
         for (Territory territory : randomized) {
             territory.tryChangeOwnerTo(count / 3);
@@ -88,7 +85,7 @@ public class GameHandler extends Thread {
                 e.printStackTrace();
             }
         }
-
+        //
         // for (Territory t : riskMap.getContinent()) {
         //     for (Unit u : t.getUnits()) {
         //         System.out.println(u.getAmount() + " " + u.getType() + "in " + t.getName());

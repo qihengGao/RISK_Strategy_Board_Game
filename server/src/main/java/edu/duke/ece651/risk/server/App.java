@@ -4,6 +4,7 @@
 package edu.duke.ece651.risk.server;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.Queue;
 
 public class App {
@@ -12,7 +13,7 @@ public class App {
     
     public static void main(String[] args) throws IOException {
 
-        RiskGameServer riskGameServer = new RiskGameServer(1777, 3);
+        RiskGameServer riskGameServer = new RiskGameServer(3,new ServerSocket(1777));
         riskGameServer.start();
     }
 

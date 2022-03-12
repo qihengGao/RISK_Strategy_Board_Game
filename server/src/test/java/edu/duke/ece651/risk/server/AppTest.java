@@ -3,9 +3,196 @@
  */
 package edu.duke.ece651.risk.server;
 
+import edu.duke.ece651.risk.client.RiskGameClient;
+import edu.duke.ece651.risk.shared.ClientContext;
+import edu.duke.ece651.risk.shared.InitiateSocketState;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.ResourceAccessMode;
+import org.junit.jupiter.api.parallel.ResourceLock;
+import org.junit.jupiter.api.parallel.Resources;
+
+import java.io.*;
+import java.net.ServerSocket;
+import java.util.concurrent.TimeUnit;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
 
+    @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
+    @Test
+    void main() throws IOException, ClassNotFoundException, InterruptedException {
+        RiskGameServer riskGameServer = new RiskGameServer(3,new ServerSocket(1777));
+        riskGameServer.start();
+
+        ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
+        ClientContext context1 = new ClientContext();
+        PrintStream out1 = new PrintStream(bytes1, true);
+        context1.setOut(out1);
+        InputStream input1 = getClass().getClassLoader().getResourceAsStream("Input_v1.txt");
+        context1.setBufferedReader(new BufferedReader(new InputStreamReader(input1)));
+        RiskGameClient client1 = new RiskGameClient(context1);
+        client1.start();
+
+        TimeUnit.SECONDS.sleep(1);
+
+        ByteArrayOutputStream bytes2 = new ByteArrayOutputStream();
+        ClientContext context2 = new ClientContext();
+        PrintStream out2 = new PrintStream(bytes2, true);
+        context2.setOut(out2);
+        InputStream input2 = getClass().getClassLoader().getResourceAsStream("Input_v1.txt");
+        context2.setBufferedReader(new BufferedReader(new InputStreamReader(input2)));
+        new RiskGameClient(context2).start();
+        TimeUnit.SECONDS.sleep(1);
+        ByteArrayOutputStream bytes3 = new ByteArrayOutputStream();
+        ClientContext context3 = new ClientContext();
+        InputStream input3 = getClass().getClassLoader().getResourceAsStream("Input_v1.txt");
+        PrintStream out3 = new PrintStream(bytes3, true);
+        context3.setBufferedReader(new BufferedReader(new InputStreamReader(input3)));
+        context3.setOut(out3);
+        new RiskGameClient(context3).start();
+
+        client1.join();
+
+        String expected1 = "Waiting for game to start. Still need 2 player!\n" +
+                "Placing order!\n" +
+                "Initial World Map:\n" +
+                "\n" +
+                "-------------------\n" +
+                " Test0 (next to: Test2, Test3, Test5, Test8)\n" +
+                " Test1 (next to: Test4, Test7)\n" +
+                " Test2 (next to: Test0, Test3, Test6)\n" +
+                " Test3 (next to: Test0, Test2, Test4)\n" +
+                " Test4 (next to: Test1, Test3, Test5)\n" +
+                " Test5 (next to: Test0, Test4, Test7, Test8)\n" +
+                " Test6 (next to: Test2, Test8)\n" +
+                " Test7 (next to: Test1, Test5)\n" +
+                " Test8 (next to: Test0, Test5, Test6)\n" +
+                "\n" +
+                "\n" +
+                "Red\n" +
+                "---\n" +
+                " Test2 (next to: Test0, Test3, Test6)\n" +
+                " Test4 (next to: Test1, Test3, Test5)\n" +
+                " Test6 (next to: Test2, Test8)\n" +
+                "\n" +
+                "Green\n" +
+                "-----\n" +
+                " Test0 (next to: Test2, Test3, Test5, Test8)\n" +
+                " Test1 (next to: Test4, Test7)\n" +
+                " Test8 (next to: Test0, Test5, Test6)\n" +
+                "\n" +
+                "Blue\n" +
+                "----\n" +
+                " Test3 (next to: Test0, Test2, Test4)\n" +
+                " Test5 (next to: Test0, Test4, Test7, Test8)\n" +
+                " Test7 (next to: Test1, Test5)\n" +
+                "\n" +
+                "\n" +
+                "You are: Red\n" +
+                "You have 30 to put\n" +
+                "How many Soldiers you want to put in Test2\n" +
+                "You have 20 to put\n" +
+                "How many Soldiers you want to put in Test4\n" +
+                "You have 10 to put\n" +
+                "How many Soldiers you want to put in Test6\n";
+
+        assertEquals(bytes1.toString().replaceAll("\\n|\\r\\n", System.getProperty("line.separator")), expected1.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")));
+
+        String expected2 = "Waiting for game to start. Still need 1 player!\n" +
+                "Placing order!\n" +
+                "Initial World Map:\n" +
+                "\n" +
+                "-------------------\n" +
+                " Test0 (next to: Test2, Test3, Test5, Test8)\n" +
+                " Test1 (next to: Test4, Test7)\n" +
+                " Test2 (next to: Test0, Test3, Test6)\n" +
+                " Test3 (next to: Test0, Test2, Test4)\n" +
+                " Test4 (next to: Test1, Test3, Test5)\n" +
+                " Test5 (next to: Test0, Test4, Test7, Test8)\n" +
+                " Test6 (next to: Test2, Test8)\n" +
+                " Test7 (next to: Test1, Test5)\n" +
+                " Test8 (next to: Test0, Test5, Test6)\n" +
+                "\n" +
+                "\n" +
+                "Red\n" +
+                "---\n" +
+                " Test2 (next to: Test0, Test3, Test6)\n" +
+                " Test4 (next to: Test1, Test3, Test5)\n" +
+                " Test6 (next to: Test2, Test8)\n" +
+                "\n" +
+                "Green\n" +
+                "-----\n" +
+                " Test0 (next to: Test2, Test3, Test5, Test8)\n" +
+                " Test1 (next to: Test4, Test7)\n" +
+                " Test8 (next to: Test0, Test5, Test6)\n" +
+                "\n" +
+                "Blue\n" +
+                "----\n" +
+                " Test3 (next to: Test0, Test2, Test4)\n" +
+                " Test5 (next to: Test0, Test4, Test7, Test8)\n" +
+                " Test7 (next to: Test1, Test5)\n" +
+                "\n" +
+                "\n" +
+                "You are: Green\n" +
+                "You have 30 to put\n" +
+                "How many Soldiers you want to put in Test0\n" +
+                "You have 20 to put\n" +
+                "How many Soldiers you want to put in Test1\n" +
+                "You have 10 to put\n" +
+                "How many Soldiers you want to put in Test8\n";
+
+        assertEquals(bytes2.toString().replaceAll("\\n|\\r\\n", System.getProperty("line.separator")),expected2.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")));
+
+        String expected3 = "Waiting for game to start. Still need 0 player!\n" +
+                "Placing order!\n" +
+                "Initial World Map:\n" +
+                "\n" +
+                "-------------------\n" +
+                " Test0 (next to: Test2, Test3, Test5, Test8)\n" +
+                " Test1 (next to: Test4, Test7)\n" +
+                " Test2 (next to: Test0, Test3, Test6)\n" +
+                " Test3 (next to: Test0, Test2, Test4)\n" +
+                " Test4 (next to: Test1, Test3, Test5)\n" +
+                " Test5 (next to: Test0, Test4, Test7, Test8)\n" +
+                " Test6 (next to: Test2, Test8)\n" +
+                " Test7 (next to: Test1, Test5)\n" +
+                " Test8 (next to: Test0, Test5, Test6)\n" +
+                "\n" +
+                "\n" +
+                "Red\n" +
+                "---\n" +
+                " Test2 (next to: Test0, Test3, Test6)\n" +
+                " Test4 (next to: Test1, Test3, Test5)\n" +
+                " Test6 (next to: Test2, Test8)\n" +
+                "\n" +
+                "Green\n" +
+                "-----\n" +
+                " Test0 (next to: Test2, Test3, Test5, Test8)\n" +
+                " Test1 (next to: Test4, Test7)\n" +
+                " Test8 (next to: Test0, Test5, Test6)\n" +
+                "\n" +
+                "Blue\n" +
+                "----\n" +
+                " Test3 (next to: Test0, Test2, Test4)\n" +
+                " Test5 (next to: Test0, Test4, Test7, Test8)\n" +
+                " Test7 (next to: Test1, Test5)\n" +
+                "\n" +
+                "\n" +
+                "You are: Blue\n" +
+                "You have 30 to put\n" +
+                "How many Soldiers you want to put in Test3\n" +
+                "You have 20 to put\n" +
+                "How many Soldiers you want to put in Test5\n" +
+                "You have 10 to put\n" +
+                "How many Soldiers you want to put in Test7\n";
+        assertEquals(bytes3.toString().replaceAll("\\n|\\r\\n", System.getProperty("line.separator")),expected3.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")));
+
+
+
+
+
+
+    }
 }
