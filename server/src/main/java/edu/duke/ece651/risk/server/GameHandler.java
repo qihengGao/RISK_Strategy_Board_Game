@@ -93,5 +93,20 @@ public class GameHandler extends Thread {
                 e.printStackTrace();
             }
         }
+        Queue<Client> tmpClient = new LinkedList<>();
+        for(Client client : players){
+            tmpClient.add(client);
+        }
+        while(!tmpClient.isEmpty()){
+            ArrayList<Order> orders = (ArrayList<Order>)tmpClient.peek().readObject();
+            if(isValidOrder(orders)){
+
+                //TODO add order to somewhere
+                tmpClient.poll();
+            }else{
+
+            }
+        }
+        
     }
 }
