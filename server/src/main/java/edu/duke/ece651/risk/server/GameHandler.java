@@ -34,7 +34,7 @@ public class GameHandler extends Thread {
         assignTerritoriesToPlayers(riskMap);
         unitPlacementPhase(riskMap, idToColor);
         System.out.println("Placement Phase finish");
-        playingPhase(riskMap, idToColor);
+        movePhase(riskMap, idToColor);
     }
 
     public void assignColorToPlayers(TreeMap<Long, Color> idToColor) {
@@ -76,20 +76,27 @@ public class GameHandler extends Thread {
       }
     }
 
-    public void playingPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
+    public void movePhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
             throws ClassCastException {
         ArrayList<Order> moveOrders = new ArrayList<>();
         for (Client client : players) {
             try {
-                client.writeObject(new RiskGameMessage(client.getClientID(), new PlayingState(), riskMap,
+                client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState("Move"), riskMap,
                         "Placement Phase finished, now start playing!", idToColor));
+<<<<<<< HEAD
                 ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
                 for (Order o : orders){
                   System.out.println(o.toString());
                 }
             } catch (IOException|ClassNotFoundException e) {
+=======
+                        
+            } catch (IOException e) {
+>>>>>>> 196c9620eb0f8372f7f1ddd72277f7d1402fa6a2
                 e.printStackTrace();
             } 
         }
+    
+        
     }
 }

@@ -15,6 +15,7 @@ public class Order implements Serializable{
         this.unitAmount = unitAmount;
     }
 
+<<<<<<< HEAD
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -25,6 +26,9 @@ public class Order implements Serializable{
         result.append(unitAmount);
         return result.toString();
     }
+=======
+    
+>>>>>>> 196c9620eb0f8372f7f1ddd72277f7d1402fa6a2
 
 
 }
