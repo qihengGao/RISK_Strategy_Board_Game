@@ -34,7 +34,9 @@ public class MoveAttackState extends State {
     contex.getOut().println("Format: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount");
     boolean commit = false;
     while (!commit) {
-      String userInput = tryReadLineFromBufferReader(contex.getBufferedReader(), contex.getOut());
+      String userInput = tryReadLineFromBufferReader(contex);
+      // TODO: adjust test case input
+      if (userInput == null) return;
       if (userInput.equals("D")) {
         return;
       } // user commits
@@ -54,13 +56,14 @@ public class MoveAttackState extends State {
     }
   }
 
-  private String tryReadLineFromBufferReader(BufferedReader bufferedReader, PrintStream printStream)
+  private String tryReadLineFromBufferReader(ClientContext contex)
       throws IOException {
     String line = null;
     while (line == null) {
-      line = bufferedReader.readLine();
+      line = contex.getBufferedReader().readLine();
       if (line == null) {
-        printStream.println("error: input cannot be empty");
+        // contex.getOut().println("error: input cannot be empty");
+        return line;
       }
     }
     return line;

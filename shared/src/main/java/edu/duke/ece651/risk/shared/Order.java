@@ -15,7 +15,5 @@ public class Order implements Serializable{
         this.unitAmount = unitAmount;
     }
 
-    
-
 
 }
