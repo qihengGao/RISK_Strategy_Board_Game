@@ -49,7 +49,7 @@ public class GameHandler extends Thread {
         for (Territory territory : riskMap.getContinent()) {
             randomized.add(territory);
         }
-        Collections.shuffle(randomized,new Random(1777));
+        Collections.shuffle(randomized, new Random(1777));
         int count = 0;
         for (Territory territory : randomized) {
             territory.tryChangeOwnerTo(count / 3);
@@ -83,7 +83,6 @@ public class GameHandler extends Thread {
 
     }
 
-
     public void playingPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
             throws ClassCastException {
         for (Client client : players) {
@@ -95,5 +94,4 @@ public class GameHandler extends Thread {
             }
         }
     }
-
 }

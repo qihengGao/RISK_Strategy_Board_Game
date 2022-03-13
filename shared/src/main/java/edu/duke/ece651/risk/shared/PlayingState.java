@@ -11,5 +11,6 @@ public class PlayingState extends State {
         MapTextView mapTextView = new MapTextView(contex.getRiskMap(), contex.getIdToColor());
         contex.getOut().println(mapTextView.displayMap());
         contex.getOut().println("You are: " + contex.getClientColor().getColorName());
+        contex.getOut().println("What would you");
   }
 }

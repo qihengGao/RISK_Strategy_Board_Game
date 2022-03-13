@@ -12,10 +12,6 @@ public class RiskGameServer extends Thread {
 
     private ServerSocket serverSocket;
     private final LinkedList<Client> clientList;
-
-
-
-
     private final int roomSize;
 
     /**
