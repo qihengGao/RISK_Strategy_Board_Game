@@ -36,7 +36,6 @@ public class GameHandler extends Thread {
         unitPlacementPhase(riskMap, idToColor);
         System.out.println("Placement Phase finish");
         playingPhase(riskMap, idToColor);
-
     }
 
     public void assignColorToPlayers(TreeMap<Long, Color> idToColor) {
@@ -89,8 +88,6 @@ public class GameHandler extends Thread {
             throws ClassCastException {
         for (Client client : players) {
             try {
-                MapTextView mapTextView = new MapTextView(riskMap, idToColor);
-                System.out.print(mapTextView.displayMap());
                 client.writeObject(new RiskGameMessage(client.getClientID(), new PlayingState(), riskMap,
                         "Placement Phase finished, now start playing!", idToColor));
             } catch (IOException e) {
