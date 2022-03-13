@@ -8,8 +8,8 @@ public class Client {
 
     private final long clientID;
     private final Socket socket;
-    private  ObjectOutput oos;
-    private  ObjectInput ois;
+    private  ObjectOutputStream oos;
+    private  ObjectInputStream ois;
 
     public long getClientID() {
         return clientID;
@@ -34,6 +34,7 @@ public class Client {
     }
 
     public void writeObject(Object o) throws IOException {
+        oos.reset();
         oos.writeObject(o);
     }
 

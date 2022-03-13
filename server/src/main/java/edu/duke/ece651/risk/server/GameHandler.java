@@ -35,9 +35,8 @@ public class GameHandler extends Thread {
         assignTerritoriesToPlayers(riskMap);
         unitPlacementPhase(riskMap, idToColor);
         System.out.println("Placement Phase finish");
-        //playingPhase(riskMap, idToColor);
-        MapTextView mapTextView = new MapTextView(riskMap, idToColor);
-        System.out.print(mapTextView.displayMap());
+        playingPhase(riskMap, idToColor);
+
     }
 
     public void assignColorToPlayers(TreeMap<Long, Color> idToColor) {
@@ -85,11 +84,13 @@ public class GameHandler extends Thread {
 
     }
 
-  /**
+
     public void playingPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
             throws ClassCastException {
         for (Client client : players) {
             try {
+                MapTextView mapTextView = new MapTextView(riskMap, idToColor);
+                System.out.print(mapTextView.displayMap());
                 client.writeObject(new RiskGameMessage(client.getClientID(), new PlayingState(), riskMap,
                         "Placement Phase finished, now start playing!", idToColor));
             } catch (IOException e) {
@@ -97,5 +98,5 @@ public class GameHandler extends Thread {
             }
         }
     }
-  */
+
 }

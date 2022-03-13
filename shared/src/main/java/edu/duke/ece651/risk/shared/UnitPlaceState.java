@@ -36,17 +36,23 @@ public class UnitPlaceState extends State {
         contex.getOos().writeObject(toSend);
 
         //wait server for next state
-        /**
+
         RiskGameMessage messageReceived = (RiskGameMessage) contex.getOis().readObject();
         contex.getOut().println(messageReceived.getPrompt());
         contex.setGameState(messageReceived.getCurrentState());
         contex.setRiskMap(messageReceived.getRiskMap());
         contex.setIdToColor(messageReceived.getIdToColor());
-        MapTextView mapTextView2 = new MapTextView(contex.getRiskMap(), contex.getIdToColor());
+        MapTextView mapTextView2 = new MapTextView(messageReceived.getRiskMap(), messageReceived.getIdToColor());
+
+
+
+//        for(Territory t : messageReceived.getRiskMap())
+//            for( Unit u : t.getUnits())
+//                System.out.println(u.getType() + " "+ u.getAmount());
         contex.getOut().println(mapTextView2.displayMap());
         contex.getOut().println("You are: " + contex.getClientColor().getColorName());
-        messageReceived.getCurrentState().doAction(contex);
-        */
+        //messageReceived.getCurrentState().doAction(contex);
+
     }
 
     private int placeUnitOnTerritory(String unitType, Territory territory, int amountRest, PrintStream out,
