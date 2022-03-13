@@ -49,7 +49,7 @@ public class App {
         ClientContext context = new ClientContext();
         context.setBufferedReader(new BufferedReader(new InputStreamReader(System.in)));
         context.setOut(System.out);
-        RiskGameClient client = new RiskGameClient(context);
+        RiskGameClient client = new RiskGameClient(context,1777);
         client.start();
 
 

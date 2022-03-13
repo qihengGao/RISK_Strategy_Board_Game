@@ -28,7 +28,9 @@ class AppTest {
     @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
     @Test
     void test_normalInput() throws IOException, ClassNotFoundException, InterruptedException {
-        RiskGameServer riskGameServer = new RiskGameServer(3, new ServerSocket(1777));
+
+        int randomPortNumber = (int) Math.floor(Math.random()*(9092-9080+1)+9080);
+        RiskGameServer riskGameServer = new RiskGameServer(3, new ServerSocket(randomPortNumber));
         riskGameServer.start();
 
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
@@ -37,8 +39,9 @@ class AppTest {
         context1.setOut(out1);
         InputStream input1 = getClass().getClassLoader().getResourceAsStream("Input_Client1_v1.txt");
         context1.setBufferedReader(new BufferedReader(new InputStreamReader(input1)));
-        RiskGameClient client1 = new RiskGameClient(context1);
+        RiskGameClient client1 = new RiskGameClient(context1,randomPortNumber);
         client1.start();
+
 
         TimeUnit.MILLISECONDS.sleep(100);
 
@@ -48,7 +51,7 @@ class AppTest {
         context2.setOut(out2);
         InputStream input2 = getClass().getClassLoader().getResourceAsStream("Input_Client2_v1.txt");
         context2.setBufferedReader(new BufferedReader(new InputStreamReader(input2)));
-        RiskGameClient client2 = new RiskGameClient(context2);
+        RiskGameClient client2 = new RiskGameClient(context2,randomPortNumber);
         client2.start();
 
         TimeUnit.MILLISECONDS.sleep(100);
@@ -59,7 +62,7 @@ class AppTest {
         PrintStream out3 = new PrintStream(bytes3, true);
         context3.setBufferedReader(new BufferedReader(new InputStreamReader(input3)));
         context3.setOut(out3);
-        RiskGameClient client3 = new RiskGameClient(context3);
+        RiskGameClient client3 = new RiskGameClient(context3,randomPortNumber);
         client3.start();
 
         client1.join();

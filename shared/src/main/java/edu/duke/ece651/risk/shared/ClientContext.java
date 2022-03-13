@@ -10,6 +10,15 @@ public class ClientContext {
     private RISKMap riskMap;
     private long playerID;
     private TreeMap<Long,Color> idToColor;
+    private int portNumber;
+
+    public int getPortNumber() {
+        return portNumber;
+    }
+
+    public void setPortNumber(int portNumber) {
+        this.portNumber = portNumber;
+    }
 
     public TreeMap<Long, Color> getIdToColor() {
         return idToColor;

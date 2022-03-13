@@ -15,9 +15,11 @@ public class RiskGameClient extends Thread{
      * name. Automatically generated names are of the form
      * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
      */
-    public RiskGameClient(ClientContext clientContext) {
+    public RiskGameClient(ClientContext clientContext,int portNumber) {
         this.clientContext = clientContext;
+        this.clientContext.setPortNumber(portNumber);
     }
+
 
     public void run() {
         try {
