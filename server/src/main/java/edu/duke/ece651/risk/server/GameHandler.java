@@ -35,7 +35,7 @@ public class GameHandler extends Thread {
         assignTerritoriesToPlayers(riskMap);
         unitPlacementPhase(riskMap, idToColor);
         System.out.println("Placement Phase finish");
-        playingPhase(riskMap, idToColor);
+        movePhase(riskMap, idToColor);
     }
 
     public void assignColorToPlayers(TreeMap<Long, Color> idToColor) {
@@ -83,31 +83,18 @@ public class GameHandler extends Thread {
 
     }
 
-    public void playingPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
+    public void movePhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
             throws ClassCastException {
         for (Client client : players) {
             try {
-                client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap,
+                client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState("Move"), riskMap,
                         "Placement Phase finished, now start playing!", idToColor));
                         
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        // Queue<Client> tmpClient = new LinkedList<>();
-        // for(Client client : players){
-        //     tmpClient.add(client);
-        // }
-        // while(!tmpClient.isEmpty()){
-        //     ArrayList<Order> orders = (ArrayList<Order>)tmpClient.peek().readObject();
-        //     if(isValidOrder(orders)){
-
-        //         //TODO add order to somewhere
-        //         tmpClient.poll();
-        //     }else{
-
-        //     }
-        // }
+    
         
     }
 }
