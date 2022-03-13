@@ -2,7 +2,7 @@ package edu.duke.ece651.risk.shared;
 
 import java.io.Serializable;
 
-public abstract class Order implements Serializable{
+public class Order implements Serializable{
     private String srcTerritory;
     private String destTerritory;
     private String unitUnderOrder;
@@ -14,6 +14,8 @@ public abstract class Order implements Serializable{
         this.unitUnderOrder = unitUnderOrder;
         this.unitAmount = unitAmount;
     }
+
+    
 
 
 }
