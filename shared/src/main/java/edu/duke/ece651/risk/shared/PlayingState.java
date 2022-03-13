@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.shared;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class PlayingState extends State {
   @Override
@@ -12,5 +13,8 @@ public class PlayingState extends State {
         contex.getOut().println(mapTextView.displayMap());
         contex.getOut().println("You are: " + contex.getClientColor().getColorName());
         contex.getOut().println("What would you");
+        ArrayList<Order> orders = new ArrayList<>();
+        orders.add(new Order("Terr1", "Terr2", "Soldier", 3));
+        contex.getOos().writeObject(orders);
   }
 }
