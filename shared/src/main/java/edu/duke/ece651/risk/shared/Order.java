@@ -3,33 +3,17 @@ package edu.duke.ece651.risk.shared;
 import java.io.Serializable;
 
 public abstract class Order implements Serializable{
-    private Unit unitUnderOrder;
-    private Territory srcTerritory;
-    private Territory destTerritory;
-    
-    public Unit getUnitUnderOrder() {
-        return unitUnderOrder;
+    private String srcTerritory;
+    private String destTerritory;
+    private String unitUnderOrder;
+    private int unitAmount;
+
+    public Order(String srcTerritory, String destTerritory, String unitUnderOrder, int unitAmount) {
+        this.srcTerritory = srcTerritory;
+        this.destTerritory = destTerritory;
+        this.unitUnderOrder = unitUnderOrder;
+        this.unitAmount = unitAmount;
     }
-
-    // public void setUnitUnderOrder(Unit unitUnderOrder) {
-    //     this.unitUnderOrder = unitUnderOrder;
-    // }
-
-    public Territory getSrcTerritory() {
-        return srcTerritory;
-    }
-
-    // public void setSrcTerritory(Territory srcTerritory) {
-    //     this.srcTerritory = srcTerritory;
-    // }
-
-    public Territory getDestTerritory() {
-        return destTerritory;
-    }
-
-    // public void setDestTerritory(Territory destTerritory) {
-    //     this.destTerritory = destTerritory;
-    // }
 
 
 }
