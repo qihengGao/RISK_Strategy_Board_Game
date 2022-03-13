@@ -81,8 +81,7 @@ allprojects{
 // Project specific stuff
 project (':shared'){
     dependencies {
-        testImplementation project(':server')
-        testImplementation project(':client')
+
     }
 }
 
