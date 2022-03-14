@@ -41,7 +41,8 @@ class AppTest {
         context1.setBufferedReader(new BufferedReader(new InputStreamReader(input1)));
         RiskGameClient client1 = new RiskGameClient(context1,randomPortNumber);
         client1.start();
-
+        TimeUnit.MILLISECONDS.sleep(100);
+        client1.stop();
 
         TimeUnit.MILLISECONDS.sleep(100);
 
@@ -55,6 +56,19 @@ class AppTest {
         client2.start();
 
 
+        //context2.getSocket().close();
+
+
+        ByteArrayOutputStream bytes4 = new ByteArrayOutputStream();
+        ClientContext context4 = new ClientContext();
+        InputStream input4 = getClass().getClassLoader().getResourceAsStream("Input_Client4_v1.txt");
+        PrintStream out4 = new PrintStream(bytes4, true);
+        context4.setBufferedReader(new BufferedReader(new InputStreamReader(input4)));
+        context4.setOut(out4);
+        RiskGameClient client4 = new RiskGameClient(context4,randomPortNumber);
+        client4.start();
+
+
         TimeUnit.MILLISECONDS.sleep(100);
 
         ByteArrayOutputStream bytes3 = new ByteArrayOutputStream();
@@ -66,9 +80,17 @@ class AppTest {
         RiskGameClient client3 = new RiskGameClient(context3,randomPortNumber);
         client3.start();
 
-        client1.join();
-        client2.join();
-        client3.join();
+        TimeUnit.MILLISECONDS.sleep(100);
+
+
+
+
+
+
+
+//        client1.join();
+//        client2_1.join();
+//        client3.join();
 
         String expected1 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client1_v1.txt").readAllBytes());
         assertEqualsIgnoreLineSeparator(expected1, bytes1.toString());
@@ -78,6 +100,9 @@ class AppTest {
 
         String expected3 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client3_v1.txt").readAllBytes());
         assertEqualsIgnoreLineSeparator(expected3, bytes3.toString());
+
+        String expected4 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client5_v1.txt").readAllBytes());
+        assertEqualsIgnoreLineSeparator(expected4, bytes4.toString());
 
     }
 }

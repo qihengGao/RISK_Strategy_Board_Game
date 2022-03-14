@@ -81,10 +81,13 @@ public abstract class State implements Serializable {
         int timeoutCount = 10;
         SocketFactory socketFactory = context.getSocketFactory();
         Socket socket = socketFactory.createSocket();
+        context.setSocket(socket);
         SocketAddress socketAddress = socketFactory.createSocketAddress(context.getServerAddress(), context.getPortNumber());
         while (!socket.isConnected() && timeoutCount-- > 0) {
             try {
                 socket.connect(socketAddress);
+                socket.getOutputStream().flush();
+                //socket.getInputStream().reset();
                 context.setSocket(socket);
                 context.setOis(socketFactory.createObjectInputStream(socket.getInputStream()));
                 context.setOos(socketFactory.createObjectOutputStream(socket.getOutputStream()));
@@ -144,6 +147,7 @@ public abstract class State implements Serializable {
      * @throws IOException Any of the usual Input/Output related exceptions.
      */
     public void writeObject(ClientContext context, Object object) throws IOException {
+
         try {
             context.writeObject(object);
         } catch (IOException e) {

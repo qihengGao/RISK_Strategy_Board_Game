@@ -61,14 +61,14 @@ public class ClientContext {
 
     BufferedReader bufferedReader;
     PrintStream out;
-    ObjectOutput oos;
-    ObjectInput ois;
+    ObjectOutputStream oos;
+    ObjectInputStream ois;
 
     public ObjectOutput getOos() {
         return oos;
     }
 
-    public void setOos(ObjectOutput oos) {
+    public void setOos(ObjectOutputStream oos) {
         this.oos = oos;
     }
 
@@ -76,7 +76,7 @@ public class ClientContext {
         return ois;
     }
 
-    public void setOis(ObjectInput ois) {
+    public void setOis(ObjectInputStream ois) {
         this.ois = ois;
     }
 
@@ -128,6 +128,7 @@ public class ClientContext {
         this.out = out;
     }
     public void writeObject(Object o) throws IOException {
+        oos.reset();
         oos.writeObject(o);
 
     }

@@ -6,19 +6,37 @@ import java.net.Socket;
 public class Client {
 
 
+    private Socket socket;
+    private  ObjectOutputStream oos;
+
+    public ObjectOutputStream getOos() {
+        return oos;
+    }
+
+    public ObjectInputStream getOis() {
+        return ois;
+    }
+
+    public void setOos(ObjectOutputStream oos) {
+        this.oos = oos;
+    }
+
+    public void setOis(ObjectInputStream ois) {
+        this.ois = ois;
+    }
+
+    private  ObjectInputStream ois;
     private final long clientID;
 
     public void setSocket(Socket socket) {
         this.socket = socket;
+
     }
 
     public Socket getSocket() {
         return socket;
     }
 
-    private Socket socket;
-    private  ObjectOutputStream oos;
-    private  ObjectInputStream ois;
 
     public long getClientID() {
         return clientID;
