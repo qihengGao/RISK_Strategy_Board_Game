@@ -88,9 +88,9 @@ class AppTest {
 
 
 
-//        client1.join();
-//        client2_1.join();
-//        client3.join();
+        client2.join();
+        client3.join();
+        client4.join();
 
         String expected1 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client1_v1.txt").readAllBytes());
         assertEqualsIgnoreLineSeparator(expected1, bytes1.toString());
