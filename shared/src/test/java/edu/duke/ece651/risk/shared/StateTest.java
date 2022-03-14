@@ -104,4 +104,25 @@ public class StateTest {
 
 
     }
+
+
+    @Test
+    void writeObject() throws IOException {
+        ClientContext clientContext = mock(ClientContext.class);
+        PrintStream printStream = mock(PrintStream.class);
+        when(clientContext.getOut()).thenReturn(printStream);
+        doThrow(IOException.class).doThrow(IOException.class).doNothing().when(clientContext).writeObject(any(Object.class));
+
+
+        InitiateSocketState state = mock(InitiateSocketState.class);
+
+        doCallRealMethod().when(state).writeObject(any(ClientContext.class),any(Object.class));
+        when(state.connectToServer(clientContext)).thenReturn(Boolean.FALSE, Boolean.TRUE);
+        assertThrows(IOException.class,()->state.writeObject(clientContext,new Object()));
+
+
+        state.writeObject(clientContext,new Object());
+        verify(clientContext,times(3)).writeObject(any(Object.class));
+
+    }
 }

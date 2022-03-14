@@ -120,5 +120,9 @@ public class ClientContext {
     public void setOut(PrintStream out) {
         this.out = out;
     }
+    public void writeObject(Object o) throws IOException {
+        oos.writeObject(o);
+
+    }
 //Also the action list;
 }
