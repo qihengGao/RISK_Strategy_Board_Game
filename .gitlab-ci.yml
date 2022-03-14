@@ -18,7 +18,7 @@
 # runtime for each build is more reliable since the runtime is completely
 # isolated from any previous builds.
 build:
-  image: eclipse-temurin:11
+  image: eclipse-temurin:17
   stage: build
   script:
     - ./gradlew resolveDependencies
