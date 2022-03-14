@@ -5,4 +5,10 @@ public class AttackOrder extends Order{
     public AttackOrder(String srcTerritory, String destTerritory, String unitUnderOrder, int unitAmount) {
         super(srcTerritory, destTerritory, unitUnderOrder, unitAmount);
     }
+
+    @Override
+    public void executeOrder(RISKMap riskMap) {
+        // TODO Auto-generated method stub
+        
+    }
 }

@@ -2,11 +2,11 @@ package edu.duke.ece651.risk.shared;
 
 import java.io.Serializable;
 
-public class Order implements Serializable{
-    private String srcTerritory;
-    private String destTerritory;
-    private String unitType;
-    private int unitAmount;
+public abstract class Order implements Serializable{
+    protected String srcTerritory;
+    protected String destTerritory;
+    protected String unitType;
+    protected int unitAmount;
 
     public Order(String srcTerritory, String destTerritory, String unitType, int unitAmount) {
         this.srcTerritory = srcTerritory;
@@ -14,6 +14,24 @@ public class Order implements Serializable{
         this.unitType = unitType;
         this.unitAmount = unitAmount;
     }
+
+    public String getSrcTerritory(){
+        return this.srcTerritory;
+    }
+
+    public String getDestTerritory(){
+        return this.destTerritory;
+    }
+
+    public String getUnitType(){
+        return this.unitType;
+    }
+
+    public int getUnitAmount(){
+        return this.unitAmount;
+    }
+
+    public abstract void executeOrder(RISKMap riskMap);
 
     @Override
     public String toString() {

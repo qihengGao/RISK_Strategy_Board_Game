@@ -48,7 +48,8 @@ public class MoveAttackState extends State {
         output.println(inputs[3] + "is an Invalid input! Try again!");
         continue;
       }
-      orders.add(new Order(inputs[0], inputs[1], inputs[2], amountUnderOrder));
+
+      orders.add(new MoveOrder(inputs[0], inputs[1], inputs[2], amountUnderOrder));
     }
   }
 }

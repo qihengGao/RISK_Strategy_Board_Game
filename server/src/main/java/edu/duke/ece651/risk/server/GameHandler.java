@@ -35,6 +35,9 @@ public class GameHandler extends Thread {
         unitPlacementPhase(riskMap, idToColor);
         System.out.println("Placement Phase finish");
         movePhase(riskMap, idToColor);
+        
+        MapTextView mapTextView = new MapTextView(riskMap, idToColor);
+        System.out.println(mapTextView.displayMap());
     }
 
     public void assignColorToPlayers(TreeMap<Long, Color> idToColor) {
@@ -83,12 +86,26 @@ public class GameHandler extends Thread {
             try {
                 client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState("Move"), riskMap,
                         "Placement Phase finished, now start playing!", idToColor));
-                //ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
-                //for (Order o : orders){
-                //System.out.println(o.toString());
-                //}
-            } catch (IOException e) {
+                ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
+
+                for (Order order : orders){
+                    System.out.println(order.toString());                    
+                    // moveOrders.add(order); // buffer all move orders
+                    
+                    order.executeOrder(riskMap);
+                }
+
+                // TODO: all rule checkings TBD
+
+                // TODO: if rule not passed, send back MoveAttackState to client
+
+                // TODO: execute all orders
+            } 
+            catch (IOException e) {
                 e.printStackTrace();     
+            }
+            catch (ClassNotFoundException e){
+                e.printStackTrace();
             }
         }
     

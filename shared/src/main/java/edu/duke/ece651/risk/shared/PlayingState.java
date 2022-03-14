@@ -14,7 +14,7 @@ public class PlayingState extends State {
         contex.getOut().println("You are: " + contex.getClientColor().getColorName());
         contex.getOut().println("What would you");
         ArrayList<Order> orders = new ArrayList<>();
-        orders.add(new Order("Terr1", "Terr2", "Soldier", 3));
+        // orders.add(new Order("Terr1", "Terr2", "Soldier", 3));
         contex.getOos().writeObject(orders);
   }
 }
