@@ -51,48 +51,4 @@ public class MoveAttackState extends State {
       orders.add(new Order(inputs[0], inputs[1], inputs[2], amountUnderOrder));
     }
   }
-
-  private String tryReadLineFromContext(BufferedReader input, PrintStream output)
-      throws IOException {
-    String line = null;
-    while (line == null) {
-      line = input.readLine();
-      if (line == null) {
-        output.print("error: input cannot be empty");
-        continue;
-      }
-    }
-    return line;
-  }
-
-  // public static void readOrder(ArrayList<Order> orders, ClientContext contex)
-  // throws IOException {
-  // String userInput = contex.getBufferedReader().readLine();
-  // BufferedReader bufferReader = contex.getBufferedReader();
-  // PrintStream printStream = contex.getOut();
-
-  // contex.getOut().println("Please enter your source territory name: ");
-  // String sourceTerritoryName = this.tryReadLineFromBufferReader(bufferReader,
-  // printStream);
-  // contex.getOut().println("Please enter your destination territory name: ");
-  // String destinationTerritoryName =
-  // this.tryReadLineFromBufferReader(bufferReader, printStream);
-
-  // MoveOrder newMoveOrder = new MoveOrder();
-
-  // }
-
-  // private void readAttackOrder(ArrayList<Order> orders, ClientContext contex)
-  // throws IOException {
-  // BufferedReader bufferReader = contex.getBufferedReader();
-  // PrintStream printStream = contex.getOut();
-
-  // contex.getOut().println("Please enter your source territory name: ");
-  // String sourceTerritoryName = tryReadLineFromBufferReader(bufferReader,
-  // printStream);
-  // contex.getOut().println("Please enter your destination territory name: ");
-  // String destinationTerritoryName = tryReadLineFromBufferReader(bufferReader,
-  // printStream);
-  // AttackOrder newAttackOrder;
-  // }
 }
