@@ -8,6 +8,10 @@ public class UnitMoveChecker extends ActionChecker {
     if (unitToMove == null){
       return "The unit you want to move does not exist in your source territory!";
     }
+    if (moveOrder.getUnitAmount()<0){
+      return "Unit Amount must be positive integer!";
+    }
+    
     if (unitToMove.getAmount() < moveOrder.getUnitAmount()){
       return "You do not have sufficient " + moveOrder.getUnitType() + " to move in your source territory!";
     }

@@ -17,65 +17,69 @@ public class MoveAttackStateTest {
     RISKMap riskMap = buildTestMap();
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream output = new PrintStream(bytes, true);
-
     //-------------VALID
-    //normal
-    checkValidMoveOrder(riskMap, output, "Test0,Test1,Unit,10");
-    assertEquals(riskMap.getTerritoryByName("Test0").getUnitByType("Unit").getAmount(), 0);
-    assertEquals(riskMap.getTerritoryByName("Test1").getUnitByType("Unit").getAmount(), 20);
+    //normal consequential orders
+    checkValidMoveOrder(riskMap, 0, output, "Test0,Test2,Unit,10", "Test2,Test0,Unit,20");
+    assertEquals(riskMap.getTerritoryByName("Test0").getUnitByType("Unit").getAmount(), 20);
+    assertEquals(riskMap.getTerritoryByName("Test2").getUnitByType("Unit").getAmount(), 0);
 
-    //check consequential move orders
-    checkValidMoveOrder(riskMap, output,  "Test1,Test2,Unit,20");
-    assertEquals(riskMap.getTerritoryByName("Test0").getUnitByType("Unit").getAmount(), 0);
-    assertEquals(riskMap.getTerritoryByName("Test1").getUnitByType("Unit").getAmount(), 0);
-    assertEquals(riskMap.getTerritoryByName("Test2").getUnitByType("Unit").getAmount(), 30);
+    checkValidMoveOrder(riskMap, 1, output, "Test3,Test4,Unit,2", "Test4,Test5,Unit,12");
+    assertEquals(riskMap.getTerritoryByName("Test3").getUnitByType("Unit").getAmount(), 8);
+    assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 0);
+    assertEquals(riskMap.getTerritoryByName("Test5").getUnitByType("Unit").getAmount(), 22);
+
 
     //-------------INVALID
     //check invalid inputs
-    checkValidMoveOrder(riskMap, output, "abcdefg");
+    checkValidMoveOrder(riskMap, 0, output, "abcdefg");
     assertEquals(bytes.toString(), "Your input abcdefg is not following the format!\nFormat: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount\n");
     bytes.reset();
 
     //check invalid src terr name
-    checkValidMoveOrder(riskMap, output, "Zion,Test1,Unit,10");
+    checkValidMoveOrder(riskMap, 0, output, "Zion,Test1,Unit,10");
     assertEquals(bytes.toString(), "Your Source territory does not exist!\n");
     bytes.reset();
 
     //check invalid dst terr name
-    checkValidMoveOrder(riskMap, output, "Test0,IO,Unit,10");
+    checkValidMoveOrder(riskMap, 0, output, "Test0,IO,Unit,10");
     assertEquals(bytes.toString(), "Your Destination territory does not exist!\n");
     bytes.reset();
     
 
     //check not owned src terr name
-    checkValidMoveOrder(riskMap, output, "Test5,Test1,Unit,10");
+    checkValidMoveOrder(riskMap, 0, output, "Test5,Test1,Unit,10");
     assertEquals(bytes.toString(), "You must operate move orders within your own territories!\n");
     bytes.reset();
 
     //check not owned dst terr name
-    checkValidMoveOrder(riskMap, output, "Test1,Test5,Unit,10");
+    checkValidMoveOrder(riskMap, 0, output, "Test1,Test5,Unit,10");
     assertEquals(bytes.toString(), "You must operate move orders within your own territories!\n");
     bytes.reset();
     
     //check invalid unit name
-    checkValidMoveOrder(riskMap, output, "Test0,Test1,Dragon,10");
+    checkValidMoveOrder(riskMap, 0, output, "Test0,Test1,Dragon,10");
     assertEquals(bytes.toString(), "The unit you want to move does not exist in your source territory!\n");
     bytes.reset();
     
     //check invalid unit amount
-    checkValidMoveOrder(riskMap, output, "Test0,Test1,Unit,huh");
+    checkValidMoveOrder(riskMap, 0, output, "Test0,Test1,Unit,huh");
     assertEquals(bytes.toString(), "Unit Amount must be an integer!\n");
+    bytes.reset();
+
+    //check negative unit amount
+    checkValidMoveOrder(riskMap, 0, output, "Test0,Test1,Unit,-1");
+    assertEquals(bytes.toString(), "Unit Amount must be positive integer!\n");
     bytes.reset();
     
     //check insufficient unit amount
-    checkValidMoveOrder(riskMap, output, "Test0,Test1,Unit,10");
+    checkValidMoveOrder(riskMap, 0, output, "Test0,Test2,Unit,100");
     assertEquals(bytes.toString(), "You do not have sufficient Unit to move in your source territory!\n");
     bytes.reset();
     
     
   }
 
-  private void checkValidMoveOrder(RISKMap riskMap, PrintStream output, String... orderInputs) throws IOException {
+  private void checkValidMoveOrder(RISKMap riskMap, long ID, PrintStream output, String... orderInputs) throws IOException {
     ArrayList<Order> orders = new ArrayList<Order>();
     StringBuilder sb = new StringBuilder();
     for (String orderString : orderInputs){
@@ -83,10 +87,11 @@ public class MoveAttackStateTest {
     }
     sb.append("D\n");
     BufferedReader input = new BufferedReader(new StringReader(sb.toString()));
-    orders = MoveAttackState.fillInOrders(riskMap, input, output, 0, "Move");
+    orders = MoveAttackState.fillInOrders(riskMap, input, output, ID, "Move");
   }
 
   /**
+   * Uncomment to help you write test cases
   private void displayMap(RISKMap riskMap) {
     TreeMap<Long, Color> idToColor = new TreeMap<Long, Color>();
     idToColor.put((long)0, new Color("Red"));
