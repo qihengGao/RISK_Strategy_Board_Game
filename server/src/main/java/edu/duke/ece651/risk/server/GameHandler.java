@@ -81,34 +81,35 @@ public class GameHandler extends Thread {
 
     public void movePhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
             throws ClassCastException {
-        ArrayList<Order> moveOrders = new ArrayList<>();
         for (Client client : players) {
-            try {
-                client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState("Move"), riskMap,
-                        "Placement Phase finished, now start playing!", idToColor));
-                ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
-
-                for (Order order : orders){
-                    System.out.println(order.toString());                    
-                    // moveOrders.add(order); // buffer all move orders
-                    
-                    order.executeOrder(riskMap);
-                }
-
-                // TODO: all rule checkings TBD
-
-                // TODO: if rule not passed, send back MoveAttackState to client
-
-                // TODO: execute all orders
-            } 
-            catch (IOException e) {
-                e.printStackTrace();     
-            }
-            catch (ClassNotFoundException e){
-                e.printStackTrace();
-            }
+          readAndWriteOrders(riskMap, idToColor, client, "Placement Phase finished, now start playing!");
         }
     
         
+    }
+
+  private void readAndWriteOrders(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt) {
+      try {
+          client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState("Move"), riskMap, prompt, idToColor));
+          ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
+          for (Order order : orders){
+              System.out.println(order.toString());
+              String check_message = order.executeOrder(riskMap);
+              if (check_message!=null){throw new IllegalArgumentException(check_message);}
+          }
+
+          // TODO: all rule checkings TBD
+
+          // TODO: if rule not passed, send back MoveAttackState to client
+
+          // TODO: execute all orders
+      } 
+      catch (IOException|ClassNotFoundException e) {
+        e.printStackTrace();     
+      }
+      catch (IllegalArgumentException e){
+        int offset = e.toString().indexOf(":")+2;
+        readAndWriteOrders(riskMap, idToColor, client, e.toString().substring(offset));
+      }
     }
 }

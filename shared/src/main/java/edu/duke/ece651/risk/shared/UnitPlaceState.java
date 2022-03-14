@@ -62,10 +62,10 @@ public class UnitPlaceState extends State {
                 throw new IllegalArgumentException();
             }
         } catch (NumberFormatException e) {
-            out.println(amountToPutStr + "is an Invalid input! Try again!");
+            out.println(amountToPutStr + " is an Invalid input! Try again!");
             return placeUnitOnTerritory(unitType, territory, amountRest, out, userInput);
         } catch (IllegalArgumentException e) {
-            out.println("amount to put must not exceed " + Integer.toString(amountRest));
+            out.println("Amount to put must not exceed " + Integer.toString(amountRest));
             return placeUnitOnTerritory(unitType, territory, amountRest, out, userInput);
         }
 

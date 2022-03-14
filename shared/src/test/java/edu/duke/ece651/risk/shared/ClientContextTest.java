@@ -20,6 +20,16 @@ import org.junit.jupiter.api.Test;
 
 public class ClientContextTest {
 
+  /**
+    * test for getPortNumber and setPortNumber
+    */
+   @Test
+   public void test_getSetPortNumber(){
+      ClientContext contex = new ClientContext();
+      contex.setPortNumber(123);
+      assertEquals(123, contex.getPortNumber());
+   }
+  
    /**
     * test for getIdToColor and setIdToColor
     */
