@@ -18,7 +18,7 @@ public class MoveOrder extends Order {
         Unit sourceTerritoryUnit = sourceTerritory.getUnitByType(this.unitType);
         Unit destinationTerritoryUnit = destinationTerritory.getUnitByType(this.unitType);
 
-        sourceTerritoryUnit.tryIncreaseAmount(this.unitAmount);
-        destinationTerritoryUnit.tryDecreaseAmount(this.unitAmount);
+        sourceTerritoryUnit.tryDecreaseAmount(this.unitAmount);
+        destinationTerritoryUnit.tryIncreaseAmount(this.unitAmount);
     }
 }

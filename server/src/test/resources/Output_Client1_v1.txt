@@ -47,4 +47,5 @@ Blue
 
 
 You are: Red
-What would you
+Please place your Move instructions.
+Format: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount
