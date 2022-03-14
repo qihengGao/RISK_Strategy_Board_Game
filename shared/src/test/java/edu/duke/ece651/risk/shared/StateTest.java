@@ -34,6 +34,7 @@ public class StateTest {
         /**invalid input format
          */
         BufferedReader invalid_input = new BufferedReader(new StringReader("abcd"));
+        context.setBufferedReader(invalid_input);
         assertThrows(NumberFormatException.class, () -> testState.readServerPort(context,"Please type in server port number"));
     }
 
@@ -96,7 +97,7 @@ public class StateTest {
         State state = new InitiateSocketState();
         state.connectToServer(mockClientContext);
 
-        verify(mockClientContext).setSocket(any(Socket.class));
+        verify(mockClientContext,times(2)).setSocket(any(Socket.class));
         verify(mockClientContext).setOis(objectInputStream);
         verify(mockClientContext).setOos(objectOutputStream);
 
