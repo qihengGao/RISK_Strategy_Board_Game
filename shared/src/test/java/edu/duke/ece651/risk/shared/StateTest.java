@@ -18,24 +18,23 @@ public class StateTest {
         BufferedReader input = new BufferedReader(new StringReader("1777\n"));
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        assertEquals(testState.readServerPort("Please type in server port number",
-                input,
-                output), 1777);
+        ClientContext context = new ClientContext();
+        context.setOut(output);
+        context.setBufferedReader(input);
+        assertEquals(testState.readServerPort(context,"Please type in server port number"
+), 1777);
         assertEquals(bytes.toString(), "Please type in server port number\n");
 
         //Exceptions
         /**empty input
          */
         BufferedReader empty_input = new BufferedReader(new StringReader(""));
-        assertThrows(EOFException.class, () -> testState.readServerPort("Please type in server port number",
-                empty_input,
-                output));
+        assertThrows(EOFException.class, () -> testState.readServerPort(context,"Please type in server port number"
+));
         /**invalid input format
          */
         BufferedReader invalid_input = new BufferedReader(new StringReader("abcd"));
-        assertThrows(NumberFormatException.class, () -> testState.readServerPort("Please type in server port number",
-                invalid_input,
-                output));
+        assertThrows(NumberFormatException.class, () -> testState.readServerPort(context,"Please type in server port number"));
     }
 
     @Test
@@ -46,18 +45,17 @@ public class StateTest {
         BufferedReader input = new BufferedReader(new StringReader("localhost"));
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
-        assertEquals(testState.readServerAddress("Please type in server address",
-                input,
-                output), "localhost");
+        ClientContext context = new ClientContext();
+        context.setOut(output);
+        context.setBufferedReader(input);
+        assertEquals(testState.readServerAddress(context,"Please type in server address"), "localhost");
         assertEquals(bytes.toString(), "Please type in server address\n");
 
         //Exceptions
         /**empty input
          */
         BufferedReader empty_input = new BufferedReader(new StringReader(""));
-        assertThrows(EOFException.class, () -> testState.readServerAddress("Please type in server address",
-                empty_input,
-                output));
+        assertThrows(EOFException.class, () -> testState.readServerAddress(context,"Please type in server address"));
     }
 
     @Test

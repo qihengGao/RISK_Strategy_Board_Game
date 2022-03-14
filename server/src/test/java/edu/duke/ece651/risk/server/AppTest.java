@@ -54,6 +54,7 @@ class AppTest {
         RiskGameClient client2 = new RiskGameClient(context2,randomPortNumber);
         client2.start();
 
+
         TimeUnit.MILLISECONDS.sleep(100);
 
         ByteArrayOutputStream bytes3 = new ByteArrayOutputStream();

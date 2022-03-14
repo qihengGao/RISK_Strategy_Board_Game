@@ -7,7 +7,16 @@ public class Client {
 
 
     private final long clientID;
-    private final Socket socket;
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    private Socket socket;
     private  ObjectOutputStream oos;
     private  ObjectInputStream ois;
 

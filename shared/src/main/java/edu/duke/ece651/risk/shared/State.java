@@ -16,7 +16,9 @@ public abstract class State implements Serializable {
      * @throws IOException           if read an empty line or the input source in null.
      * @throws NumberFormatException if the line we read from input source is not an integer.
      */
-    public int readServerPort(String prompt, BufferedReader inputReader, PrintStream out) throws IOException, NumberFormatException {
+    public int readServerPort(ClientContext context, String prompt) throws IOException, NumberFormatException {
+        BufferedReader inputReader = context.getBufferedReader();
+        PrintStream out = context.getOut();
         out.print(prompt + "\n");
         String s = inputReader.readLine();
         if (s == null) {
@@ -33,7 +35,9 @@ public abstract class State implements Serializable {
      * @return Server address read from input source.
      * @throws IOException if read an empty line or the input source in null.
      */
-    public String readServerAddress(String prompt, BufferedReader inputReader, PrintStream out) throws IOException {
+    public String readServerAddress(ClientContext context, String prompt) throws IOException {
+        BufferedReader inputReader = context.getBufferedReader();
+        PrintStream out = context.getOut();
         out.print(prompt + "\n");
         String s = inputReader.readLine();
         if (s == null) {
@@ -42,6 +46,7 @@ public abstract class State implements Serializable {
         return s;
 
     }
+
 
 
     /**

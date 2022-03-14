@@ -1,3 +1,5 @@
+Please type in server port number
+Please type in server address
 Waiting for game to start. Still need 1 player!
 Placing order!
 Red
