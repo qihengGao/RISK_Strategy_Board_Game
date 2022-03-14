@@ -11,6 +11,26 @@ public class ClientContext {
     private long playerID;
     private TreeMap<Long,Color> idToColor;
     private int portNumber;
+    private String serverAddress;
+    private final SocketFactory socketFactory;
+
+
+
+    public ClientContext() {
+        socketFactory = new SocketFactory();
+    }
+
+    public SocketFactory getSocketFactory() {
+        return socketFactory;
+    }
+
+    public String getServerAddress() {
+        return serverAddress;
+    }
+
+    public void setServerAddress(String serverAddress) {
+        this.serverAddress = serverAddress;
+    }
 
     public int getPortNumber() {
         return portNumber;

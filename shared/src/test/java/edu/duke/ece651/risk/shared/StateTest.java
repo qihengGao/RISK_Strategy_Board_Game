@@ -1,66 +1,107 @@
 package edu.duke.ece651.risk.shared;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.StringReader;
-
 import org.junit.jupiter.api.Test;
 
+import java.io.*;
+import java.net.Socket;
+import java.net.SocketAddress;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 public class StateTest {
-  @Test
-  public void test_readServerPort() throws IOException{
-    State testState = new WaitingState();
+    @Test
+    public void test_readServerPort() throws IOException {
+        State testState = new WaitingState();
 
-    //Success
-    BufferedReader input = new BufferedReader(new StringReader("1777\n"));
-    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    PrintStream output = new PrintStream(bytes, true);
-    assertEquals(testState.readServerPort("Please type in server port number",
-                             input,
-                             output), 1777);
-    assertEquals(bytes.toString(), "Please type in server port number\n");
+        //Success
+        BufferedReader input = new BufferedReader(new StringReader("1777\n"));
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        assertEquals(testState.readServerPort("Please type in server port number",
+                input,
+                output), 1777);
+        assertEquals(bytes.toString(), "Please type in server port number\n");
 
-    //Exceptions
-    /**empty input
-     */
-     BufferedReader empty_input = new BufferedReader(new StringReader(""));
-     assertThrows(EOFException.class, () -> testState.readServerPort("Please type in server port number",
-                             empty_input,
-                             output));
-     /**invalid input format
-      */
-     BufferedReader invalid_input = new BufferedReader(new StringReader("abcd"));
-     assertThrows(NumberFormatException.class, () -> testState.readServerPort("Please type in server port number",
-                             invalid_input,
-                             output));
-  }
+        //Exceptions
+        /**empty input
+         */
+        BufferedReader empty_input = new BufferedReader(new StringReader(""));
+        assertThrows(EOFException.class, () -> testState.readServerPort("Please type in server port number",
+                empty_input,
+                output));
+        /**invalid input format
+         */
+        BufferedReader invalid_input = new BufferedReader(new StringReader("abcd"));
+        assertThrows(NumberFormatException.class, () -> testState.readServerPort("Please type in server port number",
+                invalid_input,
+                output));
+    }
 
     @Test
-  public void test_readServerAddress() throws IOException{
-    State testState = new WaitingState();
+    public void test_readServerAddress() throws IOException {
+        State testState = new WaitingState();
 
-    //Success
-    BufferedReader input = new BufferedReader(new StringReader("localhost"));
-    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    PrintStream output = new PrintStream(bytes, true);
-    assertEquals(testState.readServerAddress("Please type in server address",
-                             input,
-                             output), "localhost");
-    assertEquals(bytes.toString(), "Please type in server address\n");
+        //Success
+        BufferedReader input = new BufferedReader(new StringReader("localhost"));
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream output = new PrintStream(bytes, true);
+        assertEquals(testState.readServerAddress("Please type in server address",
+                input,
+                output), "localhost");
+        assertEquals(bytes.toString(), "Please type in server address\n");
 
-    //Exceptions
-    /**empty input
-     */
-     BufferedReader empty_input = new BufferedReader(new StringReader(""));
-     assertThrows(EOFException.class, () -> testState.readServerAddress("Please type in server address",
-                             empty_input,
-                             output));
-  }
+        //Exceptions
+        /**empty input
+         */
+        BufferedReader empty_input = new BufferedReader(new StringReader(""));
+        assertThrows(EOFException.class, () -> testState.readServerAddress("Please type in server address",
+                empty_input,
+                output));
+    }
 
+    @Test
+    void connectToServer() throws IOException {
+
+        final String hostname = "127.0.0.1";
+        final int port = 1777;
+        SocketFactory socketFactory = mock(SocketFactory.class);
+        ClientContext mockClientContext = mock(ClientContext.class);
+        when(mockClientContext.getServerAddress()).thenReturn(hostname);
+        when(mockClientContext.getPortNumber()).thenReturn(port);
+        when(mockClientContext.getSocketFactory()).thenReturn(socketFactory);
+
+        Socket socket = mock(Socket.class);
+        when(socketFactory.createSocket()).thenReturn(socket);
+
+
+        when(socket.isConnected()).thenReturn(false, false,true,true);
+
+        //when(socket.connect(any(SocketAddress.class))).thenThrow(new IOException());
+        doThrow(new IOException("test")).doNothing().when(socket).connect(any(SocketAddress.class));
+
+        when(socket.getInputStream()).thenReturn(mock(InputStream.class));
+        when(socket.getOutputStream()).thenReturn(mock(OutputStream.class));
+
+        SocketAddress socketAddress = mock(SocketAddress.class);
+        when(socketFactory.createSocketAddress(hostname, port)).thenReturn(socketAddress);
+
+        ObjectInputStream objectInputStream = mock(ObjectInputStream.class);
+        when(socketFactory.createObjectInputStream(any(InputStream.class))).thenReturn(objectInputStream);
+
+        ObjectOutputStream objectOutputStream = mock(ObjectOutputStream.class);
+        when(socketFactory.createObjectOutputStream(any(OutputStream.class))).thenReturn(objectOutputStream);
+
+        when(mockClientContext.getSocket()).thenReturn(socket);
+
+
+        State state = new InitiateSocketState();
+        assertTrue(state.connectToServer(mockClientContext));
+
+        verify(mockClientContext).setSocket(any(Socket.class));
+        verify(mockClientContext).setOis(objectInputStream);
+        verify(mockClientContext).setOos(objectOutputStream);
+
+
+    }
 }
