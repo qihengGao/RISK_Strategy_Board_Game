@@ -1,9 +1,8 @@
 package edu.duke.ece651.risk.server;
 
-import edu.duke.ece651.risk.shared.*;
-
 import java.io.IOException;
 import java.util.*;
+import edu.duke.ece651.risk.shared.*;
 
 public class GameHandler extends Thread {
     private final ArrayList<Color> predefineColorList = new ArrayList<>();
@@ -63,35 +62,33 @@ public class GameHandler extends Thread {
             try {
                 client.writeObject(new RiskGameMessage(client.getClientID(), new UnitPlaceState(), riskMap,
                         "Placing order!", idToColor));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        for (Client client : players) {
-            try {
                 ArrayList<Territory> receive = (ArrayList<Territory>) client.readObject();
-                for (Territory t : receive) {
-                    riskMap.tryAddTerritory(t);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+                updateMap(riskMap, receive);
+            } catch (IOException|ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
+    }
 
+    private void updateMap(RISKMap riskMap, ArrayList<Territory> receive) {
+      for (Territory t : receive) {
+          riskMap.tryAddTerritory(t);
+      }
     }
 
     public void movePhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
             throws ClassCastException {
+        ArrayList<Order> moveOrders = new ArrayList<>();
         for (Client client : players) {
             try {
                 client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState("Move"), riskMap,
                         "Placement Phase finished, now start playing!", idToColor));
-                        
+                //ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
+                //for (Order o : orders){
+                //System.out.println(o.toString());
+                //}
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace();     
             }
         }
     
