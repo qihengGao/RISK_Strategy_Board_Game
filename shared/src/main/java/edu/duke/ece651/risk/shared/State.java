@@ -9,6 +9,25 @@ public abstract class State implements Serializable {
     public abstract void doAction(ClientContext contex) throws IOException, ClassNotFoundException;
 
     /**
+     * Read line from input source.
+     *
+     * @param prompt is a friendly advise for user.
+     * @return A line read from input source.
+     * @throws IOException           if read an empty line or the input source in null.
+
+     */
+    public String readLine(ClientContext context, String prompt) throws IOException{
+        BufferedReader inputReader = context.getBufferedReader();
+        PrintStream out = context.getOut();
+        out.print(prompt + "\n");
+        String s = inputReader.readLine();
+        if (s == null) {
+            throw new EOFException("Invalid input: Empty line\n");
+        }
+        return s;
+    }
+
+    /**
      * Read server port number from input source.
      *
      * @param prompt is a friendly advise for user.
@@ -17,14 +36,8 @@ public abstract class State implements Serializable {
      * @throws NumberFormatException if the line we read from input source is not an integer.
      */
     public int readServerPort(ClientContext context, String prompt) throws IOException, NumberFormatException {
-        BufferedReader inputReader = context.getBufferedReader();
-        PrintStream out = context.getOut();
-        out.print(prompt + "\n");
-        String s = inputReader.readLine();
-        if (s == null) {
-            throw new EOFException("Invalid input: Empty line\n");
-        }
-        return Integer.parseInt(s);
+
+        return Integer.parseInt(readLine(context,prompt));
 
     }
 
@@ -36,14 +49,7 @@ public abstract class State implements Serializable {
      * @throws IOException if read an empty line or the input source in null.
      */
     public String readServerAddress(ClientContext context, String prompt) throws IOException {
-        BufferedReader inputReader = context.getBufferedReader();
-        PrintStream out = context.getOut();
-        out.print(prompt + "\n");
-        String s = inputReader.readLine();
-        if (s == null) {
-            throw new EOFException("Invalid input: Empty line\n");
-        }
-        return s;
+        return readLine(context,prompt);
 
     }
 
