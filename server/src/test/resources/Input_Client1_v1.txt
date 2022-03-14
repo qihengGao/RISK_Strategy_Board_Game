@@ -1,3 +1,6 @@
 4
 11
 15
+Terr1,Terr2,Soldier,3
+Terr2,Terr3,Soldier,4
+D

@@ -83,18 +83,13 @@ public class GameHandler extends Thread {
             try {
                 client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState("Move"), riskMap,
                         "Placement Phase finished, now start playing!", idToColor));
-<<<<<<< HEAD
-                ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
-                for (Order o : orders){
-                  System.out.println(o.toString());
-                }
-            } catch (IOException|ClassNotFoundException e) {
-=======
-                        
+                //ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
+                //for (Order o : orders){
+                //System.out.println(o.toString());
+                //}
             } catch (IOException e) {
->>>>>>> 196c9620eb0f8372f7f1ddd72277f7d1402fa6a2
-                e.printStackTrace();
-            } 
+                e.printStackTrace();     
+            }
         }
     
         
