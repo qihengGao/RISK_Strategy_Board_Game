@@ -11,11 +11,11 @@ public class InitiateSocketState extends State {
     @Override
     public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
 
-        String serverAddress = readServerAddress(contex,"Please type in server port number");
+        String serverAddress = readServerAddress(contex,"Please type in server address");
         contex.setServerAddress(serverAddress);
 
 
-        int serverPortNumber = readServerPort(contex,"Please type in server address");
+        int serverPortNumber = readServerPort(contex,"Please type in server port number");
         //For integration test, we try to run the test with a random port, and we already set the port number.
         //So if port number is already set, skip this process.
         if(contex.getPortNumber()==0)
@@ -25,7 +25,7 @@ public class InitiateSocketState extends State {
         Long clientID = -1L;
         try {
             clientID = readClientID(contex, "Please type in you client ID to restore previous game, or Enter to start a new game.");
-        }catch (NumberFormatException | IOException exception){
+        }catch (NumberFormatException | IOException ignored){
 
         }
         if(clientID==-1L) {
@@ -40,7 +40,8 @@ public class InitiateSocketState extends State {
         contex.setPlayerID(messageReceived.getClientid());
         contex.getOut().println(messageReceived.getPrompt());
         contex.setGameState(contex.getGameState());
-
+        contex.setRiskMap(messageReceived.getRiskMap());
+        contex.setIdToColor(messageReceived.getIdToColor());
         // 3. execute the next state instructed by the server's context
         messageReceived.getCurrentState().doAction(contex);
     }
