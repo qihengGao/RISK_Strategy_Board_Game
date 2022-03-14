@@ -44,6 +44,18 @@ public class RiskGameServer extends Thread {
         return tmpClient;
     }
 
+    void addNewClient(Client tmpClient){
+        System.out.println("New client! Client id: " + tmpClient.getClientID());
+        clientList.add(tmpClient);
+        try {
+            tmpClient.writeObject(new RiskGameMessage(tmpClient.getClientID(), new WaitingState(), null,
+                    String.format("Waiting for game to start. Still need %d player!", roomSize - clientList.size())));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void run() {
 
         System.out.printf("Server up. Listening on port: %d.\n", serverSocket.getLocalPort());
@@ -53,15 +65,19 @@ public class RiskGameServer extends Thread {
                 Client tmpClient = new Client(clientIDCounter++, socket);
                 RiskGameMessage riskGameMessage = (RiskGameMessage) tmpClient.readObject();
                 if (riskGameMessage.isInitGame()) {
-                    System.out.println("New client! Client id: " + tmpClient.getClientID());
-                    clientList.add(tmpClient);
-                    tmpClient.writeObject(new RiskGameMessage(tmpClient.getClientID(), new WaitingState(), null,
-                            String.format("Waiting for game to start. Still need %d player!", roomSize - clientList.size())));
+                    addNewClient(tmpClient);
                 } else {
                     long oriClientID = riskGameMessage.getClientid();
                     Client oriClient = idToClient.get(oriClientID);
                     if(oriClient!=null && oriClient.getSocket().getInetAddress().equals(socket.getInetAddress())){
                         oriClient.setSocket(socket);
+                    }else{
+                        if(oriClient == null)
+                            System.out.println("Client try to restore a socket connection, but client id not found.");
+                        else
+                            System.out.println("Client try to restore a socket connection, but client address didn't match.");
+                        addNewClient(tmpClient);
+
                     }
                 }
                 if (clientList.size() >= roomSize) {

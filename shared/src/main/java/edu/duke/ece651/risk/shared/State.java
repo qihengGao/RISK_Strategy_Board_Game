@@ -53,6 +53,19 @@ public abstract class State implements Serializable {
 
     }
 
+    /**
+     * Read client id from input source.
+     *
+     * @param prompt is a friendly advise for user.
+     * @return Client ID read from input source.
+     * @throws IOException           if read an empty line or the input source in null.
+     * @throws NumberFormatException if the line we read from input source is not a Long.
+     */
+    public Long readClientID(ClientContext context, String prompt) throws IOException, NumberFormatException {
+
+        return Long.parseLong(readLine(context,prompt));
+
+    }
 
 
     /**
