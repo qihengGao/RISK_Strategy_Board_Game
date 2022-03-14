@@ -1,11 +1,9 @@
 package edu.duke.ece651.risk.server;
 
-import edu.duke.ece651.risk.shared.ClientContext;
 import edu.duke.ece651.risk.shared.RiskGameMessage;
 import edu.duke.ece651.risk.shared.WaitingState;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -15,7 +13,7 @@ public class RiskGameServer extends Thread {
 
     private final ServerSocket serverSocket;
     private final LinkedList<Client> clientList;
-    private Map<Long,Client> idToClient;
+    private Map<Long, Client> idToClient;
 
     private final int roomSize;
 
@@ -45,7 +43,7 @@ public class RiskGameServer extends Thread {
         return tmpClient;
     }
 
-    void addNewClient(Client tmpClient){
+    void addNewClient(Client tmpClient) {
         System.out.println("New client! Client id: " + tmpClient.getClientID());
         clientList.add(tmpClient);
         idToClient.put(tmpClient.getClientID(), tmpClient);
@@ -71,22 +69,25 @@ public class RiskGameServer extends Thread {
                 } else {
                     long oriClientID = riskGameMessage.getClientid();
                     Client oriClient = idToClient.get(oriClientID);
-                    if(oriClient!=null && oriClient.getSocket().getInetAddress().equals(socket.getInetAddress())){
+                    if (oriClient != null && oriClient.getSocket().getInetAddress().equals(socket.getInetAddress())) {
                         clientIDCounter--;
-                        System.out.println("Successfully restore a socket connection，client id = "+oriClientID);
+                        System.out.println("Successfully restore a socket connection，client id = " + oriClientID);
                         oriClient.setSocket(socket);
                         oriClient.setOis(tmpClient.getOis());
                         oriClient.setOos(tmpClient.getOos());
                         try {
-                            oriClient.writeObject(new RiskGameMessage(oriClient.getClientID(), new WaitingState(), null,
-                                    String.format("Successfully restore a socket connection，client id = %d\n" +
-                                            "Waiting for game to start. Still need %d player!", oriClientID,roomSize - clientList.size())));
+                            if (oriClient.getPreviousRiskGameMessage().getCurrentState() instanceof WaitingState)
+                                oriClient.writeObject(new RiskGameMessage(oriClient.getClientID(), new WaitingState(), null,
+                                        String.format("Successfully restore a socket connection，client id = %d\n" +
+                                                "Waiting for game to start. Still need %d player!", oriClientID, roomSize - clientList.size())));
+                            else
+                                oriClient.writeObject(oriClient.getPreviousRiskGameMessage());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }else{
-                        if(oriClient == null)
-                            System.out.println("Client try to restore a socket connection, but client id not found."+idToClient.keySet());
+                    } else {
+                        if (oriClient == null)
+                            System.out.println("Client try to restore a socket connection, but client id not found." + idToClient.keySet());
                         else
                             System.out.println("Client try to restore a socket connection, but client address didn't match.");
                         addNewClient(tmpClient);
