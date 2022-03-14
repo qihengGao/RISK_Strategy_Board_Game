@@ -1,11 +1,8 @@
 package edu.duke.ece651.risk.shared;
 
 import java.io.*;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-
-import edu.duke.ece651.risk.shared.SocketFactory.*;
 
 public abstract class State implements Serializable {
 
@@ -47,17 +44,15 @@ public abstract class State implements Serializable {
     }
 
 
-
-
     /**
      * Connect to Risk Game server with specified server address, port number in ClientContext. Then set the ObjectOutputStream
      * and ObjectInputStream for ClientContext.
      * Max retry 10 times if connection false.
      *
      * @param context Client's context.
-     * @return true if the connected, otherwise false.
+     * @throws IOException Any of the usual Input/Output related exceptions.
      */
-    public boolean connectToServer(ClientContext context) {
+    public void connectToServer(ClientContext context) throws IOException {
 
         int timeoutCount = 10;
         SocketFactory socketFactory = context.getSocketFactory();
@@ -73,27 +68,65 @@ public abstract class State implements Serializable {
             }
         }
 
-        return context.getSocket() != null && context.getSocket().isConnected();
+        if(!context.getSocket().isConnected()){
+            throw  new IOException("Connection failed.");
+        }
 
     }
 
+    /**
+     * Reconnect to server and send reconnect message.
+     * @param context Client's context.
+     * @return true if the connected, otherwise false.
+     */
+    public boolean reconnectToServer(ClientContext context) {
+        try {
+            connectToServer(context);
+            RiskGameMessageFactory riskGameMessageFactory = context.getRiskGameMessageFactory();
+            context.writeObject(riskGameMessageFactory.createReconnectMessage(context));
+
+        }catch (IOException ignored){
+            return false;
+        }
+        return true;
+    }
 
 
+    /**
+     * Init socket then send the init connection message to server.
+     *
+     * @param context Client's context.
+     * @return true if the connected, otherwise false.
+     */
+    public boolean initConnectToServer(ClientContext context) {
+
+        try {
+            connectToServer(context);
+            RiskGameMessageFactory riskGameMessageFactory = context.getRiskGameMessageFactory();
+            context.writeObject(riskGameMessageFactory.createInitMessage());
+
+        }catch (IOException ignored){
+            return false;
+        }
+        return true;
+    }
 
 
     /**
      * Write object to server using the ObjectOutPutStream in ClientContext.
+     *
      * @param context The ClientContext which contain the ObjectOutPutStream.
-     * @param object The object which send to the server.
+     * @param object  The object which send to the server.
+     * @throws IOException Any of the usual Input/Output related exceptions.
      */
-    public  void writeObject(ClientContext context, Object object) throws IOException {
+    public void writeObject(ClientContext context, Object object) throws IOException {
         try {
             context.writeObject(object);
         } catch (IOException e) {
-            if (!connectToServer(context)) {
+            if (!reconnectToServer(context)) {
                 throw new IOException("Socket closed and reconnect failed.");
-            }else {
-                writeObject(context,object);
+            } else {
+                writeObject(context, object);
             }
         }
 

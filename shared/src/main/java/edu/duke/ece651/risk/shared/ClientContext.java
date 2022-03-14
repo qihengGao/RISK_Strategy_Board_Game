@@ -16,10 +16,17 @@ public class ClientContext {
 
 
 
+    private final RiskGameMessageFactory riskGameMessageFactory;
+
+
+
     public ClientContext() {
         socketFactory = new SocketFactory();
+        riskGameMessageFactory = new RiskGameMessageFactory();
     }
-
+    public RiskGameMessageFactory getRiskGameMessageFactory() {
+        return riskGameMessageFactory;
+    }
     public SocketFactory getSocketFactory() {
         return socketFactory;
     }

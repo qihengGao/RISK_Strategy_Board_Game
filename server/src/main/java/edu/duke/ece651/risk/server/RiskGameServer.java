@@ -5,6 +5,7 @@ import edu.duke.ece651.risk.shared.WaitingState;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.*;
 
 public class RiskGameServer extends Thread {
@@ -48,11 +49,15 @@ public class RiskGameServer extends Thread {
         while (true) {
             try {
                 Client tmpClient = new Client(clientIDCounter++, serverSocket.accept());
-                System.out.println("New client! Client id: " + tmpClient.getClientID());
-                clientList.add(tmpClient);
-                tmpClient.writeObject(new RiskGameMessage(tmpClient.getClientID(), new WaitingState(), null,
-                        String.format("Waiting for game to start. Still need %d player!", roomSize - clientList.size())));
+                RiskGameMessage riskGameMessage = (RiskGameMessage) tmpClient.readObject();
+                if(riskGameMessage.isInitGame()) {
+                    System.out.println("New client! Client id: " + tmpClient.getClientID());
+                    clientList.add(tmpClient);
+                    tmpClient.writeObject(new RiskGameMessage(tmpClient.getClientID(), new WaitingState(), null,
+                            String.format("Waiting for game to start. Still need %d player!", roomSize - clientList.size())));
+                }else{
 
+                }
                 if (clientList.size() >= roomSize) {
                     Set<Client> players = new LinkedHashSet<>();
                     for (int i = 0; i < roomSize; i++) {
@@ -61,6 +66,8 @@ public class RiskGameServer extends Thread {
                     new GameHandler(players).start();
                 }
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }

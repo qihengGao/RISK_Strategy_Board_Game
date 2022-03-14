@@ -19,13 +19,15 @@ public class InitiateSocketState extends State {
         // 1. set sockets
         String serverAddress = "127.0.0.1";
         int serverPortNumber = contex.getPortNumber();
-        Socket socket = new Socket(serverAddress, serverPortNumber);
-        contex.setSocket(socket);
-        // 2. try connect to server
-
-        contex.setSocket(socket);
-        contex.setOis(new ObjectInputStream(socket.getInputStream()));
-        contex.setOos(new ObjectOutputStream(socket.getOutputStream()));
+        contex.setServerAddress(serverAddress);
+//        Socket socket = new Socket(serverAddress, serverPortNumber);
+//        contex.setSocket(socket);
+//        // 2. try connect to server
+//
+//        contex.setSocket(socket);
+//        contex.setOis(new ObjectInputStream(socket.getInputStream()));
+//        contex.setOos(new ObjectOutputStream(socket.getOutputStream()));
+        initConnectToServer(contex);
         
         // 2. wait for server for context and parse
         RiskGameMessage messageReceived = (RiskGameMessage) contex.getOis().readObject();

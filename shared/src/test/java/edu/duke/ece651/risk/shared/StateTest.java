@@ -96,7 +96,7 @@ public class StateTest {
 
 
         State state = new InitiateSocketState();
-        assertTrue(state.connectToServer(mockClientContext));
+        state.connectToServer(mockClientContext);
 
         verify(mockClientContext).setSocket(any(Socket.class));
         verify(mockClientContext).setOis(objectInputStream);
@@ -117,7 +117,7 @@ public class StateTest {
         InitiateSocketState state = mock(InitiateSocketState.class);
 
         doCallRealMethod().when(state).writeObject(any(ClientContext.class),any(Object.class));
-        when(state.connectToServer(clientContext)).thenReturn(Boolean.FALSE, Boolean.TRUE);
+        when(state.reconnectToServer(clientContext)).thenReturn(Boolean.FALSE, Boolean.TRUE);
         assertThrows(IOException.class,()->state.writeObject(clientContext,new Object()));
 
 
