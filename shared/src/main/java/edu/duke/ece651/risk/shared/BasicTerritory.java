@@ -7,13 +7,13 @@ import java.util.TreeSet;
  * Basic Territory serves for version1 RISK game.
  */
 public class BasicTerritory implements Territory {
-  private int OwnerID;
+  private Long OwnerID;
   private final String name;
   private TreeSet<Territory> neighbors; // to make in order with repect to name
   private TreeSet<Unit> units;
 
   public BasicTerritory(String Name){
-    this.OwnerID = -1;
+    this.OwnerID = -1L;
     this.name = Name;
     this.neighbors = new TreeSet<Territory>(new ThisIsSerializable());
     this.units = new TreeSet<Unit>(new unitCompactor());
@@ -22,7 +22,7 @@ public class BasicTerritory implements Territory {
   /**    
    * @return the ID of the Owner of this Territory, such as 1.
    */
-  public int getOwnerID(){
+  public Long getOwnerID(){
     return OwnerID;
   }
   
@@ -109,7 +109,7 @@ public class BasicTerritory implements Territory {
    * Try to change the ownerID
    * @return true if success
    */
-  public boolean tryChangeOwnerTo(int newID){
+  public boolean tryChangeOwnerTo(Long newID){
     OwnerID = newID;
     return true;
   }

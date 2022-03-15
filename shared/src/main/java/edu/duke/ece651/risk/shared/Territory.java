@@ -7,7 +7,7 @@ public interface Territory extends Serializable {
   /**    
    * @return the ID of the Owner of this Territory, such as 1.
    */
-  public int getOwnerID();
+  public Long getOwnerID();
 
   /**    
    * @return the name of this Territory, such as "Narnia".
@@ -44,7 +44,7 @@ public interface Territory extends Serializable {
    * Try to change the ownerID
    * @return true if success
    */
-  public boolean tryChangeOwnerTo(int newID);
+  public boolean tryChangeOwnerTo(Long newID);
   
   /**
    * Returns the iterable list of units that the territory has.

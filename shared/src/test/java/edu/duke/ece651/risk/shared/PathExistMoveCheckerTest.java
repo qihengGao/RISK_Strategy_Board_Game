@@ -25,8 +25,8 @@ public class PathExistMoveCheckerTest {
     assertEquals(pathChecker.checkMove(riskMap, order_not_owned), "Move Order path does not exist in your territories!");
 
     //test long path (not adjacent)
-    riskMap.getTerritoryByName("Test4").tryChangeOwnerTo(0);
-    riskMap.getTerritoryByName("Test5").tryChangeOwnerTo(0);
+    riskMap.getTerritoryByName("Test4").tryChangeOwnerTo(0L);
+    riskMap.getTerritoryByName("Test5").tryChangeOwnerTo(0L);
     Order order_long = new MoveOrder(0, "Test0", "Test1", "Unit", 2);
     assertEquals(pathChecker.checkMove(riskMap, order_long), null);
     
@@ -38,7 +38,7 @@ public class PathExistMoveCheckerTest {
     int count = 0;
     for (Territory t: riskMap.getContinent()){
       t.tryAddUnit(new BasicUnit("Unit", 10));
-      t.tryChangeOwnerTo(count / 3);
+      t.tryChangeOwnerTo((long) (count / 3));
       count++;
     }
     
