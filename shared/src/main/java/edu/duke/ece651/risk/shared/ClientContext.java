@@ -11,6 +11,33 @@ public class ClientContext {
     private long playerID;
     private TreeMap<Long,Color> idToColor;
     private int portNumber;
+    private String serverAddress;
+    private final SocketFactory socketFactory;
+
+
+
+    private final RiskGameMessageFactory riskGameMessageFactory;
+
+
+
+    public ClientContext() {
+        socketFactory = new SocketFactory();
+        riskGameMessageFactory = new RiskGameMessageFactory();
+    }
+    public RiskGameMessageFactory getRiskGameMessageFactory() {
+        return riskGameMessageFactory;
+    }
+    public SocketFactory getSocketFactory() {
+        return socketFactory;
+    }
+
+    public String getServerAddress() {
+        return serverAddress;
+    }
+
+    public void setServerAddress(String serverAddress) {
+        this.serverAddress = serverAddress;
+    }
 
     public int getPortNumber() {
         return portNumber;
@@ -34,14 +61,14 @@ public class ClientContext {
 
     BufferedReader bufferedReader;
     PrintStream out;
-    ObjectOutput oos;
-    ObjectInput ois;
+    ObjectOutputStream oos;
+    ObjectInputStream ois;
 
     public ObjectOutput getOos() {
         return oos;
     }
 
-    public void setOos(ObjectOutput oos) {
+    public void setOos(ObjectOutputStream oos) {
         this.oos = oos;
     }
 
@@ -49,7 +76,7 @@ public class ClientContext {
         return ois;
     }
 
-    public void setOis(ObjectInput ois) {
+    public void setOis(ObjectInputStream ois) {
         this.ois = ois;
     }
 
@@ -99,6 +126,11 @@ public class ClientContext {
 
     public void setOut(PrintStream out) {
         this.out = out;
+    }
+    public void writeObject(Object o) throws IOException {
+        oos.reset();
+        oos.writeObject(o);
+
     }
 //Also the action list;
 }

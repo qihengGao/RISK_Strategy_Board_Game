@@ -3,6 +3,7 @@ package edu.duke.ece651.risk.shared;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.ResourceAccessMode;
 import org.junit.jupiter.api.parallel.ResourceLock;
@@ -71,11 +72,13 @@ public class ColorTest {
         assertNotEquals(color1.hashCode(), color4.hashCode());
     }
 
-    @Test
-    static void assertEqualsIgnoreLineSeparator(String expected, String actual) {
-        assertEquals(expected.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")),
-                actual.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")));
-    }
+  /**
+  @Test
+  static void assertEqualsIgnoreLineSeparator(String expected, String actual) {
+    assertEquals(expected.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")),
+                 actual.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")));
+  }
+  */
 
 
 }

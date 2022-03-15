@@ -20,6 +20,16 @@ import org.junit.jupiter.api.Test;
 
 public class ClientContextTest {
 
+  /**
+    * test for getPortNumber and setPortNumber
+    */
+   @Test
+   public void test_getSetPortNumber(){
+      ClientContext contex = new ClientContext();
+      contex.setPortNumber(123);
+      assertEquals(123, contex.getPortNumber());
+   }
+  
    /**
     * test for getIdToColor and setIdToColor
     */
@@ -71,7 +81,7 @@ public class ClientContextTest {
    @Test
    public void test_getSetOos() throws UnknownHostException, IOException{
       ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-      ObjectOutput objectOutput = new ObjectOutputStream(buffer);
+      ObjectOutputStream objectOutput = new ObjectOutputStream(buffer);
 
       ClientContext contex = new ClientContext();
       contex.setOos(objectOutput);
@@ -85,7 +95,7 @@ public class ClientContextTest {
     */
    @Test
    public void test_getSetOis() throws IOException{
-      ObjectInput in = mock(ObjectInputStream.class);
+      ObjectInputStream in = mock(ObjectInputStream.class);
       ClientContext contex = new ClientContext();
       contex.setOis(in);
       assertSame(in, contex.getOis());
