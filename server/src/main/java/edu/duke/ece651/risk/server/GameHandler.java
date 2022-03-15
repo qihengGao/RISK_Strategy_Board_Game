@@ -35,9 +35,9 @@ public class GameHandler extends Thread {
     unitPlacementPhase(riskMap, idToColor);
 
     System.out.println("Placement Phase finish");
-    actionPhase(riskMap, idToColor, "Placement Phase finished, now start playing!", "Move");//first move
-    actionPhase(riskMap, idToColor, "Now place your attack Orders!", "Attack");//first move
-    resolveRound(riskMap, idToColor, "Resolved Round Outcome!");//compute the result of this round
+    HashMap<String, ArrayList<Order>> ordersToList = actionPhase(riskMap, idToColor, "Placement Phase finished, now start placing orders!");//first move
+
+    resolveRound(riskMap, idToColor, "Resolved Round Outcome!", ordersToList, "Move", "Attack");//compute the result of this round
 
     MapTextView mapTextView = new MapTextView(riskMap, idToColor);
     System.out.println(mapTextView.displayMap());
@@ -92,21 +92,31 @@ public class GameHandler extends Thread {
   }
 
   //action phase: move/attack
-  public void actionPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor, String prompt, String orderType)
+  public HashMap<String, ArrayList<Order>> actionPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor, String prompt)
     throws ClassCastException {
+    HashMap<String, ArrayList<Order>> orderToList = extracted("Move", "Attack");
     for (Client client : players) {
-      readAndWriteOrders(riskMap, idToColor, client, prompt, orderType);
+      readAndWriteOrders(riskMap, idToColor, client, prompt, orderToList);
     }
+    return orderToList;
   }
 
-  private void readAndWriteOrders(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt, String orderType) {
+  private HashMap<String, ArrayList<Order>> extracted(String... orderTypes) {
+    HashMap<String, ArrayList<Order>> ans = new HashMap<>();
+    for (String type : orderTypes) {
+      ans.put(type, new ArrayList<Order>());
+    }
+    return ans;
+  }
+
+  private void readAndWriteOrders(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
+                                  HashMap<String, ArrayList<Order>> orderToList) {
     try {
-      client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(orderType), riskMap, prompt, idToColor));
+      client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
       ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
       for (Order order : orders){
         System.out.println(order.toString());
-        String check_message = order.executeOrder(riskMap);
-        if (check_message!=null){throw new IllegalArgumentException(check_message);}
+        orderToList.get(order.getOrderType()).add(order);
       }
     } 
     catch (IOException|ClassNotFoundException e) {
@@ -114,12 +124,25 @@ public class GameHandler extends Thread {
     }
     catch (IllegalArgumentException e){
       int offset = e.toString().indexOf(":")+2;
-      readAndWriteOrders(riskMap, idToColor, client, e.toString().substring(offset), orderType);
+      readAndWriteOrders(riskMap, idToColor, client, e.toString().substring(offset), orderToList);
     }
   }
 
   //resolve round result phase: compute outcome of all attacks
-  public void resolveRound(RISKMap riskMap, TreeMap<Long, Color> idToColor, String prompt){
+  public void resolveRound(RISKMap riskMap, TreeMap<Long, Color> idToColor, String prompt, HashMap<String,
+          ArrayList<Order>> ordersToList, String... orderTypes){
+    for (String type:orderTypes){
+      for (Order order : ordersToList.get(type)) {
+        String check_message = order.executeOrder(riskMap);
+        //server check
+        //if (check_message!=null){
+          //client.writeObject(new RiskGameMessage(client.getClientID(), new ReEnterOrderState(), riskMap,
+        // "Your order "+order.toString() + " did not pass our rules, please reenter your order", idToColor));
+          //Order reorder = (Order) client.readObject();
+        //}
+      }
+    }
+
     for (Client client : players){
       try {
         client.writeObject(new RiskGameMessage(client.getClientID(), new ShowRoundResultState(), riskMap, prompt, idToColor));
