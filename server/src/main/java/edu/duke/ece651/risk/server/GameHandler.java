@@ -3,6 +3,7 @@ package edu.duke.ece651.risk.server;
 import edu.duke.ece651.risk.shared.*;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.*;
 
 public class GameHandler extends Thread {
@@ -64,7 +65,7 @@ public class GameHandler extends Thread {
                 client.writeObject(new RiskGameMessage(client.getClientID(), new UnitPlaceState(), riskMap,
                         "Placing order!", idToColor));
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Client socket closed, id :"+client.getClientID());
             }
         }
 
@@ -75,7 +76,7 @@ public class GameHandler extends Thread {
                     riskMap.tryAddTerritory(t);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Client socket closed, id :"+client.getClientID());
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -91,7 +92,7 @@ public class GameHandler extends Thread {
                 client.writeObject(new RiskGameMessage(client.getClientID(), new PlayingState(), riskMap,
                         "Placement Phase finished, now start playing!", idToColor));
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Client socket closed, id :"+client.getClientID());
             }
         }
     }
