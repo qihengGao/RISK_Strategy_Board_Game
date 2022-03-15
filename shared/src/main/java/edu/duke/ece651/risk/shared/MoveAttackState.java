@@ -22,14 +22,14 @@ public class MoveAttackState extends State {
     contex.getOos().writeObject(orders);
 
     //wait server for next state
-    //contex.setGameState(new WaitingState());
-    //contex.getGameState().doAction(contex);
+    contex.setGameState(new WaitingState());
+    contex.getGameState().doAction(contex);
   }
 
   public ArrayList<Order> orderPhase(RISKMap riskMap, BufferedReader input, PrintStream output, long ID, TreeMap<Long,Color> idToColor ) throws IOException {
     displayMap(riskMap, output, ID, idToColor);
     output.println("You can place "+ this.stateName + " orders in this phase.");
-    output.println("Format: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount");
+    output.println("Format: SourceTerritoryName,DestTerritoryName,UnitType,UnitAmount");
     output.println("Type D to commit all your orders");
     output.println("Please place your Orders, Commander:");
     return fillInOrders(riskMap, input, output, ID, this.stateName);
@@ -47,11 +47,9 @@ public class MoveAttackState extends State {
         String[] inputs = checkFormatAndSplit(userInput);
         int amountUnderOrder = readOrderUnitAmount(inputs);
         Order tryMove = new MoveOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
-        /**
         if (orderName.equals("Attack")){
           tryMove = new AttackOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
         }
-        */
         
         String check_message = tryMove.executeOrder(riskMap);
         if (check_message!=null){throw new IllegalArgumentException(check_message);}
@@ -78,7 +76,7 @@ public class MoveAttackState extends State {
   private static String[] checkFormatAndSplit(String userInput) throws IllegalArgumentException{
     String[] ans = userInput.split(",");
     if (ans.length != 4) {
-      throw new IllegalArgumentException("Your input " + userInput + " is not following the format!\nFormat: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount");
+      throw new IllegalArgumentException("Your input " + userInput + " is not following the format!");
     }
     return ans;
   }

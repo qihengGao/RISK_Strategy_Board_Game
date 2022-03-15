@@ -1,7 +1,6 @@
 package edu.duke.ece651.risk.server;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.util.*;
 import edu.duke.ece651.risk.shared.*;
 
@@ -11,7 +10,7 @@ public class GameHandler extends Thread {
 
   /**
    * Allocates a new {@code Thread} object. This constructor has the same
-   * effect as {@linkplain #Thread(ThreadGroup, Runnable, String) Thread}
+   * effect as {@linkplain Thread(ThreadGroup, Runnable, String) Thread}
    * {@code (null, null, gname)}, where {@code gname} is a newly generated
    * name. Automatically generated names are of the form
    * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
@@ -34,9 +33,12 @@ public class GameHandler extends Thread {
     assignColorToPlayers(idToColor);
     assignTerritoriesToPlayers(riskMap);
     unitPlacementPhase(riskMap, idToColor);
+
     System.out.println("Placement Phase finish");
-    movePhase(riskMap, idToColor);
-        
+    actionPhase(riskMap, idToColor, "Placement Phase finished, now start playing!", "Move");//first move
+    actionPhase(riskMap, idToColor, "Now place your attack Orders!", "Attack");//first move
+    resolveRound(riskMap, idToColor, "Resolved Round Outcome!");//compute the result of this round
+
     MapTextView mapTextView = new MapTextView(riskMap, idToColor);
     System.out.println(mapTextView.displayMap());
   }
@@ -60,6 +62,7 @@ public class GameHandler extends Thread {
     }
   }
 
+  //unit placement phase
   public void unitPlacementPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
     throws ClassCastException {
     for (Client client : players) {
@@ -80,16 +83,17 @@ public class GameHandler extends Thread {
     }
   }
 
-  public void movePhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
+  //action phase: move/attack
+  public void actionPhase(RISKMap riskMap, TreeMap<Long, Color> idToColor, String prompt, String orderType)
     throws ClassCastException {
     for (Client client : players) {
-      readAndWriteOrders(riskMap, idToColor, client, "Placement Phase finished, now start playing!");
+      readAndWriteOrders(riskMap, idToColor, client, prompt, orderType);
     }
   }
 
-  private void readAndWriteOrders(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt) {
+  private void readAndWriteOrders(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt, String orderType) {
     try {
-      client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState("Move"), riskMap, prompt, idToColor));
+      client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(orderType), riskMap, prompt, idToColor));
       ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
       for (Order order : orders){
         System.out.println(order.toString());
@@ -102,7 +106,18 @@ public class GameHandler extends Thread {
     }
     catch (IllegalArgumentException e){
       int offset = e.toString().indexOf(":")+2;
-      readAndWriteOrders(riskMap, idToColor, client, e.toString().substring(offset));
+      readAndWriteOrders(riskMap, idToColor, client, e.toString().substring(offset), orderType);
+    }
+  }
+
+  //resolve round result phase: compute outcome of all attacks
+  public void resolveRound(RISKMap riskMap, TreeMap<Long, Color> idToColor, String prompt){
+    for (Client client : players){
+      try {
+        client.writeObject(new RiskGameMessage(client.getClientID(), new ShowRoundResultState(), riskMap, prompt, idToColor));
+      } catch (IOException e) {
+        System.out.println("Client socket closed, id :"+client.getClientID());
+      }
     }
   }
 }

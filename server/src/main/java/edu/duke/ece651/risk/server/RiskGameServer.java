@@ -19,7 +19,7 @@ public class RiskGameServer extends Thread {
 
     /**
      * Allocates a new {@code Thread} object. This constructor has the same
-     * effect as {@linkplain #Thread(ThreadGroup, Runnable, String) Thread}
+     * effect as {@linkplain Thread(ThreadGroup, Runnable, String) Thread}
      * {@code (null, null, gname)}, where {@code gname} is a newly generated
      * name. Automatically generated names are of the form
      * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
@@ -71,14 +71,14 @@ public class RiskGameServer extends Thread {
                     Client oriClient = idToClient.get(oriClientID);
                     if (oriClient != null && oriClient.getSocket().getInetAddress().equals(socket.getInetAddress())) {
                         clientIDCounter--;
-                        System.out.println("Successfully restore a socket connection，client id = " + oriClientID);
+                        System.out.println("Successfully restore a socket connection, client id = " + oriClientID);
                         oriClient.setSocket(socket);
                         oriClient.setOis(tmpClient.getOis());
                         oriClient.setOos(tmpClient.getOos());
                         try {
                             if (oriClient.getPreviousRiskGameMessage().getCurrentState() instanceof WaitingState)
                                 oriClient.writeObject(new RiskGameMessage(oriClient.getClientID(), new WaitingState(), null,
-                                        String.format("Successfully restore a socket connection，client id = %d\n" +
+                                        String.format("Successfully restore a socket connection, client id = %d\n" +
                                                 "Waiting for game to start. Still need %d player!", oriClientID, roomSize - clientList.size())));
                             else
                                 oriClient.writeObject(oriClient.getPreviousRiskGameMessage());

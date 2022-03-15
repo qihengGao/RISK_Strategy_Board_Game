@@ -28,11 +28,11 @@ public class MoveAttackStateTest {
     assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 0);
     assertEquals(riskMap.getTerritoryByName("Test5").getUnitByType("Unit").getAmount(), 22);
 
-
+    bytes.reset();
     //-------------INVALID
     //check invalid inputs
     checkValidMoveOrder(riskMap, 0, output, "abcdefg");
-    assertEquals(bytes.toString(), "Your input abcdefg is not following the format!\nFormat: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount\n");
+    assertEquals(bytes.toString(), "Your input abcdefg is not following the format!\n");
     bytes.reset();
 
     //check invalid src terr name
@@ -48,17 +48,17 @@ public class MoveAttackStateTest {
 
     //check not owned src terr name
     checkValidMoveOrder(riskMap, 0, output, "Test5,Test1,Unit,10");
-    assertEquals(bytes.toString(), "You must operate move orders within your own territories!\n");
+    assertEquals(bytes.toString(), "You must place orders from your own territories!\n");
     bytes.reset();
 
     //check not owned dst terr name
     checkValidMoveOrder(riskMap, 0, output, "Test1,Test5,Unit,10");
-    assertEquals(bytes.toString(), "You must operate move orders within your own territories!\n");
+    assertEquals(bytes.toString(), "Move Order path does not exist in your territories!\n");
     bytes.reset();
     
     //check invalid unit name
     checkValidMoveOrder(riskMap, 0, output, "Test0,Test1,Dragon,10");
-    assertEquals(bytes.toString(), "The unit you want to move does not exist in your source territory!\n");
+    assertEquals(bytes.toString(), "You do not have Dragon in Test0!\n");
     bytes.reset();
     
     //check invalid unit amount
@@ -73,7 +73,7 @@ public class MoveAttackStateTest {
     
     //check insufficient unit amount
     checkValidMoveOrder(riskMap, 0, output, "Test0,Test2,Unit,100");
-    assertEquals(bytes.toString(), "You do not have sufficient Unit to move in your source territory!\n");
+    assertEquals(bytes.toString(), "You do not have sufficient Unit to move in Test0!\n");
     bytes.reset();
     
     

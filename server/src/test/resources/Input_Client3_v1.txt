@@ -8,3 +8,5 @@
 Test0,Test1,Soldier,3
 Test8,Test1,Soldier,13
 D
+Test2,Test3,Soldier,3
+D
