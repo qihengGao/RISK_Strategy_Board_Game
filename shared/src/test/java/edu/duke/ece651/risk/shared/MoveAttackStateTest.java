@@ -109,7 +109,7 @@ public class MoveAttackStateTest {
     int count = 0;
     for (Territory t: riskMap.getContinent()){
       t.tryAddUnit(new BasicUnit("Unit", 10));
-      t.tryChangeOwnerTo(count / 3);
+      t.tryChangeOwnerTo((long) (count / 3));
       count++;
     }
     return riskMap;

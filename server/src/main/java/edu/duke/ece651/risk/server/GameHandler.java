@@ -49,6 +49,11 @@ public class GameHandler extends Thread {
     }
   }
 
+  /**
+   * Randomly initialize the territories with client ID.
+   *
+   * @param riskMap The RISKMap where contains territories.
+   */
   public void assignTerritoriesToPlayers(GameMap riskMap) {
     ArrayList<Territory> randomized = new ArrayList<>();
     for (Territory territory : riskMap.getContinent()) {
@@ -56,9 +61,12 @@ public class GameHandler extends Thread {
     }
     Collections.shuffle(randomized, new Random(1777));
     int count = 0;
+    ArrayList<Long> clientIDList = new ArrayList<>();
+    for (Client client : players)
+      clientIDList.add(client.getClientID());
     for (Territory territory : randomized) {
-      territory.tryChangeOwnerTo(count / 3);
-      count++;
+      territory.tryChangeOwnerTo(clientIDList.get(count++ / 3));
+
     }
   }
 
