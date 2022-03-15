@@ -32,9 +32,9 @@ How many Soldiers you want to put in Test8
 Placement Phase finished, now start playing!
 Red
 ---
- 1 Soldiers in Test2 (next to: Test0, Test3, Test6)
- 1 Soldiers in Test4 (next to: Test1, Test3, Test5)
- 28 Soldiers in Test6 (next to: Test2, Test8)
+ 4 Soldiers in Test2 (next to: Test0, Test3, Test6)
+ 11 Soldiers in Test4 (next to: Test1, Test3, Test5)
+ 15 Soldiers in Test6 (next to: Test2, Test8)
 
 Green
 -----
@@ -50,5 +50,7 @@ Blue
 
 
 You are: Green
-Please place your Move instructions.
+You can place Move orders in this phase.
 Format: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount
+Type D to commit all your orders
+Please place your Orders, Commander:
