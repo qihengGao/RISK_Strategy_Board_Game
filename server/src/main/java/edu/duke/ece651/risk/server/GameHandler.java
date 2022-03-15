@@ -97,12 +97,6 @@ public class GameHandler extends Thread {
               String check_message = order.executeOrder(riskMap);
               if (check_message!=null){throw new IllegalArgumentException(check_message);}
           }
-
-          // TODO: all rule checkings TBD
-
-          // TODO: if rule not passed, send back MoveAttackState to client
-
-          // TODO: execute all orders
       } 
       catch (IOException|ClassNotFoundException e) {
         e.printStackTrace();     

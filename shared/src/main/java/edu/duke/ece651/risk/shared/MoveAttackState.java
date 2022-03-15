@@ -35,7 +35,7 @@ public class MoveAttackState extends State {
     return fillInOrders(riskMap, input, output, ID, this.stateName);
   }
 
-  public static ArrayList<Order> fillInOrders(RISKMap riskMap, BufferedReader input, PrintStream output, long ID, String orderName) throws IOException{
+  public ArrayList<Order> fillInOrders(RISKMap riskMap, BufferedReader input, PrintStream output, long ID, String orderName) throws IOException{
     ArrayList<Order> orders = new ArrayList<>();
     while(true){
       try{

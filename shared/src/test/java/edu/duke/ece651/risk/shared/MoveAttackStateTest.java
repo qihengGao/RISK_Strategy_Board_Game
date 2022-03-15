@@ -80,14 +80,14 @@ public class MoveAttackStateTest {
   }
 
   private void checkValidMoveOrder(RISKMap riskMap, long ID, PrintStream output, String... orderInputs) throws IOException {
-    ArrayList<Order> orders = new ArrayList<Order>();
     StringBuilder sb = new StringBuilder();
     for (String orderString : orderInputs){
       sb.append(orderString + "\n");
     }
     sb.append("D\n");
     BufferedReader input = new BufferedReader(new StringReader(sb.toString()));
-    orders = MoveAttackState.fillInOrders(riskMap, input, output, ID, "Move");
+    MoveAttackState moveState = new MoveAttackState("Move");
+    moveState.fillInOrders(riskMap, input, output, ID, "Move");
   }
 
   /**
