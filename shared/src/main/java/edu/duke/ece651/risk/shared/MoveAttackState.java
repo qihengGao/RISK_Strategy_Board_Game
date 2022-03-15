@@ -22,8 +22,8 @@ public class MoveAttackState extends State {
     contex.getOos().writeObject(orders);
 
     //wait server for next state
-    //contex.setGameState(new WaitingState());
-    //contex.getGameState().doAction(contex);
+    contex.setGameState(new WaitingState());
+    contex.getGameState().doAction(contex);
   }
 
   public ArrayList<Order> orderPhase(RISKMap riskMap, BufferedReader input, PrintStream output, long ID, TreeMap<Long,Color> idToColor ) throws IOException {
@@ -47,11 +47,9 @@ public class MoveAttackState extends State {
         String[] inputs = checkFormatAndSplit(userInput);
         int amountUnderOrder = readOrderUnitAmount(inputs);
         Order tryMove = new MoveOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
-        /**
         if (orderName.equals("Attack")){
           tryMove = new AttackOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
         }
-        */
         
         String check_message = tryMove.executeOrder(riskMap);
         if (check_message!=null){throw new IllegalArgumentException(check_message);}
