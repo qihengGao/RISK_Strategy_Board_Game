@@ -29,7 +29,7 @@ You have 26 to put
 How many Soldiers you want to put in Test5
 You have 15 to put
 How many Soldiers you want to put in Test7
-Placement Phase finished, now start playing!
+Placement Phase finished, now start placing orders!
 Red
 ---
  8 Soldiers in Test2 (next to: Test0, Test3, Test6)
@@ -49,35 +49,11 @@ Blue
  15 Soldiers in Test7 (next to: Test1, Test5)
 
 
-You are: Blue
-You can place Move orders in this phase.
-Format: SourceTerritoryName,DestTerritoryName,UnitType,UnitAmount
-Type D to commit all your orders
-Please place your Orders, Commander:
-You do not have sufficient Soldier to move in Test3!
-Now place your attack Orders!
-Red
----
- 8 Soldiers in Test2 (next to: Test0, Test3, Test6)
- 9 Soldiers in Test4 (next to: Test1, Test3, Test5)
- 13 Soldiers in Test6 (next to: Test2, Test8)
-
-Green
------
- 17 Soldiers in Test0 (next to: Test2, Test3, Test5, Test8)
- 6 Soldiers in Test1 (next to: Test4, Test7)
- 7 Soldiers in Test8 (next to: Test0, Test5, Test6)
-
-Blue
-----
- 4 Soldiers in Test3 (next to: Test0, Test2, Test4)
- 11 Soldiers in Test5 (next to: Test0, Test4, Test7, Test8)
- 15 Soldiers in Test7 (next to: Test1, Test5)
-
-
-You are: Blue
-You can place Attack orders in this phase.
-Format: SourceTerritoryName,DestTerritoryName,UnitType,UnitAmount
-Type D to commit all your orders
-Please place your Orders, Commander:
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Can't find order! Please choose from (M)ove, (A)ttack, (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Round Outcome!
