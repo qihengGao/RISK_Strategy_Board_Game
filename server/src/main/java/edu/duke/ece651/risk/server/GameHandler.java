@@ -151,5 +151,17 @@ public class GameHandler extends Thread {
         }
     }
 
+    /**
+     * Check if a player is lost.
+     * @param client The player we want to check with.
+     * @return True if this player is lost, otherwise false.
+     */
+    public boolean isPlayerLost(Client client){
+        for( Territory territory : riskMap.getContinent()){
+            if(territory.getOwnerID() == client.getClientID())
+                return false;
+        }
+        return true;
+    }
 
 }
