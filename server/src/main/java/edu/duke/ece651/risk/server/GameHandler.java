@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.server;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.*;
 import edu.duke.ece651.risk.shared.*;
 
@@ -65,9 +66,20 @@ public class GameHandler extends Thread {
             try {
                 client.writeObject(new RiskGameMessage(client.getClientID(), new UnitPlaceState(), riskMap,
                         "Placing order!", idToColor));
+            } catch (IOException e) {
+                System.out.println("Client socket closed, id :"+client.getClientID());
+            }
+        }
+
+        for (Client client : players) {
+            try {
                 ArrayList<Territory> receive = (ArrayList<Territory>) client.readObject();
-                updateMap(riskMap, receive);
-            } catch (IOException|ClassNotFoundException e) {
+                for (Territory t : receive) {
+                    riskMap.tryAddTerritory(t);
+                }
+            } catch (IOException e) {
+                System.out.println("Client socket closed, id :"+client.getClientID());
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -82,7 +94,12 @@ public class GameHandler extends Thread {
     public void movePhase(RISKMap riskMap, TreeMap<Long, Color> idToColor)
             throws ClassCastException {
         for (Client client : players) {
-          readAndWriteOrders(riskMap, idToColor, client, "Placement Phase finished, now start playing!");
+            try {
+                client.writeObject(new RiskGameMessage(client.getClientID(), new PlayingState(), riskMap,
+                        "Placement Phase finished, now start playing!", idToColor));
+            } catch (IOException e) {
+                System.out.println("Client socket closed, id :"+client.getClientID());
+            }
         }
     
         

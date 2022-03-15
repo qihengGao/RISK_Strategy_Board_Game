@@ -6,6 +6,18 @@ import java.util.TreeMap;
 public class RiskGameMessage implements Serializable {
 
     private long clientid;
+    private boolean initGame;
+
+    public boolean isInitGame() {
+        return initGame;
+    }
+
+    public void setInitGame(boolean initGame) {
+        this.initGame = initGame;
+    }
+
+    public RiskGameMessage() {
+    }
 
     public long getClientid() {
         return clientid;
@@ -20,6 +32,27 @@ public class RiskGameMessage implements Serializable {
     }
 
     private RISKMap riskMap;
+
+    public void setClientid(long clientid) {
+        this.clientid = clientid;
+    }
+
+    public void setRiskMap(RISKMap riskMap) {
+        this.riskMap = riskMap;
+    }
+
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
+    }
+
+    public void setPrompt(String prompt) {
+        this.prompt = prompt;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     private State currentState;
     private String prompt;
     private Color color = null;

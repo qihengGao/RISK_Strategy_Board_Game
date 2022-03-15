@@ -1,15 +1,49 @@
 package edu.duke.ece651.risk.server;
 
+import edu.duke.ece651.risk.shared.RiskGameMessage;
+
 import java.io.*;
 import java.net.Socket;
 
 public class Client {
 
 
-    private final long clientID;
-    private final Socket socket;
+    private Socket socket;
     private  ObjectOutputStream oos;
+    private RiskGameMessage previousRiskGameMessage;
+
+    public RiskGameMessage getPreviousRiskGameMessage() {
+        return previousRiskGameMessage;
+    }
+
+    public ObjectOutputStream getOos() {
+        return oos;
+    }
+
+    public ObjectInputStream getOis() {
+        return ois;
+    }
+
+    public void setOos(ObjectOutputStream oos) {
+        this.oos = oos;
+    }
+
+    public void setOis(ObjectInputStream ois) {
+        this.ois = ois;
+    }
+
     private  ObjectInputStream ois;
+    private final long clientID;
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
 
     public long getClientID() {
         return clientID;
@@ -33,7 +67,8 @@ public class Client {
         return ois.readObject();
     }
 
-    public void writeObject(Object o) throws IOException {
+    public void writeObject(RiskGameMessage o) throws IOException {
+        previousRiskGameMessage = o;
         oos.reset();
         oos.writeObject(o);
     }
