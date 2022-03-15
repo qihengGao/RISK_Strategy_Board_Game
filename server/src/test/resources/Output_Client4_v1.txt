@@ -55,4 +55,30 @@ You can place Move orders in this phase.
 Format: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount
 Type D to commit all your orders
 Please place your Orders, Commander:
-You must operate move orders within your own territories!
+You must place orders from your own territories!
+Now place your attack Orders!
+Red
+---
+ 4 Soldiers in Test2 (next to: Test0, Test3, Test6)
+ 11 Soldiers in Test4 (next to: Test1, Test3, Test5)
+ 15 Soldiers in Test6 (next to: Test2, Test8)
+
+Green
+-----
+ 8 Soldiers in Test0 (next to: Test2, Test3, Test5, Test8)
+ 9 Soldiers in Test1 (next to: Test4, Test7)
+ 13 Soldiers in Test8 (next to: Test0, Test5, Test6)
+
+Blue
+----
+ 17 Soldiers in Test3 (next to: Test0, Test2, Test4)
+ 6 Soldiers in Test5 (next to: Test0, Test4, Test7, Test8)
+ 7 Soldiers in Test7 (next to: Test1, Test5)
+
+
+You are: Red
+You can place Attack orders in this phase.
+Format: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount
+Type D to commit all your orders
+Please place your Orders, Commander:
+Resolved Round Outcome!

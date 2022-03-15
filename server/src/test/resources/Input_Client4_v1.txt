@@ -6,3 +6,5 @@
 15
 Test3,Test5,Soldier,18
 D
+Test2,Test3,Soldier,3
+D

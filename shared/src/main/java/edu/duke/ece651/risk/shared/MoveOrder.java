@@ -5,7 +5,7 @@ public class MoveOrder extends Order {
 
   public MoveOrder(long ID, String srcTerritory, String destTerritory, String unitUnderOrder, int unitAmount) {
     super(ID, srcTerritory, destTerritory, unitUnderOrder, unitAmount);
-    this.moveChecker = new TerrExistChecker(new OwnershipMoveChecker(new UnitMoveChecker(new PathExistMoveChecker(null))));
+    this.moveChecker = new TerrExistChecker(new SrcOwnershipChecker(new ActionUnitChecker(new PathExistMoveChecker(null))));
   }
 
   /**
