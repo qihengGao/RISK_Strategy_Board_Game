@@ -5,7 +5,6 @@
 6
 7
 12
-D
-Test2,Test4,Soldier,3
-Test4,Test6,Soldier,13
+Test0,Test1,Soldier,3
+Test8,Test1,Soldier,13
 D
