@@ -1,0 +1,1 @@
+./server/build/install/server/bin/server

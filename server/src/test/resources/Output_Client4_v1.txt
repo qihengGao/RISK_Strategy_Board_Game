@@ -51,3 +51,8 @@ Blue
 
 
 You are: Red
+You can place Move orders in this phase.
+Format: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount
+Type D to commit all your orders
+Please place your Orders, Commander:
+You must operate move orders within your own territories!

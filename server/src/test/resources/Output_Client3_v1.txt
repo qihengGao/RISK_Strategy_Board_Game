@@ -5,15 +5,15 @@ Waiting for game to start. Still need 0 player!
 Placing order!
 Red
 ---
- Test2 (next to: Test0, Test3, Test6)
- Test4 (next to: Test1, Test3, Test5)
- Test6 (next to: Test2, Test8)
+ 4 Soldiers in Test2 (next to: Test0, Test3, Test6)
+ 11 Soldiers in Test4 (next to: Test1, Test3, Test5)
+ 15 Soldiers in Test6 (next to: Test2, Test8)
 
 Green
 -----
- Test0 (next to: Test2, Test3, Test5, Test8)
- Test1 (next to: Test4, Test7)
- Test8 (next to: Test0, Test5, Test6)
+ 8 Soldiers in Test0 (next to: Test2, Test3, Test5, Test8)
+ 9 Soldiers in Test1 (next to: Test4, Test7)
+ 13 Soldiers in Test8 (next to: Test0, Test5, Test6)
 
 Blue
 ----
@@ -54,3 +54,9 @@ Blue
 
 
 You are: Blue
+You can place Move orders in this phase.
+Format: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount
+Type D to commit all your orders
+Please place your Orders, Commander:
+You must operate move orders within your own territories!
+You must operate move orders within your own territories!
