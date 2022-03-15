@@ -1,5 +1,5 @@
-Please type in server port number
 Please type in server address
+Please type in server port number
 Please type in you client ID to restore previous game, or Enter to start a new game.
 Successfully restore a socket connection，client id = 0
 Waiting for game to start. Still need 1 player!
