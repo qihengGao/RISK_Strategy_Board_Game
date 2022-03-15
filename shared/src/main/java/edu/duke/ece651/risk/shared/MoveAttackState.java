@@ -29,7 +29,7 @@ public class MoveAttackState extends State {
   public ArrayList<Order> orderPhase(RISKMap riskMap, BufferedReader input, PrintStream output, long ID, TreeMap<Long,Color> idToColor ) throws IOException {
     displayMap(riskMap, output, ID, idToColor);
     output.println("You can place "+ this.stateName + " orders in this phase.");
-    output.println("Format: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount");
+    output.println("Format: SourceTerritoryName,DestTerritoryName,UnitType,UnitAmount");
     output.println("Type D to commit all your orders");
     output.println("Please place your Orders, Commander:");
     return fillInOrders(riskMap, input, output, ID, this.stateName);
@@ -76,7 +76,7 @@ public class MoveAttackState extends State {
   private static String[] checkFormatAndSplit(String userInput) throws IllegalArgumentException{
     String[] ans = userInput.split(",");
     if (ans.length != 4) {
-      throw new IllegalArgumentException("Your input " + userInput + " is not following the format!\nFormat: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount");
+      throw new IllegalArgumentException("Your input " + userInput + " is not following the format!");
     }
     return ans;
   }

@@ -55,7 +55,7 @@ Blue
 
 You are: Blue
 You can place Move orders in this phase.
-Format: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount
+Format: SourceTerritoryName,DestTerritoryName,UnitType,UnitAmount
 Type D to commit all your orders
 Please place your Orders, Commander:
 You must place orders from your own territories!
@@ -82,7 +82,7 @@ Blue
 
 You are: Blue
 You can place Attack orders in this phase.
-Format: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount
+Format: SourceTerritoryName,DestTerritoryName,UnitType,UnitAmount
 Type D to commit all your orders
 Please place your Orders, Commander:
 Resolved Round Outcome!

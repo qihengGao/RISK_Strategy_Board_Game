@@ -28,11 +28,11 @@ public class MoveAttackStateTest {
     assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 0);
     assertEquals(riskMap.getTerritoryByName("Test5").getUnitByType("Unit").getAmount(), 22);
 
-
+    bytes.reset();
     //-------------INVALID
     //check invalid inputs
     checkValidMoveOrder(riskMap, 0, output, "abcdefg");
-    assertEquals(bytes.toString(), "Your input abcdefg is not following the format!\nFormat: SourceTerrirotyName,DestTerritoryName,UnitType,UnitAmount\n");
+    assertEquals(bytes.toString(), "Your input abcdefg is not following the format!\n");
     bytes.reset();
 
     //check invalid src terr name
