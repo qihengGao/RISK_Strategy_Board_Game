@@ -5,6 +5,7 @@ package edu.duke.ece651.risk.server;
 
 import edu.duke.ece651.risk.client.RiskGameClient;
 import edu.duke.ece651.risk.shared.ClientContext;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.ResourceAccessMode;
 import org.junit.jupiter.api.parallel.ResourceLock;
@@ -108,6 +109,7 @@ class AppTest {
     }
 
     @Test
+    @Disabled
     public void test_multi_game() throws InterruptedException, IOException {
         int randomPortNumber = (int) Math.floor(Math.random()*(9092-9080+1)+9080);
         RiskGameServer riskGameServer = new RiskGameServer(3, new ServerSocket(randomPortNumber));
