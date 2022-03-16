@@ -43,6 +43,7 @@ class AppTest {
         client1.start();
         TimeUnit.MILLISECONDS.sleep(100);
         client1.stop();
+        //context1.getSocket().close();
 
         TimeUnit.MILLISECONDS.sleep(100);
 
@@ -108,7 +109,7 @@ class AppTest {
 
     @Test
     public void test_multi_game() throws InterruptedException, IOException {
-        int randomPortNumber = (int) Math.floor(Math.random()*(9092-9080+1)+9080);
+        int randomPortNumber = (int) Math.floor(Math.random()*(9500-9093+1)+9093);
         RiskGameServer riskGameServer = new RiskGameServer(3, new ServerSocket(randomPortNumber));
         riskGameServer.start();
 
