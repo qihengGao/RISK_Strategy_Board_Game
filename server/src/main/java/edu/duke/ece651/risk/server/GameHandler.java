@@ -217,7 +217,7 @@ public class GameHandler extends Thread {
                 customized_prompt = "Congratulations! This continent is yours!";
             }
             try {
-                client.writeObject(new RiskGameMessage(client.getClientID(), new ShowRoundResultState(), riskMap, prompt + "\n" + customized_prompt, idToColor));
+                client.writeObject(new RiskGameMessage(client.getClientID(), new ShowGameResultState(), riskMap, prompt + "\n" + customized_prompt, idToColor));
             } catch (IOException e) {
                 System.out.println("Client socket closed, id :" + client.getClientID());
             }
@@ -278,9 +278,23 @@ public class GameHandler extends Thread {
             throws ClassCastException {
         HashMap<String, ArrayList<Order>> orderToList = createEmptyOrderTypeToOrders("Move", "Attack");
         for (Client client : players) {
-            readAndWriteOrders(riskMap, idToColor, client, prompt, orderToList);
+            if (isPlayerLost(client)) {
+                sendUpdateToLOSERS(prompt, client);
+            }
+            else{
+                readAndWriteOrders(riskMap, idToColor, client, prompt, orderToList);
+            }
         }
         return orderToList;
+    }
+
+    private void sendUpdateToLOSERS(String prompt, Client client) {
+        try {
+            client.writeObject(new RiskGameMessage(client.getClientID(), new ShowRoundResultToViewersState(), riskMap, prompt, idToColor));
+        }
+        catch (IOException e) {
+            System.out.println("Client socket closed, id :" + client.getClientID());
+        }
     }
 
     private HashMap<String, ArrayList<Order>> createEmptyOrderTypeToOrders(String... orderTypes) {
