@@ -51,7 +51,7 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
 
-
+        System.out.println("Client Handler start with socket: "+socket.getInetAddress().toString());
         try {
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
