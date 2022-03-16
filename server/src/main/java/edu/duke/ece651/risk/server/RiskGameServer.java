@@ -19,7 +19,7 @@ public class RiskGameServer extends Thread {
 
     private final int roomSize;
 
-    private final HashMap<Integer, GameHandler> roomMap;
+    private final HashMap<Long, GameHandler> roomMap;
 
     /**
      * Allocates a new {@code Thread} object. This constructor has the same

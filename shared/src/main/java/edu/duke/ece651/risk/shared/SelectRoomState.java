@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.shared;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class SelectRoomState extends State {
@@ -10,10 +11,12 @@ public class SelectRoomState extends State {
     public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
 
         String command = readChoice(contex, "What would you like to do?\n (C)reate a new game room.\n (J)oin a existing game room.\n",
-                "Invalid command!", Pattern.compile("^create|^join|^c|^j",Pattern.CASE_INSENSITIVE));
+                "Invalid command!", Pattern.compile("^C$|^J$",Pattern.CASE_INSENSITIVE));
+        command = command.toUpperCase(Locale.ROOT);
         switch (command) {
             case "C":
                 createAGameRoom(contex);
+
                 break;
             case "J":
                 joinAGameRoom(contex);

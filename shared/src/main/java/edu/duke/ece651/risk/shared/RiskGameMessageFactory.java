@@ -56,10 +56,18 @@ public class RiskGameMessageFactory {
         return riskGameMessage;
     }
 
+
+
     public static RiskGameMessage createRestoreStateMessage(String prompt){
         RiskGameMessage riskGameMessage = new RiskGameMessage();
-        riskGameMessage.setClientCurrentStateName("RestoreState");
         riskGameMessage.setCurrentState(new RestoreState());
+        riskGameMessage.setPrompt(prompt);
+        return riskGameMessage;
+    }
+
+    public static RiskGameMessage createSelectRoomState(String prompt){
+        RiskGameMessage riskGameMessage = new RiskGameMessage();
+        riskGameMessage.setCurrentState(new SelectRoomState());
         riskGameMessage.setPrompt(prompt);
         return riskGameMessage;
     }

@@ -12,6 +12,21 @@ public class GameHandler extends Thread {
     private final RISKMap riskMap;
     private final int roomSize;
     private long roomID;
+
+    public int getRoomSize() {
+        return roomSize;
+    }
+
+    public long getRoomID() {
+        return roomID;
+    }
+
+    public int getCurrentPlayersSize(){
+        return players.size();
+    }
+    public void addPlayer(Client client){
+        players.add(client);
+    }
     /**
      * Allocates a new {@code Thread} object. This constructor has the same
      * effect as {@linkplain Thread(ThreadGroup, Runnable, String) Thread}
