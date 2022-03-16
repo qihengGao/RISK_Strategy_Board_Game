@@ -16,6 +16,7 @@ public class ReEnterOrderState extends State{
     @Override
     public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
         String check_message = illegalOrder.executeOrder(contex.getRiskMap());
+        contex.getOut().println(check_message);
         Order newOrder = readOrderFromUser(contex.getRiskMap(), contex.getBufferedReader(), contex.getOut(),
                 contex.getPlayerID(), illegalOrder.getOrderType());
 
@@ -29,6 +30,9 @@ public class ReEnterOrderState extends State{
     public Order readOrderFromUser(RISKMap riskMap, BufferedReader input, PrintStream output, long ID, String chosenOrder) throws IOException {
         while (true) {
             String userInput = input.readLine();
+            if (userInput.equals("")){
+                return null;
+            }
             try {
                 String[] inputs = checkFormatAndSplit(userInput);
                 int amountUnderOrder = readOrderUnitAmount(inputs);

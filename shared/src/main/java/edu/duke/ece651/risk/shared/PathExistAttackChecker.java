@@ -10,7 +10,7 @@ public class PathExistAttackChecker extends ActionChecker{
     @Override
     protected String checkMyRule(RISKMap riskMap, Order moveOrder) {
         Territory src = riskMap.getTerritoryByName(moveOrder.getSrcTerritory());
-        Territory dst = src.getNeighborByName(moveOrder.getDestTerritory());
+        Territory dst = riskMap.getTerritoryByName(src.getNeighborByName(moveOrder.getDestTerritory()));
         if (dst == null) {
             return "You cannot attack " + moveOrder.getDestTerritory() + " from " + moveOrder.getSrcTerritory() + "!";
         }
