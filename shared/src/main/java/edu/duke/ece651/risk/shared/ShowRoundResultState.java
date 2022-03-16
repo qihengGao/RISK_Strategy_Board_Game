@@ -5,6 +5,7 @@ import java.io.IOException;
 public class ShowRoundResultState extends State {
     @Override
     public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
-
+        MapTextView mapTextView = new MapTextView(contex.getRiskMap(), contex.getIdToColor());
+        contex.getOut().println(mapTextView.displayMap());
     }
 }

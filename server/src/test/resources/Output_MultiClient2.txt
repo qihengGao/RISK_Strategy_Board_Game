@@ -1,62 +1,54 @@
 Please type in server address
 Please type in server port number
 Please type in you client ID to restore previous game, or Enter to start a new game.
-
-What would you like to do?
- (C)reate a new game room.
- (J)oin a existing game room.
-
-Which game room you want to join?
-RoomID: 1 Waiting for game to start. Still need 1 player!
+Waiting for game to start. Still need 1 player!
+Waiting for server to resolve your orders...
 Placing order!
 Red
 ---
- Test2 (next to: Test0, Test3, Test6)
- Test4 (next to: Test1, Test3, Test5)
- Test6 (next to: Test2, Test8)
+ 10 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 10 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 10 Soldiers in Test6 (next to: Test2 , Test8 )
 
 Green
 -----
- Test0 (next to: Test2, Test3, Test5, Test8)
- Test1 (next to: Test4, Test7)
- Test8 (next to: Test0, Test5, Test6)
+ Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ Test1 (next to: Test4 , Test7 )
+ Test8 (next to: Test0 , Test5 , Test6 )
 
 Blue
 ----
- Test3 (next to: Test0, Test2, Test4)
- Test5 (next to: Test0, Test4, Test7, Test8)
- Test7 (next to: Test1, Test5)
+ Test3 (next to: Test0 , Test2 , Test4 )
+ Test5 (next to: Test0 , Test4 , Test7 , Test8 )
+ Test7 (next to: Test1 , Test5 )
 
 
 You are: Green
 You have 30 to put
 How many Soldiers you want to put in Test0
-You have 25 to put
+You have 20 to put
 How many Soldiers you want to put in Test1
-You have 19 to put
+You have 10 to put
 How many Soldiers you want to put in Test8
-You have 12 to put
-How many Soldiers you want to put in Test0
-You have no more available units to put in territory Test1, adding 0 units
-You have no more available units to put in territory Test8, adding 0 units
-Placement Phase finished, now start placing orders!
+Waiting for server to resolve your orders...
+Placement phase finished!
 Red
 ---
- 8 Soldiers in Test2 (next to: Test0, Test3, Test6)
- 9 Soldiers in Test4 (next to: Test1, Test3, Test5)
- 13 Soldiers in Test6 (next to: Test2, Test8)
+ 10 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 10 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 10 Soldiers in Test6 (next to: Test2 , Test8 )
 
 Green
 -----
- 17 Soldiers in Test0 (next to: Test2, Test3, Test5, Test8)
- 6 Soldiers in Test1 (next to: Test4, Test7)
- 7 Soldiers in Test8 (next to: Test0, Test5, Test6)
+ 10 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 10 Soldiers in Test1 (next to: Test4 , Test7 )
+ 10 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Blue
 ----
- 4 Soldiers in Test3 (next to: Test0, Test2, Test4)
- 11 Soldiers in Test5 (next to: Test0, Test4, Test7, Test8)
- 15 Soldiers in Test7 (next to: Test1, Test5)
+ 10 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 10 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
+ 10 Soldiers in Test7 (next to: Test1 , Test5 )
 
 
 You are the Green Player, what would you like to do?
@@ -66,6 +58,129 @@ You are the Green Player, what would you like to do?
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Can't find order! Please choose from (M)ove, (A)ttack, (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Your input alabama is not following the format!
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Waiting for server to resolve your orders...
+Your order (Move(4):Test2->Test6: Soldier 3) did not pass our rules
+You must place orders from your own territories!
+Waiting for server to resolve your orders...
+Your order (Attack(4):Test2->Test6: Soldier 3) did not pass our rules
+You must place orders from your own territories!
+Waiting for server to resolve your orders...
+Your order (Attack(4):Test6->Test8: Soldier 15) did not pass our rules
+You must place orders from your own territories!
+You cannot attack your own territory!
+Your Source territory does not exist!
+Your Destination territory does not exist!
+You do not have S in Test0!
+You cannot attack your own territory!
+You do not have sufficient Soldier to move in Test0!
+You do not have sufficient Soldier to move in Test0!
+You cannot attack Test4 from Test0!
+Waiting for server to resolve your orders...
+Resolved Round 1 Outcome! Now start placing orders!
+Red
+---
+ 1 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 8 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 21 Soldiers in Test6 (next to: Test2 , Test8 )
+
+Green
+-----
+ 10 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 8 Soldiers in Test1 (next to: Test4 , Test7 )
+ 11 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+
+Blue
+----
+ 10 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 1 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
+ 21 Soldiers in Test7 (next to: Test1 , Test5 )
+
+
+You are the Green Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Can't find order! Please choose from (M)ove, (A)ttack, (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Resolved Round Outcome!
+Waiting for server to resolve your orders...
+Resolved Round 2 Outcome! Now start placing orders!
+Red
+---
+ 2 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 9 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 22 Soldiers in Test6 (next to: Test2 , Test8 )
+
+Green
+-----
+ 11 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 9 Soldiers in Test1 (next to: Test4 , Test7 )
+ 12 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+
+Blue
+----
+ 11 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 2 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
+ 22 Soldiers in Test7 (next to: Test1 , Test5 )
+
+
+You are the Green Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Waiting for server to resolve your orders...
+Resolved Round 3 Outcome! Now start placing orders!
+Red
+---
+ 3 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 10 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 23 Soldiers in Test6 (next to: Test2 , Test8 )
+
+Green
+-----
+ 12 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 10 Soldiers in Test1 (next to: Test4 , Test7 )
+ 13 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+
+Blue
+----
+ 12 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 3 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
+ 23 Soldiers in Test7 (next to: Test1 , Test5 )
+
+
+You are the Green Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Waiting for server to resolve your orders...
+Resolved Game Outcome!
+You Lose! Conquer more next time!
+Red
+---
+ 4 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 11 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 24 Soldiers in Test6 (next to: Test2 , Test8 )
+
+Green
+-----
+ 13 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 11 Soldiers in Test1 (next to: Test4 , Test7 )
+ 14 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+
+Blue
+----
+ 13 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 4 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
+ 24 Soldiers in Test7 (next to: Test1 , Test5 )
+
+

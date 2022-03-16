@@ -78,8 +78,8 @@ public class RISKMap implements GameMap {
   public void connectTerr(String terr1, String terr2){
     Territory t1 = getTerritoryByName(terr1);
     Territory t2 = getTerritoryByName(terr2);
-    t1.tryAddNeighbor(t2);
-    t2.tryAddNeighbor(t1);
+    t1.tryAddNeighbor(terr2);
+    t2.tryAddNeighbor(terr1);
   }
 
   /**
@@ -110,7 +110,8 @@ public class RISKMap implements GameMap {
     }
     visited.add(curr);
     Territory end;
-    for (Territory t: curr.getNeighbors()){
+    for (String tName: curr.getNeighbors()){
+      Territory t = getTerritoryByName(tName);
       if (!visited.contains(t)){
         end = dfsToDst(t, dst, visited);
         if (end!=null){

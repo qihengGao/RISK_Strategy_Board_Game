@@ -10,23 +10,14 @@ public class PathExistAttackChecker extends ActionChecker{
     @Override
     protected String checkMyRule(RISKMap riskMap, Order moveOrder) {
         Territory src = riskMap.getTerritoryByName(moveOrder.getSrcTerritory());
-        Territory dst = findEnemyNeighbor(src, moveOrder.getDestTerritory());
+        Territory dst = riskMap.getTerritoryByName(src.getNeighborByName(moveOrder.getDestTerritory()));
         if (dst == null) {
             return "You cannot attack " + moveOrder.getDestTerritory() + " from " + moveOrder.getSrcTerritory() + "!";
         }
-        if (dst.getOwnerID()== src.getOwnerID()){
+        if (dst.getOwnerID() == src.getOwnerID()){
             return "You cannot attack your own territory!";
         }
         return null;
     }
 
-    private Territory findEnemyNeighbor(Territory src, String dstName){
-        Territory dst = null;
-        for (Territory t : src.getNeighbors()){
-            if (t.getName()==dstName){
-                dst = t;
-            }
-        }
-        return dst;
-    }
 }
