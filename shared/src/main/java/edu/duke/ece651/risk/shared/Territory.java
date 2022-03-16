@@ -25,20 +25,20 @@ public interface Territory extends Serializable {
    * @param toAdd
    * @return
    */
-  public boolean tryAddNeighbor(Territory toAdd);
+  public boolean tryAddNeighbor(String toAdd);
 
   
   /**    
    * @return the iterable of the neighbors of this Territory, 
    * such as "Gondor", "Oz", "Roshar".
    */
-  public Iterable<Territory> getNeighbors();
+  public Iterable<String> getNeighbors();
 
   /**
    * search the neighbor by name
    * @return the neighbor: Territory; null if doesn't exist
    */
-  public Territory getNeighborByName(String name);
+  public String getNeighborByName(String name);
   
   /**
    * Try to change the ownerID

@@ -5,10 +5,18 @@
 10
 10
 M
-Test2,Test4,Soldier,10
+Test2,Test6,Soldier,10
 Attack
-Test4,Test1,Soldier,3
+Test6,Test8,Soldier,20
+D
+Attack
+Test8,Test5,Soldier,9
+D
+m
+Test5,Test2,Soldier,7
+D
+D
+D
 D
 
 
-Test2,Test6,Soldier,10
