@@ -95,7 +95,7 @@ public class GameHandler extends Thread {
     //action phase: move/attack
     public HashMap<String, ArrayList<Order>> actionPhase(String prompt)
             throws ClassCastException {
-        HashMap<String, ArrayList<Order>> orderToList = extracted("Move", "Attack");
+        HashMap<String, ArrayList<Order>> orderToList = buildEmptyActionMap("Move", "Attack");
         for (Client client : players) {
             //readAndWriteOrders(riskMap, idToColor, client, prompt, orderToList);
             try {
@@ -112,7 +112,7 @@ public class GameHandler extends Thread {
         return orderToList;
     }
 
-    private HashMap<String, ArrayList<Order>> extracted(String... orderTypes) {
+    private HashMap<String, ArrayList<Order>> buildEmptyActionMap(String... orderTypes) {
         HashMap<String, ArrayList<Order>> ans = new HashMap<>();
         for (String type : orderTypes) {
             ans.put(type, new ArrayList<Order>());
