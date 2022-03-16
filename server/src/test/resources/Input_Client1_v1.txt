@@ -3,13 +3,3 @@
 
 C
 3
-4
-11
-15
-M
-Test2,Test4,Soldier,3
-M
-Test4,Test6,Soldier,13
-A
-Test2,Test3,Soldier,3
-D

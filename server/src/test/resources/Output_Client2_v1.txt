@@ -3,13 +3,19 @@ Please type in server port number
 Please type in you client ID to restore previous game, or Enter to start a new game.
 Invalid client ID. Restore failed!
 Please type in you client ID to restore previous game, or Enter to start a new game.
-Waiting for game to start. Still need 1 player!
+
+What would you like to do?
+ (C)reate a new game room.
+ (J)oin a existing game room.
+
+Which game room you want to join?
+RoomID: 0 Waiting for game to start. Still need 1 player!
 Placing order!
 Red
 ---
- 4 Soldiers in Test2 (next to: Test0, Test3, Test6)
- 11 Soldiers in Test4 (next to: Test1, Test3, Test5)
- 15 Soldiers in Test6 (next to: Test2, Test8)
+ Test2 (next to: Test0, Test3, Test6)
+ Test4 (next to: Test1, Test3, Test5)
+ Test6 (next to: Test2, Test8)
 
 Green
 -----
