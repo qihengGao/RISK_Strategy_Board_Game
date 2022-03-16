@@ -1,10 +1,14 @@
 127.0.0.1
 1777
 
-4
-11
-15
-Test3,Test5,Soldier,18
+5
+10
+10
+5
+Test0,Test1,S,drrrr
+M
+Test0,Test1,S,drrrr
+Test5,Test7,Soldier,10
 D
-Test2,Test3,Soldier,3
-D
+
+

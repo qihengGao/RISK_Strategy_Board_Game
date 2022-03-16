@@ -26,28 +26,28 @@ Blue
 You are: Red
 You have 30 to put
 How many Soldiers you want to put in Test2
-You have 26 to put
+You have 20 to put
 How many Soldiers you want to put in Test4
-You have 15 to put
+You have 10 to put
 How many Soldiers you want to put in Test6
 Placement Phase finished, now start placing orders!
 Red
 ---
- 4 Soldiers in Test2 (next to: Test0, Test3, Test6)
- 11 Soldiers in Test4 (next to: Test1, Test3, Test5)
- 15 Soldiers in Test6 (next to: Test2, Test8)
+ 10 Soldiers in Test2 (next to: Test0, Test3, Test6)
+ 10 Soldiers in Test4 (next to: Test1, Test3, Test5)
+ 10 Soldiers in Test6 (next to: Test2, Test8)
 
 Green
 -----
- 8 Soldiers in Test0 (next to: Test2, Test3, Test5, Test8)
- 9 Soldiers in Test1 (next to: Test4, Test7)
- 13 Soldiers in Test8 (next to: Test0, Test5, Test6)
+ 10 Soldiers in Test0 (next to: Test2, Test3, Test5, Test8)
+ 10 Soldiers in Test1 (next to: Test4, Test7)
+ 10 Soldiers in Test8 (next to: Test0, Test5, Test6)
 
 Blue
 ----
- 17 Soldiers in Test3 (next to: Test0, Test2, Test4)
- 6 Soldiers in Test5 (next to: Test0, Test4, Test7, Test8)
- 7 Soldiers in Test7 (next to: Test1, Test5)
+ 10 Soldiers in Test3 (next to: Test0, Test2, Test4)
+ 10 Soldiers in Test5 (next to: Test0, Test4, Test7, Test8)
+ 10 Soldiers in Test7 (next to: Test1, Test5)
 
 
 You are the Red Player, what would you like to do?
@@ -55,5 +55,10 @@ You are the Red Player, what would you like to do?
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-You must place orders from your own territories!
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Waiting for server to resolve your orders...
+Your order (Move:Test2->Test4: Soldier 10) did not pass our rules
 Resolved Round Outcome!
