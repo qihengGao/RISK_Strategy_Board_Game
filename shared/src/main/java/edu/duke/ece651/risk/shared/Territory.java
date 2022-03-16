@@ -19,7 +19,7 @@ public interface Territory extends Serializable {
    * @return int
    */
   public int getNumOfNeighbors();
-  
+
   /**
    * Try to add the neighbor territory in the territory. True if added successfully.
    * @param toAdd
