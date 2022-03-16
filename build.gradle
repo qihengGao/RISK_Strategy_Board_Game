@@ -55,6 +55,7 @@ allprojects{
 
     }
     clover{
+
         compiler{
             additionalArgs = "-g:lines,source,vars"
         }

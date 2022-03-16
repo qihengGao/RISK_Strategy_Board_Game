@@ -1,13 +1,15 @@
 package edu.duke.ece651.risk.shared;
 
 import java.util.HashSet;
+import java.util.TreeMap;
 
-public class PathExistMoveChecker extends ActionChecker {
+public class
+PathExistMoveChecker extends ActionChecker {
   @Override
   protected String checkMyRule(RISKMap riskMap, Order moveOrder) {
     Territory src = riskMap.getTerritoryByName(moveOrder.getSrcTerritory());
     HashSet<Territory> visited = new HashSet<Territory>();
-    
+
     Territory dst = dfsToDst(riskMap, moveOrder.getPlayerID(), src, moveOrder.getDestTerritory(), visited);
     if (dst == null){
       return "Move Order path does not exist in your territories!";
@@ -20,9 +22,10 @@ public class PathExistMoveChecker extends ActionChecker {
       return riskMap.getTerritoryByName(dstName);
     }
     visited.add(curr);
-    Territory end;
-    for (Territory t: curr.getNeighbors()){
-      if (!visited.contains(t) && (long)t.getOwnerID()==ID){
+    Territory end = null;
+    for (String tName: curr.getNeighbors()){
+      Territory t = riskMap.getTerritoryByName(tName);
+      if (!visited.contains(t) && t.getOwnerID()==ID){
         end = dfsToDst(riskMap, ID, t, dstName, visited);
         if (end!=null){
           return end;

@@ -29,7 +29,7 @@ public class RISKMapTest {
     assertTrue(group0.contains(t1));
     assertTrue(group0.contains(t2));
     
-    t2.tryChangeOwnerTo(1);
+    t2.tryChangeOwnerTo(1L);
 
     HashSet<Territory> group1 = new HashSet<Territory>();
     map.getTerritoriesByOwnerID(1).forEach(group1::add);

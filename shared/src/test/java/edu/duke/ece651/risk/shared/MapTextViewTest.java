@@ -33,7 +33,7 @@ public class MapTextViewTest {
     idToColor.put((long)1, c2);
     int count = 0;
     for (Territory territory : map.getContinent()) {
-      territory.tryChangeOwnerTo(count % 2);
+      territory.tryChangeOwnerTo((long) (count % 2));
       territory.tryAddUnit(units.get(count));
       count++;
     }

@@ -24,11 +24,15 @@ public class PathExistMoveCheckerTest {
     Order order_not_owned = new MoveOrder(0, "Test0", "Test3", "Unit", 2);
     assertEquals(pathChecker.checkMove(riskMap, order_not_owned), "Move Order path does not exist in your territories!");
 
+    displayMap(riskMap);
+
     //test long path (not adjacent)
-    riskMap.getTerritoryByName("Test4").tryChangeOwnerTo(0);
-    riskMap.getTerritoryByName("Test5").tryChangeOwnerTo(0);
+    riskMap.getTerritoryByName("Test4").tryChangeOwnerTo(0L);
+    riskMap.getTerritoryByName("Test5").tryChangeOwnerTo(0L);
+    displayMap(riskMap);
     Order order_long = new MoveOrder(0, "Test0", "Test1", "Unit", 2);
-    assertEquals(pathChecker.checkMove(riskMap, order_long), null);
+    assertEquals(order_long.executeOrder(riskMap), null);
+    displayMap(riskMap);
     
   }
 
@@ -38,15 +42,14 @@ public class PathExistMoveCheckerTest {
     int count = 0;
     for (Territory t: riskMap.getContinent()){
       t.tryAddUnit(new BasicUnit("Unit", 10));
-      t.tryChangeOwnerTo(count / 3);
+      t.tryChangeOwnerTo((long) (count / 3));
       count++;
     }
     
     return riskMap;
   }
 
-  /**
-   * Uncomment to help you write test cases
+
   private void displayMap(RISKMap riskMap) {
     TreeMap<Long, Color> idToColor = new TreeMap<Long, Color>();
     idToColor.put((long)0, new Color("Red"));
@@ -56,6 +59,5 @@ public class PathExistMoveCheckerTest {
     MapTextView mapTextView = new MapTextView(riskMap, idToColor);
     System.out.println(mapTextView.displayMap());
   }
-  */
 
 }

@@ -11,7 +11,7 @@ public class BasicTerritoryTest {
     assertEquals(t1.getName(), "FitzPatrick");
     assertFalse(t1.getNeighbors().iterator().hasNext());
     assertEquals(t1.getOwnerID(), -1);
-    assertTrue(t1.tryChangeOwnerTo(1));
+    assertTrue(t1.tryChangeOwnerTo(1L));
     assertEquals(t1.getOwnerID(), 1);
   }
   
@@ -20,9 +20,9 @@ public class BasicTerritoryTest {
     Territory t1 = new BasicTerritory("Test1");
     Territory t_invalid = new BasicTerritory("Test1");//illegal
     Territory t2 = new BasicTerritory("Test2");//legal
-    assertFalse(t1.tryAddNeighbor(t_invalid));
-    assertTrue(t1.tryAddNeighbor(t2));
-    assertSame(t1.getNeighborByName("Test2"), t2);
+    assertFalse(t1.tryAddNeighbor(t_invalid.getName()));
+    assertTrue(t1.tryAddNeighbor(t2.getName()));
+    assertSame(t1.getNeighborByName("Test2"), "Test2");
     assertNull(t1.getNeighborByName("Atlantis"));
   }
 

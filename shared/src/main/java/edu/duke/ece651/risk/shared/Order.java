@@ -8,15 +8,18 @@ public abstract class Order implements Serializable{
   protected String unitType;
   protected int unitAmount;
   protected long playerID;
+  protected String orderType;
 
-  public Order(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount) {
+  public Order(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount, String orderType) {
     this.playerID = ID;
     this.srcTerritory = srcTerritory;
     this.destTerritory = destTerritory;
     this.unitType = unitType;
     this.unitAmount = unitAmount;
+    this.orderType = orderType;
   }
 
+  //getters
   public long getPlayerID(){
     return this.playerID;
   }
@@ -37,11 +40,15 @@ public abstract class Order implements Serializable{
     return this.unitAmount;
   }
 
+  public String getOrderType() {return orderType;}
+
+  //dinamic dispatched methods
+
   public abstract String executeOrder(RISKMap riskMap);
 
   @Override
   public String toString() {
-    StringBuilder result = new StringBuilder();
+    StringBuilder result = new StringBuilder(orderType+ "("+"):");
     result.append(srcTerritory);
     result.append("->");
     result.append(destTerritory);
