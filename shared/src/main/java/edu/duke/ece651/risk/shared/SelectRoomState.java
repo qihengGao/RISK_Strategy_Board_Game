@@ -1,8 +1,6 @@
 package edu.duke.ece651.risk.shared;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.regex.Pattern;
 
 public class SelectRoomState extends State {
@@ -29,35 +27,6 @@ public class SelectRoomState extends State {
         riskGameMessage.getCurrentState().doAction(contex);
 
     }
-
-
-    /**
-     * Print the prompt then read a line from input. If the line not match the pattern, print the invalidPrompt
-     * then retry with the next line. Otherwise, return the string.
-     * @param context ClientContext which contains the input and output stream.
-     * @param prompt A friendly advise for user.
-     * @param invalidPrompt A friendly advise for user when the input is invalid.
-     * @param pattern The regex pattern to verify the string.
-     * @return A String which match the pattern.
-     * @throws IOException Any problem related to the input/output stream.
-     */
-    public String readChoice(ClientContext context, String prompt, String invalidPrompt, Pattern pattern) throws IOException {
-        BufferedReader input = context.getBufferedReader();
-        PrintStream output = context.getOut();
-        output.println(prompt);
-
-        String userInput = "";
-
-        boolean first = true;
-        do {
-            if (!first) output.println(invalidPrompt);
-            userInput = input.readLine().toUpperCase();
-            first = false;
-        } while (!pattern.matcher(userInput).find());
-
-        return userInput;
-    }
-
 
     /**
      * Send message to server indicate that player want to create a new game room with specified room size.
