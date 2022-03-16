@@ -56,4 +56,5 @@ You are the Blue Player, what would you like to do?
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Can't find order! Please choose from (M)ove, (A)ttack, (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Waiting for server to resolve your orders...
 Resolved Round Outcome!
