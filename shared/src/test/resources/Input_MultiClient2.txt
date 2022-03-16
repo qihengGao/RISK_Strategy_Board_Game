@@ -1,9 +1,6 @@
 127.0.0.1
 1777
-1
 
-J
-0
 10
 10
 10
@@ -16,6 +13,8 @@ Test2,Test6,Soldier,3
 A
 Test6,Test8,Soldier,15
 D
+
+
 Test0,Test8,Soldier,1
 TeRR0,Terr8,S,1
 Test0,Terr8,S,1
@@ -31,4 +30,3 @@ D
 D
 D
 D
-
