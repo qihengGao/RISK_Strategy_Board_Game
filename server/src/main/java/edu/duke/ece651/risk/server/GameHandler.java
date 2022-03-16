@@ -164,7 +164,6 @@ public class GameHandler extends Thread {
         }
 
         System.out.println("Placement Phase finish");
-        HashMap<String, ArrayList<Order>> ordersToList = actionPhase("Placement Phase finished, now start placing orders!");//first move
 
         Client winner = null;
 

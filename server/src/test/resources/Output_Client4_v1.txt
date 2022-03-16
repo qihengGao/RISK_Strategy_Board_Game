@@ -2,7 +2,7 @@ Please type in server address
 Please type in server port number
 Please type in you client ID to restore previous game, or Enter to start a new game.
 Successfully restore a socket connection, client id = 0
-Waiting for game to start. Still need 1 player!
+Waiting for game to start. Still need 2 player!
 Waiting for server to resolve your orders...
 Placing order!
 Red
@@ -27,10 +27,17 @@ Blue
 You are: Red
 You have 30 to put
 How many Soldiers you want to put in Test2
-You have 20 to put
+J is an Invalid input! Try again!
+You have 30 to put
+How many Soldiers you want to put in Test2
+You have 30 to put
 How many Soldiers you want to put in Test4
-You have 10 to put
+You have 20 to put
 How many Soldiers you want to put in Test6
+You have 10 to put
+How many Soldiers you want to put in Test2
+You have no more available units to put in territory Test4, adding 0 units
+You have no more available units to put in territory Test6, adding 0 units
 Waiting for server to resolve your orders...
 Placement phase finished!
 Red
