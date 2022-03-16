@@ -29,6 +29,15 @@ public class GameHandler extends Thread {
         riskMap = (RISKMap) new RandomMapFactory().createMapForNplayers(3);
     }
 
+    public Client findClientByID(long id){
+        for (Client c : players){
+            if (c.getClientID()==id){
+                return c;
+            }
+        }
+        return null;
+    }
+
     public void run() throws ClassCastException {
         System.out.println("Game start. Sending map to client.");
 
@@ -39,6 +48,7 @@ public class GameHandler extends Thread {
         System.out.println("Placement Phase finish");
         HashMap<String, ArrayList<Order>> ordersToList = actionPhase( "Placement Phase finished, now start placing orders!");//first move
 
+        System.out.println("action phase finished");
         resolveRound("Resolved Round Outcome!", ordersToList, "Move", "Attack");//compute the result of this round
 
         MapTextView mapTextView = new MapTextView(riskMap, idToColor);
@@ -95,24 +105,14 @@ public class GameHandler extends Thread {
     //action phase: move/attack
     public HashMap<String, ArrayList<Order>> actionPhase(String prompt)
             throws ClassCastException {
-        HashMap<String, ArrayList<Order>> orderToList = buildEmptyActionMap("Move", "Attack");
+        HashMap<String, ArrayList<Order>> orderToList = createEmptyOrderTypeToOrders("Move", "Attack");
         for (Client client : players) {
-            //readAndWriteOrders(riskMap, idToColor, client, prompt, orderToList);
-            try {
-                client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
-                ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
-                for (Order order : orders) {
-                    System.out.println(order.toString());
-                    orderToList.get(order.getOrderType()).add(order);
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Client socket closed, id :" + client.getClientID());
-            }
+            readAndWriteOrders(riskMap, idToColor, client, prompt, orderToList);
         }
         return orderToList;
     }
 
-    private HashMap<String, ArrayList<Order>> buildEmptyActionMap(String... orderTypes) {
+    private HashMap<String, ArrayList<Order>> createEmptyOrderTypeToOrders(String... orderTypes) {
         HashMap<String, ArrayList<Order>> ans = new HashMap<>();
         for (String type : orderTypes) {
             ans.put(type, new ArrayList<Order>());
@@ -122,24 +122,21 @@ public class GameHandler extends Thread {
 
     private void readAndWriteOrders(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
                                     HashMap<String, ArrayList<Order>> orderToList) {
-
+        try {
+            client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
+            ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
+            for (Order order : orders) {
+                orderToList.get(order.getOrderType()).add(order);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Client socket closed, id :" + client.getClientID());
+        }
     }
 
     //resolve round result phase: compute outcome of all attacks
     public void resolveRound(String prompt, HashMap<String,
             ArrayList<Order>> ordersToList, String... orderTypes) {
-        for (String type : orderTypes) {
-            for (Order order : ordersToList.get(type)) {
-                System.out.println(order.toString());
-                String check_message = order.executeOrder(riskMap);
-                //server check
-                //if (check_message!=null){
-                //client.writeObject(new RiskGameMessage(client.getClientID(), new ReEnterOrderState(), riskMap,
-                // "Your order "+order.toString() + " did not pass our rules, please reenter your order", idToColor));
-                //Order reorder = (Order) client.readObject();
-                //}
-            }
-        }
+        executeOrdersAndCheckLegal(ordersToList, orderTypes);
 
         for (Client client : players) {
             try {
@@ -147,6 +144,39 @@ public class GameHandler extends Thread {
             } catch (IOException e) {
                 System.out.println("Client socket closed, id :" + client.getClientID());
             }
+        }
+    }
+
+    private void executeOrdersAndCheckLegal(HashMap<String, ArrayList<Order>> ordersToList, String[] orderTypes) {
+        for (String type : orderTypes) {
+            for (Order order : ordersToList.get(type)) {
+                //
+                System.out.println(order.getPlayerID() + ":" + order.toString());
+                String check_message = order.executeOrder(riskMap);
+                //server check
+                if (check_message!=null){
+                    try {
+                        letClientReOrder(order, check_message);
+                    } catch (IOException | ClassNotFoundException e) {
+                        System.out.println("Client socket closed, id :" + order.getPlayerID());
+                    }
+                }
+            }
+        }
+    }
+
+    private void letClientReOrder(Order order, String check_message) throws IOException, ClassNotFoundException {
+        Client client = findClientByID(order.getPlayerID());
+        try {
+            client.writeObject(new RiskGameMessage(client.getClientID(), new ReEnterOrderState(order), riskMap,
+                    "Your order (" + order.toString() + ") did not pass our rules", idToColor));
+            Order reorder = (Order) client.readObject();
+            String Recheck_message = reorder.executeOrder(riskMap);
+        }catch (IOException | ClassNotFoundException e){
+            System.out.println("Client socket closed, id :" + order.getPlayerID());
+        }catch (NullPointerException e){
+            int offset = e.toString().indexOf(":") + 2;
+            System.out.println(e.toString().substring(offset));
         }
     }
 
