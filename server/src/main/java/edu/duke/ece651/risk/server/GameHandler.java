@@ -90,11 +90,11 @@ public class GameHandler extends Thread {
 
             //EXECUTE ORDERS: sending order related units into related territories or battlefields
             executeOrdersAndCheckLegal(ordersToList, "Move", "Attack");
-            //todo: update in battlefield
+            //todo: update in battlefield instead of execute order
 
             increaseOneInAllTerritory();
 
-            //todo: remove this break;
+            //todo: remove this round limit break;
             if (roundNumber==3) {
                 break;
             }
@@ -102,13 +102,15 @@ public class GameHandler extends Thread {
             //-----
 
             //check player win and end game
-            //Client winner = checkWinner();
+            winner = checkWinner();
         }
 
         //send winner message to all clients
-        for (Client c : players) {
-            winner = c;
-            break;
+        if (winner==null) {
+            for (Client c : players) {
+                winner = c;
+                break;
+            }
         }
         resolveRound("Resolved Game Outcome!", winner);
 
