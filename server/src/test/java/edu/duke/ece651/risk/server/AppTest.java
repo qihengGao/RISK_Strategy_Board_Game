@@ -108,7 +108,7 @@ class AppTest {
 
     @Test
     public void test_multi_game() throws InterruptedException, IOException {
-        int randomPortNumber = (int) Math.floor(Math.random()*(9092-9080+1)+9080);
+        int randomPortNumber = (int) Math.floor(Math.random()*(10086-9080+1)+9093);
         RiskGameServer riskGameServer = new RiskGameServer(3, new ServerSocket(randomPortNumber));
         riskGameServer.start();
 

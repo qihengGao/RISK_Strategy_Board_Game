@@ -97,7 +97,17 @@ public class GameHandler extends Thread {
             throws ClassCastException {
         HashMap<String, ArrayList<Order>> orderToList = extracted("Move", "Attack");
         for (Client client : players) {
-            readAndWriteOrders(riskMap, idToColor, client, prompt, orderToList);
+            //readAndWriteOrders(riskMap, idToColor, client, prompt, orderToList);
+            try {
+                client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
+                ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
+                for (Order order : orders) {
+                    System.out.println(order.toString());
+                    orderToList.get(order.getOrderType()).add(order);
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Client socket closed, id :" + client.getClientID());
+            }
         }
         return orderToList;
     }
@@ -112,19 +122,7 @@ public class GameHandler extends Thread {
 
     private void readAndWriteOrders(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
                                     HashMap<String, ArrayList<Order>> orderToList) {
-        try {
-            client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
-            ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
-            for (Order order : orders) {
-                System.out.println(order.toString());
-                orderToList.get(order.getOrderType()).add(order);
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Client socket closed, id :" + client.getClientID());
-        } catch (IllegalArgumentException e) {
-            int offset = e.toString().indexOf(":") + 2;
-            readAndWriteOrders(riskMap, idToColor, client, e.toString().substring(offset), orderToList);
-        }
+
     }
 
     //resolve round result phase: compute outcome of all attacks
@@ -132,6 +130,7 @@ public class GameHandler extends Thread {
             ArrayList<Order>> ordersToList, String... orderTypes) {
         for (String type : orderTypes) {
             for (Order order : ordersToList.get(type)) {
+                System.out.println(order.toString());
                 String check_message = order.executeOrder(riskMap);
                 //server check
                 //if (check_message!=null){

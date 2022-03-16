@@ -5,6 +5,7 @@ import java.io.IOException;
 public class WaitingState extends State{
     @Override
     public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
+        contex.getOut().println("Waiting for server to resolve your orders...");
         RiskGameMessage messageReceived = (RiskGameMessage) contex.getOis().readObject();
 
         contex.getOut().println(messageReceived.getPrompt());

@@ -2,6 +2,7 @@ Please type in server address
 Please type in server port number
 Please type in you client ID to restore previous game, or Enter to start a new game.
 Waiting for game to start. Still need 1 player!
+Waiting for server to resolve your orders...
 Placing order!
 Red
 ---
@@ -33,6 +34,7 @@ You have 12 to put
 How many Soldiers you want to put in Test0
 You have no more available units to put in territory Test1, adding 0 units
 You have no more available units to put in territory Test8, adding 0 units
+Waiting for server to resolve your orders...
 Placement Phase finished, now start placing orders!
 Red
 ---
@@ -64,3 +66,22 @@ Can't find order! Please choose from (M)ove, (A)ttack, (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Waiting for server to resolve your orders...
 Resolved Round Outcome!
+Red
+---
+ 8 Soldiers in Test2 (next to: Test0, Test3, Test6)
+ 9 Soldiers in Test4 (next to: Test1, Test3, Test5)
+ 13 Soldiers in Test6 (next to: Test2, Test8)
+
+Green
+-----
+ 17 Soldiers in Test0 (next to: Test2, Test3, Test5, Test8)
+ 6 Soldiers in Test1 (next to: Test4, Test7)
+ 7 Soldiers in Test8 (next to: Test0, Test5, Test6)
+
+Blue
+----
+ 4 Soldiers in Test3 (next to: Test0, Test2, Test4)
+ 11 Soldiers in Test5 (next to: Test0, Test4, Test7, Test8)
+ 15 Soldiers in Test7 (next to: Test1, Test5)
+
+

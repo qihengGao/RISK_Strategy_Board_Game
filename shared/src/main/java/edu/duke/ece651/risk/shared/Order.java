@@ -48,7 +48,7 @@ public abstract class Order implements Serializable{
 
   @Override
   public String toString() {
-    StringBuilder result = new StringBuilder(orderType+":");
+    StringBuilder result = new StringBuilder(orderType+ "("+playerID+"):");
     result.append(srcTerritory);
     result.append("->");
     result.append(destTerritory);

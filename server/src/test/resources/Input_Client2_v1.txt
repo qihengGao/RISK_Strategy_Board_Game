@@ -7,4 +7,6 @@
 M
 Test2,Test4,Soldier,3
 Test4,Test6,Soldier,13
+M
+Test2,Test6,Soldier,4
 D
