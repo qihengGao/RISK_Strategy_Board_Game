@@ -10,8 +10,7 @@ public class AttackOrder extends Order{
 
   @Override
   public String executeOrder(RISKMap riskMap) {
-    // TODO Auto-generated method stub
-    String check_message = attackChecker.checkMove(riskMap, this);
+    String checkMessage = attackChecker.checkMove(riskMap, this);
     return null;
   }
 }

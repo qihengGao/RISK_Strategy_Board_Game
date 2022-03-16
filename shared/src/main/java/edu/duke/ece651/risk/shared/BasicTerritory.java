@@ -11,12 +11,14 @@ public class BasicTerritory implements Territory {
   private final String name;
   private TreeSet<Territory> neighbors; // to make in order with repect to name
   private TreeSet<Unit> units;
+  private BattleField battleField;
 
   public BasicTerritory(String Name){
     this.OwnerID = -1L;
     this.name = Name;
     this.neighbors = new TreeSet<Territory>(new ThisIsSerializable());
     this.units = new TreeSet<Unit>(new unitCompactor());
+    this.battleField = new BattleField(this);
   }
 
   /**    

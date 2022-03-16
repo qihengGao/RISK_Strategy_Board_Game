@@ -4,7 +4,8 @@ import java.util.Random;
 
 public class DiceAttackResolver extends AttackResolver{
 
-    public int diceFacetNumber;
+    private int diceFacetNumber;
+    private Random random;
 
     public DiceAttackResolver(int diceFacetNumber) {
         this(diceFacetNumber, null);
@@ -13,6 +14,7 @@ public class DiceAttackResolver extends AttackResolver{
     public DiceAttackResolver(int diceFacetNumber, AttackResolver next){
         super(next);
         this.diceFacetNumber = diceFacetNumber;
+        this.random = new Random(12345);
     }
 
     /**
@@ -22,15 +24,8 @@ public class DiceAttackResolver extends AttackResolver{
      */
     @Override
     public boolean resolveCurrent() {
-        Random rand = new Random(12345); // TODO: need seed
-        int randomGeneratedDefender = rand.nextInt(this.diceFacetNumber);
-        int randomGeneratedAttacker = rand.nextInt(this.diceFacetNumber);
-        if(randomGeneratedAttacker > randomGeneratedDefender){
-            return false;
-        }        
-        else if(randomGeneratedDefender > randomGeneratedAttacker){
-            return true;
-        }
-        return resolveCurrent();
+        int randomGeneratedDefender = random.nextInt(this.diceFacetNumber);
+        int randomGeneratedAttacker = random.nextInt(this.diceFacetNumber);
+        return randomGeneratedDefender > randomGeneratedAttacker;
     }
 }
