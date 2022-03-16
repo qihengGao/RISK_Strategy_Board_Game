@@ -7,6 +7,33 @@ public class RiskGameMessage implements Serializable {
 
     private long clientid;
     private boolean initGame;
+    private int roomSize;
+    private boolean createAGameRoom;
+    private int roomID;
+
+    public int getRoomID() {
+        return roomID;
+    }
+
+    public void setRoomID(int roomID) {
+        this.roomID = roomID;
+    }
+
+    public int getRoomSize() {
+        return roomSize;
+    }
+
+    public void setRoomSize(int roomSize) {
+        this.roomSize = roomSize;
+    }
+
+    public boolean isCreateAGameRoom() {
+        return createAGameRoom;
+    }
+
+    public void setCreateAGameRoom(boolean createAGameRoom) {
+        this.createAGameRoom = createAGameRoom;
+    }
 
     public boolean isInitGame() {
         return initGame;
