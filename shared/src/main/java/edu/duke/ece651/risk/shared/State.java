@@ -111,7 +111,7 @@ public abstract class State implements Serializable {
         try {
             connectToServer(context);
             RiskGameMessageFactory riskGameMessageFactory = context.getRiskGameMessageFactory();
-            context.writeObject(riskGameMessageFactory.createReconnectMessage(context));
+            context.writeObject(riskGameMessageFactory.createReconnectMessage(context, context.getPlayerID()));
 
         }catch (IOException ignored){
             return false;

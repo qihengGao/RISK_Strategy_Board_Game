@@ -19,10 +19,10 @@ public class RiskGameMessageFactory {
      */
 
 
-    public RiskGameMessage createReconnectMessage(ClientContext context){
+    public RiskGameMessage createReconnectMessage(ClientContext context, Long oriClientID){
         RiskGameMessage riskGameMessage = new RiskGameMessage();
         riskGameMessage.setInitGame(false);
-        riskGameMessage.setClientid(context.getPlayerID());
+        riskGameMessage.setClientid(oriClientID);
         return riskGameMessage;
     }
 
