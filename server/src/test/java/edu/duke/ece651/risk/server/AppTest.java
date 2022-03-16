@@ -109,10 +109,9 @@ class AppTest {
 
     @Test
     public void test_multi_game() throws InterruptedException, IOException {
-        int randomPortNumber = (int) Math.floor(Math.random()*(9500-9093+1)+9093);
+        int randomPortNumber = (int) Math.floor(Math.random()*(9092-9080+1)+9080);
         RiskGameServer riskGameServer = new RiskGameServer(3, new ServerSocket(randomPortNumber));
         riskGameServer.start();
-
 
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
         ClientContext context1 = new ClientContext();
@@ -124,7 +123,7 @@ class AppTest {
         client1.start();
         TimeUnit.MILLISECONDS.sleep(100);
         client1.stop();
-
+        //context1.getSocket().close();
 
         TimeUnit.MILLISECONDS.sleep(100);
 
@@ -174,6 +173,8 @@ class AppTest {
         client3.join();
         client4.join();
 
+        String expected1 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client1_v1.txt").readAllBytes());
+        assertEqualsIgnoreLineSeparator(expected1, bytes1.toString());
 
         String expected2 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client2_v1.txt").readAllBytes());
         assertEqualsIgnoreLineSeparator(expected2, bytes2.toString());
@@ -195,7 +196,7 @@ class AppTest {
         context5.setBufferedReader(new BufferedReader(new InputStreamReader(input5)));
         RiskGameClient client5 = new RiskGameClient(context5,randomPortNumber);
         client5.start();
-
+        TimeUnit.MILLISECONDS.sleep(200);
 
         //context2.getSocket().close();
 
