@@ -136,7 +136,7 @@ class AppTest {
         RiskGameClient client2 = new RiskGameClient(context2,randomPortNumber);
         client2.start();
 
-
+        TimeUnit.MILLISECONDS.sleep(100);
         //context2.getSocket().close();
 
 
@@ -161,7 +161,7 @@ class AppTest {
         RiskGameClient client3 = new RiskGameClient(context3,randomPortNumber);
         client3.start();
 
-        TimeUnit.MILLISECONDS.sleep(100);
+
 
 
 
