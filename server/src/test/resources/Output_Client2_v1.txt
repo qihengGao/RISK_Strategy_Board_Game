@@ -1,14 +1,22 @@
 Please type in server address
 Please type in server port number
 Please type in you client ID to restore previous game, or Enter to start a new game.
-Waiting for game to start. Still need 1 player!
+Invalid client ID. Restore failed!
+Please type in you client ID to restore previous game, or Enter to start a new game.
+
+What would you like to do?
+ (C)reate a new game room.
+ (J)oin a existing game room.
+
+Which game room you want to join?
+RoomID: 0 Waiting for game to start. Still need 1 player!
 Waiting for server to resolve your orders...
 Placing order!
 Red
 ---
- 10 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
- 10 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
- 10 Soldiers in Test6 (next to: Test2 , Test8 )
+ Test2 (next to: Test0 , Test3 , Test6 )
+ Test4 (next to: Test1 , Test3 , Test5 )
+ Test6 (next to: Test2 , Test8 )
 
 Green
 -----
@@ -66,16 +74,16 @@ Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Waiting for server to resolve your orders...
-Your order (Move(1):Test2->Test6: Soldier 3) did not pass our rules
+Your order (Move():Test2->Test6: Soldier 3) did not pass our rules
 You must place orders from your own territories!
 Waiting for server to resolve your orders...
-Your order (Attack(1):Test2->Test6: Soldier 3) did not pass our rules
+Your order (Attack():Test2->Test6: Soldier 3) did not pass our rules
 You must place orders from your own territories!
 Your Source territory does not exist!
 Your Destination territory does not exist!
 You do not have S in Test0!
 Waiting for server to resolve your orders...
-Your order (Attack(1):Test6->Test8: Soldier 15) did not pass our rules
+Your order (Attack():Test6->Test8: Soldier 15) did not pass our rules
 You must place orders from your own territories!
 You do not have sufficient Soldier to move in Test0!
 You do not have sufficient Soldier to move in Test0!
