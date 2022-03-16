@@ -97,8 +97,10 @@ public class ClientHandler extends Thread {
             addNewClient();
             finishGameInitiatePhase = true;
         } else {
-            finishGameInitiatePhase = tryRestoreClient(riskGameMessage);
-            if (!finishGameInitiatePhase) {
+
+            if (tryRestoreClient(riskGameMessage)) {
+                finishGameInitiatePhase = true;
+            } else {
                 objectOutputStream.writeObject(RiskGameMessageFactory.createRestoreStateMessage("Invalid client ID. Restore failed!"));
             }
         }

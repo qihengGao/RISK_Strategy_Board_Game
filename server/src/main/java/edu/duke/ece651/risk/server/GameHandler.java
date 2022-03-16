@@ -10,7 +10,8 @@ public class GameHandler extends Thread {
     private final Set<Client> players;
     private final TreeMap<Long, Color> idToColor;
     private final RISKMap riskMap;
-
+    private final int roomSize;
+    private long roomID;
     /**
      * Allocates a new {@code Thread} object. This constructor has the same
      * effect as {@linkplain Thread(ThreadGroup, Runnable, String) Thread}
@@ -26,7 +27,25 @@ public class GameHandler extends Thread {
         predefineColorList.add(new Color("Yellow"));
         predefineColorList.add(new Color("Purple"));
         idToColor = new TreeMap<Long, Color>();
-        riskMap = (RISKMap) new RandomMapFactory().createMapForNplayers(3);
+        roomSize = players.size();
+        riskMap = (RISKMap) new RandomMapFactory().createMapForNplayers(roomSize);
+    }
+
+    public GameHandler(Client host, int roomSize, long roomID){
+        players = new HashSet<>();
+        players.add(host);
+        predefineColorList.add(new Color("Red"));
+        predefineColorList.add(new Color("Green"));
+        predefineColorList.add(new Color("Blue"));
+        predefineColorList.add(new Color("Yellow"));
+        predefineColorList.add(new Color("Purple"));
+        idToColor = new TreeMap<Long, Color>();
+        this.roomSize = roomSize;
+        riskMap = (RISKMap) new RandomMapFactory().createMapForNplayers(roomSize);
+        this.roomID = roomID;
+
+
+
     }
 
     public void run() throws ClassCastException {
@@ -121,9 +140,6 @@ public class GameHandler extends Thread {
             }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Client socket closed, id :" + client.getClientID());
-        } catch (IllegalArgumentException e) {
-            int offset = e.toString().indexOf(":") + 2;
-            readAndWriteOrders(riskMap, idToColor, client, e.toString().substring(offset), orderToList);
         }
     }
 
