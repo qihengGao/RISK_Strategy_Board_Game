@@ -182,6 +182,7 @@ public abstract class State implements Serializable {
             if (!first) output.println(invalidPrompt);
             userInput = input.readLine().toUpperCase();
             first = false;
+            //System.out.println(userInput);
         } while (!pattern.matcher(userInput).find());
 
         return userInput;
