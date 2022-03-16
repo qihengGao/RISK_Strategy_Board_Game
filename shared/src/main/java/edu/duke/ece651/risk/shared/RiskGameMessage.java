@@ -10,6 +10,15 @@ public class RiskGameMessage implements Serializable {
     private int roomSize;
     private boolean createAGameRoom;
     private int roomID;
+    private String clientCurrentStateName;
+
+    public String getClientCurrentStateName() {
+        return clientCurrentStateName;
+    }
+
+    public void setClientCurrentStateName(String clientCurrentStateName) {
+        this.clientCurrentStateName = clientCurrentStateName;
+    }
 
     public int getRoomID() {
         return roomID;

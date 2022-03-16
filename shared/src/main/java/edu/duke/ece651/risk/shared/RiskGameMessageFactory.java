@@ -8,6 +8,7 @@ public class RiskGameMessageFactory {
      */
     public RiskGameMessage createInitMessage(){
         RiskGameMessage riskGameMessage = new RiskGameMessage();
+        riskGameMessage.setClientCurrentStateName("RestoreState");
         riskGameMessage.setInitGame(true);
         return riskGameMessage;
     }
@@ -22,6 +23,7 @@ public class RiskGameMessageFactory {
     public RiskGameMessage createReconnectMessage(ClientContext context, Long oriClientID){
         RiskGameMessage riskGameMessage = new RiskGameMessage();
         riskGameMessage.setInitGame(false);
+        riskGameMessage.setClientCurrentStateName("RestoreState");
         riskGameMessage.setClientid(oriClientID);
         return riskGameMessage;
     }
@@ -34,6 +36,7 @@ public class RiskGameMessageFactory {
      */
     public RiskGameMessage createCreateGameRoomMessage(int roomSize){
         RiskGameMessage riskGameMessage = new RiskGameMessage();
+        riskGameMessage.setClientCurrentStateName("SelectRoomState");
         riskGameMessage.setCreateAGameRoom(true);
         riskGameMessage.setRoomSize(roomSize);
         return riskGameMessage;
@@ -47,8 +50,17 @@ public class RiskGameMessageFactory {
      */
     public RiskGameMessage createJoinGameRoomMessage(int roomID){
         RiskGameMessage riskGameMessage = new RiskGameMessage();
+        riskGameMessage.setClientCurrentStateName("SelectRoomState");
         riskGameMessage.setCreateAGameRoom(false);
         riskGameMessage.setRoomID(roomID);
+        return riskGameMessage;
+    }
+
+    public static RiskGameMessage createRestoreStateMessage(String prompt){
+        RiskGameMessage riskGameMessage = new RiskGameMessage();
+        riskGameMessage.setClientCurrentStateName("RestoreState");
+        riskGameMessage.setCurrentState(new RestoreState());
+        riskGameMessage.setPrompt(prompt);
         return riskGameMessage;
     }
 }
