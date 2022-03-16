@@ -12,7 +12,6 @@ public class MoveAttackState extends State {
    */
   public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
     ArrayList<Order> orders = orderPhase(contex.getRiskMap(), contex.getBufferedReader(), contex.getOut(), contex.getPlayerID(), contex.getIdToColor());
-    contex.getOut().println("Waiting for server to resolve your orders...");
     contex.getOos().writeObject(orders);
 
     //wait server for next state
@@ -34,6 +33,9 @@ public class MoveAttackState extends State {
     ArrayList<Order> orders = new ArrayList<>();
     while(true){
       String chosenOrder = chooseOrder(input, output);
+      if (chosenOrder.equals("D")) {
+        return orders;
+      }
       String commit_message = readOrderFromUser(input, output, ID, orders, chosenOrder);
       if (commit_message!=null) {
         return orders;

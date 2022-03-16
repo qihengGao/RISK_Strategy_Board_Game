@@ -61,8 +61,8 @@ public class MapTextView implements MapView{
   
   private String displayNeighbors(Territory t){
     StringBuilder ans = new StringBuilder(" (next to:");
-    for (Territory neighbor : t.getNeighbors()){
-      ans.append(" "+neighbor.getName()+",");
+    for (String neighbor : t.getNeighbors()){
+      ans.append(" "+neighbor + " ,");
     }
     ans.deleteCharAt(ans.length()-1);
     ans.append(")\n");

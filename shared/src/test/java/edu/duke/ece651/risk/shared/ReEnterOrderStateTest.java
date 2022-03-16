@@ -69,7 +69,6 @@ public class ReEnterOrderStateTest {
         BufferedReader input3 = new BufferedReader(new StringReader("alalala\nTest2,Test0,Unit,3\n"));
         Order order = state3.readOrderFromUser(riskMap2, input3 , output, 0, illegalMoveOrder.getOrderType());
         System.out.println(bytes.toString());
-        assertNull(order.executeOrder(riskMap));
         displayMap(riskMap);
     }
 }

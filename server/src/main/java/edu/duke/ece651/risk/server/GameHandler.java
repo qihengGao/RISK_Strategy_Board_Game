@@ -115,6 +115,37 @@ public class GameHandler extends Thread {
         return null;
     }
 
+
+    /**
+     * Check if a player is lost.
+     * @param client The player we want to check with.
+     * @return True if this player is lost, otherwise false.
+     */
+    public boolean isPlayerLost(Client client){
+        for( Territory territory : riskMap.getContinent()){
+            if(territory.getOwnerID() == client.getClientID())
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check if any player wins.
+     * @return Client if this player is the only player left, otherwise null.
+     */
+    public Client checkWinner(){
+        HashSet<Long> IDset = new HashSet<>();
+        for (Territory t:riskMap.getContinent()){
+            IDset.add(t.getOwnerID());
+        }
+        if (IDset.size()==1){
+            for (long id : IDset) {
+                return findClientByID(id);
+            }
+        }
+        return null;
+    }
+
     public void run() throws ClassCastException {
 
 //            public int compare(Client o1, Client o2) {
@@ -135,11 +166,63 @@ public class GameHandler extends Thread {
         System.out.println("Placement Phase finish");
         HashMap<String, ArrayList<Order>> ordersToList = actionPhase("Placement Phase finished, now start placing orders!");//first move
 
-        System.out.println("action phase finished");
-        resolveRound("Resolved Round Outcome!", ordersToList, "Move", "Attack");//compute the result of this round
+        Client winner = null;
+
+        int roundNumber = 0;
+        while (winner == null) {
+            String prompt = "Placement phase finished!";
+            if (roundNumber!=0){
+                prompt = "Resolved Round " + roundNumber + " Outcome! Now start placing orders!";
+            }
+            HashMap<String, ArrayList<Order>> ordersToList = actionPhase(prompt);
+            System.out.println("action phase finished");
+
+            //EXECUTE ORDERS: sending order related units into related territories or battlefields
+            executeOrdersAndCheckLegal(ordersToList, "Move", "Attack");
+            //todo: update in battlefield
+
+            increaseOneInAllTerritory();
+
+            //todo: remove this break;
+            if (roundNumber==3) {
+                break;
+            }
+            roundNumber++;
+            //-----
+
+            //check player win and end game
+            //Client winner = checkWinner();
+        }
+
+        //send winner message to all clients
+        for (Client c : players) {
+            winner = c;
+            break;
+        }
+        resolveRound("Resolved Game Outcome!", winner);
 
         MapTextView mapTextView = new MapTextView(riskMap, idToColor);
         System.out.println(mapTextView.displayMap());
+    }
+
+    public void increaseOneInAllTerritory(){
+        for (Territory t : riskMap.getContinent()){
+            t.getUnitByType("Soldier").tryIncreaseAmount(1);
+        }
+    }
+
+    public void resolveRound(String prompt, Client winner) {
+        for (Client client : players) {
+            String customized_prompt = "You Lose! Conquer more next time!";
+            if (client.getClientID() == winner.getClientID()) {
+                customized_prompt = "Congratulations! This continent is yours!";
+            }
+            try {
+                client.writeObject(new RiskGameMessage(client.getClientID(), new ShowRoundResultState(), riskMap, prompt + "\n" + customized_prompt, idToColor));
+            } catch (IOException e) {
+                System.out.println("Client socket closed, id :" + client.getClientID());
+            }
+        }
     }
 
     public void assignColorToPlayers() {
@@ -223,24 +306,9 @@ public class GameHandler extends Thread {
     }
 
     //resolve round result phase: compute outcome of all attacks
-    public void resolveRound(String prompt, HashMap<String,
-            ArrayList<Order>> ordersToList, String... orderTypes) {
-        executeOrdersAndCheckLegal(ordersToList, orderTypes);
-
-        for (Client client : players) {
-            try {
-                client.writeObject(new RiskGameMessage(client.getClientID(), new ShowRoundResultState(), riskMap, prompt, idToColor));
-            } catch (IOException e) {
-                System.out.println("Client socket closed, id :" + client.getClientID());
-            }
-        }
-    }
-
-    private void executeOrdersAndCheckLegal(HashMap<String, ArrayList<Order>> ordersToList, String[] orderTypes) {
+    private void executeOrdersAndCheckLegal(HashMap<String, ArrayList<Order>> ordersToList, String... orderTypes) {
         for (String type : orderTypes) {
             for (Order order : ordersToList.get(type)) {
-                //
-                System.out.println(order.getPlayerID() + ":" + order.toString());
                 String check_message = order.executeOrder(riskMap);
                 //server check
                 if (check_message!=null){
@@ -260,6 +328,9 @@ public class GameHandler extends Thread {
             client.writeObject(new RiskGameMessage(client.getClientID(), new ReEnterOrderState(order), riskMap,
                     "Your order (" + order.toString() + ") did not pass our rules", idToColor));
             Order reorder = (Order) client.readObject();
+            if (reorder == null){
+                return;
+            }
             String Recheck_message = reorder.executeOrder(riskMap);
         }catch (IOException | ClassNotFoundException e){
             System.out.println("Client socket closed, id :" + order.getPlayerID());
@@ -267,19 +338,6 @@ public class GameHandler extends Thread {
             int offset = e.toString().indexOf(":") + 2;
             System.out.println(e.toString().substring(offset));
         }
-    }
-
-    /**
-     * Check if a player is lost.
-     * @param client The player we want to check with.
-     * @return True if this player is lost, otherwise false.
-     */
-    public boolean isPlayerLost(Client client){
-        for( Territory territory : riskMap.getContinent()){
-            if(territory.getOwnerID() == client.getClientID())
-                return false;
-        }
-        return true;
     }
 
 }

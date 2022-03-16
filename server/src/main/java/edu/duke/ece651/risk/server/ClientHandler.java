@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class ClientHandler extends Thread {
     private final Socket socket;
@@ -51,7 +53,7 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
 
-        System.out.println("Client Handler start with socket: "+socket.getInetAddress().toString());
+        System.out.println("Client Handler start with socket: " + socket.getInetAddress().toString());
         try {
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -59,8 +61,12 @@ public class ClientHandler extends Thread {
             do {
                 RiskGameMessage riskGameMessage = (RiskGameMessage) objectInputStream.readObject();
                 switch (riskGameMessage.getClientCurrentStateName()) {
-                    case "RestoreState" -> doRestorePhase(riskGameMessage);
-                    case "SelectRoomState" -> doSelectRoomPhase(riskGameMessage);
+                    case "RestoreState":
+                        doRestorePhase(riskGameMessage);
+                        break;
+                    case "SelectRoomState":
+                        doSelectRoomPhase(riskGameMessage);
+                        break;
                 }
             } while (!finishGameInitiatePhase);
 
@@ -84,13 +90,13 @@ public class ClientHandler extends Thread {
     }
 
     private void doSelectRoomPhase(RiskGameMessage riskGameMessage) throws IOException {
-        if(riskGameMessage.isCreateAGameRoom()){
+        if (riskGameMessage.isCreateAGameRoom()) {
             createNewGameRoom(riskGameMessage);
             finishGameInitiatePhase = true;
-        }else{
-            if(tryJoinGameRoom(riskGameMessage)){
+        } else {
+            if (tryJoinGameRoom(riskGameMessage)) {
                 finishGameInitiatePhase = true;
-            }else{
+            } else {
                 objectOutputStream.writeObject(RiskGameMessageFactory.createSelectRoomState("Invalid game room ID or room is full. Join failed!"));
             }
         }
@@ -98,31 +104,32 @@ public class ClientHandler extends Thread {
 
     public boolean tryJoinGameRoom(RiskGameMessage riskGameMessage) throws IOException {
         long roomIDToJoin = riskGameMessage.getRoomID();
-        synchronized (roomMap){
+        synchronized (roomMap) {
             GameHandler roomToJoin = roomMap.get(roomIDToJoin);
-            if(roomToJoin != null){
-                if(roomToJoin.getCurrentPlayersSize() == roomToJoin.getRoomSize()){
+            if (roomToJoin != null) {
+                if (roomToJoin.getCurrentPlayersSize() == roomToJoin.getRoomSize()) {
                     return false;
-                }else {
+                } else {
                     roomToJoin.addPlayer(client);
                     client.writeObject(new RiskGameMessage(client.getClientID(), new WaitingState(), null,
                             String.format("RoomID: %d Waiting for game to start. Still need %d player!", roomToJoin.getRoomID(), roomToJoin.getRoomSize() - roomToJoin.getCurrentPlayersSize())));
-                    if(roomToJoin.getCurrentPlayersSize() == roomToJoin.getRoomSize())
+                    if (roomToJoin.getCurrentPlayersSize() == roomToJoin.getRoomSize())
                         roomToJoin.start();
                     return true;
                 }
-            }else{
-                System.out.println("Room ID not found! RoomID: "+roomIDToJoin);
+            } else {
+                System.out.println("Room ID not found! RoomID: " + roomIDToJoin);
                 return false;
             }
         }
     }
+
     public void createNewGameRoom(RiskGameMessage riskGameMessage) throws IOException {
         synchronized (roomMap) {
             long roomID = roomMap.size();
             System.out.println("Create New Game room! Room ID: " + roomID);
-            GameHandler gameHandler = new GameHandler(client,riskGameMessage.getRoomSize(),roomID);
-            roomMap.put(roomID,gameHandler);
+            GameHandler gameHandler = new GameHandler(client, riskGameMessage.getRoomSize(), roomID);
+            roomMap.put(roomID, gameHandler);
             client.writeObject(new RiskGameMessage(client.getClientID(), new WaitingState(), null,
                     String.format("RoomID: %d Waiting for game to start. Still need %d player!", gameHandler.getRoomID(), gameHandler.getRoomSize() - gameHandler.getCurrentPlayersSize())));
         }
@@ -151,7 +158,6 @@ public class ClientHandler extends Thread {
 //            }
         }
     }
-
 
 
     public boolean tryRestoreClient(RiskGameMessage riskGameMessage) throws IOException {
