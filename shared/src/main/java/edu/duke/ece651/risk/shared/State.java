@@ -3,6 +3,7 @@ package edu.duke.ece651.risk.shared;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.regex.Pattern;
 
 public abstract class State implements Serializable {
 
@@ -110,7 +111,7 @@ public abstract class State implements Serializable {
         try {
             connectToServer(context);
             RiskGameMessageFactory riskGameMessageFactory = context.getRiskGameMessageFactory();
-            context.writeObject(riskGameMessageFactory.createReconnectMessage(context));
+            context.writeObject(riskGameMessageFactory.createReconnectMessage(context, context.getPlayerID()));
 
         }catch (IOException ignored){
             return false;
@@ -157,8 +158,34 @@ public abstract class State implements Serializable {
                 writeObject(context, object);
             }
         }
+    }
 
+    /**
+     * Print the prompt then read a line from input. If the line not match the pattern, print the invalidPrompt
+     * then retry with the next line. Otherwise, return the string.
+     * @param context ClientContext which contains the input and output stream.
+     * @param prompt A friendly advise for user.
+     * @param invalidPrompt A friendly advise for user when the input is invalid.
+     * @param pattern The regex pattern to verify the string.
+     * @return A String which match the pattern.
+     * @throws IOException Any problem related to the input/output stream.
+     */
+    public String readChoice(ClientContext context, String prompt, String invalidPrompt, Pattern pattern) throws IOException {
+        BufferedReader input = context.getBufferedReader();
+        PrintStream output = context.getOut();
+        output.println(prompt);
 
+        String userInput = "";
+
+        boolean first = true;
+        do {
+            if (!first) output.println(invalidPrompt);
+            userInput = input.readLine().toUpperCase();
+            first = false;
+            //System.out.println(userInput);
+        } while (!pattern.matcher(userInput).find());
+
+        return userInput;
     }
 
 }

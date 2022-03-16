@@ -20,29 +20,31 @@ public class InitiateSocketState extends State {
         //So if port number is already set, skip this process.
         if(contex.getPortNumber()==0)
             contex.setPortNumber(serverPortNumber);
+        connectToServer(contex);
 
-
-        Long clientID = -1L;
-        try {
-            clientID = readClientID(contex, "Please type in you client ID to restore previous game, or Enter to start a new game.");
-        }catch (NumberFormatException | IOException ignored){
-
-        }
-        if(clientID==-1L) {
-            initConnectToServer(contex);
-        }else {
-            contex.setPlayerID(clientID);
-            reconnectToServer(contex);
-        }
+//        Long clientID = -1L;
+//        try {
+//            clientID = readClientID(contex, "Please type in you client ID to restore previous game, or Enter to start a new game.");
+//        }catch (NumberFormatException | IOException ignored){
+//
+//        }
+//        if(clientID==-1L) {
+//            initConnectToServer(contex);
+//        }else {
+//            contex.setPlayerID(clientID);
+//            reconnectToServer(contex);
+//        }
         // 2. wait for server for context and parse
 
-        RiskGameMessage messageReceived = (RiskGameMessage) contex.getOis().readObject();
-        contex.setPlayerID(messageReceived.getClientid());
-        contex.getOut().println(messageReceived.getPrompt());
-        contex.setGameState(contex.getGameState());
-        contex.setRiskMap(messageReceived.getRiskMap());
-        contex.setIdToColor(messageReceived.getIdToColor());
-        // 3. execute the next state instructed by the server's context
-        messageReceived.getCurrentState().doAction(contex);
+//        RiskGameMessage messageReceived = (RiskGameMessage) contex.getOis().readObject();
+//        contex.setPlayerID(messageReceived.getClientid());
+//        contex.getOut().println(messageReceived.getPrompt());
+//        contex.setGameState(contex.getGameState());
+//        contex.setRiskMap(messageReceived.getRiskMap());
+//        contex.setIdToColor(messageReceived.getIdToColor());
+//        // 3. execute the next state instructed by the server's context
+//        messageReceived.getCurrentState().doAction(contex);
+        RestoreState restoreState = new RestoreState();
+        restoreState.doAction(contex);
     }
 }

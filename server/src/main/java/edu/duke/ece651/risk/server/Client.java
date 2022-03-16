@@ -62,6 +62,12 @@ public class Client {
             //StreamCorruptedException.
         }
     }
+    public Client(Socket socket, long clientID, ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream){
+        this.clientID = clientID;
+        this.oos = objectOutputStream;
+        this.ois = objectInputStream;
+        this.socket = socket;
+    }
 
     public Object readObject() throws IOException, ClassNotFoundException {
         return ois.readObject();

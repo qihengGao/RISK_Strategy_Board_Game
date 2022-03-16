@@ -17,32 +17,5 @@ class RiskGameServerTest {
 
 
 
-    @Test
-    void acceptANewClient() throws IOException {
-
-
-
-
-        ServerSocket mockServerSocket = mock(ServerSocket.class);
-        Socket mockSocket = mock(Socket.class);
-        InputStream mockInputStream = mock(InputStream.class, Mockito.CALLS_REAL_METHODS);
-        OutputStream mockOutputStream = mock(OutputStream.class);
-        when(mockSocket.getInputStream()).thenReturn(mockInputStream);
-        when(mockSocket.getOutputStream()).thenReturn(mockOutputStream);
-        when(mockServerSocket.accept()).thenReturn(mockSocket);
-
-
-
-
-        RiskGameServer riskGameServer = new RiskGameServer(3,mockServerSocket);
-
-        Client client = riskGameServer.acceptANewClient();
-
-        assertEquals(client.getClientID(),0);
-
-
-
-
-    }
 
 }

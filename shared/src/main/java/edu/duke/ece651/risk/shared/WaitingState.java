@@ -9,6 +9,7 @@ public class WaitingState extends State{
         RiskGameMessage messageReceived = (RiskGameMessage) contex.getOis().readObject();
 
         contex.getOut().println(messageReceived.getPrompt());
+        contex.setPlayerID(messageReceived.getClientid());
         contex.setGameState(messageReceived.getCurrentState());
         contex.setRiskMap(messageReceived.getRiskMap());
         contex.setIdToColor(messageReceived.getIdToColor());
