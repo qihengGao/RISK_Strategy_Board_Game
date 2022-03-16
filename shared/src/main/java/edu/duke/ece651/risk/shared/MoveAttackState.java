@@ -12,6 +12,7 @@ public class MoveAttackState extends State {
    */
   public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
     ArrayList<Order> orders = orderPhase(contex.getRiskMap(), contex.getBufferedReader(), contex.getOut(), contex.getPlayerID(), contex.getIdToColor());
+    contex.getOut().println("Waiting for server to resolve your orders...");
     contex.getOos().writeObject(orders);
 
     //wait server for next state
@@ -26,21 +27,21 @@ public class MoveAttackState extends State {
 //    output.println("Format: SourceTerritoryName,DestTerritoryName,UnitType,UnitAmount");
 //    output.println("Type D to commit all your orders");
 //    output.println("Please place your Orders, Commander:");
-    return fillInOrders(riskMap, input, output, ID);
+    return fillInOrders(input, output, ID);
   }
 
-  public ArrayList<Order> fillInOrders(RISKMap riskMap, BufferedReader input, PrintStream output, long ID) throws IOException{
+  public ArrayList<Order> fillInOrders(BufferedReader input, PrintStream output, long ID) throws IOException{
     ArrayList<Order> orders = new ArrayList<>();
     while(true){
       String chosenOrder = chooseOrder(input, output);
-      String commit_message = readOrderFromUser(riskMap, input, output, ID, orders, chosenOrder);
+      String commit_message = readOrderFromUser(input, output, ID, orders, chosenOrder);
       if (commit_message!=null) {
         return orders;
       }
     }
   }
 
-  private String readOrderFromUser(RISKMap riskMap, BufferedReader input, PrintStream output, long ID, ArrayList<Order> orders, String chosenOrder) throws IOException {
+  private String readOrderFromUser(BufferedReader input, PrintStream output, long ID, ArrayList<Order> orders, String chosenOrder) throws IOException {
     String userInput = input.readLine();
     if (chosenOrder.equals("D") || userInput.equals("D")){
       return "D";
@@ -53,16 +54,13 @@ public class MoveAttackState extends State {
       if (chosenOrder.equals("A")){
         tryMove = new AttackOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
       }
-
-      String check_message = tryMove.executeOrder(riskMap);
-      if (check_message!=null){throw new IllegalArgumentException(check_message);}
       orders.add(tryMove);
       return null;
     }
     catch (IllegalArgumentException e){
       int offset = e.toString().indexOf(":")+2;
       output.println(e.toString().substring(offset));
-      return readOrderFromUser(riskMap, input, output, ID, orders, chosenOrder);
+      return readOrderFromUser(input, output, ID, orders, chosenOrder);
     }
   }
 
@@ -73,7 +71,12 @@ public class MoveAttackState extends State {
       if (userInput.equals("MOVE") || userInput.equals("ATTACK") || userInput.equals("DONE")){
         userInput = userInput.substring(0,1);
       }
-      if (userInput.equals("M") || userInput.equals("A") || userInput.equals("D")){return userInput;}
+      if (userInput.equals("M") || userInput.equals("A") || userInput.equals("D")){
+        if (userInput.equals("M") || userInput.equals("A")){
+          output.println("Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)");
+        }
+        return userInput;
+      }
       else{throw new IllegalArgumentException("Can't find order! Please choose from (M)ove, (A)ttack, (D)one");}
     } catch (IllegalArgumentException e) {
       int offset = e.toString().indexOf(":") + 2;

@@ -19,6 +19,7 @@ public abstract class Order implements Serializable{
     this.orderType = orderType;
   }
 
+  //getters
   public long getPlayerID(){
     return this.playerID;
   }
@@ -40,6 +41,8 @@ public abstract class Order implements Serializable{
   }
 
   public String getOrderType() {return orderType;}
+
+  //dinamic dispatched methods
 
   public abstract String executeOrder(RISKMap riskMap);
 
