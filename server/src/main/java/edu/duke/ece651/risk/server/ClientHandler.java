@@ -50,6 +50,8 @@ public class ClientHandler extends Thread {
      */
     @Override
     public void run() {
+
+
         try {
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
