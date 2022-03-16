@@ -228,6 +228,7 @@ class AppTest {
         String expected5 = new String(getClass().getClassLoader().getResourceAsStream("Output_MultiClient1.txt").readAllBytes());
         assertEqualsIgnoreLineSeparator(expected5, bytes5.toString());
 
+
         String expected6 = new String(getClass().getClassLoader().getResourceAsStream("Output_MultiClient2.txt").readAllBytes());
         assertEqualsIgnoreLineSeparator(expected6, bytes6.toString());
 
