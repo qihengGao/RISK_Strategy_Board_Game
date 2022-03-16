@@ -10,13 +10,6 @@ PathExistMoveChecker extends ActionChecker {
     Territory src = riskMap.getTerritoryByName(moveOrder.getSrcTerritory());
     HashSet<Territory> visited = new HashSet<Territory>();
 
-    System.out.println("In check my rule");
-    for (String tName: src.getNeighbors()) {
-      Territory t = riskMap.getTerritoryByName(tName);
-      System.out.println(" In getFriendly");
-      System.out.println(" " + t.getName()+":"+t.getOwnerID());
-    }
-
     Territory dst = dfsToDst(riskMap, moveOrder.getPlayerID(), src, moveOrder.getDestTerritory(), visited);
     if (dst == null){
       return "Move Order path does not exist in your territories!";
@@ -30,7 +23,6 @@ PathExistMoveChecker extends ActionChecker {
     }
     visited.add(curr);
     Territory end = null;
-    System.out.println(curr.getName()+":"+curr.getOwnerID());
     for (String tName: curr.getNeighbors()){
       Territory t = riskMap.getTerritoryByName(tName);
       if (!visited.contains(t) && t.getOwnerID()==ID){

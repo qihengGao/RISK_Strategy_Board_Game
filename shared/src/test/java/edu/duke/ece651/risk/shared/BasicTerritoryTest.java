@@ -22,7 +22,7 @@ public class BasicTerritoryTest {
     Territory t2 = new BasicTerritory("Test2");//legal
     assertFalse(t1.tryAddNeighbor(t_invalid.getName()));
     assertTrue(t1.tryAddNeighbor(t2.getName()));
-    assertSame(t1.getNeighborByName("Test2"), t2);
+    assertSame(t1.getNeighborByName("Test2"), "Test2");
     assertNull(t1.getNeighborByName("Atlantis"));
   }
 

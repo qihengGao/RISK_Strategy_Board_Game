@@ -218,15 +218,9 @@ public class GameHandler extends Thread {
     private void executeOrdersAndCheckLegal(HashMap<String, ArrayList<Order>> ordersToList, String... orderTypes) {
         for (String type : orderTypes) {
             for (Order order : ordersToList.get(type)) {
-                //
-                MapTextView mapTextView = new MapTextView(riskMap, idToColor);
-                System.out.println(mapTextView.displayMap());
-                System.out.println(order.getPlayerID() + ":" + order.toString());
                 String check_message = order.executeOrder(riskMap);
                 //server check
                 if (check_message!=null){
-                    System.out.println(mapTextView.displayMap());
-                    System.out.println(order.getPlayerID() + ":" + order.toString());
                     try {
                         letClientReOrder(order, check_message);
                     } catch (IOException | ClassNotFoundException e) {
