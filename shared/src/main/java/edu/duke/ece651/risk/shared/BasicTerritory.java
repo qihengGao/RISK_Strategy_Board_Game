@@ -1,7 +1,8 @@
 package edu.duke.ece651.risk.shared;
 
 // import java.util.HashSet;
-import java.util.HashSet;
+import edu.duke.ece651.risk.shared.unit.Unit;
+
 import java.util.TreeSet;
 
 /**

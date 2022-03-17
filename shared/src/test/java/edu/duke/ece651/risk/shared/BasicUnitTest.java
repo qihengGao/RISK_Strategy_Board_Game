@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 
+import edu.duke.ece651.risk.shared.unit.BasicUnit;
+import edu.duke.ece651.risk.shared.unit.Unit;
 import org.junit.jupiter.api.Test;
 
 public class BasicUnitTest {

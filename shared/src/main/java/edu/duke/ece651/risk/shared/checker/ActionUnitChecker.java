@@ -3,7 +3,7 @@ package edu.duke.ece651.risk.shared.checker;
 import edu.duke.ece651.risk.shared.Order;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.Territory;
-import edu.duke.ece651.risk.shared.Unit;
+import edu.duke.ece651.risk.shared.unit.Unit;
 
 public class ActionUnitChecker extends ActionChecker {
     @Override

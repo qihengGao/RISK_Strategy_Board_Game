@@ -1,7 +1,8 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.unit.Unit;
+
 import java.io.Serializable;
-import java.util.HashSet;
 
 public interface Territory extends Serializable {
   /**
