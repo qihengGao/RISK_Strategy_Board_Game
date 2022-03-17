@@ -9,7 +9,8 @@ import java.io.StringReader;
 import java.util.TreeMap;
 
 import edu.duke.ece651.risk.shared.*;
-import edu.duke.ece651.risk.shared.state.MoveAttackState;
+import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
+import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import org.junit.jupiter.api.Test;
 
 public class MoveAttackStateTest {

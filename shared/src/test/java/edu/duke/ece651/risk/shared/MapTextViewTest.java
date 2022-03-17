@@ -3,6 +3,10 @@ package edu.duke.ece651.risk.shared;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
+import edu.duke.ece651.risk.shared.factory.AbstractUnitFactory;
+import edu.duke.ece651.risk.shared.factory.TestMapFactory;
+import edu.duke.ece651.risk.shared.factory.V1UnitFactory;
 import org.junit.jupiter.api.Test;
 
 public class MapTextViewTest {

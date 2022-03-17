@@ -1,5 +1,7 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
+import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;

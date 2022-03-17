@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.TreeMap;
 
+import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
+import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import org.junit.jupiter.api.Test;
 
 public class PathExistMoveCheckerTest {

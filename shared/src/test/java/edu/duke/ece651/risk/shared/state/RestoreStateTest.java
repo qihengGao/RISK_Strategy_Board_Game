@@ -2,8 +2,7 @@ package edu.duke.ece651.risk.shared.state;
 
 import edu.duke.ece651.risk.shared.ClientContext;
 import edu.duke.ece651.risk.shared.RiskGameMessage;
-import edu.duke.ece651.risk.shared.RiskGameMessageFactory;
-import edu.duke.ece651.risk.shared.state.RestoreState;
+import edu.duke.ece651.risk.shared.factory.RiskGameMessageFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;

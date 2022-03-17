@@ -1,4 +1,6 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.factory;
+
+import edu.duke.ece651.risk.shared.Unit;
 
 /**
  * Interface for unit factory.

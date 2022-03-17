@@ -1,5 +1,7 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.factory;
 
+import edu.duke.ece651.risk.shared.ClientContext;
+import edu.duke.ece651.risk.shared.RiskGameMessage;
 import edu.duke.ece651.risk.shared.state.RestoreState;
 import edu.duke.ece651.risk.shared.state.SelectRoomState;
 

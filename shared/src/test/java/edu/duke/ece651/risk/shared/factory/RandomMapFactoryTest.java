@@ -1,7 +1,9 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.factory;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import edu.duke.ece651.risk.shared.GameMap;
+import edu.duke.ece651.risk.shared.MapTextView;
+import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
+import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import org.junit.jupiter.api.Test;
 
 public class RandomMapFactoryTest {

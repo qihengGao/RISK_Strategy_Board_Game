@@ -1,7 +1,7 @@
 package edu.duke.ece651.risk.server;
 
 import edu.duke.ece651.risk.shared.RiskGameMessage;
-import edu.duke.ece651.risk.shared.RiskGameMessageFactory;
+import edu.duke.ece651.risk.shared.factory.RiskGameMessageFactory;
 import edu.duke.ece651.risk.shared.state.WaitingState;
 
 import java.io.IOException;

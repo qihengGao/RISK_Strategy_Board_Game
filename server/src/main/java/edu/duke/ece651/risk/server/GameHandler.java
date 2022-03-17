@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.server;
 
 import edu.duke.ece651.risk.shared.*;
+import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.state.*;
 
 import java.io.IOException;
