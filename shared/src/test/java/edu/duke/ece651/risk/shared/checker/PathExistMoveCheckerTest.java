@@ -1,10 +1,13 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.checker;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.TreeMap;
 
+import edu.duke.ece651.risk.shared.*;
+import edu.duke.ece651.risk.shared.checker.ActionChecker;
+import edu.duke.ece651.risk.shared.checker.PathExistMoveChecker;
 import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import org.junit.jupiter.api.Test;

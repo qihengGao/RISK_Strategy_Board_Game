@@ -1,7 +1,10 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.checker;
+
+import edu.duke.ece651.risk.shared.Order;
+import edu.duke.ece651.risk.shared.RISKMap;
+import edu.duke.ece651.risk.shared.Territory;
 
 import java.util.HashSet;
-import java.util.TreeMap;
 
 public class
 PathExistMoveChecker extends ActionChecker {

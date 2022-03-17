@@ -1,5 +1,7 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.checker.*;
+
 public class AttackOrder extends Order{
   private final ActionChecker attackChecker;
 

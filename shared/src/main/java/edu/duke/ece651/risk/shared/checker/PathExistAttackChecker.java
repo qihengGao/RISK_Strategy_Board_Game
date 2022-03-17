@@ -1,6 +1,8 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.checker;
 
-import java.util.HashSet;
+import edu.duke.ece651.risk.shared.Order;
+import edu.duke.ece651.risk.shared.RISKMap;
+import edu.duke.ece651.risk.shared.Territory;
 
 public class PathExistAttackChecker extends ActionChecker{
     public PathExistAttackChecker(ActionChecker next) {
