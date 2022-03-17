@@ -11,27 +11,25 @@ public class RiskGameServer extends Thread {
     private final ServerSocket serverSocket;
     private final LinkedList<Client> clientList;
     private final Map<Long, Client> idToClient;
-
-    private final int roomSize;
-
     private final HashMap<Long, GameHandler> roomMap;
 
     /**
-     * Allocates a new {@code Thread} object. This constructor has the same
-     * effect as {@linkplain Thread(ThreadGroup, Runnable, String) Thread}
-     * {@code (null, null, gname)}, where {@code gname} is a newly generated
-     * name. Automatically generated names are of the form
-     * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
+     *
+     * @param serverSocket The ServerSocket we want to listen on.
      */
-    public RiskGameServer(int roomSize, ServerSocket serverSocket) {
+    public RiskGameServer(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
-        this.roomSize = roomSize;
         clientList = new LinkedList<>();
         this.clientIDCounter = 0;
         this.idToClient = new HashMap<>();
         roomMap = new HashMap<>();
     }
 
+
+    /**
+     * Keep listen on the serverSocket, if there is a socket connection, create a new client handler to handle that.
+     * Add 1 to clientIDCounter in each time we accept a new socket.
+     */
     public void run() {
 
         System.out.printf("Server up. Listening on port: %d.\n", serverSocket.getLocalPort());
