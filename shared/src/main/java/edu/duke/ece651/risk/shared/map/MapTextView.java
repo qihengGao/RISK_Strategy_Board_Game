@@ -1,7 +1,7 @@
 package edu.duke.ece651.risk.shared.map;
 
 import edu.duke.ece651.risk.shared.Color;
-import edu.duke.ece651.risk.shared.Territory;
+import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 import java.util.TreeMap;

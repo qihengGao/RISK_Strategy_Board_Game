@@ -1,9 +1,9 @@
 package edu.duke.ece651.risk.shared.factory;
 
-import edu.duke.ece651.risk.shared.BasicTerritory;
+import edu.duke.ece651.risk.shared.territory.BasicTerritory;
 import edu.duke.ece651.risk.shared.map.GameMap;
 import edu.duke.ece651.risk.shared.map.RISKMap;
-import edu.duke.ece651.risk.shared.Territory;
+import edu.duke.ece651.risk.shared.territory.Territory;
 
 import java.util.HashSet;
 import java.util.Random;

@@ -1,6 +1,6 @@
 package edu.duke.ece651.risk.shared.map;
 
-import edu.duke.ece651.risk.shared.Territory;
+import edu.duke.ece651.risk.shared.territory.Territory;
 
 import java.util.ArrayList;
 import java.util.Collections;

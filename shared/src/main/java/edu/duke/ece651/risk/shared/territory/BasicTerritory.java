@@ -1,6 +1,7 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.territory;
 
 // import java.util.HashSet;
+import edu.duke.ece651.risk.shared.BattleField;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 import java.util.TreeSet;

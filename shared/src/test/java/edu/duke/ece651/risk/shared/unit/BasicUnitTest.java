@@ -1,9 +1,11 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.unit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 
+import edu.duke.ece651.risk.shared.territory.BasicTerritory;
+import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
 import org.junit.jupiter.api.Test;
