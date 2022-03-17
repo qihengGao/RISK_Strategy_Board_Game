@@ -1,19 +1,17 @@
 package edu.duke.ece651.risk.server;
 
+import edu.duke.ece651.risk.shared.ClientContext;
+import edu.duke.ece651.risk.shared.InitiateSocketState;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class RiskGameServerTest {
+
 
 
 
