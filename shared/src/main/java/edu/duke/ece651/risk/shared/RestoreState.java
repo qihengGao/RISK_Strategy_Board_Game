@@ -29,7 +29,7 @@ public class RestoreState extends State{
     }
 
     /**
-     * Read user's choice from input, then notify server then send corresponding message to server.
+     * Read user's choice from input, then notify server with corresponding message.
      *
      * @param context ClientContext which store all the client information.
      * @throws IOException Any problem related to the input/output stream.
