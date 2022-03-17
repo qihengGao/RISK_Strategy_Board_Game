@@ -1,6 +1,6 @@
 package edu.duke.ece651.risk.shared.factory;
 
-import edu.duke.ece651.risk.shared.GameMap;
+import edu.duke.ece651.risk.shared.map.GameMap;
 
 public interface AbstractMapFactory {
   /**

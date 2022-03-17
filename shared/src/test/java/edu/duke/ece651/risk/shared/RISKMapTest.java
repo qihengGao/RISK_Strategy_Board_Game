@@ -6,6 +6,8 @@ import java.util.HashSet;
 
 import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
+import edu.duke.ece651.risk.shared.map.GameMap;
+import edu.duke.ece651.risk.shared.map.RISKMap;
 import org.junit.jupiter.api.Test;
 
 public class RISKMapTest {

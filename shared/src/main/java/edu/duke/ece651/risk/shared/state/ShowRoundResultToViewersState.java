@@ -1,9 +1,7 @@
 package edu.duke.ece651.risk.shared.state;
 
 import edu.duke.ece651.risk.shared.ClientContext;
-import edu.duke.ece651.risk.shared.MapTextView;
-import edu.duke.ece651.risk.shared.state.State;
-import edu.duke.ece651.risk.shared.state.WaitingState;
+import edu.duke.ece651.risk.shared.map.MapTextView;
 
 import java.io.IOException;
 

@@ -1,4 +1,8 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.map;
+
+import edu.duke.ece651.risk.shared.Color;
+import edu.duke.ece651.risk.shared.Territory;
+import edu.duke.ece651.risk.shared.Unit;
 
 import java.util.TreeMap;
 

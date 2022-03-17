@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.shared.state;
 
 import edu.duke.ece651.risk.shared.*;
+import edu.duke.ece651.risk.shared.map.MapTextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;

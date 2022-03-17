@@ -1,5 +1,6 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.state.State;
 
 import java.io.Serializable;

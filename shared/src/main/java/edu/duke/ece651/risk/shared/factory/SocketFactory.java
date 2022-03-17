@@ -1,4 +1,4 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.factory;
 
 import java.io.*;
 import java.net.InetSocketAddress;
