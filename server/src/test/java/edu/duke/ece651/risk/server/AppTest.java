@@ -44,7 +44,7 @@ class AppTest {
         context1.setBufferedReader(new BufferedReader(new InputStreamReader(input1)));
         RiskGameClient client1 = new RiskGameClient(context1,randomPortNumber);
         client1.start();
-        TimeUnit.MILLISECONDS.sleep(100);
+        TimeUnit.MILLISECONDS.sleep(200);
         client1.stop();
         //context1.getSocket().close();
 
