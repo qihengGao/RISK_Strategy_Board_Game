@@ -4,7 +4,6 @@ Which server would you like to connect?
 Please type in server address:
 Please type in server port:
 Please type in you client ID to restore previous game, or Enter to start a new game.
-
 What would you like to do?
  (C)reate a new game room.
  (J)oin a existing game room.
