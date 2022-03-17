@@ -63,7 +63,7 @@ class InitiateSocketStateTest {
 
         initiateSocketState.doAction(context);
 
-        verify(context).println("Connection Failed!");
+        verify(context,times(1)).println("Connection Failed!");
         verify(stateFactory).createRestoreState();
         verify(restoreState).doAction(context);
 

@@ -73,12 +73,12 @@ public class MoveAttackStateTest {
     String checkNOSDest = checkValidOrder(riskMap, 0, output, "M\nTest1,Test5,Unit,3");
     assertEqualsIgnoreLineSeparator(checkNOSDest, "Move Order path does not exist in your territories!");
     bytes.reset();
-    
+
     //check invalid unit name
     String checkNEUnit = checkValidOrder(riskMap, 0, output, "M\nTest0,Test1,Dragon,10");
     assertEqualsIgnoreLineSeparator(checkNEUnit, "You do not have Dragon in Test0!");
     bytes.reset();
-    
+
     //check invalid unit amount
     bytes.reset();
     checkValidOrder(riskMap, 0, output, "M\nTest0,Test1,Unit,huh");
@@ -91,13 +91,13 @@ public class MoveAttackStateTest {
     String checkNegativeUnit = checkValidOrder(riskMap, 0, output, "M\nTest0,Test1,Unit,-1");
     assertEqualsIgnoreLineSeparator(checkNegativeUnit, "Unit Amount must be positive integer!");
     bytes.reset();
-    
+
     //check insufficient unit amount
     String checkNotEnoughUnit = checkValidOrder(riskMap, 0, output, "M\nTest0,Test2,Unit,100");
     assertEqualsIgnoreLineSeparator(checkNotEnoughUnit, "You do not have sufficient Unit to move in Test0!");
     bytes.reset();
-    
-    
+
+
   }
 
   private String checkValidOrder(RISKMap riskMap, long ID, PrintStream output, String... orderInputs) throws IOException {
@@ -135,7 +135,7 @@ public class MoveAttackStateTest {
     idToColor.put((long)0, new Color("Red"));
     idToColor.put((long)1, new Color("Green"));
     idToColor.put((long)2, new Color("Blue"));
-    
+
     MapTextView mapTextView = new MapTextView(riskMap, idToColor);
     System.out.println(mapTextView.displayMap());
   }
@@ -151,6 +151,6 @@ public class MoveAttackStateTest {
     }
     return riskMap;
   }
-   
+
 
 }

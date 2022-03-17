@@ -6,7 +6,6 @@ Please type in server port:
 Please type in you client ID to restore previous game, or Enter to start a new game.
 Invalid client ID. Restore failed!
 Please type in you client ID to restore previous game, or Enter to start a new game.
-
 What would you like to do?
  (C)reate a new game room.
  (J)oin a existing game room.

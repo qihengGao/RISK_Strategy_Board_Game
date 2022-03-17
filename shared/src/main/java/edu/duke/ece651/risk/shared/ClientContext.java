@@ -140,5 +140,9 @@ public class ClientContext {
     public void println(String s){
         out.println(s);
     }
+
+    public RiskGameMessage readMessage() throws IOException, ClassNotFoundException {
+        return (RiskGameMessage) ois.readObject();
+    }
 //Also the action list;
 }
