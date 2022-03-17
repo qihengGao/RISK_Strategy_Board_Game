@@ -1,5 +1,7 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.map.RISKMap;
+
 import java.io.Serializable;
 
 public abstract class Order implements Serializable{
