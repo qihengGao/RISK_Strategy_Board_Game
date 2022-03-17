@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.HashSet;
 
 public interface Territory extends Serializable {
+  /**
+   * @return the BattleField in this Territory to resolve battles
+   */
+  public BattleField getBattleField();
+
   /**    
    * @return the ID of the Owner of this Territory, such as 1.
    */

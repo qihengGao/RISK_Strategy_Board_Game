@@ -27,15 +27,16 @@ public class MoveAttackStateTest {
     String check_message = checkValidOrder(riskMap, 0, output, "M\nTest0,Test2,Unit,10",
             "A\nTest2,Test3,Unit,20", "A\nTest1,Test4,Unit,2");
     System.out.println(check_message);
+    displayMap(riskMap);
     assertEquals(riskMap.getTerritoryByName("Test0").getUnitByType("Unit").getAmount(), 0);
     assertEquals(riskMap.getTerritoryByName("Test2").getUnitByType("Unit").getAmount(), 0);
     assertEquals(riskMap.getTerritoryByName("Test3").getUnitByType("Unit").getAmount(), 10);
     assertEquals(riskMap.getTerritoryByName("Test1").getUnitByType("Unit").getAmount(), 8);
-    assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 8);
+    assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 10);
     displayMap(riskMap);
 
     checkValidOrder(riskMap, 1, output, "M\nTest4,Test5,Unit,8");
-    assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 0);
+    assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 2);
     assertEquals(riskMap.getTerritoryByName("Test5").getUnitByType("Unit").getAmount(), 18);
     displayMap(riskMap);
 
@@ -107,8 +108,18 @@ public class MoveAttackStateTest {
     sb.append("D\n");
     BufferedReader input = new BufferedReader(new StringReader(sb.toString()));
     MoveAttackState moveState = new MoveAttackState();
+    String check_message = null;
     for (Order o : moveState.fillInOrders(input, output, ID)){
-      String check_message = o.executeOrder(riskMap);
+      if (o.getOrderType().equals("Attack")){
+        BattleField BF = riskMap.getTerritoryByName(o.getDestTerritory()).getBattleField();
+        BF.setAttackResolver(new SimpleAttackResolver());
+        check_message = o.executeOrder(riskMap);
+        System.out.println("Attackers(" + o.getPlayerID() + "):" +BF.getAttackers().get(o.getPlayerID()));
+        assertEquals(BF.getAttackers().get(o.getPlayerID()).getAmount(), o.getUnitAmount());
+      }
+      else {
+        check_message = o.executeOrder(riskMap);
+      }
       if (check_message!=null){
         return check_message;
       }

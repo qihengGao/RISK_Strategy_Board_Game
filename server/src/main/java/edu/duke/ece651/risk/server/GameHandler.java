@@ -179,6 +179,13 @@ public class GameHandler extends Thread {
             //EXECUTE ORDERS: sending order related units into related territories or battlefields
             executeOrdersAndCheckLegal(ordersToList, "Move", "Attack");
             //todo: update in battlefield instead of execute order
+            for (Territory t : riskMap.getContinent()){
+                //default = rolling 20 sided dice. simple add and minus rules
+                t.getBattleField().setAttackResolver(new SimpleAttackResolver());
+                //
+                t.getBattleField().fightBattle(t, "Soldier");
+                t.getBattleField().resetAttackersList();
+            }
 
             increaseOneInAllTerritory();
 
@@ -186,8 +193,8 @@ public class GameHandler extends Thread {
             if (roundNumber==3) {
                 break;
             }
-            roundNumber++;
             //-----
+            roundNumber++;
 
             //check player win and end game
             winner = checkWinner();
@@ -200,7 +207,7 @@ public class GameHandler extends Thread {
                 break;
             }
         }
-        resolveRound("Resolved Game Outcome!", winner);
+        showGameResult("Resolved Game Outcome!", winner);
 
         MapTextView mapTextView = new MapTextView(riskMap, idToColor);
         System.out.println(mapTextView.displayMap());
@@ -212,7 +219,7 @@ public class GameHandler extends Thread {
         }
     }
 
-    public void resolveRound(String prompt, Client winner) {
+    public void showGameResult(String prompt, Client winner) {
         for (Client client : players) {
             String customized_prompt = "You Lose! Conquer more next time!";
             if (client.getClientID() == winner.getClientID()) {
@@ -328,6 +335,8 @@ public class GameHandler extends Thread {
                 //server check
                 if (check_message!=null){
                     try {
+                        System.out.println(order.toString());
+                        System.out.println(check_message);
                         letClientReOrder(order, check_message);
                     } catch (IOException | ClassNotFoundException e) {
                         System.out.println("Client socket closed, id :" + order.getPlayerID());
