@@ -188,4 +188,25 @@ public abstract class State implements Serializable {
         return userInput;
     }
 
+
+    /**
+     * Update all the not null message filed to context.
+     *
+     * @param context ClientContext which store all the client information.
+     * @param riskGameMessage RiskGameMessage we receive from server which contains the newest information.
+     */
+    public void updateContextWithMessage(ClientContext context, RiskGameMessage riskGameMessage){
+        //If the prompt string in message is not null or empty, print it.
+        if(riskGameMessage.getPrompt()!=null && !riskGameMessage.getPrompt().equals(""))
+            context.println(riskGameMessage.getPrompt());
+
+        context.setGameState(riskGameMessage.getCurrentState());
+        context.setPlayerID(riskGameMessage.getClientid());
+
+        if(riskGameMessage.getRiskMap()!=null)
+            context.setRiskMap(riskGameMessage.getRiskMap());
+        if(riskGameMessage.getIdToColor()!=null)
+            context.setIdToColor(riskGameMessage.getIdToColor());
+    }
+
 }
