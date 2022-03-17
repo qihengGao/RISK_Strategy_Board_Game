@@ -7,28 +7,51 @@ import java.util.regex.Pattern;
 public class SelectRoomState extends State {
 
 
+    /**
+     * In this state, user make decision to create a new game room or join an existed game room.
+     * If user want to create a new room, user must provide the room size(Currently limit to 2-5).
+     * If user want to join an existed game room, user must specify the room ID.
+     *
+     * @param context ClientContext which store all the client information.
+     * @throws IOException Any problem related to the input/output stream.
+     * @throws ClassNotFoundException If the Object we receive from server is not an instance of RISKGameMessage.
+     */
     @Override
-    public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
+    public void doAction(ClientContext context) throws IOException, ClassNotFoundException {
 
-        String command = readChoice(contex, "What would you like to do?\n (C)reate a new game room.\n (J)oin a existing game room.\n",
+        readUserOptionThenNotifyServer(context);
+
+        //Read a message from server
+        RiskGameMessage riskGameMessage = context.readMessage();
+
+        //Update the context with message
+        updateContextWithMessage(context, riskGameMessage);
+
+        //Go to next state.
+        riskGameMessage.getCurrentState().doAction(context);
+
+    }
+
+
+    /**
+     * Read user's choice from input, then notify server with corresponding message.
+     *
+     * @param context ClientContext which store all the client information.
+     * @throws IOException Any problem related to the input/output stream.
+     */
+    protected void readUserOptionThenNotifyServer(ClientContext context) throws IOException {
+        String command = readChoice(context, "What would you like to do?\n (C)reate a new game room.\n (J)oin a existing game room.\n",
                 "Invalid command!", Pattern.compile("^C$|^J$",Pattern.CASE_INSENSITIVE));
         command = command.toUpperCase(Locale.ROOT);
         switch (command) {
             case "C":
-                createAGameRoom(contex);
+                createAGameRoom(context);
 
                 break;
             case "J":
-                joinAGameRoom(contex);
-                break;
-            default:
+                joinAGameRoom(context);
                 break;
         }
-        RiskGameMessage riskGameMessage = (RiskGameMessage) contex.getOis().readObject();
-        contex.getOut().println(riskGameMessage.getPrompt());
-        contex.setGameState(riskGameMessage.getCurrentState());
-        riskGameMessage.getCurrentState().doAction(contex);
-
     }
 
     /**
