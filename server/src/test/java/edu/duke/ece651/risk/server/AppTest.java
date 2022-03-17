@@ -26,6 +26,8 @@ class AppTest {
                 actual.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")));
     }
 
+
+
     @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
     @Test
     void test_normalInput() throws IOException, ClassNotFoundException, InterruptedException {

@@ -1,50 +1,87 @@
 package edu.duke.ece651.risk.shared;
 
-import java.io.*;
-import java.net.Socket;
+import java.io.IOException;
+import java.util.regex.Pattern;
 
 
 public class InitiateSocketState extends State {
 
 
+    /**
+     * Set the server address and port number in context to default server.
+     * Currently, we have a default server at vcm-25035.vm.duke.edu:1777.
+     *
+     * @param context ClientContext which store all the client information.
+     */
+    public void useDefaultServerAddress(ClientContext context) {
+        context.setServerAddress("vcm-25035.vm.duke.edu");
+        context.setPortNumber(1777);
+    }
 
+
+    /**
+     * Read server address and port from input.
+     * Then set them to the context.
+     *
+     * @param context ClientContext which store all the client information.
+     * @throws IOException Any problem related to the input/output stream.
+     */
+    public void useCustomServerAddress(ClientContext context) throws IOException {
+        String serverAddress = readChoice(context, "Please type in server address:",
+                "Invalid address.", Pattern.compile("^.+$", Pattern.CASE_INSENSITIVE));
+        int serverPort = Integer.parseInt(readChoice(context, "Please type in server port:",
+                "Invalid port number.", Pattern.compile("^\\d+$", Pattern.CASE_INSENSITIVE)));
+
+        context.setServerAddress(serverAddress);
+
+        //Here is a workaround to support random port number for integration test.
+        //In integration test, we already set the port number to context.
+        //So if the port number in context is not 0, means the port number already set.
+        //Use that one.
+        if(context.getPortNumber()==0)
+            context.setPortNumber(serverPort);
+
+    }
+
+    /**
+     * This is the first state of our client.
+     * In this State, we allow user to decide which server to connect with.
+     * Currently, we have a default server at vcm-25035.vm.duke.edu:1777.
+     * User can also connect to a custom server.
+     *
+     * @param context ClientContext which store all the client information.
+     * @throws IOException            Any problem related to the input/output stream.
+     * @throws ClassNotFoundException If the Object we receive from server is not an instance of RISKGameMessage.
+     */
     @Override
-    public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
+    public void doAction(ClientContext context) throws IOException, ClassNotFoundException {
 
-        String serverAddress = readServerAddress(contex,"Please type in server address");
-        contex.setServerAddress(serverAddress);
+        String command = readChoice(context, "Which server would you like to connect?\n (D)efault server\n (C)ustom server",
+                "Invalid Command", Pattern.compile("^D$|^Default$|^C$|^Custom$", Pattern.CASE_INSENSITIVE));
+
+        switch (command.substring(0, 1).toUpperCase()) {
+            case "D":
+                useDefaultServerAddress(context);
+                break;
+            case "C":
+                useCustomServerAddress(context);
+                break;
+
+        }
 
 
-        int serverPortNumber = readServerPort(contex,"Please type in server port number");
-        //For integration test, we try to run the test with a random port, and we already set the port number.
-        //So if port number is already set, skip this process.
-        if(contex.getPortNumber()==0)
-            contex.setPortNumber(serverPortNumber);
-        connectToServer(contex);
 
-//        Long clientID = -1L;
-//        try {
-//            clientID = readClientID(contex, "Please type in you client ID to restore previous game, or Enter to start a new game.");
-//        }catch (NumberFormatException | IOException ignored){
-//
-//        }
-//        if(clientID==-1L) {
-//            initConnectToServer(contex);
-//        }else {
-//            contex.setPlayerID(clientID);
-//            reconnectToServer(contex);
-//        }
-        // 2. wait for server for context and parse
+        //Using the information we collect above to connect to server.
+        try {
+            connectToServer(context);
+        } catch (IOException e) {
+            //Here we handle the exception to socket connection.
+            context.getOut().println("Connection Failed!");
+        }
 
-//        RiskGameMessage messageReceived = (RiskGameMessage) contex.getOis().readObject();
-//        contex.setPlayerID(messageReceived.getClientid());
-//        contex.getOut().println(messageReceived.getPrompt());
-//        contex.setGameState(contex.getGameState());
-//        contex.setRiskMap(messageReceived.getRiskMap());
-//        contex.setIdToColor(messageReceived.getIdToColor());
-//        // 3. execute the next state instructed by the server's context
-//        messageReceived.getCurrentState().doAction(contex);
+        //Successfully connect to server.
+        //Going to next state, allow user to decide whether start a new game or restore a previous game.
         RestoreState restoreState = new RestoreState();
-        restoreState.doAction(contex);
+        restoreState.doAction(context);
     }
 }
