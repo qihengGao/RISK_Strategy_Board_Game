@@ -91,7 +91,7 @@ public class InitiateSocketState extends State {
                 done = true;
             } catch (IOException e) {
 
-                //Here we handle the exception to socket connection.
+                //Here we handle the exception for socket connection failed.
                 context.println("Connection Failed!");
             }
         }
