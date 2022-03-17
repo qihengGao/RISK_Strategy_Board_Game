@@ -1,4 +1,6 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.state;
+
+import edu.duke.ece651.risk.shared.ClientContext;
 
 import java.io.IOException;
 import java.util.regex.Pattern;

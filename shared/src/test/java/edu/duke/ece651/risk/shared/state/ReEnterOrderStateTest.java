@@ -1,5 +1,7 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.state;
 
+import edu.duke.ece651.risk.shared.*;
+import edu.duke.ece651.risk.shared.state.ReEnterOrderState;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;

@@ -1,12 +1,14 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.state;
 
+import edu.duke.ece651.risk.shared.ClientContext;
+import edu.duke.ece651.risk.shared.RiskGameMessage;
+import edu.duke.ece651.risk.shared.RiskGameMessageFactory;
+import edu.duke.ece651.risk.shared.state.RestoreState;
+import edu.duke.ece651.risk.shared.state.SelectRoomState;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;

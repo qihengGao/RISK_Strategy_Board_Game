@@ -1,5 +1,10 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.state;
 
+import edu.duke.ece651.risk.shared.ClientContext;
+import edu.duke.ece651.risk.shared.SocketFactory;
+import edu.duke.ece651.risk.shared.state.InitiateSocketState;
+import edu.duke.ece651.risk.shared.state.State;
+import edu.duke.ece651.risk.shared.state.WaitingState;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;

@@ -1,5 +1,7 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.state.State;
+
 import java.io.Serializable;
 import java.util.TreeMap;
 

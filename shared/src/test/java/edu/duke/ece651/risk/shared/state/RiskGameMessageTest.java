@@ -1,4 +1,4 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.state;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -9,6 +9,12 @@ import static org.mockito.Mockito.mock;
 
 import java.util.TreeMap;
 
+import edu.duke.ece651.risk.shared.Color;
+import edu.duke.ece651.risk.shared.RISKMap;
+import edu.duke.ece651.risk.shared.RiskGameMessage;
+import edu.duke.ece651.risk.shared.state.InitiateSocketState;
+import edu.duke.ece651.risk.shared.state.State;
+import edu.duke.ece651.risk.shared.state.UnitPlaceState;
 import org.junit.jupiter.api.Test;
 
 public class RiskGameMessageTest {

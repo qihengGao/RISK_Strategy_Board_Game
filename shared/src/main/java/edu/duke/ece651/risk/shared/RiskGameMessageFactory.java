@@ -1,5 +1,8 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.state.RestoreState;
+import edu.duke.ece651.risk.shared.state.SelectRoomState;
+
 public class RiskGameMessageFactory {
 
     /**

@@ -1,4 +1,4 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.state;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.BufferedReader;
@@ -8,6 +8,8 @@ import java.io.PrintStream;
 import java.io.StringReader;
 import java.util.TreeMap;
 
+import edu.duke.ece651.risk.shared.*;
+import edu.duke.ece651.risk.shared.state.MoveAttackState;
 import org.junit.jupiter.api.Test;
 
 public class MoveAttackStateTest {

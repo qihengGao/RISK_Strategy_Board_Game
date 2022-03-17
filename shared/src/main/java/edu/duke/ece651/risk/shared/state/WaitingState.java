@@ -1,8 +1,12 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.state;
+
+import edu.duke.ece651.risk.shared.ClientContext;
+import edu.duke.ece651.risk.shared.RiskGameMessage;
+import edu.duke.ece651.risk.shared.state.State;
 
 import java.io.IOException;
 
-public class WaitingState extends State{
+public class WaitingState extends State {
     @Override
     public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
         contex.getOut().println("Waiting for server to resolve your orders...\n");

@@ -1,12 +1,12 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.state;
+
+import edu.duke.ece651.risk.shared.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.TreeMap;
 
-public class ReEnterOrderState extends State{
+public class ReEnterOrderState extends State {
     private Order illegalOrder;
 
     public ReEnterOrderState(Order illegalOrder){

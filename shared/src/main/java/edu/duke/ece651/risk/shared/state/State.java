@@ -1,4 +1,9 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.state;
+
+import edu.duke.ece651.risk.shared.ClientContext;
+import edu.duke.ece651.risk.shared.RiskGameMessage;
+import edu.duke.ece651.risk.shared.RiskGameMessageFactory;
+import edu.duke.ece651.risk.shared.SocketFactory;
 
 import java.io.*;
 import java.net.Socket;
