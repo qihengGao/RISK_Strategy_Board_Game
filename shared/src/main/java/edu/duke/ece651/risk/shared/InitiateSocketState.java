@@ -8,7 +8,7 @@ public class InitiateSocketState extends State {
 
 
     /**
-     * Set the server address and port number in context to default server.
+     * Set the server address and port number to default server in context.
      * Currently, we have a default server at vcm-25035.vm.duke.edu:1777.
      *
      * @param context ClientContext which store all the client information.
@@ -36,26 +36,21 @@ public class InitiateSocketState extends State {
 
         //Here is a workaround to support random port number for integration test.
         //In integration test, we already set the port number to context.
-        //So if the port number in context is not 0, means the port number already set.
-        //Use that one.
-        if(context.getPortNumber()==0)
+        //So if the port number in context is not 0, use that one.
+        if (context.getPortNumber() == 0)
             context.setPortNumber(serverPort);
 
     }
 
+
     /**
-     * This is the first state of our client.
-     * In this State, we allow user to decide which server to connect with.
-     * Currently, we have a default server at vcm-25035.vm.duke.edu:1777.
-     * User can also connect to a custom server.
+     * This method ask user to switch between default server and customer server, then using the information to connect
+     * to server.
      *
      * @param context ClientContext which store all the client information.
-     * @throws IOException            Any problem related to the input/output stream.
-     * @throws ClassNotFoundException If the Object we receive from server is not an instance of RISKGameMessage.
+     * @throws IOException Any problem related to the input/output stream.
      */
-    @Override
-    public void doAction(ClientContext context) throws IOException, ClassNotFoundException {
-
+    public void initiateSocket(ClientContext context) throws IOException {
         String command = readChoice(context, "Which server would you like to connect?\n (D)efault server\n (C)ustom server",
                 "Invalid Command", Pattern.compile("^D$|^Default$|^C$|^Custom$", Pattern.CASE_INSENSITIVE));
 
@@ -69,19 +64,41 @@ public class InitiateSocketState extends State {
 
         }
 
-
-
         //Using the information we collect above to connect to server.
-        try {
-            connectToServer(context);
-        } catch (IOException e) {
-            //Here we handle the exception to socket connection.
-            context.getOut().println("Connection Failed!");
+        connectToServer(context);
+    }
+
+
+    /**
+     * This is the first state of our client.
+     * In this State, we allow user to decide which server to connect with.
+     * Currently, we have a default server at vcm-25035.vm.duke.edu:1777.
+     * User can also connect to a custom server.
+     *
+     * @param context ClientContext which store all the client information.
+     * @throws IOException            Any problem related to the input/output stream.
+     * @throws ClassNotFoundException If the Object we receive from server is not an instance of RISKGameMessage.
+     */
+    @Override
+    public void doAction(ClientContext context) throws IOException, ClassNotFoundException {
+        boolean done = false;
+
+        //Loop until successfully connect to server.
+        while (!done) {
+
+            try {
+                initiateSocket(context);
+                done = true;
+            } catch (IOException e) {
+
+                //Here we handle the exception to socket connection.
+                context.println("Connection Failed!");
+            }
         }
 
-        //Successfully connect to server.
-        //Going to next state, allow user to decide whether start a new game or restore a previous game.
-        RestoreState restoreState = new RestoreState();
+        //Go to next state
+        RestoreState restoreState = context.getStateFactory().createRestoreState();
         restoreState.doAction(context);
+
     }
 }

@@ -13,8 +13,11 @@ public class ClientContext {
     private int portNumber;
     private String serverAddress;
     private final SocketFactory socketFactory;
+    private final StateFactory stateFactory;
 
-
+    public StateFactory getStateFactory() {
+        return stateFactory;
+    }
 
     private final RiskGameMessageFactory riskGameMessageFactory;
 
@@ -23,6 +26,7 @@ public class ClientContext {
     public ClientContext() {
         socketFactory = new SocketFactory();
         riskGameMessageFactory = new RiskGameMessageFactory();
+        stateFactory = new StateFactory();
     }
     public RiskGameMessageFactory getRiskGameMessageFactory() {
         return riskGameMessageFactory;
@@ -131,6 +135,10 @@ public class ClientContext {
         oos.reset();
         oos.writeObject(o);
 
+    }
+
+    public void println(String s){
+        out.println(s);
     }
 //Also the action list;
 }
