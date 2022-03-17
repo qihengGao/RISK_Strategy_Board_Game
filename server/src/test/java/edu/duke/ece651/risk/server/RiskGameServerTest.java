@@ -21,8 +21,8 @@ class RiskGameServerTest {
         doReturn(socket).doThrow(IOException.class).when(serverSocket).accept();
 
         new RiskGameServer(serverSocket).start();
-        TimeUnit.MILLISECONDS.sleep(1);
-
+        TimeUnit.MILLISECONDS.sleep(10);
+        verify(serverSocket,atLeast(2)).accept();
 
 
 
