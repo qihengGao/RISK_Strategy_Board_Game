@@ -20,6 +20,12 @@ public interface Unit extends Serializable{
     public int getAmount();
 
     /**
+     * Get current amount of the unit.
+     * @return int
+     */
+    public void setAmount(int amount);
+
+    /**
      * Try to increase the amount.
      * @param amount
      * @return boolean, true if successful, else false

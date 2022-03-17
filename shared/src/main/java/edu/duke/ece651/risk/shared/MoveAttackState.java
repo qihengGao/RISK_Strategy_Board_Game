@@ -54,7 +54,7 @@ public class MoveAttackState extends State {
 
       Order tryMove = new MoveOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
       if (chosenOrder.equals("A")){
-        tryMove = new AttackOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
+        tryMove = new AttackOrderSimple(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
       }
       orders.add(tryMove);
       return null;

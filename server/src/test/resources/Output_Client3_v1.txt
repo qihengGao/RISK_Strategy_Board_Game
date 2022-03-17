@@ -12,6 +12,7 @@ What would you like to do?
 Which game room you want to join?
 RoomID: 0 Waiting for game to start. Still need 0 player!
 Waiting for server to resolve your orders...
+
 Placing order!
 Red
 ---
@@ -44,6 +45,7 @@ How many Soldiers you want to put in Test3
 You have no more available units to put in territory Test5, adding 0 units
 You have no more available units to put in territory Test7, adding 0 units
 Waiting for server to resolve your orders...
+
 Placement phase finished!
 Red
 ---
@@ -75,13 +77,14 @@ Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitA
 Unit Amount must be an integer!
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Waiting for server to resolve your orders...
+
 Resolved Round 1 Outcome! Now start placing orders!
 Red
 ---
  1 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
  11 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
  1 Soldiers in Test6 (next to: Test2 , Test8 )
- 9 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+ 10 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Green
 -----
@@ -90,7 +93,7 @@ Green
 
 Blue
 ----
- 10 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 9 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
  1 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
  21 Soldiers in Test7 (next to: Test1 , Test5 )
 
@@ -101,6 +104,7 @@ You are the Blue Player, what would you like to do?
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Waiting for server to resolve your orders...
+
 Resolved Round 2 Outcome! Now start placing orders!
 Red
 ---
@@ -108,7 +112,7 @@ Red
  12 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
  9 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
  2 Soldiers in Test6 (next to: Test2 , Test8 )
- 1 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+ 2 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Green
 -----
@@ -117,7 +121,7 @@ Green
 
 Blue
 ----
- 11 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 10 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
  22 Soldiers in Test7 (next to: Test1 , Test5 )
 
 
@@ -127,6 +131,7 @@ You are the Blue Player, what would you like to do?
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Waiting for server to resolve your orders...
+
 Resolved Round 3 Outcome! Now start placing orders!
 Red
 ---
@@ -134,7 +139,7 @@ Red
  13 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
  3 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
  3 Soldiers in Test6 (next to: Test2 , Test8 )
- 2 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+ 3 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Green
 -----
@@ -143,7 +148,7 @@ Green
 
 Blue
 ----
- 12 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 11 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
  23 Soldiers in Test7 (next to: Test1 , Test5 )
 
 
@@ -153,6 +158,7 @@ You are the Blue Player, what would you like to do?
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Waiting for server to resolve your orders...
+
 Resolved Game Outcome!
 You Lose! Conquer more next time!
 Red
@@ -161,7 +167,7 @@ Red
  14 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
  4 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
  4 Soldiers in Test6 (next to: Test2 , Test8 )
- 3 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+ 4 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Green
 -----
@@ -170,7 +176,7 @@ Green
 
 Blue
 ----
- 13 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 12 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
  24 Soldiers in Test7 (next to: Test1 , Test5 )
 
 

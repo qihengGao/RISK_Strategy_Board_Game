@@ -5,7 +5,13 @@ package edu.duke.ece651.risk.shared;
  */
 public class BasicUnit implements Unit {
     private final String unitType;
+
+
     private int amount;
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
 
     /**
      * Contructor for the Basic Unit.
@@ -53,7 +59,7 @@ public class BasicUnit implements Unit {
     /**
      * Try to decrease the amount.
      * 
-     * @param amoount
+     * @param amount
      * @return boolean, true if successful, else false
      */
     @Override
