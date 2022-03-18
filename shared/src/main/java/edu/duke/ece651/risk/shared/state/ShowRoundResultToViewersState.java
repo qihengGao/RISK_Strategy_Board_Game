@@ -13,10 +13,11 @@ public class ShowRoundResultToViewersState extends State {
         if(context.isKeepWatchResult()){
             keepWatching(context);
         }else{
-            String command = readChoice(context,"What do you like to do next?\n (D)isconnect\n (K)eep Watching",
+            String command = readChoice(context,"\nYou Lose! Conquer more next time!\nWhat do you like to do next?\n (D)isconnect\n (K)eep Watching",
                     "Invalid command!", Pattern.compile("^D$|^K$",Pattern.CASE_INSENSITIVE));
             switch(command){
                 case "D":
+                    context.println("Have a nice day!");
                     break;
                 case "K":
                     context.setKeepWatchResult(true);

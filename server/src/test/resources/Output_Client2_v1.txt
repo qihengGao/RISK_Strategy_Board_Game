@@ -187,6 +187,11 @@ You are the Green Player, what would you like to do?
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Round 5 Outcome! Now start placing orders!
+
+You Lose! Conquer more next time!
+What do you like to do next?
+ (D)isconnect
+ (K)eep Watching
 Red
 ---
  5 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
