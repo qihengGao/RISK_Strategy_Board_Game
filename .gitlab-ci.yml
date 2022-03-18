@@ -114,5 +114,6 @@ DeployServer:
     - clover-report
   script:
     - ls
+    - docker run --rm --name risk-game-server -p 1777:1777  -v $(pwd):/risk eclipse-temurin:17 ./scripts/deploy.sh
   only:
     - dev
