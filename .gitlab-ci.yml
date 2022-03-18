@@ -17,6 +17,9 @@
 # is usually a priority over speed in CI environments. Using a fresh
 # runtime for each build is more reliable since the runtime is completely
 # isolated from any previous builds.
+stages:
+  - test-deploy
+
 build:
   image: eclipse-temurin:17
   stage: build
@@ -126,5 +129,16 @@ DeployServer:
   script:
     - ls
     - docker run -d --rm --name risk-game-server -p 1777:1777  -v $(pwd):/risk eclipse-temurin:17 /risk/scripts/deploy.sh
+  only:
+    - dev
+
+TestPortStatus:
+  stage: test-deploy
+  tags:
+    - deploy
+  needs:
+    - DeployServer
+  script:
+    - /scripts/test-deploy.sh
   only:
     - dev
