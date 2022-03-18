@@ -177,7 +177,7 @@ public class GameHandler extends Thread {
             increaseOneInAllTerritory();
 
             //todo: remove this round limit break;
-            if (roundNumber==3) {
+            if (roundNumber==5) {
                 break;
             }
             //-----

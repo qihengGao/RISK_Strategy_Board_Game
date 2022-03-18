@@ -146,8 +146,7 @@ You are the Blue Player, what would you like to do?
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Resolved Game Outcome!
-You Lose! Conquer more next time!
+Resolved Round 4 Outcome! Now start placing orders!
 Red
 ---
  11 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
@@ -165,5 +164,60 @@ Blue
 ----
  12 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
  24 Soldiers in Test7 (next to: Test1 , Test5 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Round 5 Outcome! Now start placing orders!
+Red
+---
+ 5 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 5 Soldiers in Test1 (next to: Test4 , Test7 )
+ 1 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 1 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 5 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
+ 1 Soldiers in Test6 (next to: Test2 , Test8 )
+ 1 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+
+Green
+-----
+
+Blue
+----
+ 13 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 25 Soldiers in Test7 (next to: Test1 , Test5 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Game Outcome!
+You Lose! Conquer more next time!
+Red
+---
+ 2 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 2 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 6 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
+ 2 Soldiers in Test6 (next to: Test2 , Test8 )
+ 2 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+
+Green
+-----
+
+Blue
+----
+ 9 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 21 Soldiers in Test1 (next to: Test4 , Test7 )
+ 1 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 1 Soldiers in Test7 (next to: Test1 , Test5 )
 
 

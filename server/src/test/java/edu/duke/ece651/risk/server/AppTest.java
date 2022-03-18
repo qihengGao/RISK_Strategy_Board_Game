@@ -107,7 +107,7 @@ class AppTest {
         assertEqualsIgnoreLineSeparator(expected3, bytes3.toString());
 
         String expected4 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client4_v1.txt").readAllBytes());
-        //assertEqualsIgnoreLineSeparator(expected4, bytes4.toString());
+        assertEqualsIgnoreLineSeparator(expected4, bytes4.toString());
 
     }
 
