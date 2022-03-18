@@ -42,7 +42,6 @@ public class UnitPlaceStateTest {
 
     private void helper_doAction(String placementCommand) throws ClassNotFoundException, IOException{
         ClientContext clientContext = mock(ClientContext.class);
-        // PrintStream printStream = new PrintStream(new ByteArrayOutputStream());
         PrintStream printStream = System.out;
         State currstate = mock(UnitPlaceState.class);
         State nextState = mock(ShowGameResultState.class);
@@ -136,7 +135,24 @@ public class UnitPlaceStateTest {
         "x is an Invalid input! Try again!\n" +
         "You have 10 to put\n" +
         "How many Soldiers you want to put in territory3\n";
-        
+
         this.run_test_routine("10\n10\nx\n10\n", expected);
+    }
+
+    @Test
+    public void test_doAction_placeFewEachTime() throws ClassNotFoundException, IOException{
+        String expected = "\nYou are: red\n" +
+        "You have 30 to put\n" +
+        "How many Soldiers you want to put in territory1\n" +
+        "You have 20 to put\n" +
+        "How many Soldiers you want to put in territory2\n" +
+        "You have 10 to put\n" +
+        "How many Soldiers you want to put in territory3\n" +
+        "You have 5 to put\n" +
+        "How many Soldiers you want to put in territory1\n" +
+        "You have no more available units to put in territory territory2, adding 0 units\n" +
+        "You have no more available units to put in territory territory3, adding 0 units\n";
+
+        this.run_test_routine("10\n10\n5\n5\n", expected);
     }
 }
