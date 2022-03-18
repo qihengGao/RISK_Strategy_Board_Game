@@ -34,4 +34,9 @@ Test0,Test2,Soldier,6
 A
 Test0,Test8,Soldier,6
 D
+M
+Test0,Test8,Soldier,10
+A
+Test8,Test6,Soldier,14
+D
 

@@ -246,8 +246,7 @@ Blue
  2 Soldiers in Test7 (next to: Test1 , Test5 )
 
 
-Resolved Game Outcome!
-You Lose! Conquer more next time!
+Resolved Round 8 Outcome! Now start placing orders!
 Red
 ---
  4 Soldiers in Test6 (next to: Test2 , Test8 )
@@ -265,5 +264,26 @@ Blue
  5 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
  3 Soldiers in Test7 (next to: Test1 , Test5 )
  4 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+
+
+Resolved Game Outcome!
+You Lose! Conquer more next time!
+Red
+---
+
+Green
+-----
+
+Blue
+----
+ 1 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 3 Soldiers in Test1 (next to: Test4 , Test7 )
+ 5 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 4 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 2 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 6 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
+ 11 Soldiers in Test6 (next to: Test2 , Test8 )
+ 4 Soldiers in Test7 (next to: Test1 , Test5 )
+ 1 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 
