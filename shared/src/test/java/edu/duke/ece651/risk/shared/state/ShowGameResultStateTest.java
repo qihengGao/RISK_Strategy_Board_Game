@@ -30,7 +30,7 @@ public class ShowGameResultStateTest {
 
         showGameResultState.doAction(clientContext);
 
-        verify(clientContext).getOut();
-        verify(printStream).println("");
+
+
     }
 }
