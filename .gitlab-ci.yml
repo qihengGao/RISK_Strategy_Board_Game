@@ -125,6 +125,6 @@ DeployServer:
     - StopPreviousServer
   script:
     - ls
-    - docker run --rm --name risk-game-server -p 1777:1777  -v $(pwd):/risk eclipse-temurin:17 /risk/scripts/deploy.sh
+    - docker run -d --rm --name risk-game-server -p 1777:1777  -v $(pwd):/risk eclipse-temurin:17 /risk/scripts/deploy.sh
   only:
     - dev
