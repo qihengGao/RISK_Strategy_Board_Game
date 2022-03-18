@@ -144,7 +144,7 @@ public class GameHandler extends Thread {
         System.out.println("Game start. Sending map to client.");
 
         assignColorToPlayers();
-        assignTerritoriesToPlayers();
+        assignTerritoriesToPlayers(3);//assign 3 territories to each player
         try {
             unitPlacementPhase();
         } catch (IOException e) {
@@ -230,7 +230,7 @@ public class GameHandler extends Thread {
     /**
      * Randomly initialize the territories with client ID.
      */
-    public void assignTerritoriesToPlayers() {
+    public void assignTerritoriesToPlayers(int n_Terr_per_player) {
         ArrayList<Territory> randomized = new ArrayList<>();
         for (Territory territory : riskMap.getContinent()) {
             randomized.add(territory);
@@ -241,7 +241,7 @@ public class GameHandler extends Thread {
         for (Client client : players)
             clientIDList.add(client.getClientID());
         for (Territory territory : randomized) {
-            territory.tryChangeOwnerTo(clientIDList.get(count++ / 3));
+            territory.tryChangeOwnerTo(clientIDList.get(count++ / n_Terr_per_player));
 
         }
     }
