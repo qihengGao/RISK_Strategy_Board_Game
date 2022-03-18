@@ -282,4 +282,9 @@ You are the Red Player, what would you like to do?
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Game Outcome!
+
+
+-------------------------------------
 Blue win this game!
+-------------------------------------
+

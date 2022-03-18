@@ -290,4 +290,9 @@ Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Game Outcome!
+
+
+-------------------------------------
 Blue win this game!
+-------------------------------------
+

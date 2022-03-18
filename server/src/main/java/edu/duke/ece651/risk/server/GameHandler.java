@@ -207,7 +207,7 @@ public class GameHandler extends Thread {
 
     public void showGameResult(String prompt, Client winner) {
         for (Client client : players) {
-            String customized_prompt = idToColor.get(winner.getClientID()).getColorName()+" win this game!";
+            String customized_prompt = "\n\n-------------------------------------\n"+idToColor.get(winner.getClientID()).getColorName()+" win this game!\n-------------------------------------\n";
 //            if (client.getClientID() == winner.getClientID()) {
 //                customized_prompt = "Congratulations! This continent is yours!";
 //            }
