@@ -18,6 +18,7 @@ public class ReEnterOrderState extends State {
     public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
         String check_message = illegalOrder.executeOrder(contex.getRiskMap());
         contex.getOut().println(check_message);
+        contex.getOut().println("If you want to abandon this order, just press Enter");
         Order newOrder = readOrderFromUser(contex.getRiskMap(), contex.getBufferedReader(), contex.getOut(),
                 contex.getPlayerID(), illegalOrder.getOrderType());
 

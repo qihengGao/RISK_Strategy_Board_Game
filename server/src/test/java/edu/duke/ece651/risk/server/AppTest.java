@@ -27,7 +27,7 @@ class AppTest {
     }
 
 
-    @Disabled
+
     @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
     @Test
 
@@ -88,6 +88,15 @@ class AppTest {
         TimeUnit.MILLISECONDS.sleep(100);
 
 
+        ByteArrayOutputStream bytes5 = new ByteArrayOutputStream();
+        ClientContext context5 = new ClientContext();
+        InputStream input5 = getClass().getClassLoader().getResourceAsStream("Input_Client5_v1.txt");
+        PrintStream out5 = new PrintStream(bytes5, true);
+        context5.setBufferedReader(new BufferedReader(new InputStreamReader(input5)));
+        context5.setOut(out5);
+        RiskGameClient client5 = new RiskGameClient(context5,randomPortNumber);
+        client5.start();
+
 
 
 
@@ -96,6 +105,7 @@ class AppTest {
         client2.join();
         client3.join();
         client4.join();
+        client5.join();
 
         String expected1 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client1_v1.txt").readAllBytes());
         assertEqualsIgnoreLineSeparator(expected1, bytes1.toString());
@@ -109,6 +119,8 @@ class AppTest {
         String expected4 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client4_v1.txt").readAllBytes());
         assertEqualsIgnoreLineSeparator(expected4, bytes4.toString());
 
+        String expected5 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client5_v1.txt").readAllBytes());
+        assertEqualsIgnoreLineSeparator(expected5, bytes5.toString());
     }
 
 //    @Test

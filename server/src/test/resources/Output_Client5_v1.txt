@@ -4,14 +4,12 @@ Which server would you like to connect?
 Please type in server address:
 Please type in server port:
 Please type in you client ID to restore previous game, or Enter to start a new game.
-Invalid client ID. Restore failed!
-Please type in you client ID to restore previous game, or Enter to start a new game.
 What would you like to do?
  (C)reate a new game room.
  (J)oin a existing game room.
 
 Which game room you want to join?
-RoomID: 0 Waiting for game to start. Still need 2 player!
+RoomID: 0 Waiting for game to start. Still need 0 player!
 Placing order!
 Red
 ---
@@ -38,13 +36,13 @@ Yellow
  Test9 (next to: Test1 , Test3 )
 
 
-You are: Green
+You are: Yellow
 You have 30 to put
-How many Soldiers you want to put in Test11
+How many Soldiers you want to put in Test10
 You have 20 to put
-How many Soldiers you want to put in Test3
+How many Soldiers you want to put in Test5
 You have 10 to put
-How many Soldiers you want to put in Test6
+How many Soldiers you want to put in Test9
 Placement phase finished!
 Red
 ---
@@ -71,15 +69,16 @@ Yellow
  10 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
-You are the Green Player, what would you like to do?
+You are the Yellow Player, what would you like to do?
  (M)ove
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Your order (Move():Test10->Test5: Soldier 10) did not pass our rules
+Move Order path does not exist in your territories!
+If you want to abandon this order, just press Enter
 Resolved Round 1 Outcome! Now start placing orders!
 Red
 ---
@@ -106,19 +105,12 @@ Yellow
  11 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
-You are the Green Player, what would you like to do?
+You are the Yellow Player, what would you like to do?
  (M)ove
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Can't find order! Please choose from (M)ove, (A)ttack, (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Can't find order! Please choose from (M)ove, (A)ttack, (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Your input ahjkad is not following the format!
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Round 2 Outcome! Now start placing orders!
 Red
@@ -146,22 +138,13 @@ Yellow
  12 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
-You are the Green Player, what would you like to do?
+You are the Yellow Player, what would you like to do?
  (M)ove
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Your input m is not following the format!
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Your order (Move():Test11->Test8: Soldier 10) did not pass our rules
-You do not have sufficient Soldier to move in Test11!
-If you want to abandon this order, just press Enter
-Your order (Attack():Test11->Test8: soldier 1) did not pass our rules
-You do not have soldier in Test11!
-If you want to abandon this order, just press Enter
 Resolved Round 3 Outcome! Now start placing orders!
 Red
 ---
@@ -188,10 +171,12 @@ Yellow
  13 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
-You are the Green Player, what would you like to do?
+You are the Yellow Player, what would you like to do?
  (M)ove
  (A)ttack
  (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
@@ -221,12 +206,10 @@ Yellow
  4 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
-You are the Green Player, what would you like to do?
+You are the Yellow Player, what would you like to do?
  (M)ove
  (A)ttack
  (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Round 5 Outcome! Now start placing orders!
 Red
@@ -254,13 +237,16 @@ Yellow
  5 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
-You are the Green Player, what would you like to do?
+You are the Yellow Player, what would you like to do?
  (M)ove
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Your order (Attack():Test9->Test9: Soldier 5) did not pass our rules
+You cannot attack Test9 from Test9!
+If you want to abandon this order, just press Enter
 Resolved Round 6 Outcome! Now start placing orders!
 Red
 ---
@@ -287,7 +273,7 @@ Yellow
  4 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
-You are the Green Player, what would you like to do?
+You are the Yellow Player, what would you like to do?
  (M)ove
  (A)ttack
  (D)one
@@ -320,22 +306,17 @@ Yellow
  3 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
 
 
-You are the Green Player, what would you like to do?
+You are the Yellow Player, what would you like to do?
  (M)ove
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Your order (Move():Test11->Test6: Soldier 2) did not pass our rules
-Move Order path does not exist in your territories!
-If you want to abandon this order, just press Enter
-Your order (Attack():Test11->Test4: Soldier 8) did not pass our rules
-You do not have sufficient Soldier to move in Test11!
-If you want to abandon this order, just press Enter
 Resolved Round 8 Outcome! Now start placing orders!
+
+You Lose! Conquer more next time!
+What do you like to do next?
+ (D)isconnect
+ (K)eep Watching
 Red
 ---
  5 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
@@ -361,11 +342,6 @@ Yellow
 ------
 
 
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Round 9 Outcome! Now start placing orders!
 Red
 ---
@@ -392,11 +368,6 @@ Yellow
 ------
 
 
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Round 10 Outcome! Now start placing orders!
 Red
 ---
@@ -423,11 +394,6 @@ Yellow
 ------
 
 
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Round 11 Outcome! Now start placing orders!
 Red
 ---
@@ -454,11 +420,6 @@ Yellow
 ------
 
 
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Round 12 Outcome! Now start placing orders!
 Red
 ---
@@ -485,17 +446,7 @@ Yellow
 ------
 
 
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Round 13 Outcome! Now start placing orders!
-
-You Lose! Conquer more next time!
-What do you like to do next?
- (D)isconnect
- (K)eep Watching
 Red
 ---
  6 Soldiers in Test0 (next to: Test2 , Test8 )

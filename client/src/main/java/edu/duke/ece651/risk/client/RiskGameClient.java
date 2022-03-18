@@ -22,6 +22,19 @@ public class RiskGameClient extends Thread{
 
 
     public void run() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+
+                clientContext.println("Shutting down ...");
+                try {
+                    clientContext.getSocket().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //some cleaning up code...
+
+            }
+        });
         try {
             new InitiateSocketState().doAction(clientContext);
         } catch (IOException e) {
@@ -31,4 +44,5 @@ public class RiskGameClient extends Thread{
         }
 
     }
+
 }

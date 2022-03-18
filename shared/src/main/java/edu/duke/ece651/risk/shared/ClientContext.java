@@ -81,7 +81,7 @@ public class ClientContext {
     BufferedReader bufferedReader;
     PrintStream out;
     ObjectOutputStream oos;
-    ObjectInputStream ois;
+    ObjectInput ois;
 
     public ObjectOutput getOos() {
         return oos;
@@ -95,7 +95,7 @@ public class ClientContext {
         return ois;
     }
 
-    public void setOis(ObjectInputStream ois) {
+    public void setOis(ObjectInput ois) {
         this.ois = ois;
     }
 
