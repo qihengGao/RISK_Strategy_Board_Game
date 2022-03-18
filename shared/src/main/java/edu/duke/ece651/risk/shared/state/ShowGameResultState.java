@@ -11,5 +11,13 @@ public class ShowGameResultState extends State {
 //        MapTextView mapTextView = new MapTextView(contex.getRiskMap(), contex.getIdToColor());
 //        contex.getOut().println(mapTextView.displayMap());
 
+        contex.println("Press any key to exit...");
+        try
+        {
+            contex.getBufferedReader().read();
+        }
+        catch(Exception ignored)
+        {}
+
     }
 }
