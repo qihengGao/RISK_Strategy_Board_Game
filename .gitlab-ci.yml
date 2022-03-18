@@ -18,6 +18,9 @@
 # runtime for each build is more reliable since the runtime is completely
 # isolated from any previous builds.
 stages:
+  - build
+  - test
+  - deploy
   - test-deploy
 
 build:
@@ -139,6 +142,6 @@ TestPortStatus:
   needs:
     - DeployServer
   script:
-    - /scripts/test-deploy.sh
+    - ./scripts/test-deploy.sh
   only:
     - dev
