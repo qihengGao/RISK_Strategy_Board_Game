@@ -82,7 +82,7 @@ public class UnitPlaceStateTest {
             "You have 20 to put\n" + 
             "How many Soldiers you want to put in territory1\n" + 
             "You have 10 to put\n" + 
-            "How many Soldiers you want to put in territory1";
+            "How many Soldiers you want to put in territory1\n";
 
         this.assertEqualsIgnoreLineSeparator(expected, bo.toString());      
     }
