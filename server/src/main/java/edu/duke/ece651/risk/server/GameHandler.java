@@ -241,7 +241,7 @@ public class GameHandler extends Thread {
         for (Client client : players)
             clientIDList.add(client.getClientID());
         for (Territory territory : randomized) {
-            territory.tryChangeOwnerTo(clientIDList.get(count++ / roomSize));
+            territory.tryChangeOwnerTo(clientIDList.get(count++ / 3));
 
         }
     }
