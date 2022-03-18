@@ -17,4 +17,9 @@ D
 D
 D
 D
+A
+Test3,Test0,Soldier,13
+A
+Test7,Test1,Soldier,25
+D
 

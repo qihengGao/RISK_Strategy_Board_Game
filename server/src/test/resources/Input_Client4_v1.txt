@@ -19,5 +19,14 @@ m
 Test5,Test2,Soldier,7
 D
 D
+M
+Test8,Test2,Soldier,4
+A
+Test2,Test0,Soldier,15
+M
+Test6,Test4,Soldier,4
+A
+Test4,Test1,Soldier,18
 D
 D
+
