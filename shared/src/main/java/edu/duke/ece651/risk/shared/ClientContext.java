@@ -20,6 +20,15 @@ public class ClientContext {
     private String serverAddress;
     private final SocketFactory socketFactory;
     private final StateFactory stateFactory;
+    private boolean keepWatchResult = false;
+
+    public boolean isKeepWatchResult() {
+        return keepWatchResult;
+    }
+
+    public void setKeepWatchResult(boolean keepWatchResult) {
+        this.keepWatchResult = keepWatchResult;
+    }
 
     public StateFactory getStateFactory() {
         return stateFactory;

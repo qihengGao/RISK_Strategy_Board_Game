@@ -209,10 +209,10 @@ public class GameHandler extends Thread {
 
     public void showGameResult(String prompt, Client winner) {
         for (Client client : players) {
-            String customized_prompt = "You Lose! Conquer more next time!";
-            if (client.getClientID() == winner.getClientID()) {
-                customized_prompt = "Congratulations! This continent is yours!";
-            }
+            String customized_prompt = "\n\n-------------------------------------\n"+idToColor.get(winner.getClientID()).getColorName()+" win this game!\n-------------------------------------\n";
+//            if (client.getClientID() == winner.getClientID()) {
+//                customized_prompt = "Congratulations! This continent is yours!";
+//            }
             try {
                 client.writeObject(new RiskGameMessage(client.getClientID(), new ShowGameResultState(), riskMap, prompt + "\n" + customized_prompt, idToColor));
             } catch (IOException e) {
@@ -241,7 +241,7 @@ public class GameHandler extends Thread {
         for (Client client : players)
             clientIDList.add(client.getClientID());
         for (Territory territory : randomized) {
-            territory.tryChangeOwnerTo(clientIDList.get(count++ / 3));
+            territory.tryChangeOwnerTo(clientIDList.get(count++ / roomSize));
 
         }
     }
