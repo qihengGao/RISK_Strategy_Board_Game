@@ -17,19 +17,19 @@ public class ReEnterOrderState extends State {
     @Override
     public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
         String check_message = illegalOrder.executeOrder(contex.getRiskMap());
-        contex.getOut().println(check_message);
-        contex.getOut().println("If you want to abandon this order, just press Enter");
+        contex.println(check_message);
+        contex.println("If you want to abandon this order, just press Enter");
         Order newOrder = readOrderFromUser(contex.getRiskMap(), contex.getBufferedReader(), contex.getOut(),
                 contex.getPlayerID(), illegalOrder.getOrderType());
 
-        contex.getOos().writeObject(newOrder);
+        contex.writeObject(newOrder);
 
         //wait server for next state
         contex.setGameState(new WaitingState());
         contex.getGameState().doAction(contex);
     }
 
-    public Order readOrderFromUser(RISKMap riskMap, BufferedReader input, PrintStream output, long ID, String chosenOrder) throws IOException {
+    public Order readOrderFromUser(RISKMap riskMap, BufferedReader input, PrintStream output, Long ID, String chosenOrder) throws IOException {
         while (true) {
             String userInput = input.readLine();
             if (userInput.equals("")){

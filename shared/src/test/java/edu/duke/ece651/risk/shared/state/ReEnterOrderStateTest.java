@@ -13,6 +13,13 @@ import java.io.*;
 import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class ReEnterOrderStateTest {
     private static void assertEqualsIgnoreLineSeparator(String expected, String actual) {
@@ -44,6 +51,23 @@ public class ReEnterOrderStateTest {
     }
 
     @Test
+    public void test_doAction() throws ClassNotFoundException, IOException{
+        ClientContext clientContext = mock(ClientContext.class);
+        Order illegalOrder = mock(MoveOrder.class);
+        ReEnterOrderState thisState = spy(new ReEnterOrderState(illegalOrder));
+        State nextState = mock(ShowGameResultState.class);
+
+        doCallRealMethod().when(thisState).doAction(clientContext);
+        doReturn("").when(illegalOrder).executeOrder(any());
+        doReturn(illegalOrder).when(thisState).readOrderFromUser(any(),any(),any(),any(),any());
+        doReturn(nextState).when(clientContext).getGameState();
+
+        thisState.doAction(clientContext);
+
+        verify(nextState, times(1)).doAction(clientContext);
+    }
+
+    @Test
     public void test_readOrderFromUser_nullInput() throws IOException{
         RISKMap riskMap = this.buildTestMap();
         BufferedReader bufferedReader = new BufferedReader(new StringReader("\n"));
@@ -67,7 +91,7 @@ public class ReEnterOrderStateTest {
         assertEquals(illegalMoveOrder.executeOrder(riskMap), "Move Order path does not exist in your territories!");
         ReEnterOrderState state1 = new ReEnterOrderState(illegalMoveOrder);
         BufferedReader input1 = new BufferedReader(new StringReader("Test0,Test2,Unit,10"));
-        Order newMoveOrder = state1.readOrderFromUser(riskMap2, input1 , output, 0, illegalMoveOrder.getOrderType());
+        Order newMoveOrder = state1.readOrderFromUser(riskMap2, input1 , output, 0L, illegalMoveOrder.getOrderType());
         assertNull(newMoveOrder.executeOrder(riskMap));
         displayMap(riskMap);
 
@@ -76,7 +100,7 @@ public class ReEnterOrderStateTest {
         assertEquals(illegalAttackOrder.executeOrder(riskMap), "You do not have sufficient Unit to move in Test0!");
         ReEnterOrderState state2 = new ReEnterOrderState(illegalAttackOrder);
         BufferedReader input2 = new BufferedReader(new StringReader("Test2,Test6,Unit,11"));
-        Order newAttackOrder = state2.readOrderFromUser(riskMap2, input2 , output, 0, illegalAttackOrder.getOrderType());
+        Order newAttackOrder = state2.readOrderFromUser(riskMap2, input2 , output, 0L, illegalAttackOrder.getOrderType());
         assertNull(newAttackOrder.executeOrder(riskMap));
         displayMap(riskMap);
 
@@ -84,7 +108,7 @@ public class ReEnterOrderStateTest {
         //illegal and illegal
         ReEnterOrderState state3 = new ReEnterOrderState(illegalMoveOrder);
         BufferedReader input3 = new BufferedReader(new StringReader("alalala\nTest2,Test0,Unit,3\n"));
-        Order order = state3.readOrderFromUser(riskMap2, input3 , output, 0, illegalMoveOrder.getOrderType());
+        Order order = state3.readOrderFromUser(riskMap2, input3 , output, 0L, illegalMoveOrder.getOrderType());
         System.out.println(bytes.toString());
         displayMap(riskMap);
     }
