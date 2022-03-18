@@ -12,6 +12,10 @@ public class Client {
     private  ObjectOutputStream oos;
     private RiskGameMessage previousRiskGameMessage;
 
+    public Client() {
+        this.clientID = -1;
+    }
+
     public RiskGameMessage getPreviousRiskGameMessage() {
         return previousRiskGameMessage;
     }
@@ -51,17 +55,7 @@ public class Client {
 
 
 
-    public Client(long clientID, Socket socket) throws IOException {
-        this.clientID = clientID;
-        this.socket = socket;
-        try {
-            oos = new ObjectOutputStream(socket.getOutputStream());
-            ois = new ObjectInputStream(socket.getInputStream());
-        }catch (StreamCorruptedException ignored){
-            //When we mock InputStream, the default header is 000000, which will cause ObjectInputStream throw
-            //StreamCorruptedException.
-        }
-    }
+
     public Client(Socket socket, long clientID, ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream){
         this.clientID = clientID;
         this.oos = objectOutputStream;

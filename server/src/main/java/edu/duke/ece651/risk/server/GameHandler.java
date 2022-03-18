@@ -34,24 +34,6 @@ public class GameHandler extends Thread {
         players.add(client);
     }
 
-    /**
-     * Allocates a new {@code Thread} object. This constructor has the same
-     * effect as {@linkplain Thread(ThreadGroup, Runnable, String) Thread}
-     * {@code (null, null, gname)}, where {@code gname} is a newly generated
-     * name. Automatically generated names are of the form
-     * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
-     */
-    public GameHandler(Set<Client> players) {
-        this.players = players;
-        predefineColorList.add(new Color("Red"));
-        predefineColorList.add(new Color("Green"));
-        predefineColorList.add(new Color("Blue"));
-        predefineColorList.add(new Color("Yellow"));
-        predefineColorList.add(new Color("Purple"));
-        idToColor = new TreeMap<>();
-        roomSize = players.size();
-        riskMap = (RISKMap) new RandomMapFactory().createMapForNplayers(roomSize);
-    }
 
     public GameHandler(Client host, int roomSize, long roomID) {
         players = new TreeSet<>(new Comparator<Client>() {
