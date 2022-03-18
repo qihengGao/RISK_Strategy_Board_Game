@@ -274,12 +274,22 @@ public class GameHandler extends Thread {
     public HashMap<String, ArrayList<Order>> actionPhase(String prompt)
             throws ClassCastException {
         HashMap<String, ArrayList<Order>> orderToList = createEmptyOrderTypeToOrders("Move", "Attack");
+        //sending updates
         for (Client client : players) {
             if (isPlayerLost(client)) {
                 sendUpdateToLOSERS(prompt, client);
             }
             else{
-                readAndWriteOrders(riskMap, idToColor, client, prompt, orderToList);
+                sendUpdateToPlayers(riskMap, idToColor, client, prompt, orderToList);
+            }
+        }
+
+        for (Client client : players) {
+            if (isPlayerLost(client)) {
+                sendUpdateToLOSERS(prompt, client);
+            }
+            else {
+                readOrderFromPlayers(riskMap, idToColor, client, prompt, orderToList);
             }
         }
         return orderToList;
@@ -302,10 +312,23 @@ public class GameHandler extends Thread {
         return ans;
     }
 
-    private void readAndWriteOrders(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
-                                    HashMap<String, ArrayList<Order>> orderToList) {
+    private void sendUpdateToPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
+                                     HashMap<String, ArrayList<Order>> orderToList) {
         try {
             client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
+            ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
+            for (Order order : orders) {
+                orderToList.get(order.getOrderType()).add(order);
+                System.out.println("Receive: " + order.toString());
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Client socket closed, id :" + client.getClientID());
+        }
+    }
+
+    private void readOrderFromPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
+                                     HashMap<String, ArrayList<Order>> orderToList) {
+        try {
             ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
             for (Order order : orders) {
                 orderToList.get(order.getOrderType()).add(order);
