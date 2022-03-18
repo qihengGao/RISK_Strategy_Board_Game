@@ -14,7 +14,6 @@ import java.util.Map;
 
 public class ClientHandler extends Thread {
     private final Socket socket;
-    private final LinkedList<Client> clientList;
     private final Map<Long, GameHandler> roomMap;
     private final long clientIDCounter;
     private final Map<Long, Client> idToClient;
@@ -27,13 +26,11 @@ public class ClientHandler extends Thread {
      *
      * @param socket The socket we need to handle with.
      * @param clientIDCounter client ID assign to this socket. Warning: may be depreciated when the client want to restore previous game.
-     * @param clientList A list which store all the client.
      * @param roomMap A Map which store all the game room.
      * @param idToClient A mao between client ID and client itself.
      */
-    public ClientHandler(Socket socket, Long clientIDCounter, LinkedList<Client> clientList, HashMap<Long, GameHandler> roomMap, Map<Long, Client> idToClient) {
+    public ClientHandler(Socket socket, Long clientIDCounter, HashMap<Long, GameHandler> roomMap, Map<Long, Client> idToClient) {
         this.socket = socket;
-        this.clientList = clientList;
         this.roomMap = roomMap;
         this.clientIDCounter = clientIDCounter;
         this.idToClient = idToClient;
@@ -175,8 +172,7 @@ public class ClientHandler extends Thread {
         System.out.println("New client! Client id: " + clientIDCounter);
         Client tmp = new Client(socket, clientIDCounter, objectInputStream, objectOutputStream);
         client = tmp;
-        synchronized (clientList) {
-            clientList.add(tmp);
+        synchronized (idToClient) {
             idToClient.put(clientIDCounter, tmp);
 
             //Require client go to SelectRoomState.
@@ -215,7 +211,7 @@ public class ClientHandler extends Thread {
                 if (oriClient.getPreviousRiskGameMessage() == null || oriClient.getPreviousRiskGameMessage().getCurrentState() instanceof WaitingState)
                     oriClient.writeObject(new RiskGameMessage(oriClient.getClientID(), new WaitingState(), null,
                             String.format("Successfully restore a socket connection, client id = %d\n" +
-                                    "Waiting for game to start. Still need %d player!", oriClientID, 3 - clientList.size())));
+                                    "Waiting for game to start. Still need %d player!", -1)));
                 else
                     oriClient.writeObject(oriClient.getPreviousRiskGameMessage());
                 return true;

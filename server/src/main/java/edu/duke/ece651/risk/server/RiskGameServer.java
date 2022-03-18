@@ -9,7 +9,7 @@ public class RiskGameServer extends Thread {
     private long clientIDCounter;
 
     private final ServerSocket serverSocket;
-    private final LinkedList<Client> clientList;
+
     private final Map<Long, Client> idToClient;
     private final HashMap<Long, GameHandler> roomMap;
 
@@ -19,7 +19,6 @@ public class RiskGameServer extends Thread {
      */
     public RiskGameServer(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
-        clientList = new LinkedList<>();
         this.clientIDCounter = 0;
         this.idToClient = new HashMap<>();
         roomMap = new HashMap<>();
@@ -36,7 +35,7 @@ public class RiskGameServer extends Thread {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                new ClientHandler(socket,clientIDCounter++,clientList, roomMap, idToClient).start();
+                new ClientHandler(socket,clientIDCounter++, roomMap, idToClient).start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
