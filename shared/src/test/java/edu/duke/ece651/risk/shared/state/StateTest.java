@@ -1,12 +1,15 @@
 package edu.duke.ece651.risk.shared.state;
 
 import edu.duke.ece651.risk.shared.ClientContext;
+import edu.duke.ece651.risk.shared.RiskGameMessage;
+import edu.duke.ece651.risk.shared.factory.RiskGameMessageFactory;
 import edu.duke.ece651.risk.shared.factory.SocketFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -61,6 +64,24 @@ public class StateTest {
         assertThrows(EOFException.class, () -> testState.readServerAddress(context,"Please type in server address"));
     }
 
+    /**
+     * test for readClientId
+     * @throws NumberFormatException
+     * @throws IOException
+     */
+    @Test
+    public void test_readClientID() throws NumberFormatException, IOException{
+        State testState = new WaitingState();
+        ClientContext clientContext = new ClientContext();
+        BufferedReader bufferedReader = new BufferedReader(new StringReader("1"));
+        PrintStream printStream = new PrintStream(System.out);
+        clientContext.setBufferedReader(bufferedReader);
+        clientContext.setOut(printStream);
+        String prompt = "prompt";
+        Long result = testState.readClientID(clientContext, prompt);
+        assertEquals(1L, result);   
+    }
+
     @Test
     void connectToServer() throws IOException {
 
@@ -106,6 +127,48 @@ public class StateTest {
 
     }
 
+    @Test
+    public void test_reconnectToServer() throws IOException{
+        ClientContext clientContext = mock(ClientContext.class);
+        RiskGameMessageFactory factory = mock(RiskGameMessageFactory.class);
+        RiskGameMessage message = mock(RiskGameMessage.class);
+        long playerId = 0L;
+
+        InitiateSocketState state = mock(InitiateSocketState.class);
+        
+        doCallRealMethod().when(state).reconnectToServer(clientContext);
+        doReturn(factory).when(clientContext).getRiskGameMessageFactory();
+
+        doReturn(playerId).when(clientContext).getPlayerID();
+        doReturn(message).when(factory).createReconnectMessage(clientContext, playerId);
+        
+        boolean result = state.reconnectToServer(clientContext);
+        assertEquals(true, result);
+
+        doThrow(new IOException("test")).when(clientContext).writeObject(any());
+        result = state.reconnectToServer(clientContext);
+        assertEquals(false, result);
+    }
+
+    @Test
+    public void test_initConnectToServer() throws IOException{
+        ClientContext clientContext = mock(ClientContext.class);
+        RiskGameMessageFactory factory = mock(RiskGameMessageFactory.class);
+        RiskGameMessage message = mock(RiskGameMessage.class);
+
+        InitiateSocketState state = mock(InitiateSocketState.class);
+
+        doCallRealMethod().when(state).initConnectToServer(clientContext);
+        doReturn(factory).when(clientContext).getRiskGameMessageFactory();
+        doReturn(message).when(factory).createInitMessage();
+
+        boolean result = state.initConnectToServer(clientContext);
+        assertTrue(result);
+
+        doThrow(new IOException("test")).when(clientContext).writeObject(any());
+        result = state.initConnectToServer(clientContext);
+        assertFalse(result);
+    }
 
     @Test
     void writeObject() throws IOException {
@@ -125,5 +188,42 @@ public class StateTest {
         state.writeObject(clientContext,new Object());
         verify(clientContext,times(3)).writeObject(any(Object.class));
 
+    }
+
+    // @Test
+    // public void test_readChoice() throws IOException{
+    //     InitiateSocketState state = mock(InitiateSocketState.class);
+    //     ClientContext clientContext = new ClientContext();
+    //     BufferedReader bufferedReader = new BufferedReader(new StringReader("pattern"));
+    //     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    //     PrintStream printStream = new PrintStream(bytes, true);        
+    //     String prompt = "prompt";
+    //     String invalidPrompt = "invalid prompt";
+    //     Pattern pattern = Pattern.compile("^.+$", Pattern.CASE_INSENSITIVE);
+
+    //     clientContext.setBufferedReader(bufferedReader);
+    //     clientContext.setOut(printStream);
+    //     String actual = state.readChoice(clientContext, prompt, invalidPrompt, pattern);
+    //     System.out.println(actual);
+    //     assertEquals("", actual);
+    // }
+
+    @Test
+    public void test_updateContextWithMessage(){
+        ClientContext clientContext = new ClientContext();
+        RiskGameMessage message = new RiskGameMessage();
+        State state = new InitiateSocketState();
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(bytes, true);   
+
+        message.setPrompt("prompt");
+        message.setClientid(0L);
+        message.setCurrentState(state);
+        clientContext.setOut(printStream);
+
+        state.updateContextWithMessage(clientContext, message);
+
+        assertEquals(0L, clientContext.getPlayerID());
     }
 }
