@@ -11,4 +11,4 @@ What would you like to do?
  (J)oin a existing game room.
 
 How many players in this room?[2-5]
-RoomID: 0 Waiting for game to start. Still need 2 player!
+RoomID: 0 Waiting for game to start. Still need 3 player!
