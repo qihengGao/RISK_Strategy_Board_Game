@@ -1,20 +1,32 @@
 package edu.duke.ece651.risk.shared.state;
 
 import edu.duke.ece651.risk.shared.ClientContext;
+import edu.duke.ece651.risk.shared.Color;
 import edu.duke.ece651.risk.shared.RiskGameMessage;
 import edu.duke.ece651.risk.shared.factory.RiskGameMessageFactory;
 import edu.duke.ece651.risk.shared.factory.SocketFactory;
+import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.territory.Territory;
+
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.HashSet;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class StateTest {
+
+    private void assertEqualsIgnoreLineSeparator(String expected, String actual) {
+        assertEquals(expected.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")),
+                actual.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")));
+    }
+
     @Test
     public void test_readServerPort() throws IOException {
         State testState = new WaitingState();
@@ -190,23 +202,23 @@ public class StateTest {
 
     }
 
-    // @Test
-    // public void test_readChoice() throws IOException{
-    //     InitiateSocketState state = mock(InitiateSocketState.class);
-    //     ClientContext clientContext = new ClientContext();
-    //     BufferedReader bufferedReader = new BufferedReader(new StringReader("pattern"));
-    //     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    //     PrintStream printStream = new PrintStream(bytes, true);        
-    //     String prompt = "prompt";
-    //     String invalidPrompt = "invalid prompt";
-    //     Pattern pattern = Pattern.compile("^.+$", Pattern.CASE_INSENSITIVE);
+    @Test
+    public void test_readChoice() throws IOException{
+        InitiateSocketState state = new InitiateSocketState();
+        ClientContext clientContext = new ClientContext();
+        BufferedReader bufferedReader = new BufferedReader(new StringReader("patter\npattern\n"));
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(bytes, true);        
+        String prompt = "prompt";
+        String invalidPrompt = "invalid prompt";
+        Pattern pattern = Pattern.compile("pattern", Pattern.CASE_INSENSITIVE);
 
-    //     clientContext.setBufferedReader(bufferedReader);
-    //     clientContext.setOut(printStream);
-    //     String actual = state.readChoice(clientContext, prompt, invalidPrompt, pattern);
-    //     System.out.println(actual);
-    //     assertEquals("", actual);
-    // }
+        clientContext.setBufferedReader(bufferedReader);
+        clientContext.setOut(printStream);
+        String actual = state.readChoice(clientContext, prompt, invalidPrompt, pattern);
+        assertEquals("PATTERN", actual);
+        this.assertEqualsIgnoreLineSeparator("prompt\ninvalid prompt\n", bytes.toString());
+    }
 
     @Test
     public void test_updateContextWithMessage(){
@@ -216,14 +228,33 @@ public class StateTest {
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(bytes, true);   
-
-        message.setPrompt("prompt");
-        message.setClientid(0L);
-        message.setCurrentState(state);
         clientContext.setOut(printStream);
 
-        state.updateContextWithMessage(clientContext, message);
+        String prompt = "prompt\n";
+        message.setPrompt(prompt);
+        message.setClientid(0L);
+        message.setCurrentState(state);
 
+        state.updateContextWithMessage(clientContext, message);
         assertEquals(0L, clientContext.getPlayerID());
+        assertNull(clientContext.getRiskMap());
+        assertNull(clientContext.getIdToColor());
+
+        prompt = "";
+        RISKMap riskMap = new RISKMap(new HashSet<Territory>());
+        clientContext.setRiskMap(riskMap);
+        state.updateContextWithMessage(clientContext, message);
+        assertEquals(0L, clientContext.getPlayerID());
+        assertSame(riskMap, clientContext.getRiskMap());
+        assertNull(clientContext.getIdToColor());
+
+        Color color = new Color("red");
+        TreeMap<Long, Color> idToColor = new TreeMap<>();
+        idToColor.put(0L, color);
+        clientContext.setIdToColor(idToColor);
+        state.updateContextWithMessage(clientContext, message);
+        assertEquals(0L, clientContext.getPlayerID());
+        assertSame(riskMap, clientContext.getRiskMap());
+        assertSame(idToColor, clientContext.getIdToColor());
     }
 }
