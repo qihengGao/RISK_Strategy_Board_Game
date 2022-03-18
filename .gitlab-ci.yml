@@ -105,3 +105,14 @@ uploadArtifactsForNotMainBracnh:
       - coverageout
   except:
     - main
+
+DeployServer:
+  stage: deploy
+  tags:
+    - deploy
+  needs:
+    - clover-report
+  script:
+    - ls
+  only:
+    - dev
