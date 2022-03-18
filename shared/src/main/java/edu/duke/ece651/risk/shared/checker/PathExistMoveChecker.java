@@ -28,7 +28,7 @@ PathExistMoveChecker extends ActionChecker {
     Territory end = null;
     for (String tName: curr.getNeighbors()){
       Territory t = riskMap.getTerritoryByName(tName);
-      if (!visited.contains(t) && t.getOwnerID()==ID){
+      if (!visited.contains(t) && t.getOwnerID().equals(ID)){
         end = dfsToDst(riskMap, ID, t, dstName, visited);
         if (end!=null){
           return end;

@@ -49,7 +49,7 @@ public class Client {
     }
 
 
-    public long getClientID() {
+    public Long getClientID() {
         return clientID;
     }
 
