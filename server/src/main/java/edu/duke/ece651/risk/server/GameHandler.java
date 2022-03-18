@@ -168,8 +168,8 @@ public class GameHandler extends Thread {
             executeOrdersAndCheckLegal(ordersToList, "Move", "Attack");
             //todo: update in battlefield instead of execute order
             for (Territory t : riskMap.getContinent()){
-                //default = rolling 20 sided dice. simple add and minus rules
-                t.getBattleField().setAttackResolver(new SimpleAttackResolver());
+                //todo: uncomment this line for simple add or minus fight resolver
+                //t.getBattleField().setAttackResolver(new SimpleAttackResolver());
                 //
                 t.getBattleField().fightBattle(t, "Soldier");
                 t.getBattleField().resetAttackersList();
@@ -177,9 +177,11 @@ public class GameHandler extends Thread {
 
             increaseOneInAllTerritory();
 
-            //todo: remove this round limit break;
-
-            //-----
+            //todo: remove this round limit break; or de-comment for easier testing
+//            if (roundNumber==3){
+//                break;
+//            }
+            //-----Add round number
             roundNumber++;
 
             //check player win and end game
@@ -307,6 +309,7 @@ public class GameHandler extends Thread {
             ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
             for (Order order : orders) {
                 orderToList.get(order.getOrderType()).add(order);
+                System.out.println("Receive: " + order.toString());
             }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Client socket closed, id :" + client.getClientID());
@@ -316,12 +319,16 @@ public class GameHandler extends Thread {
     //resolve round result phase: compute outcome of all attacks
     private void executeOrdersAndCheckLegal(HashMap<String, ArrayList<Order>> ordersToList, String... orderTypes) {
         for (String type : orderTypes) {
+            if (type.equals("Attack")){
+                Collections.shuffle(ordersToList.get(type), new Random(1777));
+            }
             for (Order order : ordersToList.get(type)) {
+                System.out.println("Executing: " + order.toString());
                 String check_message = order.executeOrder(riskMap);
                 //server check
                 if (check_message!=null){
                     try {
-                        System.out.println(order.toString());
+                        System.out.println("Illegal: " + order.toString());
                         System.out.println(check_message);
                         letClientReOrder(order, check_message);
                     } catch (IOException | ClassNotFoundException e) {
