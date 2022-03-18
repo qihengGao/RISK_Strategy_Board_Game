@@ -283,12 +283,9 @@ public class GameHandler extends Thread {
                 sendUpdateToPlayers(riskMap, idToColor, client, prompt, orderToList);
             }
         }
-
+        //reading
         for (Client client : players) {
-            if (isPlayerLost(client)) {
-                sendUpdateToLOSERS(prompt, client);
-            }
-            else {
+            if (!isPlayerLost(client)) {
                 readOrderFromPlayers(riskMap, idToColor, client, prompt, orderToList);
             }
         }
@@ -316,12 +313,7 @@ public class GameHandler extends Thread {
                                      HashMap<String, ArrayList<Order>> orderToList) {
         try {
             client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
-            ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
-            for (Order order : orders) {
-                orderToList.get(order.getOrderType()).add(order);
-                System.out.println("Receive: " + order.toString());
-            }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             System.out.println("Client socket closed, id :" + client.getClientID());
         }
     }
