@@ -10,5 +10,3 @@ What would you like to do?
 
 How many players in this room?[2-5]
 RoomID: 0 Waiting for game to start. Still need 2 player!
-Waiting for server to resolve your orders...
-

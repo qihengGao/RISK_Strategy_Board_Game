@@ -45,10 +45,7 @@ class ClientHandlerTest {
     void run() {
     }
 
-    @Test
-    void doRestorePhase() throws IOException {
 
-    }
 
     @Test
     void tryJoinGameRoom() throws IOException {
@@ -130,6 +127,11 @@ class ClientHandlerTest {
         clientHandler.doSelectRoomPhase(riskGameMessage);
         verify(client,atLeast(1)).writeObject(any());
 
+
+    }
+
+    @Test
+    void doRestorePhase() throws IOException {
 
     }
 }

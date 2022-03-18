@@ -30,7 +30,7 @@ class AppTest {
 
     @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
     @Test
-    @Disabled
+
     void test_normalInput() throws IOException, ClassNotFoundException, InterruptedException {
 
         int randomPortNumber = (int) Math.floor(Math.random()*(9092-9080+1)+9080);

@@ -219,7 +219,7 @@ public class ClientHandler extends Thread {
                 if (oriClient.getPreviousRiskGameMessage() == null || oriClient.getPreviousRiskGameMessage().getCurrentState() instanceof WaitingState)
                     oriClient.writeObject(new RiskGameMessage(oriClient.getClientID(), new WaitingState(), null,
                             String.format("Successfully restore a socket connection, client id = %d\n" +
-                                    "Waiting for game to start. Still need %d player!", -1)));
+                                    "Waiting for game to start. Still need %d player!", 1,1)));
                 else
                     oriClient.writeObject(oriClient.getPreviousRiskGameMessage());
                 return true;

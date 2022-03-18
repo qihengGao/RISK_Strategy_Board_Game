@@ -10,8 +10,6 @@ What would you like to do?
 
 Which game room you want to join?
 RoomID: 0 Waiting for game to start. Still need 0 player!
-Waiting for server to resolve your orders...
-
 Placing order!
 Red
 ---
@@ -43,8 +41,6 @@ You have 5 to put
 How many Soldiers you want to put in Test3
 You have no more available units to put in territory Test5, adding 0 units
 You have no more available units to put in territory Test7, adding 0 units
-Waiting for server to resolve your orders...
-
 Placement phase finished!
 Red
 ---
@@ -75,8 +71,6 @@ Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
 Unit Amount must be an integer!
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Waiting for server to resolve your orders...
-
 Resolved Round 1 Outcome! Now start placing orders!
 Red
 ---
@@ -102,8 +96,6 @@ You are the Blue Player, what would you like to do?
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Waiting for server to resolve your orders...
-
 Resolved Round 2 Outcome! Now start placing orders!
 Red
 ---
@@ -129,8 +121,6 @@ You are the Blue Player, what would you like to do?
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Waiting for server to resolve your orders...
-
 Resolved Round 3 Outcome! Now start placing orders!
 Red
 ---
@@ -156,8 +146,6 @@ You are the Blue Player, what would you like to do?
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Waiting for server to resolve your orders...
-
 Resolved Game Outcome!
 You Lose! Conquer more next time!
 Red
