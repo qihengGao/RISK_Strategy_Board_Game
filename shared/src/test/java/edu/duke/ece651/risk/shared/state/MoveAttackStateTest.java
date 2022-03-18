@@ -3,14 +3,17 @@ package edu.duke.ece651.risk.shared.state;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
@@ -67,6 +70,23 @@ public class MoveAttackStateTest {
   }
 
   @Test
+  public void test_orderPhase() throws IOException{
+    MoveAttackState state = mock(MoveAttackState.class);
+    RISKMap riskMap = mock(RISKMap.class);
+    BufferedReader bufferedReader = mock(BufferedReader.class);
+    PrintStream printStream = mock(PrintStream.class);
+    long playerID = 0L;
+    Color color = new Color("red");
+    TreeMap<Long,Color> idToColor = new TreeMap<>();
+    idToColor.put(playerID, color);
+
+    doCallRealMethod().when(state).orderPhase(riskMap, bufferedReader, printStream, playerID, idToColor);
+
+    state.orderPhase(riskMap, bufferedReader, printStream, playerID, idToColor);
+    verify(state).fillInOrders(bufferedReader, printStream, playerID);
+  }
+
+  @Test
   public void test_fillInOrders() throws IOException {
     RISKMap riskMap = buildTestMap();
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -75,7 +95,7 @@ public class MoveAttackStateTest {
     //normal consequential orders
 
     String check_message = checkValidOrder(riskMap, 0, output, "M\nTest0,Test2,Unit,10",
-            "A\nTest2,Test3,Unit,20", "A\nTest1,Test4,Unit,2");
+            "Attack\nTest2,Test3,Unit,20", "A\nTest1,Test4,Unit,2");
     System.out.println(check_message);
     displayMap(riskMap);
     assertEquals(riskMap.getTerritoryByName("Test0").getUnitByType("Unit").getAmount(), 0);
@@ -85,7 +105,7 @@ public class MoveAttackStateTest {
     assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 10);
     displayMap(riskMap);
 
-    checkValidOrder(riskMap, 1, output, "M\nTest4,Test5,Unit,8");
+    checkValidOrder(riskMap, 1, output, "Move\nTest4,Test5,Unit,8");
     assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 2);
     assertEquals(riskMap.getTerritoryByName("Test5").getUnitByType("Unit").getAmount(), 18);
     displayMap(riskMap);
