@@ -31,8 +31,8 @@ public class InitiateSocketState extends State {
     public void useCustomServerAddress(ClientContext context) throws IOException {
         String serverAddress = readChoice(context, "Please type in server address:",
                 "Invalid address.", Pattern.compile("^.+$", Pattern.CASE_INSENSITIVE));
-        int serverPort = Integer.parseInt(readChoice(context, "Please type in server port:",
-                "Invalid port number.", Pattern.compile("^\\d+$", Pattern.CASE_INSENSITIVE)));
+        int serverPort = Math.abs(Integer.parseInt(readChoice(context, "Please type in server port:",
+                "Invalid port number.", Pattern.compile("^\\d+$", Pattern.CASE_INSENSITIVE))));
 
         context.setServerAddress(serverAddress);
 

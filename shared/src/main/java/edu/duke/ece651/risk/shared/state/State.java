@@ -43,7 +43,7 @@ public abstract class State implements Serializable {
      */
     public int readServerPort(ClientContext context, String prompt) throws IOException, NumberFormatException {
 
-        return Integer.parseInt(readLine(context,prompt));
+        return Math.abs(Integer.parseInt(readLine(context,prompt)));
 
     }
 
@@ -56,20 +56,6 @@ public abstract class State implements Serializable {
      */
     public String readServerAddress(ClientContext context, String prompt) throws IOException {
         return readLine(context,prompt);
-
-    }
-
-    /**
-     * Read client id from input source.
-     *
-     * @param prompt is a friendly advise for user.
-     * @return Client ID read from input source.
-     * @throws IOException           if read an empty line or the input source in null.
-     * @throws NumberFormatException if the line we read from input source is not a Long.
-     */
-    public Long readClientID(ClientContext context, String prompt) throws IOException, NumberFormatException {
-
-        return Long.parseLong(readLine(context,prompt));
 
     }
 

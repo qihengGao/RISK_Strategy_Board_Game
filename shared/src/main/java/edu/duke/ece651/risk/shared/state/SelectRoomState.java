@@ -64,8 +64,8 @@ public class SelectRoomState extends State {
      * @throws IOException Any problem related to the input/output stream.
      */
     public void createAGameRoom(ClientContext context) throws IOException {
-        int roomSize = Integer.parseInt(readChoice(context, "How many players in this room?[2-5]",
-                "Invalid command!", Pattern.compile("[2-5]",Pattern.CASE_INSENSITIVE)));
+        int roomSize = Math.abs(Integer.parseInt(readChoice(context, "How many players in this room?[2-5]",
+                "Invalid command!", Pattern.compile("[2-5]",Pattern.CASE_INSENSITIVE))));
         RiskGameMessageFactory riskGameMessageFactory = context.getRiskGameMessageFactory();
         context.writeObject(riskGameMessageFactory.createCreateGameRoomMessage(roomSize));
     }
@@ -77,8 +77,8 @@ public class SelectRoomState extends State {
      * @throws IOException Any problem related to the input/output stream.
      */
     public void joinAGameRoom(ClientContext context) throws IOException {
-        int roomID = Integer.parseInt(readChoice(context, "Which game room you want to join?",
-                "Invalid command!", Pattern.compile("^([1-9]\\d*|0)$",Pattern.CASE_INSENSITIVE)));
+        int roomID = Math.abs(Integer.parseInt(readChoice(context, "Which game room you want to join?",
+                "Invalid command!", Pattern.compile("^([1-9]\\d*|0)$",Pattern.CASE_INSENSITIVE))));
 
         RiskGameMessageFactory riskGameMessageFactory = context.getRiskGameMessageFactory();
         context.writeObject(riskGameMessageFactory.createJoinGameRoomMessage(roomID));

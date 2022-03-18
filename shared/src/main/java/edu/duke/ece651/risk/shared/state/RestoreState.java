@@ -45,7 +45,7 @@ public class RestoreState extends State {
         if(command.equals("")){
             initGame(context);
         }else{
-            Long oriClientID = Long.parseLong(command);
+            Long oriClientID = Math.abs(Long.parseLong(command));
             restoreGame(context, oriClientID);
         }
     }

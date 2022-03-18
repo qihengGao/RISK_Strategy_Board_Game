@@ -63,7 +63,8 @@ public class UnitPlaceState extends State {
         String amountToPutStr = userInput.readLine();
         int amountToPutInt;
         try {
-            amountToPutInt = Integer.parseInt(amountToPutStr);
+            int inputAmount = Integer.parseInt(amountToPutStr);
+            amountToPutInt = Math.abs(inputAmount);
             if (amountToPutInt > amountRest) {
                 throw new IllegalArgumentException();
             }

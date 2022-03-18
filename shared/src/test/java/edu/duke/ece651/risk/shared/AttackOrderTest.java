@@ -48,7 +48,7 @@ class AttackOrderTest {
     private int readOrderUnitAmount (String[] inputs){
         int ans;
         try{
-            ans = Integer.parseInt(inputs[3]);
+            ans = Math.abs(Integer.parseInt(inputs[3]));
         }
         catch (NumberFormatException e){
             throw new IllegalArgumentException("Unit Amount must be an integer!");
