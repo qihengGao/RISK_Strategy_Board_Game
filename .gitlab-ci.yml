@@ -106,12 +106,23 @@ uploadArtifactsForNotMainBracnh:
   except:
     - main
 
-DeployServer:
+StopPreviousServer:
   stage: deploy
   tags:
     - deploy
   needs:
     - clover-report
+  script:
+    - docker stop risk-game-server || true
+  only:
+    - dev
+
+DeployServer:
+  stage: deploy
+  tags:
+    - deploy
+  needs:
+    - StopPreviousServer
   script:
     - ls
     - docker run --rm --name risk-game-server -p 1777:1777  -v $(pwd):/risk eclipse-temurin:17 ./scripts/deploy.sh
