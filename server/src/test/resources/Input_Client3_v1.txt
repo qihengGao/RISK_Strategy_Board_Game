@@ -22,4 +22,9 @@ Test3,Test0,Soldier,13
 A
 Test7,Test1,Soldier,25
 D
+A
+Test0,Test5,Soldier,9
+A
+Test1,Test4,Soldier,21
+D
 
