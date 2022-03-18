@@ -43,6 +43,16 @@ public class ReEnterOrderStateTest {
         System.out.println(mapTextView.displayMap());
     }
 
+    @Test
+    public void test_readOrderFromUser_nullInput() throws IOException{
+        RISKMap riskMap = this.buildTestMap();
+        BufferedReader bufferedReader = new BufferedReader(new StringReader("\n"));
+
+        Order illegalMoveOrder = new MoveOrder(0, "Test0", "Test1", "Unit", 10);
+        ReEnterOrderState thisState = new ReEnterOrderState(illegalMoveOrder);
+        Order outputOrder = thisState.readOrderFromUser(riskMap, bufferedReader, System.out, 0L, illegalMoveOrder.getOrderType());
+        assertNull(outputOrder);
+    }
 
     @Test
     public void test_ReEnterOrder() throws IOException {

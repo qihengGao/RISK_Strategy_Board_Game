@@ -1,11 +1,21 @@
 package edu.duke.ece651.risk.shared.state;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
+import java.nio.Buffer;
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 import edu.duke.ece651.risk.shared.*;
@@ -21,6 +31,39 @@ public class MoveAttackStateTest {
   private static void assertEqualsIgnoreLineSeparator(String expected, String actual) {
     assertEquals(expected.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")),
             actual.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")));
+  }
+
+  @Test
+  public void test_doAction() throws ClassNotFoundException, IOException{
+    ClientContext clientContext = mock(ClientContext.class);
+    MoveAttackState thisState = mock(MoveAttackState.class);
+    State nextState = mock(ShowGameResultState.class);
+    ObjectOutputStream objectOutputStream = new ObjectOutputStream(new ByteArrayOutputStream());
+    PrintStream printStream = new PrintStream(System.out);
+    RISKMap riskMap = mock(RISKMap.class);
+    BufferedReader bufferedReader = mock(BufferedReader.class);
+    long playerID = 0L;
+    Color color = new Color("red");
+    TreeMap<Long, Color> idToColor = new TreeMap<>();
+    idToColor.put(playerID, color);
+
+
+    ArrayList<Order> orders = new ArrayList<>();
+    orders.add(new MoveOrder(playerID, "Test1", "Test2", "Soldier", 10));
+    doCallRealMethod().when(thisState).doAction(clientContext);
+    doReturn(riskMap).when(clientContext).getRiskMap();
+    doReturn(bufferedReader).when(clientContext).getBufferedReader();
+    doReturn(printStream).when(clientContext).getOut();
+    doReturn(playerID).when(clientContext).getPlayerID();
+    doReturn(idToColor).when(clientContext).getIdToColor();
+    doReturn(objectOutputStream).when(clientContext).getOos();
+    doReturn(nextState).when(clientContext).getGameState();
+
+    thisState.doAction(clientContext);
+
+    verify(clientContext, times(1)).getOos();
+    verify(clientContext, times(1)).getGameState();
+    verify(nextState, times(1)).doAction(clientContext);
   }
 
   @Test
