@@ -32,14 +32,15 @@ public class SocketFactoryTest {
         assertEquals(expected, address.toString());
     }
 
-    // @Test
-    // public void test_createObjectInputStream() throws IOException{
-    //     SocketFactory factory = mock(SocketFactory.class);
-    //     InputStream inputStream = mock(InputStream.class);
-        
-    //     doCallRealMethod().when(factory).createObjectInputStream(inputStream);
-    //     factory.createObjectInputStream(inputStream);
-    // }
+    @Test
+    public void test_createObjectInputStream() throws IOException{
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+
+        SocketFactory factory = new SocketFactory();
+        InputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        assertInstanceOf(ObjectInputStream.class, factory.createObjectInputStream(byteArrayInputStream));
+    }
 
     @Test
     public void test_createObjectOutputStream() throws IOException{
