@@ -1,10 +1,15 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.state.State;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.TreeMap;
 
 public class RiskGameMessage implements Serializable {
-
+    @Serial
+    private static final long serialVersionUID = 6529685098267757690L;
     private long clientid;
     private boolean initGame;
     private int roomSize;

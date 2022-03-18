@@ -1,9 +1,11 @@
 package edu.duke.ece651.risk.shared;
 
+import java.io.Serializable;
+
 /**
  * Abstract class for general chaining defensing attack check.
  */
-public abstract class AttackResolver {
+public abstract class AttackResolver implements Serializable {
 	protected final AttackResolver next;
 
 	/**
@@ -15,17 +17,9 @@ public abstract class AttackResolver {
 
 	/**
 	 * Rule need to be overriden by specific rule.
+	 * @return
 	 */
-	public abstract boolean resolveCurrent();
+	public abstract int resolveCurrent();
 
-	public boolean isDefenseSuccessful() {
-		boolean currResult = this.resolveCurrent();
-		if(currResult == false){
-			return false;
-		}
-		if(this.next != null){
-			return this.next.resolveCurrent();
-		}
-		return false;
-	}
+
 }

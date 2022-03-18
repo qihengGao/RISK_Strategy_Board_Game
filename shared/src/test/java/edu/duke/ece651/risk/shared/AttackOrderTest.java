@@ -1,5 +1,11 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
+import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
+import edu.duke.ece651.risk.shared.map.MapTextView;
+import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.territory.Territory;
+import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -7,7 +13,8 @@ import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AttackOrderTest {
+class AttackOrderTest {
+
     private RISKMap buildTestMap(){
         AbstractMapFactory tmf = new RandomMapFactory();
         RISKMap riskMap = (RISKMap) tmf.createMapForNplayers(3);
@@ -30,21 +37,31 @@ public class AttackOrderTest {
         System.out.println(mapTextView.displayMap());
     }
 
-    private String checkValidOrder(RISKMap riskMap, long ID, PrintStream output, String... orderInputs) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        for (String orderString : orderInputs){
-            sb.append(orderString + "\n");
+    private String checkValidOrder(RISKMap riskMap, long ID, PrintStream output, String userInput) throws IOException {
+        String[] inputs = checkFormatAndSplit(userInput);
+        int amount = readOrderUnitAmount(inputs);
+        Order o = new AttackOrder(ID, inputs[0], inputs[1], inputs[2], amount);
+        String check_message = o.executeOrder(riskMap);
+        return check_message;
+    }
+
+    private int readOrderUnitAmount (String[] inputs){
+        int ans;
+        try{
+            ans = Integer.parseInt(inputs[3]);
         }
-        sb.append("D\n");
-        BufferedReader input = new BufferedReader(new StringReader(sb.toString()));
-        MoveAttackState moveState = new MoveAttackState();
-        for (Order o : moveState.fillInOrders(input, output, ID)){
-            String check_message = o.executeOrder(riskMap);
-            if (check_message!=null){
-                return check_message;
-            }
+        catch (NumberFormatException e){
+            throw new IllegalArgumentException("Unit Amount must be an integer!");
         }
-        return null;
+        return ans;
+    }
+
+    private String[] checkFormatAndSplit(String userInput) throws IllegalArgumentException{
+        String[] ans = userInput.split(",");
+        if (ans.length != 4) {
+            throw new IllegalArgumentException("Your input " + userInput + " is not following the format!");
+        }
+        return ans;
     }
 
     @Test
@@ -54,13 +71,15 @@ public class AttackOrderTest {
         PrintStream output = new PrintStream(bytes, true);
         //-------------VALID
         //normal consequential orders
-
-        String check_message = checkValidOrder(riskMap, 0, output, "M\nTest0,Test2,Unit,10",
-                "A\nTest2,Test3,Unit,20", "A\nTest1,Test4,Unit,2");
+        displayMap(riskMap);
+        String check_message = checkValidOrder(riskMap, 0, output, "Test2,Test3,Unit,10");
         System.out.println(check_message);
-        assertEquals(riskMap.getTerritoryByName("Test0").getUnitByType("Unit").getAmount(), 0);
         assertEquals(riskMap.getTerritoryByName("Test2").getUnitByType("Unit").getAmount(), 0);
-        assertEquals(riskMap.getTerritoryByName("Test3").getUnitByType("Unit").getAmount(), 10);
+        assertEquals(riskMap.getTerritoryByName("Test3").getUnitByType("Unit").getAmount(), 0);
+
+        displayMap(riskMap);
+        String check_message2 = checkValidOrder(riskMap, 0, output, "Test1,Test4,Unit,2");
+        System.out.println(check_message2);
         assertEquals(riskMap.getTerritoryByName("Test1").getUnitByType("Unit").getAmount(), 8);
         assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 8);
         displayMap(riskMap);

@@ -1,17 +1,29 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.territory.Territory;
+import edu.duke.ece651.risk.shared.unit.Unit;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
 // summarize attack ->
 // <src,dest,amount>
 // src.id
 // battleF(dest)
-public class BattleField {
+public class BattleField implements Serializable {
     private Territory territoryOfContest; // include defender territory ID
     private long currDefenderId; // current defender, battle still ongoing
     private Unit currDefendingUnit; // current defending units
     private HashMap<Long, Unit> attackers;
     private AttackResolver attackResolver;
+
+    public HashMap<Long, Unit> getAttackers() {
+        return attackers;
+    }
+
+    public void setAttackResolver(AttackResolver attackResolver) {
+        this.attackResolver = attackResolver;
+    }
 
     public BattleField(Territory territoryOfContest, AttackResolver attackResolver){
         this.territoryOfContest = territoryOfContest;
@@ -24,6 +36,10 @@ public class BattleField {
     public BattleField(Territory territoryOfContest) {
         this(territoryOfContest, new DiceAttackResolver(20));
     }
+
+    public void resetAttackersList (){
+        this.attackers = new HashMap<Long, Unit>();
+    }
     
     public void addAttacker(Long id, Unit unit) {
         if (!this.attackers.containsKey(id)) {
@@ -35,20 +51,34 @@ public class BattleField {
         this.attackers.put(id, unitAlreadyIn);
     }
 
-    public void fightBattle(Territory territory){
+    public void fightBattle(Territory territory, String type){
+
         for (long attackerId : this.attackers.keySet()) {
-            Unit currAttackingUnit = this.attackers.get(attackerId);
-            Unit currDefendingUnit = territory.getUnitByType("Soldier");
-            while(currAttackingUnit.getAmount() > 0 && currDefendingUnit.getAmount() > 0){
-                if(attackResolver.resolveCurrent()){
-                    currAttackingUnit.tryDecreaseAmount(1);
+            int attacker_num = this.attackers.get(attackerId).getAmount();
+            int defender_num = territory.getUnitByType(type).getAmount();
+            while(attacker_num > 0 && defender_num > 0){
+                //defender wins fight
+                if(attackResolver.resolveCurrent()==1){
+                    attacker_num--;
                 }
+                //duel
+                else if (attackResolver.resolveCurrent()==0){
+                    attacker_num--;
+                    defender_num--;
+                }
+                //defender wins fight
                 else{
-                    currDefendingUnit.tryDecreaseAmount(1);
+                    defender_num--;
                 }
             }
-            if(currDefendingUnit.getAmount() <= 0){
-                territory.tryChangeOwnerTo(attackerId);
+            if (defender_num==0){
+                if (attacker_num != 0) {
+                    territory.tryChangeOwnerTo(attackerId);
+                }
+                territory.getUnitByType(type).setAmount(attacker_num);
+            }
+            else{
+                territory.getUnitByType(type).setAmount(defender_num);
             }
         }
     }

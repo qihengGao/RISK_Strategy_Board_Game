@@ -21,11 +21,20 @@ public class DiceAttackResolver extends AttackResolver{
      * determine the output of 1 on 1 battle between the attack soldier and the defend soldier
      * @note the one with the higher number win
      * @note resolve again if the numbers are equal
+     * @return
      */
     @Override
-    public boolean resolveCurrent() {
+    public int resolveCurrent() {
         int randomGeneratedDefender = random.nextInt(this.diceFacetNumber);
         int randomGeneratedAttacker = random.nextInt(this.diceFacetNumber);
-        return randomGeneratedDefender > randomGeneratedAttacker;
+        if (randomGeneratedDefender > randomGeneratedAttacker){
+            return 1;//defender wins
+        }
+        else if (randomGeneratedDefender == randomGeneratedAttacker){
+            return 0;//draw
+        }
+        else{
+            return -1;//attacker wins
+        }
     }
 }

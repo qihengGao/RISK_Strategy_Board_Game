@@ -1,6 +1,11 @@
 package edu.duke.ece651.risk.server;
 
 import edu.duke.ece651.risk.shared.*;
+import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
+import edu.duke.ece651.risk.shared.map.MapTextView;
+import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.state.*;
+import edu.duke.ece651.risk.shared.territory.Territory;
 
 import java.io.IOException;
 import java.util.*;
@@ -29,24 +34,6 @@ public class GameHandler extends Thread {
         players.add(client);
     }
 
-    /**
-     * Allocates a new {@code Thread} object. This constructor has the same
-     * effect as {@linkplain Thread(ThreadGroup, Runnable, String) Thread}
-     * {@code (null, null, gname)}, where {@code gname} is a newly generated
-     * name. Automatically generated names are of the form
-     * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
-     */
-    public GameHandler(Set<Client> players) {
-        this.players = players;
-        predefineColorList.add(new Color("Red"));
-        predefineColorList.add(new Color("Green"));
-        predefineColorList.add(new Color("Blue"));
-        predefineColorList.add(new Color("Yellow"));
-        predefineColorList.add(new Color("Purple"));
-        idToColor = new TreeMap<>();
-        roomSize = players.size();
-        riskMap = (RISKMap) new RandomMapFactory().createMapForNplayers(roomSize);
-    }
 
     public GameHandler(Client host, int roomSize, long roomID) {
         players = new TreeSet<>(new Comparator<Client>() {
@@ -138,6 +125,7 @@ public class GameHandler extends Thread {
         for (Territory t:riskMap.getContinent()){
             IDset.add(t.getOwnerID());
         }
+        System.out.println("IDset"+IDset.size());
         if (IDset.size()==1){
             for (long id : IDset) {
                 return findClientByID(id);
@@ -178,27 +166,36 @@ public class GameHandler extends Thread {
 
             //EXECUTE ORDERS: sending order related units into related territories or battlefields
             executeOrdersAndCheckLegal(ordersToList, "Move", "Attack");
-            //todo: update in battlefield
+            //todo: update in battlefield instead of execute order
+            for (Territory t : riskMap.getContinent()){
+                //todo: uncomment this line for simple add or minus fight resolver
+                //t.getBattleField().setAttackResolver(new SimpleAttackResolver());
+                //
+                t.getBattleField().fightBattle(t, "Soldier");
+                t.getBattleField().resetAttackersList();
+            }
 
             increaseOneInAllTerritory();
 
-            //todo: remove this break;
-            if (roundNumber==3) {
-                break;
-            }
+            //todo: remove this round limit break; or de-comment for easier testing
+//            if (roundNumber==3){
+//                break;
+//            }
+            //-----Add round number
             roundNumber++;
-            //-----
 
             //check player win and end game
-            //Client winner = checkWinner();
+            winner = checkWinner();
         }
 
         //send winner message to all clients
-        for (Client c : players) {
-            winner = c;
-            break;
+        if (winner==null) {
+            for (Client c : players) {
+                winner = c;
+                break;
+            }
         }
-        resolveRound("Resolved Game Outcome!", winner);
+        showGameResult("Resolved Game Outcome!", winner);
 
         MapTextView mapTextView = new MapTextView(riskMap, idToColor);
         System.out.println(mapTextView.displayMap());
@@ -210,12 +207,12 @@ public class GameHandler extends Thread {
         }
     }
 
-    public void resolveRound(String prompt, Client winner) {
+    public void showGameResult(String prompt, Client winner) {
         for (Client client : players) {
-            String customized_prompt = "You Lose! Conquer more next time!";
-            if (client.getClientID() == winner.getClientID()) {
-                customized_prompt = "Congratulations! This continent is yours!";
-            }
+            String customized_prompt = "\n\n-------------------------------------\n"+idToColor.get(winner.getClientID()).getColorName()+" win this game!\n-------------------------------------\n";
+//            if (client.getClientID() == winner.getClientID()) {
+//                customized_prompt = "Congratulations! This continent is yours!";
+//            }
             try {
                 client.writeObject(new RiskGameMessage(client.getClientID(), new ShowGameResultState(), riskMap, prompt + "\n" + customized_prompt, idToColor));
             } catch (IOException e) {
@@ -312,6 +309,7 @@ public class GameHandler extends Thread {
             ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
             for (Order order : orders) {
                 orderToList.get(order.getOrderType()).add(order);
+                System.out.println("Receive: " + order.toString());
             }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Client socket closed, id :" + client.getClientID());
@@ -321,11 +319,17 @@ public class GameHandler extends Thread {
     //resolve round result phase: compute outcome of all attacks
     private void executeOrdersAndCheckLegal(HashMap<String, ArrayList<Order>> ordersToList, String... orderTypes) {
         for (String type : orderTypes) {
+            if (type.equals("Attack")){
+                Collections.shuffle(ordersToList.get(type), new Random(1777));
+            }
             for (Order order : ordersToList.get(type)) {
+                System.out.println("Executing: " + order.toString());
                 String check_message = order.executeOrder(riskMap);
                 //server check
                 if (check_message!=null){
                     try {
+                        System.out.println("Illegal: " + order.toString());
+                        System.out.println(check_message);
                         letClientReOrder(order, check_message);
                     } catch (IOException | ClassNotFoundException e) {
                         System.out.println("Client socket closed, id :" + order.getPlayerID());

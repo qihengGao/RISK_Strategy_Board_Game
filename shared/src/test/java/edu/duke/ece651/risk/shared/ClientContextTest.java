@@ -1,24 +1,51 @@
 package edu.duke.ece651.risk.shared;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.TreeMap;
 
+import edu.duke.ece651.risk.shared.factory.RiskGameMessageFactory;
+import edu.duke.ece651.risk.shared.factory.SocketFactory;
+import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.state.InitiateSocketState;
+import edu.duke.ece651.risk.shared.state.State;
 import org.junit.jupiter.api.Test;
 
 public class ClientContextTest {
+
+   /**
+    * test for default constructor 
+    * and getRiskGameMessageFactory and getSocketFactory
+    */
+   @Test
+   public void test_defaultConstructor(){
+      ClientContext contex = new ClientContext();
+      assertInstanceOf(RiskGameMessageFactory.class, contex.getRiskGameMessageFactory());
+      assertInstanceOf(SocketFactory.class, contex.getSocketFactory());
+   }
+
+   /**
+    * test for getServerAddress and setServerAddress
+    */
+   @Test
+   public void test_getSetServerAddress(){
+      String serverAddress = "whatever";
+      ClientContext contex = new ClientContext();
+      contex.setServerAddress(serverAddress);
+      assertEquals(serverAddress, contex.getServerAddress());
+   }
 
   /**
     * test for getPortNumber and setPortNumber
@@ -152,5 +179,25 @@ public class ClientContextTest {
       ClientContext contex = new ClientContext();
       contex.setOut(out);
       assertSame(out, contex.getOut());
+   }
+
+   @Test
+   public void test_writeObject() throws IOException, ClassNotFoundException{
+      ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+      ObjectOutputStream objectOutput = new ObjectOutputStream(buffer);
+
+      ClientContext contex = new ClientContext();
+      contex.setOos(objectOutput);
+
+      String expected = "hello";
+      contex.writeObject(expected);
+
+      byte[] bytes = buffer.toByteArray();
+
+      ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+      ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+      String output  = (String)objectInputStream.readObject();
+
+      assertEquals(expected, output);
    }
 }

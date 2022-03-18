@@ -1,7 +1,7 @@
 package edu.duke.ece651.risk.client;
 
 import edu.duke.ece651.risk.shared.ClientContext;
-import edu.duke.ece651.risk.shared.InitiateSocketState;
+import edu.duke.ece651.risk.shared.state.InitiateSocketState;
 
 import java.io.IOException;
 

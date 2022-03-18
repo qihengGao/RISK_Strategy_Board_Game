@@ -1,5 +1,11 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.factory.RiskGameMessageFactory;
+import edu.duke.ece651.risk.shared.factory.SocketFactory;
+import edu.duke.ece651.risk.shared.factory.StateFactory;
+import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.state.State;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.TreeMap;
@@ -13,8 +19,20 @@ public class ClientContext {
     private int portNumber;
     private String serverAddress;
     private final SocketFactory socketFactory;
+    private final StateFactory stateFactory;
+    private boolean keepWatchResult = false;
 
+    public boolean isKeepWatchResult() {
+        return keepWatchResult;
+    }
 
+    public void setKeepWatchResult(boolean keepWatchResult) {
+        this.keepWatchResult = keepWatchResult;
+    }
+
+    public StateFactory getStateFactory() {
+        return stateFactory;
+    }
 
     private final RiskGameMessageFactory riskGameMessageFactory;
 
@@ -23,6 +41,7 @@ public class ClientContext {
     public ClientContext() {
         socketFactory = new SocketFactory();
         riskGameMessageFactory = new RiskGameMessageFactory();
+        stateFactory = new StateFactory();
     }
     public RiskGameMessageFactory getRiskGameMessageFactory() {
         return riskGameMessageFactory;
@@ -131,6 +150,14 @@ public class ClientContext {
         oos.reset();
         oos.writeObject(o);
 
+    }
+
+    public void println(String s){
+        out.println(s);
+    }
+
+    public RiskGameMessage readMessage() throws IOException, ClassNotFoundException {
+        return (RiskGameMessage) ois.readObject();
     }
 //Also the action list;
 }
