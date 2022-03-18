@@ -35,7 +35,7 @@ public class RiskGameServer extends Thread {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                new ClientHandler(socket,clientIDCounter++, roomMap, idToClient).start();
+                new ClientHandler(new Client(),socket,clientIDCounter++, roomMap, idToClient).start();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -12,6 +12,10 @@ public class Client {
     private  ObjectOutputStream oos;
     private RiskGameMessage previousRiskGameMessage;
 
+    public Client() {
+        this.clientID = -1;
+    }
+
     public RiskGameMessage getPreviousRiskGameMessage() {
         return previousRiskGameMessage;
     }

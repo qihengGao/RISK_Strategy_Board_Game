@@ -9,7 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 public class ClientHandler extends Thread {
@@ -23,22 +22,21 @@ public class ClientHandler extends Thread {
     Client client;
 
     /**
-     *
-     * @param socket The socket we need to handle with.
+     * @param socket          The socket we need to handle with.
      * @param clientIDCounter client ID assign to this socket. Warning: may be depreciated when the client want to restore previous game.
-     * @param roomMap A Map which store all the game room.
-     * @param idToClient A mao between client ID and client itself.
+     * @param roomMap         A Map which store all the game room.
+     * @param idToClient      A mao between client ID and client itself.
      */
-    public ClientHandler(Socket socket, Long clientIDCounter, HashMap<Long, GameHandler> roomMap, Map<Long, Client> idToClient) {
+    public ClientHandler(Client client,Socket socket, Long clientIDCounter, HashMap<Long, GameHandler> roomMap, Map<Long, Client> idToClient) {
         this.socket = socket;
         this.roomMap = roomMap;
         this.clientIDCounter = clientIDCounter;
         this.idToClient = idToClient;
+        this.client = client;
     }
 
     /**
      * Create Object Stream with the socket. And handle all the state transaction before game start.
-     *
      */
     @Override
     public void run() {
@@ -47,6 +45,8 @@ public class ClientHandler extends Thread {
         try {
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
+            client.setOos(objectOutputStream);
+            client.setOis(objectInputStream);
 
             do {
                 RiskGameMessage riskGameMessage = (RiskGameMessage) objectInputStream.readObject();
@@ -94,7 +94,7 @@ public class ClientHandler extends Thread {
      * @param riskGameMessage RiskGameMessage which send from the client contains the createAGameRoom flag and optional room ID to join.
      * @throws IOException Any problem related to the input/output stream.
      */
-    private void doSelectRoomPhase(RiskGameMessage riskGameMessage) throws IOException {
+    void doSelectRoomPhase(RiskGameMessage riskGameMessage) throws IOException {
         if (riskGameMessage.isCreateAGameRoom()) {
             createNewGameRoom(riskGameMessage);
             finishGameInitiatePhase = true;
@@ -102,7 +102,7 @@ public class ClientHandler extends Thread {
             if (tryJoinGameRoom(riskGameMessage)) {
                 finishGameInitiatePhase = true;
             } else {
-                objectOutputStream.writeObject(RiskGameMessageFactory.createSelectRoomState("Invalid game room ID or room is full. Join failed!"));
+                client.writeObject(RiskGameMessageFactory.createSelectRoomState("Invalid game room ID or room is full. Join failed!"));
             }
         }
     }
@@ -129,13 +129,14 @@ public class ClientHandler extends Thread {
                     //TODO Start the game handler in other thread, it is not proper to run game handler on a ClientHandler thread.
                     if (roomToJoin.getCurrentPlayersSize() == roomToJoin.getRoomSize())
                         roomToJoin.start();
-                    return true;
+
                 }
             } else {
                 System.out.println("Room ID not found! RoomID: " + roomIDToJoin);
                 return false;
             }
         }
+        return true;
     }
 
 
@@ -153,7 +154,7 @@ public class ClientHandler extends Thread {
         synchronized (roomMap) {
             long roomID = roomMap.size();
             System.out.println("Create New Game room! Room ID: " + roomID);
-            GameHandler gameHandler = new GameHandler(client, riskGameMessage.getRoomSize(), roomID);
+            GameHandler gameHandler = createGameHandler(client, riskGameMessage.getRoomSize(), roomID);
             roomMap.put(roomID, gameHandler);
 
             //Require client go to WaitingState.
@@ -162,6 +163,9 @@ public class ClientHandler extends Thread {
         }
     }
 
+    protected GameHandler createGameHandler(Client client, Integer roomSize, Long roomID){
+        return new GameHandler(client, roomSize, roomID);
+    }
 
     /**
      * Create a new client from this socket, then add it to the clientList.
@@ -170,7 +174,7 @@ public class ClientHandler extends Thread {
      */
     public void addNewClient() throws IOException {
         System.out.println("New client! Client id: " + clientIDCounter);
-        Client tmp = new Client(socket, clientIDCounter, objectInputStream, objectOutputStream);
+        Client tmp = createNewClient(socket, clientIDCounter, objectInputStream, objectOutputStream);
         client = tmp;
         synchronized (idToClient) {
             idToClient.put(clientIDCounter, tmp);
@@ -180,6 +184,10 @@ public class ClientHandler extends Thread {
 
 
         }
+    }
+
+    public Client createNewClient(Socket socket, Long clientIDCounter, ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream) {
+        return new Client(socket, clientIDCounter, objectInputStream, objectOutputStream);
     }
 
 
