@@ -33,17 +33,17 @@ class InitiateSocketStateTest {
     public void test_useCustomServerAddress_port0() throws IOException {
         ClientContext context = new ClientContext();
 
-        InputStream is = new ByteArrayInputStream( "127.0.0.1\n0\n".getBytes() );
+        InputStream is = new ByteArrayInputStream( "127.0.0.1\n2000\n".getBytes() );
         context.setBufferedReader(new BufferedReader(new InputStreamReader(is)));
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(bytes, true);
         context.setOut(out);
 
-        context.setPortNumber(0);
+        context.setPortNumber(1777);
         InitiateSocketState initiateSocketState = new InitiateSocketState();
         initiateSocketState.useCustomServerAddress(context);
         assertEquals("127.0.0.1",context.getServerAddress());
-        assertEquals(0,context.getPortNumber());
+        assertEquals(1777,context.getPortNumber());
     }
 
     @Test
