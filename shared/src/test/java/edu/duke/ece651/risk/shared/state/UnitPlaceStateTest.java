@@ -76,7 +76,7 @@ public class UnitPlaceStateTest {
 
         System.setOut(System.out);
 
-        String expected = "You are: red\n" + 
+        String expected = "\nYou are: red\n" + 
             "You have 30 to put\n" + 
             "How many Soldiers you want to put in territory1\n" + 
             "You have 20 to put\n" + 
