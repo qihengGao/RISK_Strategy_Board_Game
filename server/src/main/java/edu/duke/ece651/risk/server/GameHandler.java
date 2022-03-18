@@ -125,6 +125,7 @@ public class GameHandler extends Thread {
         for (Territory t:riskMap.getContinent()){
             IDset.add(t.getOwnerID());
         }
+        System.out.println("IDset"+IDset.size());
         if (IDset.size()==1){
             for (long id : IDset) {
                 return findClientByID(id);
@@ -177,9 +178,7 @@ public class GameHandler extends Thread {
             increaseOneInAllTerritory();
 
             //todo: remove this round limit break;
-            if (roundNumber==7) {
-                break;
-            }
+
             //-----
             roundNumber++;
 
