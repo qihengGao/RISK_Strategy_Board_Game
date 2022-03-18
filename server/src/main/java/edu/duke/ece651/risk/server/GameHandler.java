@@ -144,7 +144,7 @@ public class GameHandler extends Thread {
         System.out.println("Game start. Sending map to client.");
 
         assignColorToPlayers();
-        assignTerritoriesToPlayers();
+        assignTerritoriesToPlayers(3);//assign 3 territories to each player
         try {
             unitPlacementPhase();
         } catch (IOException e) {
@@ -230,7 +230,7 @@ public class GameHandler extends Thread {
     /**
      * Randomly initialize the territories with client ID.
      */
-    public void assignTerritoriesToPlayers() {
+    public void assignTerritoriesToPlayers(int n_Terr_per_player) {
         ArrayList<Territory> randomized = new ArrayList<>();
         for (Territory territory : riskMap.getContinent()) {
             randomized.add(territory);
@@ -241,7 +241,7 @@ public class GameHandler extends Thread {
         for (Client client : players)
             clientIDList.add(client.getClientID());
         for (Territory territory : randomized) {
-            territory.tryChangeOwnerTo(clientIDList.get(count++ / roomSize));
+            territory.tryChangeOwnerTo(clientIDList.get(count++ / n_Terr_per_player));
 
         }
     }
@@ -274,12 +274,19 @@ public class GameHandler extends Thread {
     public HashMap<String, ArrayList<Order>> actionPhase(String prompt)
             throws ClassCastException {
         HashMap<String, ArrayList<Order>> orderToList = createEmptyOrderTypeToOrders("Move", "Attack");
+        //sending updates
         for (Client client : players) {
             if (isPlayerLost(client)) {
                 sendUpdateToLOSERS(prompt, client);
             }
             else{
-                readAndWriteOrders(riskMap, idToColor, client, prompt, orderToList);
+                sendUpdateToPlayers(riskMap, idToColor, client, prompt, orderToList);
+            }
+        }
+        //reading
+        for (Client client : players) {
+            if (!isPlayerLost(client)) {
+                readOrderFromPlayers(riskMap, idToColor, client, prompt, orderToList);
             }
         }
         return orderToList;
@@ -302,10 +309,18 @@ public class GameHandler extends Thread {
         return ans;
     }
 
-    private void readAndWriteOrders(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
-                                    HashMap<String, ArrayList<Order>> orderToList) {
+    private void sendUpdateToPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
+                                     HashMap<String, ArrayList<Order>> orderToList) {
         try {
             client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
+        } catch (IOException e) {
+            System.out.println("Client socket closed, id :" + client.getClientID());
+        }
+    }
+
+    private void readOrderFromPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
+                                     HashMap<String, ArrayList<Order>> orderToList) {
+        try {
             ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
             for (Order order : orders) {
                 orderToList.get(order.getOrderType()).add(order);
