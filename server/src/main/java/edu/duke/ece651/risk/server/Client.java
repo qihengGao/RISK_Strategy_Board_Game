@@ -7,7 +7,6 @@ import java.net.Socket;
 
 public class Client {
 
-
     private Socket socket;
     private ObjectOutputStream oos;
     private RiskGameMessage previousRiskGameMessage;
@@ -42,7 +41,7 @@ public class Client {
     }
 
 
-    public long getClientID() {
+    public Long getClientID() {
         return clientID;
     }
 
@@ -72,6 +71,5 @@ public class Client {
             System.out.println("Client socket closed.");
         }
     }
-
 
 }

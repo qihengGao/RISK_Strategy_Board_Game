@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
 
-import edu.duke.ece651.risk.shared.AttackOrder;
+import edu.duke.ece651.risk.shared.AttackOrderSimple;
 import edu.duke.ece651.risk.shared.Order;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.territory.BasicTerritory;
@@ -40,7 +40,7 @@ public class PathExistAttackCheckerTest {
         territories.add(territory2);
         
         RISKMap riskMap = new RISKMap(territories);
-        Order attackOrder = new AttackOrder(owner1Id, _territory1Name, _territory2Name, "soldier", 10);
+        Order attackOrder = new AttackOrderSimple(owner1Id, _territory1Name, _territory2Name, "soldier", 10);
 
         ActionChecker checker = new PathExistAttackChecker(null);
         String result = checker.checkMyRule(riskMap, attackOrder);

@@ -151,15 +151,18 @@ public class MoveAttackStateTest {
 
     //check invalid unit amount
     bytes.reset();
-    checkValidOrder(riskMap, 0, output, "M\nTest0,Test1,Unit,huh");
+    checkValidOrder(riskMap, 0, output, "Move\nTest0,Test1,Unit,huh");
     assertEqualsIgnoreLineSeparator(bytes.toString(), "Please enter your action choice: [(M)ove, (A)ttack, (D)one]\n" +
             "Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)\n" +
-            "Unit Amount must be an integer!\n");
+            "Unit Amount must be a positive integer!\n");
     bytes.reset();
 
     //check negative unit amount
-    String checkNegativeUnit = checkValidOrder(riskMap, 0, output, "M\nTest0,Test1,Unit,-1");
-    assertEqualsIgnoreLineSeparator(checkNegativeUnit, "Unit Amount must be positive integer!");
+    bytes.reset();
+    checkValidOrder(riskMap, 0, output, "Move\nTest0,Test1,Unit,-1");
+    assertEqualsIgnoreLineSeparator(bytes.toString(), "Please enter your action choice: [(M)ove, (A)ttack, (D)one]\n" +
+            "Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)\n" +
+            "Unit Amount must be a positive integer!\n");
     bytes.reset();
 
     //check insufficient unit amount

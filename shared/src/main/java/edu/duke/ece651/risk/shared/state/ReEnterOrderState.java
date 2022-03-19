@@ -42,7 +42,7 @@ public class ReEnterOrderState extends State {
 
                 Order order = getOrder(ID, inputs, amountUnderOrder);
                 if (chosenOrder.equals("Attack")) {
-                    order = new AttackOrderSimple(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
+                    order = new AttackOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
                 }
                 String check_message = excuteOrder(riskMap,order);
                 if (check_message != null) {
@@ -67,7 +67,7 @@ public class ReEnterOrderState extends State {
     protected int readOrderUnitAmount (String[] inputs){
         int ans;
         try{
-            ans = Integer.parseInt(inputs[3]);
+            ans = Math.abs(Integer.parseInt(inputs[3]));
         }
         catch (NumberFormatException e){
             throw new IllegalArgumentException("Unit Amount must be an integer!");

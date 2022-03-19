@@ -97,9 +97,9 @@ public class GameHandler extends Thread {
 
     }
 
-    public Client findClientByID(long id) {
-        for (Client c : players) {
-            if (c.getClientID() == id) {
+    public Client findClientByID(Long id){
+        for (Client c : players){
+            if (c.getClientID().equals(id)){
                 return c;
             }
         }
@@ -113,9 +113,9 @@ public class GameHandler extends Thread {
      * @param client The player we want to check with.
      * @return True if this player is lost, otherwise false.
      */
-    public boolean isPlayerLost(Client client) {
-        for (Territory territory : riskMap.getContinent()) {
-            if (territory.getOwnerID() == client.getClientID())
+    public boolean isPlayerLost(Client client){
+        for( Territory territory : riskMap.getContinent()){
+            if(territory.getOwnerID().equals(client.getClientID()))
                 return false;
         }
         return true;
@@ -166,7 +166,7 @@ public class GameHandler extends Thread {
                 prompt = "Resolved Round " + roundNumber + " Outcome! Now start placing orders!";
             }
             HashMap<String, ArrayList<Order>> ordersToList = actionPhase(prompt);
-            System.out.println("action phase finished");
+            System.out.println("Resolved Round " + roundNumber + " Outcome! Now start placing orders!");
 
             //EXECUTE ORDERS: sending order related units into related territories or battlefields
             executeOrdersAndCheckLegal(ordersToList, "Move", "Attack");
