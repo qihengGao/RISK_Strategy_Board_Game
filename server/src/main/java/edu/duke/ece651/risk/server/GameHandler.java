@@ -1,6 +1,8 @@
 package edu.duke.ece651.risk.server;
 
-import edu.duke.ece651.risk.shared.*;
+import edu.duke.ece651.risk.shared.Color;
+import edu.duke.ece651.risk.shared.Order;
+import edu.duke.ece651.risk.shared.RiskGameMessage;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.MapTextView;
 import edu.duke.ece651.risk.shared.map.RISKMap;
@@ -14,7 +16,9 @@ public class GameHandler extends Thread {
     private final ArrayList<Color> predefineColorList = new ArrayList<>();
     private final Set<Client> players;
     private final TreeMap<Long, Color> idToColor;
-    private final RISKMap riskMap;
+
+
+    private RISKMap riskMap;
     private final int roomSize;
     private long roomID;
 
@@ -105,6 +109,7 @@ public class GameHandler extends Thread {
 
     /**
      * Check if a player is lost.
+     *
      * @param client The player we want to check with.
      * @return True if this player is lost, otherwise false.
      */
@@ -118,15 +123,16 @@ public class GameHandler extends Thread {
 
     /**
      * Check if any player wins.
+     *
      * @return Client if this player is the only player left, otherwise null.
      */
-    public Client checkWinner(){
+    public Client checkWinner() {
         HashSet<Long> IDset = new HashSet<>();
-        for (Territory t:riskMap.getContinent()){
+        for (Territory t : riskMap.getContinent()) {
             IDset.add(t.getOwnerID());
         }
-        System.out.println("IDset"+IDset.size());
-        if (IDset.size()==1){
+        System.out.println("IDset" + IDset.size());
+        if (IDset.size() == 1) {
             for (long id : IDset) {
                 return findClientByID(id);
             }
@@ -145,11 +151,9 @@ public class GameHandler extends Thread {
 
         assignColorToPlayers();
         assignTerritoriesToPlayers(3);//assign 3 territories to each player
-        try {
-            unitPlacementPhase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        unitPlacementPhase();
+
 
         System.out.println("Placement Phase finish");
 
@@ -158,7 +162,7 @@ public class GameHandler extends Thread {
         int roundNumber = 0;
         while (winner == null) {
             String prompt = "Placement phase finished!";
-            if (roundNumber!=0){
+            if (roundNumber != 0) {
                 prompt = "Resolved Round " + roundNumber + " Outcome! Now start placing orders!";
             }
             HashMap<String, ArrayList<Order>> ordersToList = actionPhase(prompt);
@@ -167,7 +171,7 @@ public class GameHandler extends Thread {
             //EXECUTE ORDERS: sending order related units into related territories or battlefields
             executeOrdersAndCheckLegal(ordersToList, "Move", "Attack");
             //todo: update in battlefield instead of execute order
-            for (Territory t : riskMap.getContinent()){
+            for (Territory t : riskMap.getContinent()) {
                 //todo: uncomment this line for simple add or minus fight resolver
                 //t.getBattleField().setAttackResolver(new SimpleAttackResolver());
                 //
@@ -189,35 +193,33 @@ public class GameHandler extends Thread {
         }
 
         //send winner message to all clients
-        if (winner==null) {
-            for (Client c : players) {
-                winner = c;
-                break;
-            }
-        }
+//        if (winner==null) {
+//            for (Client c : players) {
+//                winner = c;
+//                break;
+//            }
+//        }
         showGameResult("Resolved Game Outcome!", winner);
 
         MapTextView mapTextView = new MapTextView(riskMap, idToColor);
         System.out.println(mapTextView.displayMap());
     }
 
-    public void increaseOneInAllTerritory(){
-        for (Territory t : riskMap.getContinent()){
+    public void increaseOneInAllTerritory() {
+        for (Territory t : riskMap.getContinent()) {
             t.getUnitByType("Soldier").tryIncreaseAmount(1);
         }
     }
 
     public void showGameResult(String prompt, Client winner) {
         for (Client client : players) {
-            String customized_prompt = "\n\n-------------------------------------\n"+idToColor.get(winner.getClientID()).getColorName()+" win this game!\n-------------------------------------\n";
+            String customized_prompt = "\n\n-------------------------------------\n" + idToColor.get(winner.getClientID()).getColorName() + " win this game!\n-------------------------------------\n";
 //            if (client.getClientID() == winner.getClientID()) {
 //                customized_prompt = "Congratulations! This continent is yours!";
 //            }
-            try {
-                client.writeObject(new RiskGameMessage(client.getClientID(), new ShowGameResultState(), riskMap, prompt + "\n" + customized_prompt, idToColor));
-            } catch (IOException e) {
-                System.out.println("Client socket closed, id :" + client.getClientID());
-            }
+
+            client.writeObject(new RiskGameMessage(client.getClientID(), new ShowGameResultState(), riskMap, prompt + "\n" + customized_prompt, idToColor));
+
         }
     }
 
@@ -248,19 +250,17 @@ public class GameHandler extends Thread {
 
     //unit placement phase
     public void unitPlacementPhase()
-            throws ClassCastException, IOException {
-        for (Client client : players){
+            throws ClassCastException {
+        for (Client client : players) {
             client.writeObject(new RiskGameMessage(client.getClientID(), new UnitPlaceState(), riskMap,
                     "Placing order!", idToColor));
         }
         for (Client client : players) {
-            try {
 
-                ArrayList<Territory> receive = (ArrayList<Territory>) client.readObject();
-                updateMap(riskMap, receive);
-            } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Client socket closed, id :" + client.getClientID());
-            }
+
+            ArrayList<Territory> receive = (ArrayList<Territory>) client.readObject();
+            updateMap(riskMap, receive);
+
         }
     }
 
@@ -278,27 +278,22 @@ public class GameHandler extends Thread {
         for (Client client : players) {
             if (isPlayerLost(client)) {
                 sendUpdateToLOSERS(prompt, client);
-            }
-            else{
-                sendUpdateToPlayers(riskMap, idToColor, client, prompt, orderToList);
+            } else {
+                sendUpdateToPlayers(riskMap, idToColor, client, prompt);
             }
         }
         //reading
         for (Client client : players) {
             if (!isPlayerLost(client)) {
-                readOrderFromPlayers(riskMap, idToColor, client, prompt, orderToList);
+                readOrderFromPlayers(client, orderToList);
             }
         }
         return orderToList;
     }
 
-    private void sendUpdateToLOSERS(String prompt, Client client) {
-        try {
-            client.writeObject(new RiskGameMessage(client.getClientID(), new ShowRoundResultToViewersState(), riskMap, prompt, idToColor));
-        }
-        catch (IOException e) {
-            System.out.println("Client socket closed, id :" + client.getClientID());
-        }
+    protected void sendUpdateToLOSERS(String prompt, Client client) {
+
+        client.writeObject(new RiskGameMessage(client.getClientID(), new ShowRoundResultToViewersState(), riskMap, prompt, idToColor));
     }
 
     private HashMap<String, ArrayList<Order>> createEmptyOrderTypeToOrders(String... orderTypes) {
@@ -309,67 +304,65 @@ public class GameHandler extends Thread {
         return ans;
     }
 
-    private void sendUpdateToPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
-                                     HashMap<String, ArrayList<Order>> orderToList) {
-        try {
-            client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
-        } catch (IOException e) {
-            System.out.println("Client socket closed, id :" + client.getClientID());
-        }
+    protected void sendUpdateToPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt) {
+        client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
+
     }
 
-    private void readOrderFromPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
-                                     HashMap<String, ArrayList<Order>> orderToList) {
-        try {
+    protected void readOrderFromPlayers(Client client,
+                                        HashMap<String, ArrayList<Order>> orderToList) {
+
             ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
             for (Order order : orders) {
                 orderToList.get(order.getOrderType()).add(order);
                 System.out.println("Receive: " + order.toString());
             }
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Client socket closed, id :" + client.getClientID());
-        }
+
     }
 
     //resolve round result phase: compute outcome of all attacks
-    private void executeOrdersAndCheckLegal(HashMap<String, ArrayList<Order>> ordersToList, String... orderTypes) {
+    protected void executeOrdersAndCheckLegal(HashMap<String, ArrayList<Order>> ordersToList, String... orderTypes) {
         for (String type : orderTypes) {
-            if (type.equals("Attack")){
+            if (type.equals("Attack")) {
                 Collections.shuffle(ordersToList.get(type), new Random(1777));
             }
             for (Order order : ordersToList.get(type)) {
                 System.out.println("Executing: " + order.toString());
                 String check_message = order.executeOrder(riskMap);
                 //server check
-                if (check_message!=null){
-                    try {
-                        System.out.println("Illegal: " + order.toString());
-                        System.out.println(check_message);
-                        letClientReOrder(order, check_message);
-                    } catch (IOException | ClassNotFoundException e) {
-                        System.out.println("Client socket closed, id :" + order.getPlayerID());
-                    }
+                if (check_message != null) {
+
+                    System.out.println("Illegal: " + order.toString());
+                    System.out.println(check_message);
+                    letClientReOrder(order);
                 }
             }
         }
     }
 
-    private void letClientReOrder(Order order, String check_message) throws IOException, ClassNotFoundException {
+    protected void letClientReOrder(Order order) {
         Client client = findClientByID(order.getPlayerID());
         try {
             client.writeObject(new RiskGameMessage(client.getClientID(), new ReEnterOrderState(order), riskMap,
                     "Your order (" + order.toString() + ") did not pass our rules", idToColor));
             Order reorder = (Order) client.readObject();
-            if (reorder == null){
+            if (reorder == null) {
                 return;
             }
-            String Recheck_message = reorder.executeOrder(riskMap);
-        }catch (IOException | ClassNotFoundException e){
+            String Recheck_message = getRecheck_message(reorder);
+            if (Recheck_message != null) {
+                System.out.println("xx");
+                letClientReOrder(reorder);
+            }
             System.out.println("Client socket closed, id :" + order.getPlayerID());
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             int offset = e.toString().indexOf(":") + 2;
             System.out.println(e.toString().substring(offset));
         }
+    }
+
+    protected String getRecheck_message(Order reorder) {
+        return reorder.executeOrder(riskMap);
     }
 
 }

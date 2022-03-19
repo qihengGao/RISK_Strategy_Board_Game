@@ -134,4 +134,17 @@ class ClientHandlerTest {
     void doRestorePhase() throws IOException {
 
     }
+
+    @Test
+    void testRun() throws IOException {
+        Socket socket = mock(Socket.class);
+        Client client = mock(Client.class);
+        HashMap<Long, GameHandler> roomMap = mock(HashMap.class);
+        Map<Long, Client> idToClient = mock(Map.class);
+        ClientHandler clientHandler = spy(new ClientHandler(client,socket,0L,roomMap,idToClient));
+
+        doThrow(IOException.class).when(socket).getOutputStream();
+        clientHandler.run();
+
+    }
 }

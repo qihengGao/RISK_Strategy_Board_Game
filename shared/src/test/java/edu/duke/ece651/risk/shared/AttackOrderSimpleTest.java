@@ -84,4 +84,14 @@ class AttackOrderSimpleTest {
         assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 8);
         displayMap(riskMap);
     }
+
+    @Test
+    public void test_executeOrder_invalid(){
+        RISKMap riskMap = buildTestMap();
+
+        Order moveOrderInvalid = new MoveOrder(0L, "Test0", "Test3", "Unit", 5);
+        String actualMessage = moveOrderInvalid.executeOrder(riskMap);
+        String expectedMessage = "Move Order path does not exist in your territories!";
+        assertEquals(expectedMessage, actualMessage);
+    }
 }

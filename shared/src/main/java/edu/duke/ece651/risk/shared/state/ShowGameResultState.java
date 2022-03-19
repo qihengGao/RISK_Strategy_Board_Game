@@ -16,8 +16,9 @@ public class ShowGameResultState extends State {
         {
             contex.getBufferedReader().read();
         }
-        catch(Exception ignored)
-        {}
+        catch(IOException ignored){
+
+        }
 
     }
 }
