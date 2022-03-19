@@ -40,7 +40,7 @@ public class ReEnterOrderState extends State {
                 String[] inputs = checkFormatAndSplit(userInput);
                 int amountUnderOrder = readOrderUnitAmount(inputs);
 
-                Order order = new MoveOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
+                Order order = getOrder(ID, inputs, amountUnderOrder);
                 if (chosenOrder.equals("Attack")) {
                     order = new AttackOrderSimple(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
                 }
@@ -52,9 +52,12 @@ public class ReEnterOrderState extends State {
             } catch (IllegalArgumentException e) {
                 int offset = e.toString().indexOf(":") + 2;
                 output.println(e.toString().substring(offset));
-                continue;
             }
         }
+    }
+
+    protected MoveOrder getOrder(Long ID, String[] inputs, Integer amountUnderOrder) {
+        return new MoveOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
     }
 
     protected String excuteOrder(RISKMap riskMap,Order order){
@@ -72,7 +75,7 @@ public class ReEnterOrderState extends State {
         return ans;
     }
 
-    private String[] checkFormatAndSplit(String userInput) throws IllegalArgumentException{
+    protected String[] checkFormatAndSplit(String userInput) throws IllegalArgumentException{
         String[] ans = userInput.split(",");
         if (ans.length != 4) {
             throw new IllegalArgumentException("Your input " + userInput + " is not following the format!");

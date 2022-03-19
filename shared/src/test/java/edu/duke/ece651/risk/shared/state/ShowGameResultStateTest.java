@@ -1,10 +1,9 @@
 package edu.duke.ece651.risk.shared.state;
 
-import static org.mockito.Mockito.doCallRealMethod;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -21,16 +20,31 @@ public class ShowGameResultStateTest {
      */
     @Test
     public void test_doAction() throws ClassNotFoundException, IOException{
+//        ClientContext clientContext = mock(ClientContext.class);
+//        PrintStream printStream = mock(PrintStream.class);
+//        ShowGameResultState showGameResultState = mock(ShowGameResultState.class);
+//
+//        doCallRealMethod().when(showGameResultState).doAction(clientContext);
+//        doReturn(printStream).when(clientContext).getOut();
+//
+//        showGameResultState.doAction(clientContext);
+
+
+
+    }
+
+    @Test
+    void doAction() throws IOException, ClassNotFoundException {
         ClientContext clientContext = mock(ClientContext.class);
-        PrintStream printStream = mock(PrintStream.class);
-        ShowGameResultState showGameResultState = mock(ShowGameResultState.class);
 
-        doCallRealMethod().when(showGameResultState).doAction(clientContext);
-        doReturn(printStream).when(clientContext).getOut();
+        ShowGameResultState showGameResultState = new ShowGameResultState();
 
+        BufferedReader bufferedReader = mock(BufferedReader.class);
+
+        doReturn(bufferedReader).when(clientContext).getBufferedReader();
+        doThrow(IOException.class).doReturn(1).when(bufferedReader).read();
         showGameResultState.doAction(clientContext);
-
-
+        showGameResultState.doAction(clientContext);
 
     }
 }

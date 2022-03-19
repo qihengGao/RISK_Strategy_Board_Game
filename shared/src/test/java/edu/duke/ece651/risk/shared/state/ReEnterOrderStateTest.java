@@ -89,13 +89,24 @@ public class ReEnterOrderStateTest {
         String chosenOrder = "chosenOrder";
         Order illegalMoveOrder = new MoveOrder(0, "Test0", "Test1", "Unit", 10);
 
-        ReEnterOrderState thisState = spy(new ReEnterOrderState(illegalMoveOrder));
+        //ReEnterOrderState thisState = spy(new ReEnterOrderState(illegalMoveOrder));
+        ReEnterOrderState thisState = mock(ReEnterOrderState.class);
+//        String list[] = new String[4];
+//        list[0] = "1";
+//        list[1] = "1";
+//        list[2] = "1";
+//        list[3] = "1";
+//        doReturn(list).when(thisState).checkFormatAndSplit(anyString());
+
+        MoveOrder moveOrder = mock(MoveOrder.class);
+        doReturn(moveOrder).when(thisState).getOrder(any(), any(), any());
+
         doCallRealMethod().when(thisState).readOrderFromUser(riskMap, bufferedReader, printStream, id, chosenOrder);
-        doReturn("").when(bufferedReader).readLine();
+        doReturn(" ").when(bufferedReader).readLine();
         
         // doThrow(IllegalArgumentException.class).when(thisState).excuteOrder(any(), any());
 
-        doReturn(chosenOrder).when(thisState).excuteOrder(any(), any());
+        doReturn(chosenOrder).doReturn(null).when(thisState).excuteOrder(any(), any());
         
 
         thisState.readOrderFromUser(riskMap, bufferedReader, printStream, id, chosenOrder);
