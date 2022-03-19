@@ -254,4 +254,13 @@ class AppTest {
 //        assertEqualsIgnoreLineSeparator(expected7, bytes7.toString());
 //
 //    }
+
+    @Test
+    public void testMain() throws IOException {
+        System.out.println("main");
+        String[] args = null;
+        final InputStream original = System.in;
+        App.main(args);
+        System.setIn(original);
+    }
 }

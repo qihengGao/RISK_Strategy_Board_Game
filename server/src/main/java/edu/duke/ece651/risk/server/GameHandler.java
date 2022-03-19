@@ -292,7 +292,7 @@ public class GameHandler extends Thread {
         return orderToList;
     }
 
-    private void sendUpdateToLOSERS(String prompt, Client client) {
+    protected void sendUpdateToLOSERS(String prompt, Client client) {
         try {
             client.writeObject(new RiskGameMessage(client.getClientID(), new ShowRoundResultToViewersState(), riskMap, prompt, idToColor));
         }
@@ -309,7 +309,7 @@ public class GameHandler extends Thread {
         return ans;
     }
 
-    private void sendUpdateToPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
+    protected void sendUpdateToPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
                                      HashMap<String, ArrayList<Order>> orderToList) {
         try {
             client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
@@ -318,7 +318,7 @@ public class GameHandler extends Thread {
         }
     }
 
-    private void readOrderFromPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
+    protected void readOrderFromPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt,
                                      HashMap<String, ArrayList<Order>> orderToList) {
         try {
             ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
@@ -332,7 +332,7 @@ public class GameHandler extends Thread {
     }
 
     //resolve round result phase: compute outcome of all attacks
-    private void executeOrdersAndCheckLegal(HashMap<String, ArrayList<Order>> ordersToList, String... orderTypes) {
+    protected void executeOrdersAndCheckLegal(HashMap<String, ArrayList<Order>> ordersToList, String... orderTypes) {
         for (String type : orderTypes) {
             if (type.equals("Attack")){
                 Collections.shuffle(ordersToList.get(type), new Random(1777));
@@ -354,7 +354,7 @@ public class GameHandler extends Thread {
         }
     }
 
-    private void letClientReOrder(Order order, String check_message) throws IOException, ClassNotFoundException {
+    protected void letClientReOrder(Order order, String check_message) throws IOException, ClassNotFoundException {
         Client client = findClientByID(order.getPlayerID());
         try {
             client.writeObject(new RiskGameMessage(client.getClientID(), new ReEnterOrderState(order), riskMap,
