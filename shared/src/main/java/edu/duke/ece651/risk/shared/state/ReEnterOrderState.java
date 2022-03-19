@@ -6,6 +6,7 @@ import edu.duke.ece651.risk.shared.map.RISKMap;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Map;
 
 public class ReEnterOrderState extends State {
     private Order illegalOrder;
@@ -43,7 +44,7 @@ public class ReEnterOrderState extends State {
                 if (chosenOrder.equals("Attack")) {
                     order = new AttackOrderSimple(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
                 }
-                String check_message = order.executeOrder(riskMap);
+                String check_message = excuteOrder(riskMap,order);
                 if (check_message != null) {
                     throw new IllegalArgumentException(check_message);
                 }
@@ -56,7 +57,11 @@ public class ReEnterOrderState extends State {
         }
     }
 
-    private int readOrderUnitAmount (String[] inputs){
+    protected String excuteOrder(RISKMap riskMap,Order order){
+        return order.executeOrder(riskMap);
+    }
+
+    protected int readOrderUnitAmount (String[] inputs){
         int ans;
         try{
             ans = Integer.parseInt(inputs[3]);
