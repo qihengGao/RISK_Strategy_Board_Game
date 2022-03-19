@@ -62,7 +62,7 @@ public class ReEnterOrderStateTest {
         displayMap(riskMap);
 
         //illegalActionOrder
-        Order illegalAttackOrder = new AttackOrderSimple(0, "Test0", "Test5", "Unit", 10);
+        Order illegalAttackOrder = new AttackOrder(0, "Test0", "Test5", "Unit", 10);
         assertEquals(illegalAttackOrder.executeOrder(riskMap), "You do not have sufficient Unit to move in Test0!");
         ReEnterOrderState state2 = new ReEnterOrderState(illegalAttackOrder);
         BufferedReader input2 = new BufferedReader(new StringReader("Test2,Test6,Unit,11"));

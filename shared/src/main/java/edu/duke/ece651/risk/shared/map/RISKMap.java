@@ -54,7 +54,7 @@ public class RISKMap implements GameMap {
    */
   public Iterable<Territory> getContinent() {
     ArrayList<Territory> result = new ArrayList<>(this.continent);
-    Collections.sort(result, new ThisIsSerializable());
+    Collections.sort(result, new TerritoryNameComparator());
     return result;
   }
   
@@ -70,7 +70,7 @@ public class RISKMap implements GameMap {
         ownedByMe.add(t);
       }
     }
-    Collections.sort(ownedByMe, new ThisIsSerializable());
+    Collections.sort(ownedByMe, new TerritoryNameComparator());
     return ownedByMe;
   }
   
