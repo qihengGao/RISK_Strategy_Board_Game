@@ -37,9 +37,7 @@ public class RiskGameClient extends Thread{
         });
         try {
             new InitiateSocketState().doAction(clientContext);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 

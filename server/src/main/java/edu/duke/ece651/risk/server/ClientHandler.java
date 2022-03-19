@@ -77,18 +77,18 @@ public class ClientHandler extends Thread {
      * @throws IOException Any problem related to the input/output stream.
      */
     public void doRestorePhase(RiskGameMessage riskGameMessage) {
-        if (riskGameMessage.isInitGame()) {
+//        if (riskGameMessage.isInitGame()) {
             addNewClient();
-        } else {
-
-            if (tryRestoreClient(riskGameMessage)) {
-
-                //TODO Considering the situation that loop in restoreState.
-                finishGameInitiatePhase = true;
-            } else {
-                client.writeObject(RiskGameMessageFactory.createRestoreStateMessage("Invalid client ID. Restore failed!"));
-            }
-        }
+//        } else {
+//
+//            if (tryRestoreClient(riskGameMessage)) {
+//
+//                //TODO Considering the situation that loop in restoreState.
+//                finishGameInitiatePhase = true;
+//            } else {
+//                client.writeObject(RiskGameMessageFactory.createRestoreStateMessage("Invalid client ID. Restore failed!"));
+//            }
+//        }
     }
 
 
@@ -197,46 +197,46 @@ public class ClientHandler extends Thread {
     }
 
 
-    /**
-     * Try to restore a client based on the information client provide in riskGameMessage.
-     *
-     * @param riskGameMessage RiskGameMessage which send from the client contains the previous client ID.
-     * @return True if successfully restore the client, otherwise false.
-     * @throws IOException Any problem related to the input/output stream.
-     */
-    public boolean tryRestoreClient(RiskGameMessage riskGameMessage) {
-        long oriClientID = riskGameMessage.getClientid();
-        synchronized (idToClient) {
-            Client oriClient = idToClient.get(oriClientID);
-            //If we successfully find a client object with specified client ID, and the oriClient and this client
-            //have the same ip address.
-            if (oriClient != null && oriClient.getSocket().getInetAddress().equals(socket.getInetAddress())) {
-                System.out.println("Successfully restore a socket connection, client id = " + oriClientID);
-
-                //Reset the oriClient's socket.
-                oriClient.setSocket(socket);
-                oriClient.setOis(objectInputStream);
-                oriClient.setOos(objectOutputStream);
-
-                //If the oriClient in InitiateSocketState( getPreviousRiskGameMessage()==null ), server need redirect client to SelectRoomState.
-                //IF the oriClient in WaitingState, server need redirect client to WaitingState again to update the prompt(How many player still need to start the game).
-                //If the oriClient in any other State, redirect the client to the state of previous RiskGameMessage(May need more handle in the feature).
-                //TODO
-                //oriClient.getPreviousRiskGameMessage() == null ||
-//                if ( oriClient.getPreviousRiskGameMessage().getCurrentState() instanceof WaitingState)
-                oriClient.writeObject(new RiskGameMessage(oriClient.getClientID(), new WaitingState(), null,
-                        String.format("Successfully restore a socket connection, client id = %d\n" +
-                                "Waiting for game to start. Still need %d player!", 1, 1)));
-//                else
-//                    oriClient.writeObject(oriClient.getPreviousRiskGameMessage());
-
-            } else {
-                System.out.println("Client try to restore a socket connection, but client id not found." + oriClientID);
-                System.out.println("Client try to restore a socket connection, but client address didn't match.");
-                return false;
-
-            }
-        }
-        return true;
-    }
+//    /**
+//     * Try to restore a client based on the information client provide in riskGameMessage.
+//     *
+//     * @param riskGameMessage RiskGameMessage which send from the client contains the previous client ID.
+//     * @return True if successfully restore the client, otherwise false.
+//     * @throws IOException Any problem related to the input/output stream.
+//     */
+//    public boolean tryRestoreClient(RiskGameMessage riskGameMessage) {
+//        long oriClientID = riskGameMessage.getClientid();
+//        synchronized (idToClient) {
+//            Client oriClient = idToClient.get(oriClientID);
+//            //If we successfully find a client object with specified client ID, and the oriClient and this client
+//            //have the same ip address.
+//            if (oriClient != null && oriClient.getSocket().getInetAddress().equals(socket.getInetAddress())) {
+//                System.out.println("Successfully restore a socket connection, client id = " + oriClientID);
+//
+//                //Reset the oriClient's socket.
+//                oriClient.setSocket(socket);
+//                oriClient.setOis(objectInputStream);
+//                oriClient.setOos(objectOutputStream);
+//
+//                //If the oriClient in InitiateSocketState( getPreviousRiskGameMessage()==null ), server need redirect client to SelectRoomState.
+//                //IF the oriClient in WaitingState, server need redirect client to WaitingState again to update the prompt(How many player still need to start the game).
+//                //If the oriClient in any other State, redirect the client to the state of previous RiskGameMessage(May need more handle in the feature).
+//                //TODO
+//                //oriClient.getPreviousRiskGameMessage() == null ||
+////                if ( oriClient.getPreviousRiskGameMessage().getCurrentState() instanceof WaitingState)
+//                oriClient.writeObject(new RiskGameMessage(oriClient.getClientID(), new WaitingState(), null,
+//                        String.format("Successfully restore a socket connection, client id = %d\n" +
+//                                "Waiting for game to start. Still need %d player!", 1, 1)));
+////                else
+////                    oriClient.writeObject(oriClient.getPreviousRiskGameMessage());
+//
+//            } else {
+//                System.out.println("Client try to restore a socket connection, but client id not found." + oriClientID);
+//                System.out.println("Client try to restore a socket connection, but client address didn't match.");
+//                return false;
+//
+//            }
+//        }
+//        return true;
+//    }
 }
