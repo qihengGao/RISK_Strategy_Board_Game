@@ -118,9 +118,12 @@ public class UnitPlaceStateTest {
         "How many Soldiers you want to put in territory3\n" +
         "Amount to put must not exceed 10\n" +
         "You have 10 to put\n" +
-        "How many Soldiers you want to put in territory3\n";
+        "How many Soldiers you want to put in territory3\n" +
+                "Your input unit number is negative, please try again!\n" +
+        "You have 10 to put\n" +
+                "How many Soldiers you want to put in territory3\n";
         
-        this.run_test_routine("10\n10\n20\n10\n", expected);
+        this.run_test_routine("10\n10\n20\n-10\n10\n", expected);
     }
 
     @Test

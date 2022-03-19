@@ -41,7 +41,7 @@ public class ReEnterOrderState extends State {
 
                 Order order = new MoveOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
                 if (chosenOrder.equals("Attack")) {
-                    order = new AttackOrderSimple(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
+                    order = new AttackOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
                 }
                 String check_message = order.executeOrder(riskMap);
                 if (check_message != null) {

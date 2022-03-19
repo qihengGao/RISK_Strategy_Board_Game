@@ -63,16 +63,19 @@ public class UnitPlaceState extends State {
         String amountToPutStr = userInput.readLine();
         int amountToPutInt;
         try {
-            int inputAmount = Integer.parseInt(amountToPutStr);
-            amountToPutInt = Math.abs(inputAmount);
+            amountToPutInt = Integer.parseInt(amountToPutStr);
+            if (amountToPutInt < 0){
+                throw new IllegalArgumentException("Your input unit number is negative, please try again!");
+            }
             if (amountToPutInt > amountRest) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Amount to put must not exceed 10");
             }
         } catch (NumberFormatException e) {
             out.println(amountToPutStr + " is an Invalid input! Try again!");
             return placeUnitOnTerritory(unitType, territory, amountRest, out, userInput);
         } catch (IllegalArgumentException e) {
-            out.println("Amount to put must not exceed " + Integer.toString(amountRest));
+            int offset = e.toString().indexOf(":") + 2;
+            out.println(e.toString().substring(offset));
             return placeUnitOnTerritory(unitType, territory, amountRest, out, userInput);
         }
 

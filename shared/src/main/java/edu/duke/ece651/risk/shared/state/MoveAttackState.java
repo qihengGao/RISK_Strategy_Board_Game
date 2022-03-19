@@ -58,7 +58,7 @@ public class MoveAttackState extends State {
 
       Order tryMove = new MoveOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
       if (chosenOrder.equals("A")){
-        tryMove = new AttackOrderSimple(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
+        tryMove = new AttackOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
       }
       orders.add(tryMove);
       return null;
@@ -91,13 +91,16 @@ public class MoveAttackState extends State {
     }
   }
 
-  private int readOrderUnitAmount (String[] inputs){
+  public int readOrderUnitAmount (String[] inputs){
     int ans;
     try{
-      ans = Math.abs(Integer.parseInt(inputs[3]));
+      ans = Integer.parseInt(inputs[3]);
+      if (ans<=0){
+        throw new IllegalArgumentException("Unit Amount must be a positive integer!");
+      }
     }
     catch (NumberFormatException e){
-      throw new IllegalArgumentException("Unit Amount must be an integer!");
+      throw new IllegalArgumentException("Unit Amount must be a positive integer!");
     }
     return ans;
   }
