@@ -4,8 +4,6 @@ Which server would you like to connect?
 Please type in server address:
 Please type in server port:
 Please type in you client ID to restore previous game, or Enter to start a new game.
-Invalid client ID. Restore failed!
-Please type in you client ID to restore previous game, or Enter to start a new game.
 What would you like to do?
  (C)reate a new game room.
  (J)oin a existing game room.
@@ -41,28 +39,41 @@ Yellow
 You are: Green
 You have 30 to put
 How many Soldiers you want to put in Test11
-You have 20 to put
+ is an Invalid input! Try again!
+You have 30 to put
+How many Soldiers you want to put in Test11
+Your input unit number is negative, please try again!
+You have 30 to put
+How many Soldiers you want to put in Test11
+Amount to put must not exceed 30
+You have 30 to put
+How many Soldiers you want to put in Test11
+You have 19 to put
 How many Soldiers you want to put in Test3
-You have 10 to put
+You have 9 to put
 How many Soldiers you want to put in Test6
+You have 8 to put
+How many Soldiers you want to put in Test11
+You have no more available units to put in territory Test3, adding 0 units
+You have no more available units to put in territory Test6, adding 0 units
 Placement phase finished!
 Red
 ---
- 10 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 10 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 10 Soldiers in Test7 (next to: Test10 , Test4 )
+ 0 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 0 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 30 Soldiers in Test7 (next to: Test10 , Test4 )
 
 Green
 -----
- 10 Soldiers in Test11 (next to: Test5 , Test8 )
+ 19 Soldiers in Test11 (next to: Test5 , Test8 )
  10 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 10 Soldiers in Test6 (next to: Test3 , Test5 )
+ 1 Soldiers in Test6 (next to: Test3 , Test5 )
 
 Blue
 ----
  10 Soldiers in Test0 (next to: Test2 , Test8 )
- 5 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 15 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+ 10 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 10 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
 
 Yellow
 ------
@@ -78,31 +89,37 @@ You are the Green Player, what would you like to do?
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Your order (Move():Test11->Test0: Soldier 1) did not pass our rules
+Move Order path does not exist in your territories!
+If you want to abandon this order, just press Enter
+You must place orders from your own territories!
+You must place orders from your own territories!
+You do not have S in Test11!
+Your input Test11,Test3,19 is not following the format!
+Move Order path does not exist in your territories!
 Resolved Round 1 Outcome! Now start placing orders!
 Red
 ---
- 1 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 11 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 11 Soldiers in Test7 (next to: Test10 , Test4 )
+ 31 Soldiers in Test7 (next to: Test10 , Test4 )
 
 Green
 -----
- 8 Soldiers in Test11 (next to: Test5 , Test8 )
+ 20 Soldiers in Test11 (next to: Test5 , Test8 )
  11 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 8 Soldiers in Test6 (next to: Test3 , Test5 )
 
 Blue
 ----
- 8 Soldiers in Test0 (next to: Test2 , Test8 )
- 3 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 16 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+ 7 Soldiers in Test0 (next to: Test2 , Test8 )
+ 5 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 5 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 7 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 11 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
 
 Yellow
 ------
  11 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
  7 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 4 Soldiers in Test6 (next to: Test3 , Test5 )
  11 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
@@ -113,36 +130,38 @@ You are the Green Player, what would you like to do?
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Can't find order! Please choose from (M)ove, (A)ttack, (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Can't find order! Please choose from (M)ove, (A)ttack, (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Your input ahjkad is not following the format!
+Your input adfjskadfkl is not following the format!
+Unit Amount must be a positive integer!
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Your order (Attack():Test11->Test8: S 11) did not pass our rules
+You do not have S in Test11!
+If you want to abandon this order, just press Enter
 Resolved Round 2 Outcome! Now start placing orders!
 Red
 ---
- 2 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 6 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 10 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test7 (next to: Test10 , Test4 )
+ 32 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
 
 Green
 -----
- 9 Soldiers in Test11 (next to: Test5 , Test8 )
- 9 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 9 Soldiers in Test6 (next to: Test3 , Test5 )
+ 4 Soldiers in Test11 (next to: Test5 , Test8 )
+ 12 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
 
 Blue
 ----
- 1 Soldiers in Test0 (next to: Test2 , Test8 )
- 12 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 17 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+ 8 Soldiers in Test0 (next to: Test2 , Test8 )
+ 6 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 6 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 8 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 6 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
 
 Yellow
 ------
- 6 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 1 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 5 Soldiers in Test6 (next to: Test3 , Test5 )
+ 12 Soldiers in Test7 (next to: Test10 , Test4 )
  12 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
@@ -152,39 +171,30 @@ You are the Green Player, what would you like to do?
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Your input m is not following the format!
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Your order (Move():Test11->Test8: Soldier 10) did not pass our rules
-You do not have sufficient Soldier to move in Test11!
-If you want to abandon this order, just press Enter
-Your order (Attack():Test11->Test8: soldier 1) did not pass our rules
-You do not have soldier in Test11!
-If you want to abandon this order, just press Enter
 Resolved Round 3 Outcome! Now start placing orders!
 Red
 ---
- 10 Soldiers in Test0 (next to: Test2 , Test8 )
- 7 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 1 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 2 Soldiers in Test7 (next to: Test10 , Test4 )
+ 33 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
 
 Green
 -----
- 9 Soldiers in Test11 (next to: Test5 , Test8 )
- 10 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 10 Soldiers in Test6 (next to: Test3 , Test5 )
+ 5 Soldiers in Test11 (next to: Test5 , Test8 )
+ 13 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
 
 Blue
 ----
- 9 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 1 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 18 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+ 9 Soldiers in Test0 (next to: Test2 , Test8 )
+ 7 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 7 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 9 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 1 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
 
 Yellow
 ------
- 3 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 1 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 6 Soldiers in Test6 (next to: Test3 , Test5 )
+ 13 Soldiers in Test7 (next to: Test10 , Test4 )
  13 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
@@ -194,31 +204,38 @@ You are the Green Player, what would you like to do?
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Your input  is not following the format!
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Your input Test3,Test10,13 is not following the format!
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Your order (Move():Test11->Test3: Soldier 1) did not pass our rules
+Move Order path does not exist in your territories!
+If you want to abandon this order, just press Enter
 Resolved Round 4 Outcome! Now start placing orders!
 Red
 ---
- 1 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 2 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 3 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 3 Soldiers in Test7 (next to: Test10 , Test4 )
+ 28 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
 
 Green
 -----
- 9 Soldiers in Test11 (next to: Test5 , Test8 )
- 11 Soldiers in Test6 (next to: Test3 , Test5 )
- 2 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+ 6 Soldiers in Test11 (next to: Test5 , Test8 )
 
 Blue
 ----
- 19 Soldiers in Test0 (next to: Test2 , Test8 )
- 3 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 2 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 1 Soldiers in Test0 (next to: Test2 , Test8 )
+ 1 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 3 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 10 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 5 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 18 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
 
 Yellow
 ------
- 1 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 4 Soldiers in Test9 (next to: Test1 , Test3 )
+ 11 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 2 Soldiers in Test6 (next to: Test3 , Test5 )
+ 14 Soldiers in Test7 (next to: Test10 , Test4 )
+ 9 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
 You are the Green Player, what would you like to do?
@@ -231,27 +248,27 @@ Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Round 5 Outcome! Now start placing orders!
 Red
 ---
- 2 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 2 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 4 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 4 Soldiers in Test7 (next to: Test10 , Test4 )
+ 13 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
 
 Green
 -----
- 7 Soldiers in Test11 (next to: Test5 , Test8 )
- 12 Soldiers in Test6 (next to: Test3 , Test5 )
- 3 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+ 1 Soldiers in Test11 (next to: Test5 , Test8 )
 
 Blue
 ----
- 20 Soldiers in Test0 (next to: Test2 , Test8 )
- 1 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 3 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 2 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 2 Soldiers in Test0 (next to: Test2 , Test8 )
+ 2 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 1 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 11 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 6 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 15 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
 
 Yellow
 ------
- 5 Soldiers in Test9 (next to: Test1 , Test3 )
+ 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 3 Soldiers in Test6 (next to: Test3 , Test5 )
+ 14 Soldiers in Test7 (next to: Test10 , Test4 )
+ 10 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
 You are the Green Player, what would you like to do?
@@ -262,660 +279,9 @@ Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Round 6 Outcome! Now start placing orders!
-Red
----
- 3 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 3 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 5 Soldiers in Test7 (next to: Test10 , Test4 )
-
-Green
------
- 7 Soldiers in Test11 (next to: Test5 , Test8 )
- 13 Soldiers in Test6 (next to: Test3 , Test5 )
- 3 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Blue
-----
- 21 Soldiers in Test0 (next to: Test2 , Test8 )
- 2 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 4 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 3 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
-
-Yellow
-------
- 4 Soldiers in Test9 (next to: Test1 , Test3 )
-
-
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Resolved Round 7 Outcome! Now start placing orders!
-Red
----
- 4 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 4 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 6 Soldiers in Test7 (next to: Test10 , Test4 )
- 2 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
- 7 Soldiers in Test11 (next to: Test5 , Test8 )
- 14 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Blue
-----
- 1 Soldiers in Test0 (next to: Test2 , Test8 )
- 5 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 4 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 20 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
- 3 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
-
-
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Your order (Move():Test11->Test6: Soldier 2) did not pass our rules
-Move Order path does not exist in your territories!
-If you want to abandon this order, just press Enter
-Your order (Attack():Test11->Test4: Soldier 8) did not pass our rules
-You do not have sufficient Soldier to move in Test11!
-If you want to abandon this order, just press Enter
-Resolved Round 8 Outcome! Now start placing orders!
-Red
----
- 5 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 5 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 7 Soldiers in Test7 (next to: Test10 , Test4 )
- 1 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
- 8 Soldiers in Test11 (next to: Test5 , Test8 )
- 15 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Blue
-----
- 2 Soldiers in Test0 (next to: Test2 , Test8 )
- 8 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 2 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 1 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 21 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
-
-
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Resolved Round 9 Outcome! Now start placing orders!
-Red
----
- 1 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 6 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 8 Soldiers in Test7 (next to: Test10 , Test4 )
- 1 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
- 9 Soldiers in Test11 (next to: Test5 , Test8 )
- 10 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Blue
-----
- 3 Soldiers in Test0 (next to: Test2 , Test8 )
- 9 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 3 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 2 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 22 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
-
-
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Resolved Round 10 Outcome! Now start placing orders!
-Red
----
- 4 Soldiers in Test0 (next to: Test2 , Test8 )
- 1 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 1 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 2 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 9 Soldiers in Test7 (next to: Test10 , Test4 )
- 2 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
- 11 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Blue
-----
- 10 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 8 Soldiers in Test11 (next to: Test5 , Test8 )
- 4 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 3 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 1 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
-
-
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Resolved Round 11 Outcome! Now start placing orders!
-Red
----
- 5 Soldiers in Test0 (next to: Test2 , Test8 )
- 1 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 3 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 5 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 10 Soldiers in Test7 (next to: Test10 , Test4 )
- 1 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
- 8 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Blue
-----
- 2 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 9 Soldiers in Test11 (next to: Test5 , Test8 )
- 5 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 3 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 2 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
-
-
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Resolved Round 12 Outcome! Now start placing orders!
-Red
----
- 5 Soldiers in Test0 (next to: Test2 , Test8 )
- 2 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 4 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 11 Soldiers in Test7 (next to: Test10 , Test4 )
- 3 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
- 6 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Blue
-----
- 12 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 1 Soldiers in Test11 (next to: Test5 , Test8 )
- 6 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 4 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 3 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
-
-
-You are the Green Player, what would you like to do?
- (M)ove
- (A)ttack
- (D)one
-Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Resolved Round 13 Outcome! Now start placing orders!
 
 You Lose! Conquer more next time!
 What do you like to do next?
  (D)isconnect
  (K)eep Watching
-Red
----
- 6 Soldiers in Test0 (next to: Test2 , Test8 )
- 3 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 5 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 12 Soldiers in Test7 (next to: Test10 , Test4 )
- 4 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 1 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 2 Soldiers in Test11 (next to: Test5 , Test8 )
- 7 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 5 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 10 Soldiers in Test6 (next to: Test3 , Test5 )
- 4 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
-
-
-Resolved Round 14 Outcome! Now start placing orders!
-Red
----
- 7 Soldiers in Test0 (next to: Test2 , Test8 )
- 4 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 6 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 2 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 1 Soldiers in Test7 (next to: Test10 , Test4 )
- 5 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 2 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 3 Soldiers in Test11 (next to: Test5 , Test8 )
- 8 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 6 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 1 Soldiers in Test6 (next to: Test3 , Test5 )
- 5 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
-
-
-Resolved Round 15 Outcome! Now start placing orders!
-Red
----
- 8 Soldiers in Test0 (next to: Test2 , Test8 )
- 5 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 7 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 3 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 2 Soldiers in Test7 (next to: Test10 , Test4 )
- 2 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 1 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 4 Soldiers in Test11 (next to: Test5 , Test8 )
- 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 7 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 2 Soldiers in Test6 (next to: Test3 , Test5 )
- 6 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
-
-
-Resolved Round 16 Outcome! Now start placing orders!
-Red
----
- 7 Soldiers in Test0 (next to: Test2 , Test8 )
- 6 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 8 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 4 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 3 Soldiers in Test7 (next to: Test10 , Test4 )
- 3 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 2 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 5 Soldiers in Test11 (next to: Test5 , Test8 )
- 2 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 8 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 3 Soldiers in Test6 (next to: Test3 , Test5 )
- 1 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
-
-
-Resolved Round 17 Outcome! Now start placing orders!
-Red
----
- 8 Soldiers in Test0 (next to: Test2 , Test8 )
- 7 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 9 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 5 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 4 Soldiers in Test7 (next to: Test10 , Test4 )
- 4 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 3 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 6 Soldiers in Test11 (next to: Test5 , Test8 )
- 3 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 9 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 3 Soldiers in Test6 (next to: Test3 , Test5 )
- 3 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
-
-
-Resolved Round 18 Outcome! Now start placing orders!
-Red
----
- 1 Soldiers in Test0 (next to: Test2 , Test8 )
- 8 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 10 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 6 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 5 Soldiers in Test7 (next to: Test10 , Test4 )
- 5 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 4 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 7 Soldiers in Test11 (next to: Test5 , Test8 )
- 4 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 10 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 4 Soldiers in Test6 (next to: Test3 , Test5 )
- 2 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
-
-Yellow
-------
-
-
-Resolved Round 19 Outcome! Now start placing orders!
-Red
----
- 2 Soldiers in Test0 (next to: Test2 , Test8 )
- 9 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 11 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 6 Soldiers in Test7 (next to: Test10 , Test4 )
- 5 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
- 6 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 5 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 8 Soldiers in Test11 (next to: Test5 , Test8 )
- 5 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 11 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 5 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Yellow
-------
-
-
-Resolved Round 20 Outcome! Now start placing orders!
-Red
----
- 3 Soldiers in Test0 (next to: Test2 , Test8 )
- 10 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 1 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 2 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 7 Soldiers in Test7 (next to: Test10 , Test4 )
- 6 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
- 7 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 6 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 9 Soldiers in Test11 (next to: Test5 , Test8 )
- 6 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 3 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 6 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Yellow
-------
-
-
-Resolved Round 21 Outcome! Now start placing orders!
-Red
----
- 4 Soldiers in Test0 (next to: Test2 , Test8 )
- 11 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 1 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 3 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 2 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 8 Soldiers in Test7 (next to: Test10 , Test4 )
- 7 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
- 8 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 7 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 10 Soldiers in Test11 (next to: Test5 , Test8 )
- 7 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 7 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Yellow
-------
-
-
-Resolved Round 22 Outcome! Now start placing orders!
-Red
----
- 5 Soldiers in Test0 (next to: Test2 , Test8 )
- 3 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 12 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 2 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 1 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 9 Soldiers in Test7 (next to: Test10 , Test4 )
- 8 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
- 9 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 11 Soldiers in Test11 (next to: Test5 , Test8 )
- 8 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 8 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Yellow
-------
-
-
-Resolved Round 23 Outcome! Now start placing orders!
-Red
----
- 6 Soldiers in Test0 (next to: Test2 , Test8 )
- 4 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 1 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 3 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 13 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 2 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 2 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 10 Soldiers in Test7 (next to: Test10 , Test4 )
- 9 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
- 10 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 12 Soldiers in Test11 (next to: Test5 , Test8 )
- 17 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Yellow
-------
-
-
-Resolved Round 24 Outcome! Now start placing orders!
-Red
----
- 7 Soldiers in Test0 (next to: Test2 , Test8 )
- 5 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 2 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 4 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 14 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 3 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 1 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 11 Soldiers in Test7 (next to: Test10 , Test4 )
- 1 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
- 11 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 6 Soldiers in Test11 (next to: Test5 , Test8 )
- 18 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Yellow
-------
-
-
-Resolved Round 25 Outcome! Now start placing orders!
-Red
----
- 8 Soldiers in Test0 (next to: Test2 , Test8 )
- 6 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 3 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 5 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 4 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 2 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 12 Soldiers in Test7 (next to: Test10 , Test4 )
- 2 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
- 12 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 7 Soldiers in Test11 (next to: Test5 , Test8 )
- 6 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Yellow
-------
-
-
-Resolved Round 26 Outcome! Now start placing orders!
-Red
----
- 9 Soldiers in Test0 (next to: Test2 , Test8 )
- 7 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 4 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 6 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 5 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 3 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 13 Soldiers in Test7 (next to: Test10 , Test4 )
- 3 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
- 13 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 8 Soldiers in Test11 (next to: Test5 , Test8 )
- 7 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Yellow
-------
-
-
-Resolved Round 27 Outcome! Now start placing orders!
-Red
----
- 10 Soldiers in Test0 (next to: Test2 , Test8 )
- 8 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 5 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 7 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 15 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 6 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 4 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 1 Soldiers in Test7 (next to: Test10 , Test4 )
- 4 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
- 14 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 9 Soldiers in Test11 (next to: Test5 , Test8 )
- 8 Soldiers in Test6 (next to: Test3 , Test5 )
-
-Yellow
-------
-
-
-Resolved Round 28 Outcome! Now start placing orders!
-Red
----
- 11 Soldiers in Test0 (next to: Test2 , Test8 )
- 9 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
- 6 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
- 8 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
- 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
- 7 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
- 5 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
- 11 Soldiers in Test6 (next to: Test3 , Test5 )
- 2 Soldiers in Test7 (next to: Test10 , Test4 )
- 5 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
- 15 Soldiers in Test9 (next to: Test1 , Test3 )
-
-Green
------
-
-Blue
-----
- 10 Soldiers in Test11 (next to: Test5 , Test8 )
-
-Yellow
-------
-
-
-Resolved Game Outcome!
-
-
--------------------------------------
-Red win this game!
--------------------------------------
-
-Press any key to exit...
+Have a nice day!

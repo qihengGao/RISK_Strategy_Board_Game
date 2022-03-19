@@ -46,10 +46,10 @@ class AppTest {
         RiskGameClient client1 = new RiskGameClient(context1,randomPortNumber);
         client1.start();
         TimeUnit.MILLISECONDS.sleep(200);
-        client1.stop();
-        //context1.getSocket().close();
 
-        TimeUnit.MILLISECONDS.sleep(100);
+
+
+
 
         ByteArrayOutputStream bytes2 = new ByteArrayOutputStream();
         ClientContext context2 = new ClientContext();
@@ -61,8 +61,17 @@ class AppTest {
         client2.start();
 
 
-        //context2.getSocket().close();
+        ByteArrayOutputStream bytes3 = new ByteArrayOutputStream();
+        ClientContext context3 = new ClientContext();
+        InputStream input3 = getClass().getClassLoader().getResourceAsStream("Input_Client3_v1.txt");
+        PrintStream out3 = new PrintStream(bytes3, true);
+        context3.setBufferedReader(new BufferedReader(new InputStreamReader(input3)));
+        context3.setOut(out3);
+        RiskGameClient client3 = new RiskGameClient(context3,randomPortNumber);
+        client3.start();
 
+
+        TimeUnit.MILLISECONDS.sleep(100);
 
         ByteArrayOutputStream bytes4 = new ByteArrayOutputStream();
         ClientContext context4 = new ClientContext();
@@ -74,38 +83,20 @@ class AppTest {
         client4.start();
 
 
-        TimeUnit.MILLISECONDS.sleep(100);
-
-        ByteArrayOutputStream bytes3 = new ByteArrayOutputStream();
-        ClientContext context3 = new ClientContext();
-        InputStream input3 = getClass().getClassLoader().getResourceAsStream("Input_Client3_v1.txt");
-        PrintStream out3 = new PrintStream(bytes3, true);
-        context3.setBufferedReader(new BufferedReader(new InputStreamReader(input3)));
-        context3.setOut(out3);
-        RiskGameClient client3 = new RiskGameClient(context3,randomPortNumber);
-        client3.start();
-
-        TimeUnit.MILLISECONDS.sleep(100);
-
-
-        ByteArrayOutputStream bytes5 = new ByteArrayOutputStream();
-        ClientContext context5 = new ClientContext();
-        InputStream input5 = getClass().getClassLoader().getResourceAsStream("Input_Client5_v1.txt");
-        PrintStream out5 = new PrintStream(bytes5, true);
-        context5.setBufferedReader(new BufferedReader(new InputStreamReader(input5)));
-        context5.setOut(out5);
-        RiskGameClient client5 = new RiskGameClient(context5,randomPortNumber);
-        client5.start();
 
 
 
 
 
+
+
+
+
+        client1.join();
 
         client2.join();
         client3.join();
         client4.join();
-        client5.join();
 
         String expected1 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client1_v1.txt").readAllBytes());
         assertEqualsIgnoreLineSeparator(expected1, bytes1.toString());
@@ -119,8 +110,7 @@ class AppTest {
         String expected4 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client4_v1.txt").readAllBytes());
         assertEqualsIgnoreLineSeparator(expected4, bytes4.toString());
 
-        String expected5 = new String(getClass().getClassLoader().getResourceAsStream("Output_Client5_v1.txt").readAllBytes());
-        assertEqualsIgnoreLineSeparator(expected5, bytes5.toString());
+
     }
 
 //    @Test
