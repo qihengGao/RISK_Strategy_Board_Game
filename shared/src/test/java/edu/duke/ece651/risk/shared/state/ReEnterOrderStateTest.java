@@ -14,8 +14,10 @@ import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -79,6 +81,28 @@ public class ReEnterOrderStateTest {
     }
 
     @Test
+    public void test_readOrderFromUser_checkMesageNull() throws IOException{
+        RISKMap riskMap = mock(RISKMap.class);
+        BufferedReader bufferedReader = mock(BufferedReader.class);
+        PrintStream printStream = mock(PrintStream.class);
+        Long id = 0L;
+        String chosenOrder = "chosenOrder";
+        Order illegalMoveOrder = new MoveOrder(0, "Test0", "Test1", "Unit", 10);
+
+        ReEnterOrderState thisState = spy(new ReEnterOrderState(illegalMoveOrder));
+        doCallRealMethod().when(thisState).readOrderFromUser(riskMap, bufferedReader, printStream, id, chosenOrder);
+        doReturn("").when(bufferedReader).readLine();
+        
+        // doThrow(IllegalArgumentException.class).when(thisState).excuteOrder(any(), any());
+
+        doReturn(chosenOrder).when(thisState).excuteOrder(any(), any());
+        
+
+        thisState.readOrderFromUser(riskMap, bufferedReader, printStream, id, chosenOrder);
+        // verify(printStream).println();
+    }
+
+    @Test
     public void test_ReEnterOrder() throws IOException {
         RISKMap riskMap = buildTestMap();
         RISKMap riskMap2 = buildTestMap();
@@ -111,5 +135,15 @@ public class ReEnterOrderStateTest {
         Order order = state3.readOrderFromUser(riskMap2, input3 , output, 0L, illegalMoveOrder.getOrderType());
         System.out.println(bytes.toString());
         displayMap(riskMap);
+    }
+
+    @Test
+    public void test_readOrderUnitAmount(){
+        Order illegalMoveOrder = new MoveOrder(0, "Test0", "Test1", "Unit", 10);
+        ReEnterOrderState thisState = new ReEnterOrderState(illegalMoveOrder);
+
+        String[] inputArr = {"Test0", "Test1", "Unit", "x"};
+        assertThrows(IllegalArgumentException.class, ()->thisState.readOrderUnitAmount(inputArr));
+
     }
 }
