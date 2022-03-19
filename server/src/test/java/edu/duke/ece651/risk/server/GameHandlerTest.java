@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.server;
 
 import edu.duke.ece651.risk.shared.MoveOrder;
+import edu.duke.ece651.risk.shared.map.RISKMap;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.internal.matchers.Or;
@@ -24,12 +25,17 @@ class GameHandlerTest {
     @Test
     void letClientReOrder() throws IOException, ClassNotFoundException {
         Client client = mock(Client.class);
-        doThrow(IOException.class).doThrow(NullPointerException.class).when(client).writeObject(any());
+        doThrow(NullPointerException.class).when(client).writeObject(any());
         GameHandler gameHandler = spy(new GameHandler(client,1,0L));
         MoveOrder order = mock(MoveOrder.class);
-        doCallRealMethod().when(gameHandler).letClientReOrder(order,"");
+        doCallRealMethod().when(gameHandler).letClientReOrder(order);
 
-        gameHandler.letClientReOrder(order,"");
-        gameHandler.letClientReOrder(order,"");
+        gameHandler.letClientReOrder(order);
+        doReturn("null").doReturn(null).when(gameHandler).getRecheck_message(any());
+        doNothing().when(client).writeObject(any());
+        doReturn(order).when(client).readObject();
+        gameHandler.letClientReOrder(order);
     }
+
+
 }
