@@ -221,7 +221,8 @@ public class ClientHandler extends Thread {
                 //IF the oriClient in WaitingState, server need redirect client to WaitingState again to update the prompt(How many player still need to start the game).
                 //If the oriClient in any other State, redirect the client to the state of previous RiskGameMessage(May need more handle in the feature).
                 //TODO
-                if (oriClient.getPreviousRiskGameMessage() == null || oriClient.getPreviousRiskGameMessage().getCurrentState() instanceof WaitingState)
+                //oriClient.getPreviousRiskGameMessage() == null ||
+                if ( oriClient.getPreviousRiskGameMessage().getCurrentState() instanceof WaitingState)
                     oriClient.writeObject(new RiskGameMessage(oriClient.getClientID(), new WaitingState(), null,
                             String.format("Successfully restore a socket connection, client id = %d\n" +
                                     "Waiting for game to start. Still need %d player!", 1,1)));
@@ -229,9 +230,7 @@ public class ClientHandler extends Thread {
                     oriClient.writeObject(oriClient.getPreviousRiskGameMessage());
                 return true;
             } else {
-                if (oriClient == null)
                     System.out.println("Client try to restore a socket connection, but client id not found." + oriClientID);
-                else
                     System.out.println("Client try to restore a socket connection, but client address didn't match.");
                 return false;
 
