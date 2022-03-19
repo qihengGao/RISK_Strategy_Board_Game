@@ -15,27 +15,20 @@ public class Client {
         this.clientID = -1;
     }
 
-    public RiskGameMessage getPreviousRiskGameMessage() {
-        return previousRiskGameMessage;
-    }
+//    public RiskGameMessage getPreviousRiskGameMessage() {
+//        return previousRiskGameMessage;
+//    }
 
-    public ObjectOutputStream getOos() {
-        return oos;
-    }
-
-    public ObjectInputStream getOis() {
-        return ois;
-    }
 
     public void setOos(ObjectOutputStream oos) {
         this.oos = oos;
     }
 
-    public void setOis(ObjectInputStream ois) {
+    public void setOis(ObjectInput ois) {
         this.ois = ois;
     }
 
-    private ObjectInputStream ois;
+    private ObjectInput ois;
     private final long clientID;
 
     public void setSocket(Socket socket) {
@@ -52,22 +45,31 @@ public class Client {
         return clientID;
     }
 
-    public Client(Socket socket, long clientID, ObjectInputStream objectInputStream,
-            ObjectOutputStream objectOutputStream) {
+
+    public Client(Socket socket, long clientID, ObjectInput objectInputStream, ObjectOutputStream objectOutputStream) {
         this.clientID = clientID;
         this.oos = objectOutputStream;
         this.ois = objectInputStream;
         this.socket = socket;
     }
 
-    public Object readObject() throws IOException, ClassNotFoundException {
-        return ois.readObject();
+    public Object readObject() {
+        try {
+            return ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Client socket closed.");
+        }
+        return null;
     }
 
-    public void writeObject(RiskGameMessage o) throws IOException {
-        previousRiskGameMessage = o;
-        oos.reset();
-        oos.writeObject(o);
+    public void writeObject(RiskGameMessage o) {
+        try {
+            previousRiskGameMessage = o;
+            oos.reset();
+            oos.writeObject(o);
+        } catch (IOException e) {
+            System.out.println("Client socket closed.");
+        }
     }
 
 }
