@@ -11,7 +11,8 @@ import java.net.SocketAddress;
 import java.util.regex.Pattern;
 
 public abstract class State implements Serializable {
-
+    @Serial
+    private static final long serialVersionUID = 6529685098267757689L;
     public abstract void doAction(ClientContext contex) throws IOException, ClassNotFoundException;
 
     /**
