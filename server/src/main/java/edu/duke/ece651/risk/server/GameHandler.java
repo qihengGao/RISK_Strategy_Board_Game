@@ -189,12 +189,12 @@ public class GameHandler extends Thread {
         }
 
         //send winner message to all clients
-        if (winner==null) {
-            for (Client c : players) {
-                winner = c;
-                break;
-            }
-        }
+//        if (winner==null) {
+//            for (Client c : players) {
+//                winner = c;
+//                break;
+//            }
+//        }
         showGameResult("Resolved Game Outcome!", winner);
 
         MapTextView mapTextView = new MapTextView(riskMap, idToColor);
