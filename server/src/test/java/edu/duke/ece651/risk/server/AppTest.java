@@ -27,7 +27,6 @@ class AppTest {
     }
 
 
-    @Disabled
     @ResourceLock(value = Resources.SYSTEM_OUT, mode = ResourceAccessMode.READ_WRITE)
     @Test
 
