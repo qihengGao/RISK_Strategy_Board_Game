@@ -27,7 +27,7 @@ public class ClientHandler extends Thread {
      * @param roomMap         A Map which store all the game room.
      * @param idToClient      A mao between client ID and client itself.
      */
-    public ClientHandler(Client client,Socket socket, Long clientIDCounter, HashMap<Long, GameHandler> roomMap, Map<Long, Client> idToClient) {
+    public ClientHandler(Client client, Socket socket, Long clientIDCounter, HashMap<Long, GameHandler> roomMap, Map<Long, Client> idToClient) {
         this.socket = socket;
         this.roomMap = roomMap;
         this.clientIDCounter = clientIDCounter;
@@ -41,28 +41,32 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
 
-        System.out.println("Client Handler start with socket: " + socket.getInetAddress().toString());
+
+
         try {
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
-            client.setOos(objectOutputStream);
-            client.setOis(objectInputStream);
-
-            do {
-                RiskGameMessage riskGameMessage = (RiskGameMessage) objectInputStream.readObject();
-                switch (riskGameMessage.getClientCurrentStateName()) {
-                    case "RestoreState":
-                        doRestorePhase(riskGameMessage);
-                        break;
-                    case "SelectRoomState":
-                        doSelectRoomPhase(riskGameMessage);
-                        break;
-                }
-            } while (!finishGameInitiatePhase);
-
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
+        System.out.println("Client Handler start with socket: " + socket.getInetAddress().toString());
+        client.setOos(objectOutputStream);
+        client.setOis(objectInputStream);
+
+        do {
+            RiskGameMessage riskGameMessage = (RiskGameMessage) client.readObject();
+            switch (riskGameMessage.getClientCurrentStateName()) {
+                case "RestoreState":
+                    doRestorePhase(riskGameMessage);
+                    break;
+                case "SelectRoomState":
+                    doSelectRoomPhase(riskGameMessage);
+                    break;
+            }
+        } while (!finishGameInitiatePhase);
+
+
     }
 
 
@@ -72,7 +76,7 @@ public class ClientHandler extends Thread {
      * @param riskGameMessage RiskGameMessage which send from the client contains the InitGame flag and optional clientID to restore with.
      * @throws IOException Any problem related to the input/output stream.
      */
-    public void doRestorePhase(RiskGameMessage riskGameMessage) throws IOException {
+    public void doRestorePhase(RiskGameMessage riskGameMessage) {
         if (riskGameMessage.isInitGame()) {
             addNewClient();
         } else {
@@ -82,7 +86,7 @@ public class ClientHandler extends Thread {
                 //TODO Considering the situation that loop in restoreState.
                 finishGameInitiatePhase = true;
             } else {
-                objectOutputStream.writeObject(RiskGameMessageFactory.createRestoreStateMessage("Invalid client ID. Restore failed!"));
+                client.writeObject(RiskGameMessageFactory.createRestoreStateMessage("Invalid client ID. Restore failed!"));
             }
         }
     }
@@ -94,7 +98,7 @@ public class ClientHandler extends Thread {
      * @param riskGameMessage RiskGameMessage which send from the client contains the createAGameRoom flag and optional room ID to join.
      * @throws IOException Any problem related to the input/output stream.
      */
-    void doSelectRoomPhase(RiskGameMessage riskGameMessage) throws IOException {
+    void doSelectRoomPhase(RiskGameMessage riskGameMessage) {
         if (riskGameMessage.isCreateAGameRoom()) {
             createNewGameRoom(riskGameMessage);
             finishGameInitiatePhase = true;
@@ -114,7 +118,7 @@ public class ClientHandler extends Thread {
      * @return True if successfully join the specified room, otherwise false.
      * @throws IOException Any problem related to the input/output stream.
      */
-    public boolean tryJoinGameRoom(RiskGameMessage riskGameMessage) throws IOException {
+    public boolean tryJoinGameRoom(RiskGameMessage riskGameMessage) {
         long roomIDToJoin = riskGameMessage.getRoomID();
         synchronized (roomMap) {
             GameHandler roomToJoin = roomMap.get(roomIDToJoin);
@@ -128,11 +132,8 @@ public class ClientHandler extends Thread {
                     //If the game room is full, start the game.
                     //TODO Start the game handler in other thread, it is not proper to run game handler on a ClientHandler thread.
                     if (roomToJoin.getCurrentPlayersSize() == roomToJoin.getRoomSize())
-                        try {
-                            roomToJoin.start();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
+
+                        roomToJoin.start();
 
 
                 }
@@ -151,7 +152,7 @@ public class ClientHandler extends Thread {
      * @param riskGameMessage RiskGameMessage which send from the client contains the roomSize.
      * @throws IOException Any problem related to the input/output stream.
      */
-    public void createNewGameRoom(RiskGameMessage riskGameMessage) throws IOException {
+    public void createNewGameRoom(RiskGameMessage riskGameMessage) {
 
         //Here is a naive solution for multi-thread locking.
         //Need better solution.
@@ -168,7 +169,7 @@ public class ClientHandler extends Thread {
         }
     }
 
-    protected GameHandler createGameHandler(Client client, Integer roomSize, Long roomID){
+    protected GameHandler createGameHandler(Client client, Integer roomSize, Long roomID) {
         return new GameHandler(client, roomSize, roomID);
     }
 
@@ -177,7 +178,7 @@ public class ClientHandler extends Thread {
      *
      * @throws IOException Any problem related to the input/output stream.
      */
-    public void addNewClient() throws IOException {
+    public void addNewClient() {
         System.out.println("New client! Client id: " + clientIDCounter);
         Client tmp = createNewClient(socket, clientIDCounter, objectInputStream, objectOutputStream);
         client = tmp;
@@ -203,7 +204,7 @@ public class ClientHandler extends Thread {
      * @return True if successfully restore the client, otherwise false.
      * @throws IOException Any problem related to the input/output stream.
      */
-    public boolean tryRestoreClient(RiskGameMessage riskGameMessage) throws IOException {
+    public boolean tryRestoreClient(RiskGameMessage riskGameMessage) {
         long oriClientID = riskGameMessage.getClientid();
         synchronized (idToClient) {
             Client oriClient = idToClient.get(oriClientID);
@@ -222,19 +223,20 @@ public class ClientHandler extends Thread {
                 //If the oriClient in any other State, redirect the client to the state of previous RiskGameMessage(May need more handle in the feature).
                 //TODO
                 //oriClient.getPreviousRiskGameMessage() == null ||
-                if ( oriClient.getPreviousRiskGameMessage().getCurrentState() instanceof WaitingState)
-                    oriClient.writeObject(new RiskGameMessage(oriClient.getClientID(), new WaitingState(), null,
-                            String.format("Successfully restore a socket connection, client id = %d\n" +
-                                    "Waiting for game to start. Still need %d player!", 1,1)));
+//                if ( oriClient.getPreviousRiskGameMessage().getCurrentState() instanceof WaitingState)
+                oriClient.writeObject(new RiskGameMessage(oriClient.getClientID(), new WaitingState(), null,
+                        String.format("Successfully restore a socket connection, client id = %d\n" +
+                                "Waiting for game to start. Still need %d player!", 1, 1)));
 //                else
 //                    oriClient.writeObject(oriClient.getPreviousRiskGameMessage());
-                return true;
+
             } else {
-                    System.out.println("Client try to restore a socket connection, but client id not found." + oriClientID);
-                    System.out.println("Client try to restore a socket connection, but client address didn't match.");
+                System.out.println("Client try to restore a socket connection, but client id not found." + oriClientID);
+                System.out.println("Client try to restore a socket connection, but client address didn't match.");
                 return false;
 
             }
         }
+        return true;
     }
 }
