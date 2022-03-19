@@ -82,7 +82,14 @@ class AttackOrderSimpleTest {
         System.out.println(check_message2);
         assertEquals(riskMap.getTerritoryByName("Test1").getUnitByType("Unit").getAmount(), 8);
         assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 8);
+
         displayMap(riskMap);
+        String check_message3 = checkValidOrder(riskMap, 2, output, "Test6,Test2,Unit,5");
+        System.out.println(check_message3);
+        assertEquals(riskMap.getTerritoryByName("Test6").getUnitByType("Unit").getAmount(), 5);
+        assertEquals(riskMap.getTerritoryByName("Test2").getUnitByType("Unit").getAmount(), 5);
+        displayMap(riskMap);
+
     }
 
     @Test

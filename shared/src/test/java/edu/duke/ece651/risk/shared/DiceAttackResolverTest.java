@@ -10,8 +10,8 @@ public class DiceAttackResolverTest {
     @Test
     public void test_resolveCurrent(){
         Random r = new Random(12345);
-        int[] list = {1, -1, 1, 1, -1};
-        AttackResolver resolver = new DiceAttackResolver(20);
+        int[] list = {-1,0,1,0};
+        AttackResolver resolver = new DiceAttackResolver(2);
         for (int i : list) {
             assertEquals(i, resolver.resolveCurrent());
         }
