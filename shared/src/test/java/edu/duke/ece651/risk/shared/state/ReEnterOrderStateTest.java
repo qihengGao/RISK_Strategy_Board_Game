@@ -24,10 +24,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class ReEnterOrderStateTest {
-    private static void assertEqualsIgnoreLineSeparator(String expected, String actual) {
-        assertEquals(expected.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")),
-                actual.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")));
-    }
+    // private static void assertEqualsIgnoreLineSeparator(String expected, String actual) {
+    //     assertEquals(expected.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")),
+    //             actual.replaceAll("\\n|\\r\\n", System.getProperty("line.separator")));
+    // }
 
     private RISKMap buildTestMap(){
         AbstractMapFactory tmf = new RandomMapFactory();
