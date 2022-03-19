@@ -47,7 +47,8 @@ public class Client {
         return socket;
     }
 
-    public long getClientID() {
+
+    public Long getClientID() {
         return clientID;
     }
 

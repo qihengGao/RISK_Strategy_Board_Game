@@ -66,7 +66,7 @@ public class RISKMap implements GameMap {
   public Iterable<Territory> getTerritoriesByOwnerID(long id) {
     ArrayList<Territory> ownedByMe = new ArrayList<>();
     for (Territory t : continent) {
-      if (t.getOwnerID() == id) {
+      if (t.getOwnerID().equals(id)) {
         ownedByMe.add(t);
       }
     }
