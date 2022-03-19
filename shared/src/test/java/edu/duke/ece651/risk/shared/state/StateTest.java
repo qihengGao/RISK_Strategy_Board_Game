@@ -129,14 +129,15 @@ public class StateTest {
         when(mockClientContext.getSocket()).thenReturn(socket);
 
 
-        State state = new InitiateSocketState();
+        State state = spy(new InitiateSocketState());
         state.connectToServer(mockClientContext);
 
         verify(mockClientContext,times(2)).setSocket(any(Socket.class));
         verify(mockClientContext).setOis(objectInputStream);
         verify(mockClientContext).setOos(objectOutputStream);
 
-
+        when(socket.isConnected()).thenReturn(false);
+        assertThrows(IOException.class, () -> state.connectToServer(mockClientContext));
     }
 
     @Test
@@ -256,5 +257,27 @@ public class StateTest {
         assertEquals(0L, clientContext.getPlayerID());
         assertSame(riskMap, clientContext.getRiskMap());
         assertSame(idToColor, clientContext.getIdToColor());
+    }
+
+    @Test
+    public void test_updateContextWithMessage_nullCases(){
+        ClientContext clientContext = mock(ClientContext.class);
+        RiskGameMessage message = mock(RiskGameMessage.class);
+        RISKMap riskMap = mock(RISKMap.class);
+        TreeMap<Long, Color> idToColor = new TreeMap<Long, Color>();
+        idToColor.put(0L, new Color("red"));
+
+        State thisState = mock(InitiateSocketState.class);
+
+        doCallRealMethod().when(thisState).updateContextWithMessage(clientContext, message);
+        doReturn(null).when(message).getPrompt();
+        doReturn(riskMap).when(message).getRiskMap();
+        doReturn(idToColor).when(message).getIdToColor();
+
+        thisState.updateContextWithMessage(clientContext, message);
+        verify(clientContext).setGameState(any());
+        verify(clientContext).setPlayerID(anyLong());
+        verify(clientContext).setRiskMap(any());
+        verify(clientContext).setIdToColor(any());
     }
 }
