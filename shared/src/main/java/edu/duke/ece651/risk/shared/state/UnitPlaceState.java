@@ -68,7 +68,7 @@ public class UnitPlaceState extends State {
                 throw new IllegalArgumentException("Your input unit number is negative, please try again!");
             }
             if (amountToPutInt > amountRest) {
-                throw new IllegalArgumentException("Amount to put must not exceed 10");
+                throw new IllegalArgumentException("Amount to put must not exceed " + amountRest);
             }
         } catch (NumberFormatException e) {
             out.println(amountToPutStr + " is an Invalid input! Try again!");
