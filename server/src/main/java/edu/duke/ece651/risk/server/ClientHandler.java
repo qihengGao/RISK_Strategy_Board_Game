@@ -226,8 +226,8 @@ public class ClientHandler extends Thread {
                     oriClient.writeObject(new RiskGameMessage(oriClient.getClientID(), new WaitingState(), null,
                             String.format("Successfully restore a socket connection, client id = %d\n" +
                                     "Waiting for game to start. Still need %d player!", 1,1)));
-                else
-                    oriClient.writeObject(oriClient.getPreviousRiskGameMessage());
+//                else
+//                    oriClient.writeObject(oriClient.getPreviousRiskGameMessage());
                 return true;
             } else {
                     System.out.println("Client try to restore a socket connection, but client id not found." + oriClientID);
