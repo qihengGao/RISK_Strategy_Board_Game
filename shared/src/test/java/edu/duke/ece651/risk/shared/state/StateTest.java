@@ -76,23 +76,7 @@ public class StateTest {
         assertThrows(EOFException.class, () -> testState.readServerAddress(context,"Please type in server address"));
     }
 
-    /**
-     * test for readClientId
-     * @throws NumberFormatException
-     * @throws IOException
-     */
-    @Test
-    public void test_readClientID() throws NumberFormatException, IOException{
-        State testState = new WaitingState();
-        ClientContext clientContext = new ClientContext();
-        BufferedReader bufferedReader = new BufferedReader(new StringReader("1"));
-        PrintStream printStream = new PrintStream(System.out);
-        clientContext.setBufferedReader(bufferedReader);
-        clientContext.setOut(printStream);
-        String prompt = "prompt";
-        Long result = testState.readClientID(clientContext, prompt);
-        assertEquals(1L, result);   
-    }
+
 
     @Test
     void connectToServer() throws IOException {
