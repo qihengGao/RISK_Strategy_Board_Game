@@ -51,7 +51,7 @@ clover-report:
     paths:
       - build
       - .gradle
-  timeout: 1 minutes
+  timeout: 2 minutes
 
 coverage-summary:
   image: python:3.7-alpine3.14
