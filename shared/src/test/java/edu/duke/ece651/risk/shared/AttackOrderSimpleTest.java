@@ -8,18 +8,20 @@ import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.TreeMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AttackOrderSimpleTest {
 
-    private RISKMap buildTestMap(){
+    private RISKMap buildTestMap() {
         AbstractMapFactory tmf = new RandomMapFactory();
         RISKMap riskMap = (RISKMap) tmf.createMapForNplayers(3);
         int count = 0;
-        for (Territory t: riskMap.getContinent()){
+        for (Territory t : riskMap.getContinent()) {
             t.tryAddUnit(new BasicUnit("Unit", 10));
             t.tryChangeOwnerTo((long) (count / 3));
             count++;
@@ -29,9 +31,9 @@ class AttackOrderSimpleTest {
 
     private void displayMap(RISKMap riskMap) {
         TreeMap<Long, Color> idToColor = new TreeMap<Long, Color>();
-        idToColor.put((long)0, new Color("Red"));
-        idToColor.put((long)1, new Color("Green"));
-        idToColor.put((long)2, new Color("Blue"));
+        idToColor.put((long) 0, new Color("Red"));
+        idToColor.put((long) 1, new Color("Green"));
+        idToColor.put((long) 2, new Color("Blue"));
 
         MapTextView mapTextView = new MapTextView(riskMap, idToColor);
         System.out.println(mapTextView.displayMap());
@@ -45,27 +47,21 @@ class AttackOrderSimpleTest {
         return check_message;
     }
 
-    private int readOrderUnitAmount (String[] inputs){
+    private int readOrderUnitAmount(String[] inputs) {
         int ans;
-        try{
-            ans = Math.abs(Integer.parseInt(inputs[3]));
-        }
-        catch (NumberFormatException e){
-            throw new IllegalArgumentException("Unit Amount must be an integer!");
-        }
+
+        ans = Math.abs(Integer.parseInt(inputs[3]));
+
         return ans;
     }
 
-    private String[] checkFormatAndSplit(String userInput) throws IllegalArgumentException{
+    private String[] checkFormatAndSplit(String userInput) throws IllegalArgumentException {
         String[] ans = userInput.split(",");
-        if (ans.length != 4) {
-            throw new IllegalArgumentException("Your input " + userInput + " is not following the format!");
-        }
         return ans;
     }
 
     @Test
-    public void test_executeOrder() throws IOException{
+    public void test_executeOrder() throws IOException {
         RISKMap riskMap = buildTestMap();
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         PrintStream output = new PrintStream(bytes, true);
@@ -93,7 +89,7 @@ class AttackOrderSimpleTest {
     }
 
     @Test
-    public void test_executeOrder_invalid(){
+    public void test_executeOrder_invalid() {
         RISKMap riskMap = buildTestMap();
 
         Order moveOrderInvalid = new MoveOrder(0L, "Test0", "Test3", "Unit", 5);
