@@ -7,9 +7,8 @@ import java.net.Socket;
 
 public class Client {
 
-
     private Socket socket;
-    private  ObjectOutputStream oos;
+    private ObjectOutputStream oos;
     private RiskGameMessage previousRiskGameMessage;
 
     public Client() {
@@ -36,7 +35,7 @@ public class Client {
         this.ois = ois;
     }
 
-    private  ObjectInputStream ois;
+    private ObjectInputStream ois;
     private final long clientID;
 
     public void setSocket(Socket socket) {
@@ -49,14 +48,12 @@ public class Client {
     }
 
 
-    public long getClientID() {
+    public Long getClientID() {
         return clientID;
     }
 
-
-
-
-    public Client(Socket socket, long clientID, ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream){
+    public Client(Socket socket, long clientID, ObjectInputStream objectInputStream,
+            ObjectOutputStream objectOutputStream) {
         this.clientID = clientID;
         this.oos = objectOutputStream;
         this.ois = objectInputStream;
@@ -72,6 +69,5 @@ public class Client {
         oos.reset();
         oos.writeObject(o);
     }
-
 
 }

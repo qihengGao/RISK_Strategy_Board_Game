@@ -128,7 +128,12 @@ public class ClientHandler extends Thread {
                     //If the game room is full, start the game.
                     //TODO Start the game handler in other thread, it is not proper to run game handler on a ClientHandler thread.
                     if (roomToJoin.getCurrentPlayersSize() == roomToJoin.getRoomSize())
-                        roomToJoin.start();
+                        try {
+                            roomToJoin.start();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
 
                 }
             } else {

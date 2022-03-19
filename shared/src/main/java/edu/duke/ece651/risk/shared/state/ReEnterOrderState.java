@@ -18,6 +18,7 @@ public class ReEnterOrderState extends State {
     public void doAction(ClientContext contex) throws IOException, ClassNotFoundException {
         String check_message = illegalOrder.executeOrder(contex.getRiskMap());
         contex.getOut().println(check_message);
+        contex.getOut().println("If you want to abandon this order, just press Enter");
         Order newOrder = readOrderFromUser(contex.getRiskMap(), contex.getBufferedReader(), contex.getOut(),
                 contex.getPlayerID(), illegalOrder.getOrderType());
 
@@ -40,7 +41,7 @@ public class ReEnterOrderState extends State {
 
                 Order order = new MoveOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
                 if (chosenOrder.equals("Attack")) {
-                    order = new AttackOrderSimple(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
+                    order = new AttackOrder(ID, inputs[0], inputs[1], inputs[2], amountUnderOrder);
                 }
                 String check_message = order.executeOrder(riskMap);
                 if (check_message != null) {
@@ -58,7 +59,7 @@ public class ReEnterOrderState extends State {
     private int readOrderUnitAmount (String[] inputs){
         int ans;
         try{
-            ans = Integer.parseInt(inputs[3]);
+            ans = Math.abs(Integer.parseInt(inputs[3]));
         }
         catch (NumberFormatException e){
             throw new IllegalArgumentException("Unit Amount must be an integer!");
