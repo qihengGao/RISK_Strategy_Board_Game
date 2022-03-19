@@ -1,7 +1,7 @@
 package edu.duke.ece651.risk.client;
 
 import edu.duke.ece651.risk.shared.ClientContext;
-import edu.duke.ece651.risk.shared.InitiateSocketState;
+import edu.duke.ece651.risk.shared.state.InitiateSocketState;
 
 import java.io.IOException;
 
@@ -22,13 +22,25 @@ public class RiskGameClient extends Thread{
 
 
     public void run() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+
+                clientContext.println("Shutting down ...");
+                try {
+                    clientContext.getSocket().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //some cleaning up code...
+
+            }
+        });
         try {
             new InitiateSocketState().doAction(clientContext);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
     }
+
 }

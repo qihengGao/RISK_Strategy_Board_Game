@@ -13,7 +13,7 @@ public class App {
     
     public static void main(String[] args) throws IOException {
 
-        RiskGameServer riskGameServer = new RiskGameServer(3,new ServerSocket(1777));
+        RiskGameServer riskGameServer = new RiskGameServer(new ServerSocket(1777));
         riskGameServer.start();
     }
 

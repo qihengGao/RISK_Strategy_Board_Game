@@ -1,95 +1,433 @@
-Please type in server address
-Please type in server port number
+Which server would you like to connect?
+ (D)efault server
+ (C)ustom server
+Invalid Command
+Invalid Command
+Please type in server address:
+Please type in server port:
 Please type in you client ID to restore previous game, or Enter to start a new game.
-
 What would you like to do?
  (C)reate a new game room.
  (J)oin a existing game room.
 
+Invalid command!
+Invalid command!
+Invalid command!
 Which game room you want to join?
-RoomID: 0 Waiting for game to start. Still need 0 player!
-Waiting for server to resolve your orders...
+Invalid command!
+RoomID: 0 Waiting for game to start. Still need 1 player!
 Placing order!
 Red
 ---
- Test2 (next to: Test0 , Test3 , Test6 )
- Test4 (next to: Test1 , Test3 , Test5 )
- Test6 (next to: Test2 , Test8 )
+ Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ Test2 (next to: Test0 , Test10 , Test5 )
+ Test7 (next to: Test10 , Test4 )
 
 Green
 -----
- Test0 (next to: Test2 , Test3 , Test5 , Test8 )
- Test1 (next to: Test4 , Test7 )
- Test8 (next to: Test0 , Test5 , Test6 )
+ Test11 (next to: Test5 , Test8 )
+ Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ Test6 (next to: Test3 , Test5 )
 
 Blue
 ----
- Test3 (next to: Test0 , Test2 , Test4 )
- Test5 (next to: Test0 , Test4 , Test7 , Test8 )
- Test7 (next to: Test1 , Test5 )
+ Test0 (next to: Test2 , Test8 )
+ Test4 (next to: Test1 , Test7 , Test8 )
+ Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+
+Yellow
+------
+ Test10 (next to: Test2 , Test3 , Test7 )
+ Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ Test9 (next to: Test1 , Test3 )
 
 
 You are: Blue
 You have 30 to put
-How many Soldiers you want to put in Test3
-You have 25 to put
-How many Soldiers you want to put in Test5
-You have 15 to put
-How many Soldiers you want to put in Test7
-You have 5 to put
-How many Soldiers you want to put in Test3
-You have no more available units to put in territory Test5, adding 0 units
-You have no more available units to put in territory Test7, adding 0 units
-Waiting for server to resolve your orders...
+How many Soldiers you want to put in Test0
+You have 20 to put
+How many Soldiers you want to put in Test4
+You have 10 to put
+How many Soldiers you want to put in Test8
 Placement phase finished!
 Red
 ---
- 10 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
- 10 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
- 10 Soldiers in Test6 (next to: Test2 , Test8 )
+ 0 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 0 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 30 Soldiers in Test7 (next to: Test10 , Test4 )
 
 Green
 -----
- 10 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
- 10 Soldiers in Test1 (next to: Test4 , Test7 )
- 10 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+ 19 Soldiers in Test11 (next to: Test5 , Test8 )
+ 10 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 1 Soldiers in Test6 (next to: Test3 , Test5 )
 
 Blue
 ----
- 10 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
- 10 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
- 10 Soldiers in Test7 (next to: Test1 , Test5 )
+ 10 Soldiers in Test0 (next to: Test2 , Test8 )
+ 10 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 10 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+
+Yellow
+------
+ 10 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+ 10 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 10 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
 You are the Blue Player, what would you like to do?
  (M)ove
  (A)ttack
  (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Your order (Attack():Test0->Test2: Solider 4) did not pass our rules
+You do not have Solider in Test0!
+If you want to abandon this order, just press Enter
+Resolved Round 1 Outcome! Now start placing orders!
+Red
+---
+ 31 Soldiers in Test7 (next to: Test10 , Test4 )
+
+Green
+-----
+ 20 Soldiers in Test11 (next to: Test5 , Test8 )
+ 11 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+
+Blue
+----
+ 7 Soldiers in Test0 (next to: Test2 , Test8 )
+ 5 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 5 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 7 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 11 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+
+Yellow
+------
+ 11 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+ 7 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 4 Soldiers in Test6 (next to: Test3 , Test5 )
+ 11 Soldiers in Test9 (next to: Test1 , Test3 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Your order (Attack():Test10->Test7: Soldier 11) did not pass our rules
+You must place orders from your own territories!
+If you want to abandon this order, just press Enter
+Resolved Round 2 Outcome! Now start placing orders!
+Red
+---
+ 32 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+
+Green
+-----
+ 4 Soldiers in Test11 (next to: Test5 , Test8 )
+ 12 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+
+Blue
+----
+ 8 Soldiers in Test0 (next to: Test2 , Test8 )
+ 6 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 6 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 8 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 6 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+
+Yellow
+------
+ 1 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 5 Soldiers in Test6 (next to: Test3 , Test5 )
+ 12 Soldiers in Test7 (next to: Test10 , Test4 )
+ 12 Soldiers in Test9 (next to: Test1 , Test3 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Round 3 Outcome! Now start placing orders!
+Red
+---
+ 33 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+
+Green
+-----
+ 5 Soldiers in Test11 (next to: Test5 , Test8 )
+ 13 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+
+Blue
+----
+ 9 Soldiers in Test0 (next to: Test2 , Test8 )
+ 7 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 7 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 9 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 1 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+
+Yellow
+------
+ 1 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 6 Soldiers in Test6 (next to: Test3 , Test5 )
+ 13 Soldiers in Test7 (next to: Test10 , Test4 )
+ 13 Soldiers in Test9 (next to: Test1 , Test3 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Your input Test0,Test8,Soldier9 is not following the format!
+Your input m is not following the format!
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Round 4 Outcome! Now start placing orders!
+Red
+---
+ 28 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+
+Green
+-----
+ 6 Soldiers in Test11 (next to: Test5 , Test8 )
+
+Blue
+----
+ 1 Soldiers in Test0 (next to: Test2 , Test8 )
+ 1 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 3 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 10 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 5 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 18 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+
+Yellow
+------
+ 11 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 2 Soldiers in Test6 (next to: Test3 , Test5 )
+ 14 Soldiers in Test7 (next to: Test10 , Test4 )
+ 9 Soldiers in Test9 (next to: Test1 , Test3 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Round 5 Outcome! Now start placing orders!
+Red
+---
+ 13 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+
+Green
+-----
+ 1 Soldiers in Test11 (next to: Test5 , Test8 )
+
+Blue
+----
+ 2 Soldiers in Test0 (next to: Test2 , Test8 )
+ 2 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 1 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 11 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 6 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 15 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+
+Yellow
+------
+ 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 3 Soldiers in Test6 (next to: Test3 , Test5 )
+ 14 Soldiers in Test7 (next to: Test10 , Test4 )
+ 10 Soldiers in Test9 (next to: Test1 , Test3 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Round 6 Outcome! Now start placing orders!
+Red
+---
+ 4 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+
+Green
+-----
+
+Blue
+----
+ 3 Soldiers in Test0 (next to: Test2 , Test8 )
+ 3 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 2 Soldiers in Test11 (next to: Test5 , Test8 )
+ 2 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 12 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 7 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 15 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+
+Yellow
+------
+ 2 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 4 Soldiers in Test6 (next to: Test3 , Test5 )
+ 1 Soldiers in Test7 (next to: Test10 , Test4 )
+ 11 Soldiers in Test9 (next to: Test1 , Test3 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Round 7 Outcome! Now start placing orders!
+Red
+---
+ 3 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+
+Green
+-----
+
+Blue
+----
+ 4 Soldiers in Test0 (next to: Test2 , Test8 )
+ 4 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 3 Soldiers in Test11 (next to: Test5 , Test8 )
+ 3 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 8 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 8 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 6 Soldiers in Test7 (next to: Test10 , Test4 )
+ 16 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+
+Yellow
+------
+ 3 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 5 Soldiers in Test6 (next to: Test3 , Test5 )
+ 12 Soldiers in Test9 (next to: Test1 , Test3 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Round 8 Outcome! Now start placing orders!
+Red
+---
+ 3 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+
+Green
+-----
+
+Blue
+----
+ 5 Soldiers in Test0 (next to: Test2 , Test8 )
+ 14 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 4 Soldiers in Test11 (next to: Test5 , Test8 )
+ 4 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 9 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 9 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 7 Soldiers in Test7 (next to: Test10 , Test4 )
+ 2 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+
+Yellow
+------
+ 4 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 6 Soldiers in Test6 (next to: Test3 , Test5 )
+ 1 Soldiers in Test9 (next to: Test1 , Test3 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Round 9 Outcome! Now start placing orders!
+Red
+---
+
+Green
+-----
+
+Blue
+----
+ 1 Soldiers in Test0 (next to: Test2 , Test8 )
+ 15 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 8 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+ 5 Soldiers in Test11 (next to: Test5 , Test8 )
+ 1 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 10 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 10 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 8 Soldiers in Test7 (next to: Test10 , Test4 )
+ 3 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+
+Yellow
+------
+ 5 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 7 Soldiers in Test6 (next to: Test3 , Test5 )
+ 2 Soldiers in Test9 (next to: Test1 , Test3 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Can't find order! Please choose from (M)ove, (A)ttack, (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
-Unit Amount must be an integer!
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Waiting for server to resolve your orders...
-Resolved Round 1 Outcome! Now start placing orders!
+Your order (Attack():Test3->Test10: Soldier 5) did not pass our rules
+You must place orders from your own territories!
+If you want to abandon this order, just press Enter
+Resolved Round 10 Outcome! Now start placing orders!
 Red
 ---
- 1 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
- 11 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
- 1 Soldiers in Test6 (next to: Test2 , Test8 )
- 9 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Green
 -----
- 8 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
- 11 Soldiers in Test1 (next to: Test4 , Test7 )
 
 Blue
 ----
- 10 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
- 1 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
- 21 Soldiers in Test7 (next to: Test1 , Test5 )
+ 2 Soldiers in Test0 (next to: Test2 , Test8 )
+ 16 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 9 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+ 6 Soldiers in Test11 (next to: Test5 , Test8 )
+ 2 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 2 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 11 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 10 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 9 Soldiers in Test7 (next to: Test10 , Test4 )
+
+Yellow
+------
+ 5 Soldiers in Test6 (next to: Test3 , Test5 )
+ 3 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+ 3 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
 You are the Blue Player, what would you like to do?
@@ -97,25 +435,34 @@ You are the Blue Player, what would you like to do?
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Waiting for server to resolve your orders...
-Resolved Round 2 Outcome! Now start placing orders!
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Round 11 Outcome! Now start placing orders!
 Red
 ---
- 2 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
- 12 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
- 9 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
- 2 Soldiers in Test6 (next to: Test2 , Test8 )
- 1 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Green
 -----
- 9 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
- 12 Soldiers in Test1 (next to: Test4 , Test7 )
 
 Blue
 ----
- 11 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
- 22 Soldiers in Test7 (next to: Test1 , Test5 )
+ 3 Soldiers in Test0 (next to: Test2 , Test8 )
+ 17 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 10 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+ 7 Soldiers in Test11 (next to: Test5 , Test8 )
+ 3 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 12 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 1 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 8 Soldiers in Test6 (next to: Test3 , Test5 )
+ 10 Soldiers in Test7 (next to: Test10 , Test4 )
+
+Yellow
+------
+ 4 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+ 4 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
 You are the Blue Player, what would you like to do?
@@ -123,25 +470,32 @@ You are the Blue Player, what would you like to do?
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Waiting for server to resolve your orders...
-Resolved Round 3 Outcome! Now start placing orders!
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Round 12 Outcome! Now start placing orders!
 Red
 ---
- 10 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
- 13 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
- 3 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
- 3 Soldiers in Test6 (next to: Test2 , Test8 )
- 2 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Green
 -----
- 10 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
- 13 Soldiers in Test1 (next to: Test4 , Test7 )
 
 Blue
 ----
- 12 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
- 23 Soldiers in Test7 (next to: Test1 , Test5 )
+ 6 Soldiers in Test0 (next to: Test2 , Test8 )
+ 18 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 11 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+ 8 Soldiers in Test11 (next to: Test5 , Test8 )
+ 1 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 2 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 13 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 2 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 9 Soldiers in Test6 (next to: Test3 , Test5 )
+ 11 Soldiers in Test7 (next to: Test10 , Test4 )
+
+Yellow
+------
+ 3 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+ 5 Soldiers in Test9 (next to: Test1 , Test3 )
 
 
 You are the Blue Player, what would you like to do?
@@ -149,25 +503,48 @@ You are the Blue Player, what would you like to do?
  (A)ttack
  (D)one
 Please enter your action choice: [(M)ove, (A)ttack, (D)one]
-Waiting for server to resolve your orders...
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Resolved Round 13 Outcome! Now start placing orders!
+Red
+---
+
+Green
+-----
+
+Blue
+----
+ 7 Soldiers in Test0 (next to: Test2 , Test8 )
+ 19 Soldiers in Test1 (next to: Test4 , Test5 , Test8 , Test9 )
+ 12 Soldiers in Test10 (next to: Test2 , Test3 , Test7 )
+ 9 Soldiers in Test11 (next to: Test5 , Test8 )
+ 2 Soldiers in Test2 (next to: Test0 , Test10 , Test5 )
+ 1 Soldiers in Test3 (next to: Test10 , Test6 , Test8 , Test9 )
+ 14 Soldiers in Test4 (next to: Test1 , Test7 , Test8 )
+ 3 Soldiers in Test5 (next to: Test1 , Test11 , Test2 , Test6 )
+ 10 Soldiers in Test6 (next to: Test3 , Test5 )
+ 12 Soldiers in Test7 (next to: Test10 , Test4 )
+
+Yellow
+------
+ 4 Soldiers in Test8 (next to: Test0 , Test1 , Test11 , Test3 , Test4 )
+ 2 Soldiers in Test9 (next to: Test1 , Test3 )
+
+
+You are the Blue Player, what would you like to do?
+ (M)ove
+ (A)ttack
+ (D)one
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
+Action Order Format: (SourceTerritoryName),(DestTerritoryName),(UnitType),(UnitAmount)
+Please enter your action choice: [(M)ove, (A)ttack, (D)one]
 Resolved Game Outcome!
-You Lose! Conquer more next time!
-Red
----
- 11 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
- 14 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
- 4 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
- 4 Soldiers in Test6 (next to: Test2 , Test8 )
- 3 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
-
-Green
------
- 11 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
- 14 Soldiers in Test1 (next to: Test4 , Test7 )
-
-Blue
-----
- 13 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
- 24 Soldiers in Test7 (next to: Test1 , Test5 )
 
 
+-------------------------------------
+Blue win this game!
+-------------------------------------
+
+Press any key to exit...

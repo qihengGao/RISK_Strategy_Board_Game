@@ -1,11 +1,17 @@
 package edu.duke.ece651.risk.shared;
 
-import org.junit.jupiter.api.Test;
+        import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
+        import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
+        import edu.duke.ece651.risk.shared.map.MapTextView;
+        import edu.duke.ece651.risk.shared.map.RISKMap;
+        import edu.duke.ece651.risk.shared.territory.Territory;
+        import edu.duke.ece651.risk.shared.unit.BasicUnit;
+        import org.junit.jupiter.api.Test;
 
-import java.io.*;
-import java.util.TreeMap;
+        import java.io.*;
+        import java.util.TreeMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+        import static org.junit.jupiter.api.Assertions.*;
 
 public class AttackOrderTest {
     private RISKMap buildTestMap(){
@@ -30,21 +36,26 @@ public class AttackOrderTest {
         System.out.println(mapTextView.displayMap());
     }
 
-    private String checkValidOrder(RISKMap riskMap, long ID, PrintStream output, String... orderInputs) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        for (String orderString : orderInputs){
-            sb.append(orderString + "\n");
+    private String checkValidOrder(RISKMap riskMap, Order... orders) throws IOException {
+        String check_message = null;
+        for (Order o : orders){
+            check_message = o.executeOrder(riskMap);
         }
-        sb.append("D\n");
-        BufferedReader input = new BufferedReader(new StringReader(sb.toString()));
-        MoveAttackState moveState = new MoveAttackState();
-        for (Order o : moveState.fillInOrders(input, output, ID)){
-            String check_message = o.executeOrder(riskMap);
-            if (check_message!=null){
-                return check_message;
+
+        for (Order o : orders){
+            if (check_message==null){
+                BattleField BF = riskMap.getTerritoryByName(o.getDestTerritory()).getBattleField();
+                BF.setAttackResolver(new SimpleAttackResolver());
+                System.out.println("Attackers(" + o.getPlayerID() + "):" +BF.getAttackers().get(o.getPlayerID()));
+                BF.fightBattle(riskMap.getTerritoryByName(o.getDestTerritory()), "Unit");
+                BF.resetAttackersList();
+                assertNull(BF.getAttackers().get(o.getPlayerID()));
             }
+
         }
-        return null;
+
+
+        return check_message;
     }
 
     @Test
@@ -55,14 +66,62 @@ public class AttackOrderTest {
         //-------------VALID
         //normal consequential orders
 
-        String check_message = checkValidOrder(riskMap, 0, output, "M\nTest0,Test2,Unit,10",
-                "A\nTest2,Test3,Unit,20", "A\nTest1,Test4,Unit,2");
+        String check_message = checkValidOrder(riskMap, new AttackOrder(0, "Test2",
+                "Test3","Unit",10));
         System.out.println(check_message);
-        assertEquals(riskMap.getTerritoryByName("Test0").getUnitByType("Unit").getAmount(), 0);
+        displayMap(riskMap);
+
         assertEquals(riskMap.getTerritoryByName("Test2").getUnitByType("Unit").getAmount(), 0);
-        assertEquals(riskMap.getTerritoryByName("Test3").getUnitByType("Unit").getAmount(), 10);
+        assertEquals(riskMap.getTerritoryByName("Test3").getUnitByType("Unit").getAmount(), 0);
+        assertNull(riskMap.getTerritoryByName("Test3").getBattleField().getAttackers().get((long)0));
+
+        String check_message2 = checkValidOrder(riskMap, new AttackOrder(0, "Test1",
+                "Test4","Unit",2));
+        System.out.println(check_message2);
+        displayMap(riskMap);
+
         assertEquals(riskMap.getTerritoryByName("Test1").getUnitByType("Unit").getAmount(), 8);
         assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 8);
+        assertNull(riskMap.getTerritoryByName("Test4").getBattleField().getAttackers().get((long)0));
         displayMap(riskMap);
+
+        //resolve same player same territory attacks
+        Order o1 = new AttackOrder(0, "Test1","Test4","Unit",2);
+        Order o2 = new AttackOrder(0, "Test1","Test4","Unit",2);
+
+        String check_message3 = checkValidOrder(riskMap, o1,o2);
+        System.out.println(check_message3);
+        assertEquals(riskMap.getTerritoryByName("Test1").getUnitByType("Unit").getAmount(), 4);
+        assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 4);
+        assertNull(riskMap.getTerritoryByName("Test4").getBattleField().getAttackers().get((long)0));
+
+        displayMap(riskMap);
+
+        //resolve same player different territory attacks
+        Order Move = new MoveOrder(0, "Test0", "Test2", "Unit", 5);
+        Order o3 = new AttackOrder(0, "Test0","Test3","Unit",2);
+        Order o4 = new AttackOrder(0, "Test2","Test3","Unit",2);
+        Move.executeOrder(riskMap);
+        String check_message4 = checkValidOrder(riskMap, o3,o4);
+        System.out.println(check_message4);
+        assertEquals(riskMap.getTerritoryByName("Test0").getUnitByType("Unit").getAmount(), 3);
+        assertEquals(riskMap.getTerritoryByName("Test2").getUnitByType("Unit").getAmount(), 3);
+        assertEquals(riskMap.getTerritoryByName("Test3").getUnitByType("Unit").getAmount(), 4);
+        assertNull(riskMap.getTerritoryByName("Test4").getBattleField().getAttackers().get((long)0));
+
+        displayMap(riskMap);
+
+        //resolve different player different territory attacks
+        Order o5 = new AttackOrder(0, "Test0","Test5","Unit",3);
+        Order o6 = new AttackOrder(2, "Test8","Test5","Unit",2);
+        String check_message5 = checkValidOrder(riskMap, o5,o6);
+        System.out.println(check_message5);
+        assertEquals(riskMap.getTerritoryByName("Test0").getUnitByType("Unit").getAmount(), 0);
+        assertEquals(riskMap.getTerritoryByName("Test8").getUnitByType("Unit").getAmount(), 8);
+        assertEquals(riskMap.getTerritoryByName("Test5").getUnitByType("Unit").getAmount(), 5);
+        assertNull(riskMap.getTerritoryByName("Test4").getBattleField().getAttackers().get((long)0));
+
+        displayMap(riskMap);
+
     }
 }
