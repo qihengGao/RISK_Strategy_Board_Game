@@ -20,13 +20,6 @@ public class Client {
         return previousRiskGameMessage;
     }
 
-    public ObjectOutputStream getOos() {
-        return oos;
-    }
-
-    public ObjectInputStream getOis() {
-        return ois;
-    }
 
     public void setOos(ObjectOutputStream oos) {
         this.oos = oos;
