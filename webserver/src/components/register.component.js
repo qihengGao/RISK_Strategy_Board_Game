@@ -52,7 +52,8 @@ export default class Register extends Component {
             email: "",
             password: "",
             successful: false,
-            message: ""
+            message: "",
+            Role:["user"]
         };
     }
     onChangeUsername(e) {
