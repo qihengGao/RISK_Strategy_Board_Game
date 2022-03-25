@@ -244,7 +244,7 @@ class AppTest {
 //
 //    }
 
-    @Disabled
+
     @Test
     public void testMain() throws IOException {
         System.out.println("main");
