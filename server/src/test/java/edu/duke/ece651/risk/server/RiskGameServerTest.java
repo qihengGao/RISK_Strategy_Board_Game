@@ -1,5 +1,6 @@
 package edu.duke.ece651.risk.server;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import static org.mockito.Mockito.*;
 class RiskGameServerTest {
 
 
+    @Disabled
     @Test
     void run() throws IOException, InterruptedException {
         ServerSocket serverSocket = mock(ServerSocket.class);
