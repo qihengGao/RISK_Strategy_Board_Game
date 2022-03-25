@@ -18,7 +18,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.bmuschko:gradle-clover-plugin:3.0.3'
-        classpath "com.github.node-gradle:gradle-node-plugin:3.1.1"
+        //classpath "com.github.node-gradle:gradle-node-plugin:3.1.1"
     }
 
 
@@ -27,7 +27,7 @@ buildscript {
 allprojects{
     apply plugin: "java"
     apply plugin: "com.bmuschko.clover"
-    apply plugin: "com.github.node-gradle.node"
+    //apply plugin: "com.github.node-gradle.node"
 
     repositories {
 
