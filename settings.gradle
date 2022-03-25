@@ -11,3 +11,5 @@ rootProject.name = 'ece651-risk'
 include('server')
 include('shared')
 include('client')
+include('apiserver')
+include('webserver')

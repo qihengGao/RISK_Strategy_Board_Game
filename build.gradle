@@ -18,6 +18,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.bmuschko:gradle-clover-plugin:3.0.3'
+        classpath "com.github.node-gradle:gradle-node-plugin:3.1.1"
     }
 
 
@@ -26,6 +27,7 @@ buildscript {
 allprojects{
     apply plugin: "java"
     apply plugin: "com.bmuschko.clover"
+    apply plugin: "com.github.node-gradle.node"
 
     repositories {
 
@@ -99,16 +101,36 @@ project (':server'){
     }
 }
 
+project ('apiserver'){
+    dependencies {
+        implementation project(':shared')
+    }
+}
+
 tasks.register("run-server") {
     dependsOn project('server').getTasksByName('run',false)
     group = 'Run Client/Server'
     description = 'Run the Server'
 }
 
+
 tasks.register("run-client") {
     dependsOn project('client').getTasksByName('run',false)
     group = 'Run Client/Server'
     description = 'Run the Client'
+}
+
+tasks.register("run-apiserver") {
+    dependsOn project('apiserver').getTasksByName('bootRun',false)
+    group = 'Run Client/Server'
+    description = 'Run the API Server'
+}
+
+tasks.register("run-webserver") {
+    dependsOn project('webserver').getTasksByName('npmInstall',false)
+    dependsOn project('webserver').getTasksByName('npm_start',false)
+    group = 'Run Client/Server'
+    description = 'Run the Web Server'
 }
 
 task resolveDependencies {
