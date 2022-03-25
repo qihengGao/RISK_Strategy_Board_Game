@@ -127,6 +127,7 @@ tasks.register("run-apiserver") {
 }
 
 tasks.register("run-webserver") {
+    dependsOn project('webserver').getTasksByName('npmSetup',false)
     dependsOn project('webserver').getTasksByName('npmInstall',false)
     dependsOn project('webserver').getTasksByName('npm_start',false)
     group = 'Run Client/Server'
