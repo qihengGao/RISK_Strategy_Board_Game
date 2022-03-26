@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -28,19 +29,20 @@ public class GameController {
 
     @PostMapping("/createRoom")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<CreateRoomResponse> createRoom(@RequestBody CreateRoomRequest createRoomRequest) {
+    public ResponseEntity<CreateRoomResponse> createRoom(@Valid @RequestBody CreateRoomRequest createRoomRequest) {
         int roomSize = createRoomRequest.getRoomSize();
         rooms.put(roomIDCounter++, new GameHandler(roomSize, roomIDCounter - 1));
         return ResponseEntity.ok(new CreateRoomResponse("Successfully create a game room!", roomIDCounter - 1));
+
     }
 
     @PostMapping("/joinRoom")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<JoinRoomResponse> createRoom(@RequestBody JoinRoomRequest joinRoomRequest) {
+    public ResponseEntity<JoinRoomResponse> createRoom(@Valid @RequestBody JoinRoomRequest joinRoomRequest) {
         Long roomID = joinRoomRequest.getRoomID();
         GameHandler game = rooms.get(roomID);
         if (game == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new JoinRoomResponse("Successfully joined a game room!", roomID));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new JoinRoomResponse("Failed joined a game room!", roomID));
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(new JoinRoomResponse("Successfully joined a game room!", roomID));
         }
