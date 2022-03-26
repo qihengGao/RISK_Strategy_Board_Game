@@ -81,6 +81,7 @@ public class APIGameHandler {
         riskMap = (RISKMap) new RandomMapFactory().createMapForNplayers(roomSize);
         players = new HashSet<>();
         players.add(hostID);
+        commitedPlayer = new HashSet<>();
     }
 
     public boolean tryAddPlayer(Long clientID) {
