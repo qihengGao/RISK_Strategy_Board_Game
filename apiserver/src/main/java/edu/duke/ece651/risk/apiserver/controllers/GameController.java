@@ -42,7 +42,7 @@ public class GameController {
         if (game == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new JoinRoomResponse("Successfully joined a game room!", roomID));
         } else {
-            return ResponseEntity.ok(new JoinRoomResponse("Successfully joined a game room!", roomID));
+            return ResponseEntity.status(HttpStatus.OK).body(new JoinRoomResponse("Successfully joined a game room!", roomID));
         }
 
 
