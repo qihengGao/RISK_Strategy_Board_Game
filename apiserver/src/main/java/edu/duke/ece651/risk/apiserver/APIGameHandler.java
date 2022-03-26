@@ -2,6 +2,10 @@ package edu.duke.ece651.risk.apiserver;
 
 import edu.duke.ece651.risk.apiserver.models.State;
 import edu.duke.ece651.risk.shared.Color;
+import edu.duke.ece651.risk.shared.checker.PlaceRuleChecker;
+import edu.duke.ece651.risk.shared.checker.PlaceTerrExistChecker;
+import edu.duke.ece651.risk.shared.checker.PlaceTerrIDChecker;
+import edu.duke.ece651.risk.shared.checker.PlaceUnitAmountChecker;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.territory.Territory;
@@ -93,13 +97,17 @@ public class APIGameHandler {
         }
     }
 
+
     public boolean tryPlaceUnit(Long clientID, Map<String, Integer> unitPlaceOrders) {
         //Rule Checker
         //1.Check if territory exist.
         //2.Check if total amount valid.
-        PlaceRuleChecker placeRuleChecker = new PlaceRoleChecker(riskMap, unitPlaceOrders);
+        PlaceRuleChecker placeRuleChecker =
+                new PlaceTerrExistChecker(
+                        new PlaceTerrIDChecker(
+                                new PlaceUnitAmountChecker(null, 30)));
         try {
-            placeRuleChecker.checkPlace();
+            placeRuleChecker.checkPlace(riskMap, unitPlaceOrders, clientID);
         } catch (IllegalArgumentException e) {
             return false;
         }
