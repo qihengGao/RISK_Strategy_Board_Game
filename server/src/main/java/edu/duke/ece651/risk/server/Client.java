@@ -8,6 +8,11 @@ import java.net.Socket;
 public class Client {
 
     private Socket socket;
+
+    public Client(long clientID) {
+        this.clientID = clientID;
+    }
+
     private ObjectOutputStream oos;
     private RiskGameMessage previousRiskGameMessage;
 
