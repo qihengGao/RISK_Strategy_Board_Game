@@ -79,8 +79,13 @@ public class APIGameHandler {
     }
 
     public boolean addPlayer(Long clientID){
-        if(players.size() == roomSize || players.contains(clientID))
+        System.out.println(players.size()+" "+roomSize);
+        System.out.println("ClientID:"+clientID);
+        System.out.println(players.contains(clientID));
+        if(players.size() == roomSize || players.contains(clientID)) {
+
             return false;
+        }
         else {
             players.add(clientID);
             if(players.size() == roomSize){

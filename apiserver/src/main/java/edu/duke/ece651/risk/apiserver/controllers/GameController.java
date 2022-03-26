@@ -62,10 +62,10 @@ public class GameController {
         Long roomID = joinRoomRequest.getRoomID();
         APIGameHandler apiGameHandler = rooms.get(roomID);
 
-        if (apiGameHandler == null || apiGameHandler.addPlayer(userId)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new JoinRoomResponse("Failed joined a game room! Room not found or Room full!", roomID));
+        if (apiGameHandler == null || !apiGameHandler.addPlayer(userId)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new JoinRoomResponse("Failed joined a game room! Room not found or Room full!", userId));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(new JoinRoomResponse("Successfully joined a game room!", roomID));
+            return ResponseEntity.status(HttpStatus.OK).body(new JoinRoomResponse("Successfully joined a game room!", userId));
         }
 
 
