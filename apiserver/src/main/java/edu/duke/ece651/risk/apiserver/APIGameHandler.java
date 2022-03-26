@@ -18,6 +18,10 @@ public class APIGameHandler {
     private Set<Long> players;
     private TreeMap<Long, Color> idToColor;
 
+    private String currentState;
+
+    private Set<Long> commitedPlayer;
+
     private RISKMap riskMap;
 
     public ArrayList<Color> getPredefineColorList() {
@@ -79,20 +83,14 @@ public class APIGameHandler {
     }
 
     public boolean addPlayer(Long clientID){
-        System.out.println(players.size()+" "+roomSize);
-        System.out.println("ClientID:"+clientID);
-        System.out.println(players.contains(clientID));
         if(players.size() == roomSize || players.contains(clientID)) {
-
             return false;
         }
         else {
             players.add(clientID);
             if(players.size() == roomSize){
 
-                assignColorToPlayers();
-                assignTerritoriesToPlayers(3);
-
+                unitPlacementPhase(3);
 
             }
             return true;
@@ -129,6 +127,13 @@ public class APIGameHandler {
     }
     public Long getWinner(){
         return null;
+    }
+
+    public void unitPlacementPhase(int n_Terr_per_player){
+        currentState = State.PlacingState.name();
+        commitedPlayer.clear();
+        assignColorToPlayers();
+        assignTerritoriesToPlayers(n_Terr_per_player);
     }
 
 //    public void unitPlacementPhase()
