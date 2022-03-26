@@ -1,15 +1,12 @@
 package edu.duke.ece651.risk.apiserver;
 
 import edu.duke.ece651.risk.apiserver.models.State;
-import edu.duke.ece651.risk.server.Client;
 import edu.duke.ece651.risk.shared.Color;
-import edu.duke.ece651.risk.shared.RiskGameMessage;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.RISKMap;
-import edu.duke.ece651.risk.shared.state.UnitPlaceState;
 import edu.duke.ece651.risk.shared.territory.Territory;
+import edu.duke.ece651.risk.shared.unit.BasicUnit;
 
-import java.io.IOException;
 import java.util.*;
 
 public class APIGameHandler {
@@ -82,19 +79,39 @@ public class APIGameHandler {
         players.add(hostID);
     }
 
-    public boolean addPlayer(Long clientID){
-        if(players.size() == roomSize || players.contains(clientID)) {
+    public boolean tryAddPlayer(Long clientID) {
+        if (players.size() == roomSize || players.contains(clientID)) {
             return false;
-        }
-        else {
+        } else {
             players.add(clientID);
-            if(players.size() == roomSize){
+            if (players.size() == roomSize) {
 
                 unitPlacementPhase(3);
 
             }
             return true;
         }
+    }
+
+    public boolean tryPlaceUnit(Long clientID, Map<String, Integer> unitPlaceOrders) {
+        //Rule Checker
+        //1.Check if territory exist.
+        //2.Check if total amount valid.
+        PlaceRuleChecker placeRuleChecker = new PlaceRoleChecker(riskMap, unitPlaceOrders);
+        try {
+            placeRuleChecker.checkPlace();
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+
+        for (String territoryName : unitPlaceOrders.keySet()) {
+            riskMap.getTerritoryByName(territoryName).tryAddUnit(new BasicUnit("Soldier", unitPlaceOrders.get(territoryName)));
+        }
+        commitedPlayer.add(clientID);
+        if(commitedPlayer.size() == roomSize){
+
+        }
+        return true;
     }
 
     public void assignColorToPlayers() {
@@ -122,19 +139,30 @@ public class APIGameHandler {
         }
     }
 
-    public String getPlayeState(Long clientID){
-        return State.WaitingState.name();
+    public String getPlayerState(Long clientID) {
+
+        if (commitedPlayer.contains(clientID))
+            return State.WaitingState.name();
+        else
+            return currentState;
     }
-    public Long getWinner(){
+
+    public Long getWinner() {
         return null;
     }
 
-    public void unitPlacementPhase(int n_Terr_per_player){
+    public void unitPlacementPhase(int n_Terr_per_player) {
         currentState = State.PlacingState.name();
         commitedPlayer.clear();
         assignColorToPlayers();
         assignTerritoriesToPlayers(n_Terr_per_player);
     }
+
+    public void orderingPhase(){
+        currentState = State.OrderingState.name();
+        commitedPlayer.clear();
+    }
+
 
 //    public void unitPlacementPhase()
 //            throws ClassCastException {

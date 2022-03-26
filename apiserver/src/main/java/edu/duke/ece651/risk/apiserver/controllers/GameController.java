@@ -7,9 +7,8 @@ import edu.duke.ece651.risk.apiserver.payload.request.PlaceUnitRequest;
 import edu.duke.ece651.risk.apiserver.payload.response.CreateRoomResponse;
 import edu.duke.ece651.risk.apiserver.payload.response.GameStatusResponse;
 import edu.duke.ece651.risk.apiserver.payload.response.JoinRoomResponse;
+import edu.duke.ece651.risk.apiserver.payload.response.placeUnitResponse;
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
-import edu.duke.ece651.risk.server.Client;
-import edu.duke.ece651.risk.server.GameHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -57,7 +56,7 @@ public class GameController {
         Long roomID = joinRoomRequest.getRoomID();
         APIGameHandler apiGameHandler = rooms.get(roomID);
 
-        if (apiGameHandler == null || !apiGameHandler.addPlayer(userId)) {
+        if (apiGameHandler == null || !apiGameHandler.tryAddPlayer(userId)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new JoinRoomResponse("Failed joined a game room! Room not found or Room full!", roomID));
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(new JoinRoomResponse("Successfully joined a game room!", roomID));
@@ -80,7 +79,7 @@ public class GameController {
         if(rooms.containsKey(roomID)){
             APIGameHandler apiGameHandler = rooms.get(roomID);
             return ResponseEntity.status(HttpStatus.OK).body(new GameStatusResponse(
-                    apiGameHandler.getPlayeState(userId),
+                    apiGameHandler.getPlayerState(userId),
                     apiGameHandler.getRiskMap(),
                     apiGameHandler.getWinner(),
                     apiGameHandler.getIdToColor(),
@@ -93,12 +92,14 @@ public class GameController {
     }
 
     @PostMapping("/placeUnit")
-    public ResponseEntity<GameStatusResponse> placeUnit(@Valid @RequestBody PlaceUnitRequest placeUnitRequest) {
+    public ResponseEntity<placeUnitResponse> placeUnit(@Valid @RequestBody PlaceUnitRequest placeUnitRequest) {
         Long userId = getUserId();
         Long roomID = placeUnitRequest.getRoomID();
         APIGameHandler currGame = rooms.get(roomID);
-        if (currGame == null ) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new JoinRoomResponse("Failed joined a game room! Room not found or Room full!", roomID));
+        if (currGame == null || currGame.tryPlaceUnit(userId,placeUnitRequest.getUnitPlaceOrders())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new placeUnitResponse("Failed to palce the units! Room not found or palce action invalid right now!"));
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body(new placeUnitResponse("Successfully placed unit into map."));
         }
 
     }
