@@ -117,7 +117,7 @@ public class APIGameHandler {
         }
         commitedPlayer.add(clientID);
         if(commitedPlayer.size() == roomSize){
-
+            orderingPhase();
         }
         return true;
     }
