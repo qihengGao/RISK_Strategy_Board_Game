@@ -53,23 +53,18 @@ public class Client {
         this.socket = socket;
     }
 
-    public Object readObject() {
-        try {
+    public Object readObject() throws IOException, ClassNotFoundException {
+
             return ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Client socket closed.");
-        }
-        return null;
+
     }
 
-    public void writeObject(RiskGameMessage o) {
-        try {
+    public void writeObject(RiskGameMessage o) throws IOException {
+
             previousRiskGameMessage = o;
             oos.reset();
             oos.writeObject(o);
-        } catch (IOException e) {
-            System.out.println("Client socket closed.");
-        }
+
     }
 
 }

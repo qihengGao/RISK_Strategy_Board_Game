@@ -42,7 +42,6 @@ public class ClientHandler extends Thread {
     public void run() {
 
 
-
         try {
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -55,7 +54,13 @@ public class ClientHandler extends Thread {
         client.setOis(objectInputStream);
 
         do {
-            RiskGameMessage riskGameMessage = (RiskGameMessage) client.readObject();
+            RiskGameMessage riskGameMessage = null;
+            try {
+                riskGameMessage = (RiskGameMessage) client.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+
+            }
+
             switch (riskGameMessage.getClientCurrentStateName()) {
                 case "RestoreState":
                     doRestorePhase(riskGameMessage);
@@ -78,7 +83,7 @@ public class ClientHandler extends Thread {
      */
     public void doRestorePhase(RiskGameMessage riskGameMessage) {
 //        if (riskGameMessage.isInitGame()) {
-            addNewClient();
+        addNewClient();
 //        } else {
 //
 //            if (tryRestoreClient(riskGameMessage)) {
@@ -106,7 +111,11 @@ public class ClientHandler extends Thread {
             if (tryJoinGameRoom(riskGameMessage)) {
                 finishGameInitiatePhase = true;
             } else {
-                client.writeObject(RiskGameMessageFactory.createSelectRoomState("Invalid game room ID or room is full. Join failed!"));
+                try {
+                    client.writeObject(RiskGameMessageFactory.createSelectRoomState("Invalid game room ID or room is full. Join failed!"));
+                } catch (IOException e) {
+                    System.out.println("socket closed");
+                }
             }
         }
     }
@@ -127,8 +136,12 @@ public class ClientHandler extends Thread {
                     return false;
                 } else {
                     roomToJoin.addPlayer(client);
-                    client.writeObject(new RiskGameMessage(client.getClientID(), new WaitingState(), null,
-                            String.format("RoomID: %d Waiting for game to start. Still need %d player!", roomToJoin.getRoomID(), roomToJoin.getRoomSize() - roomToJoin.getCurrentPlayersSize())));
+                    try {
+                        client.writeObject(new RiskGameMessage(client.getClientID(), new WaitingState(), null,
+                                String.format("RoomID: %d Waiting for game to start. Still need %d player!", roomToJoin.getRoomID(), roomToJoin.getRoomSize() - roomToJoin.getCurrentPlayersSize())));
+                    } catch (IOException e) {
+                        System.out.println("socket closed");
+                    }
                     //If the game room is full, start the game.
                     //TODO Start the game handler in other thread, it is not proper to run game handler on a ClientHandler thread.
                     if (roomToJoin.getCurrentPlayersSize() == roomToJoin.getRoomSize())
@@ -164,9 +177,15 @@ public class ClientHandler extends Thread {
             roomMap.put(roomID, gameHandler);
 
             //Require client go to WaitingState.
-            client.writeObject(new RiskGameMessage(client.getClientID(), new WaitingState(), null,
-                    String.format("RoomID: %d Waiting for game to start. Still need %d player!", gameHandler.getRoomID(), gameHandler.getRoomSize() - gameHandler.getCurrentPlayersSize())));
+            try {
+                client.writeObject(new RiskGameMessage(client.getClientID(), new WaitingState(), null,
+                        String.format("RoomID: %d Waiting for game to start. Still need %d player!", gameHandler.getRoomID(), gameHandler.getRoomSize() - gameHandler.getCurrentPlayersSize())));
+
+            } catch (IOException e) {
+                System.out.println("socket closed");
+            }
         }
+
     }
 
     protected GameHandler createGameHandler(Client client, Integer roomSize, Long roomID) {
@@ -186,7 +205,11 @@ public class ClientHandler extends Thread {
             idToClient.put(clientIDCounter, tmp);
 
             //Require client go to SelectRoomState.
-            tmp.writeObject(RiskGameMessageFactory.createSelectRoomState(""));
+            try {
+                tmp.writeObject(RiskGameMessageFactory.createSelectRoomState(""));
+            } catch (IOException e) {
+                System.out.println("socket closed");
+            }
 
 
         }

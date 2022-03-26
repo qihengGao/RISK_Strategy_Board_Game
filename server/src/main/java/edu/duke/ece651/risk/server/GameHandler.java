@@ -13,13 +13,26 @@ import java.io.IOException;
 import java.util.*;
 
 public class GameHandler extends Thread {
-    private final ArrayList<Color> predefineColorList = new ArrayList<>();
-    private final Set<Client> players;
-    private final TreeMap<Long, Color> idToColor;
+    private  ArrayList<Color> predefineColorList = new ArrayList<>();
+    private  Set<Client> players;
+    private  TreeMap<Long, Color> idToColor;
 
 
     private RISKMap riskMap;
     private final int roomSize;
+
+    /**
+     * Allocates a new {@code Thread} object. This constructor has the same
+     * effect as {@linkplain #Thread(ThreadGroup, Runnable, String) Thread}
+     * {@code (null, null, gname)}, where {@code gname} is a newly generated
+     * name. Automatically generated names are of the form
+     * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
+     */
+    public GameHandler(int roomSize, long roomID) {
+        this.roomSize = roomSize;
+        this.roomID = roomID;
+    }
+
     private long roomID;
 
     public int getRoomSize() {
@@ -97,9 +110,9 @@ public class GameHandler extends Thread {
 
     }
 
-    public Client findClientByID(Long id){
-        for (Client c : players){
-            if (c.getClientID().equals(id)){
+    public Client findClientByID(Long id) {
+        for (Client c : players) {
+            if (c.getClientID().equals(id)) {
                 return c;
             }
         }
@@ -113,9 +126,9 @@ public class GameHandler extends Thread {
      * @param client The player we want to check with.
      * @return True if this player is lost, otherwise false.
      */
-    public boolean isPlayerLost(Client client){
-        for( Territory territory : riskMap.getContinent()){
-            if(territory.getOwnerID().equals(client.getClientID()))
+    public boolean isPlayerLost(Client client) {
+        for (Territory territory : riskMap.getContinent()) {
+            if (territory.getOwnerID().equals(client.getClientID()))
                 return false;
         }
         return true;
@@ -217,9 +230,11 @@ public class GameHandler extends Thread {
 //            if (client.getClientID() == winner.getClientID()) {
 //                customized_prompt = "Congratulations! This continent is yours!";
 //            }
-
-            client.writeObject(new RiskGameMessage(client.getClientID(), new ShowGameResultState(), riskMap, prompt + "\n" + customized_prompt, idToColor));
-
+            try {
+                client.writeObject(new RiskGameMessage(client.getClientID(), new ShowGameResultState(), riskMap, prompt + "\n" + customized_prompt, idToColor));
+            } catch (IOException e) {
+                System.out.println("socket closed");
+            }
         }
     }
 
@@ -252,14 +267,23 @@ public class GameHandler extends Thread {
     public void unitPlacementPhase()
             throws ClassCastException {
         for (Client client : players) {
-            client.writeObject(new RiskGameMessage(client.getClientID(), new UnitPlaceState(), riskMap,
-                    "Placing order!", idToColor));
+            try {
+                client.writeObject(new RiskGameMessage(client.getClientID(), new UnitPlaceState(), riskMap,
+                        "Placing order!", idToColor));
+            } catch (IOException e) {
+                System.out.println("socket closed");
+            }
         }
         for (Client client : players) {
 
+            ArrayList<Territory> receive = null;
+            try {
+                receive = (ArrayList<Territory>) client.readObject();
+                updateMap(riskMap, receive);
+            } catch (IOException | ClassNotFoundException e) {
 
-            ArrayList<Territory> receive = (ArrayList<Territory>) client.readObject();
-            updateMap(riskMap, receive);
+            }
+
 
         }
     }
@@ -293,7 +317,11 @@ public class GameHandler extends Thread {
 
     protected void sendUpdateToLOSERS(String prompt, Client client) {
 
-        client.writeObject(new RiskGameMessage(client.getClientID(), new ShowRoundResultToViewersState(), riskMap, prompt, idToColor));
+        try {
+            client.writeObject(new RiskGameMessage(client.getClientID(), new ShowRoundResultToViewersState(), riskMap, prompt, idToColor));
+        } catch (IOException e) {
+            System.out.println("socket closed");
+        }
     }
 
     private HashMap<String, ArrayList<Order>> createEmptyOrderTypeToOrders(String... orderTypes) {
@@ -305,18 +333,25 @@ public class GameHandler extends Thread {
     }
 
     protected void sendUpdateToPlayers(RISKMap riskMap, TreeMap<Long, Color> idToColor, Client client, String prompt) {
-        client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
-
+        try {
+            client.writeObject(new RiskGameMessage(client.getClientID(), new MoveAttackState(), riskMap, prompt, idToColor));
+        } catch (IOException e) {
+            System.out.println("socket closed");
+        }
     }
 
     protected void readOrderFromPlayers(Client client,
                                         HashMap<String, ArrayList<Order>> orderToList) {
 
+        try {
             ArrayList<Order> orders = (ArrayList<Order>) client.readObject();
             for (Order order : orders) {
                 orderToList.get(order.getOrderType()).add(order);
                 System.out.println("Receive: " + order.toString());
             }
+        } catch (IOException | ClassNotFoundException e) {
+
+        }
 
     }
 
@@ -343,8 +378,10 @@ public class GameHandler extends Thread {
     protected void letClientReOrder(Order order) {
         Client client = findClientByID(order.getPlayerID());
         try {
-            client.writeObject(new RiskGameMessage(client.getClientID(), new ReEnterOrderState(order), riskMap,
-                    "Your order (" + order.toString() + ") did not pass our rules", idToColor));
+
+                client.writeObject(new RiskGameMessage(client.getClientID(), new ReEnterOrderState(order), riskMap,
+                        "Your order (" + order.toString() + ") did not pass our rules", idToColor));
+
             Order reorder = (Order) client.readObject();
             if (reorder == null) {
                 return;
@@ -358,6 +395,10 @@ public class GameHandler extends Thread {
         } catch (NullPointerException e) {
             int offset = e.toString().indexOf(":") + 2;
             System.out.println(e.toString().substring(offset));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
