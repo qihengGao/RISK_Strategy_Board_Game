@@ -5,7 +5,7 @@ import edu.duke.ece651.risk.shared.territory.Territory;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public interface GameMap extends Serializable{
+public interface GameMap extends Serializable, Cloneable{
   /**
    * get the number of continents in the map
    * @return int

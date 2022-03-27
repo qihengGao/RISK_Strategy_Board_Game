@@ -3,11 +3,12 @@ package edu.duke.ece651.risk.apiserver.controllers;
 import edu.duke.ece651.risk.apiserver.APIGameHandler;
 import edu.duke.ece651.risk.apiserver.payload.request.CreateRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.JoinRoomRequest;
+import edu.duke.ece651.risk.apiserver.payload.request.PlaceOrderRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.PlaceUnitRequest;
 import edu.duke.ece651.risk.apiserver.payload.response.CreateRoomResponse;
 import edu.duke.ece651.risk.apiserver.payload.response.GameStatusResponse;
 import edu.duke.ece651.risk.apiserver.payload.response.JoinRoomResponse;
-import edu.duke.ece651.risk.apiserver.payload.response.placeUnitResponse;
+import edu.duke.ece651.risk.apiserver.payload.response.PlaceUnitResponse;
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,8 +69,7 @@ public class GameController {
     private Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Long userId = userDetails.getId();
-        return userId;
+        return userDetails.getId();
     }
 
     @GetMapping("/gameStatus")
@@ -81,7 +81,7 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.OK).body(new GameStatusResponse(
                     apiGameHandler.getPlayerState(userId),
                     apiGameHandler.getRiskMap(),
-                    apiGameHandler.getWinner(),
+                    apiGameHandler.checkWinner(),
                     apiGameHandler.getIdToColor(),
                     ""
             ));
@@ -91,17 +91,34 @@ public class GameController {
         }
     }
 
-    @PostMapping("/placeUnit")
-    public ResponseEntity<placeUnitResponse> placeUnit(@Valid @RequestBody PlaceUnitRequest placeUnitRequest) {
+    @PostMapping("/place/unit")
+    public ResponseEntity<PlaceUnitResponse> placeUnit(@Valid @RequestBody PlaceUnitRequest placeUnitRequest) {
         Long userId = getUserId();
         Long roomID = placeUnitRequest.getRoomID();
         APIGameHandler currGame = rooms.get(roomID);
         if (currGame == null || !currGame.tryPlaceUnit(userId,placeUnitRequest.getUnitPlaceOrders())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new placeUnitResponse("Failed to palce the units! Room not found or palce action invalid right now!"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Failed to palce the units! Room not found or palce action invalid right now!"));
         }else{
-            return ResponseEntity.status(HttpStatus.OK).body(new placeUnitResponse("Successfully placed unit into map."));
+            return ResponseEntity.status(HttpStatus.OK).body(new PlaceUnitResponse("Successfully placed unit into map."));
         }
 
     }
+
+
+    @PostMapping("/place/order")
+    public ResponseEntity<PlaceUnitResponse> placeUnit(@Valid @RequestBody PlaceOrderRequest placeOrderRequest) {
+        Long userId = getUserId();
+        Long roomID = placeOrderRequest.getRoomID();
+
+        APIGameHandler currGame = rooms.get(roomID);
+
+        if (currGame == null || !currGame.tryPreProcessOrder(userId,placeOrderRequest.getOrders())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Failed to place the orders! Room not found or place action invalid right now!"));
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body(new PlaceUnitResponse("Successfully placed order into map."));
+        }
+
+    }
+
 
 }

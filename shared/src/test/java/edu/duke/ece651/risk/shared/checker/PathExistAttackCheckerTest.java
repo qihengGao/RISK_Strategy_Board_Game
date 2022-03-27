@@ -7,7 +7,7 @@ import java.util.HashSet;
 import org.junit.jupiter.api.Test;
 
 import edu.duke.ece651.risk.shared.AttackOrderSimple;
-import edu.duke.ece651.risk.shared.Order;
+import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.territory.BasicTerritory;
 import edu.duke.ece651.risk.shared.territory.Territory;

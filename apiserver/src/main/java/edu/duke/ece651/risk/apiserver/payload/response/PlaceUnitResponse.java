@@ -1,10 +1,10 @@
 package edu.duke.ece651.risk.apiserver.payload.response;
 
-public class placeUnitResponse {
+public class PlaceUnitResponse {
 
     private String prompt;
 
-    public placeUnitResponse(String prompt) {
+    public PlaceUnitResponse(String prompt) {
         this.prompt = prompt;
     }
 

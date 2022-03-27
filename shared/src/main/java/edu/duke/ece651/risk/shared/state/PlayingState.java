@@ -2,7 +2,7 @@ package edu.duke.ece651.risk.shared.state;
 
 import edu.duke.ece651.risk.shared.ClientContext;
 import edu.duke.ece651.risk.shared.map.MapTextView;
-import edu.duke.ece651.risk.shared.Order;
+import edu.duke.ece651.risk.shared.order.Order;
 
 import java.io.IOException;
 import java.util.ArrayList;

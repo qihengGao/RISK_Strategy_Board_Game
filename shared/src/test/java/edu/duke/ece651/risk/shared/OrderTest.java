@@ -2,6 +2,8 @@ package edu.duke.ece651.risk.shared;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import edu.duke.ece651.risk.shared.order.AttackOrder;
+import edu.duke.ece651.risk.shared.order.Order;
 import org.junit.jupiter.api.Test;
 
 public class OrderTest {

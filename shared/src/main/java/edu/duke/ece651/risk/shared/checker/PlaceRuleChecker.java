@@ -1,6 +1,5 @@
 package edu.duke.ece651.risk.shared.checker;
 
-import edu.duke.ece651.risk.shared.Order;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 
 import java.util.Map;

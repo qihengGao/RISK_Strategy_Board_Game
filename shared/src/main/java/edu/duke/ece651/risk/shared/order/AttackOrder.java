@@ -1,4 +1,4 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.order;
 
 import edu.duke.ece651.risk.shared.checker.*;
 import edu.duke.ece651.risk.shared.map.RISKMap;
@@ -10,9 +10,24 @@ public class AttackOrder extends Order {
     private final ActionChecker attackChecker;
 
     public AttackOrder(long ID, String srcTerritory, String destTerritory, String unitUnderOrder, int unitAmount) {
-        super(ID, srcTerritory, destTerritory, unitUnderOrder, unitAmount, "Attack");
+//        super(ID, srcTerritory, destTerritory, unitUnderOrder, unitAmount, "Attack");
+//        this.attackChecker = new TerrExistChecker(new SrcOwnershipChecker(new ActionUnitChecker(new PathExistAttackChecker(null))));
+
+        this();
+        this.playerID = ID;
+        this.srcTerritory = srcTerritory;
+        this.destTerritory = destTerritory;
+        this.unitAmount = unitAmount;
+        this.unitType = unitUnderOrder;
+        this.orderType = "Attack";
+    }
+
+    public AttackOrder() {
+
         this.attackChecker = new TerrExistChecker(new SrcOwnershipChecker(new ActionUnitChecker(new PathExistAttackChecker(null))));
     }
+
+
 
     @Override
     public String executeOrder(RISKMap riskMap) {

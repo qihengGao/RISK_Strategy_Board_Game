@@ -3,6 +3,9 @@ package edu.duke.ece651.risk.shared.state;
 import edu.duke.ece651.risk.shared.*;
 import edu.duke.ece651.risk.shared.map.MapTextView;
 import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.order.AttackOrder;
+import edu.duke.ece651.risk.shared.order.MoveOrder;
+import edu.duke.ece651.risk.shared.order.Order;
 
 import java.io.BufferedReader;
 import java.io.IOException;

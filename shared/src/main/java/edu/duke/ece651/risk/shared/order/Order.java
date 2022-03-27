@@ -1,9 +1,16 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.order;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 
 import java.io.Serializable;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "orderType", visible = true)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = AttackOrder.class, name = "Attack"),
+        @JsonSubTypes.Type(value = MoveOrder.class, name = "Move")
+})
 public abstract class Order implements Serializable{
   protected String srcTerritory;
   protected String destTerritory;
@@ -11,6 +18,33 @@ public abstract class Order implements Serializable{
   protected int unitAmount;
   protected long playerID;
   protected String orderType;
+
+  public Order() {
+  }
+
+  public void setSrcTerritory(String srcTerritory) {
+    this.srcTerritory = srcTerritory;
+  }
+
+  public void setDestTerritory(String destTerritory) {
+    this.destTerritory = destTerritory;
+  }
+
+  public void setUnitType(String unitType) {
+    this.unitType = unitType;
+  }
+
+  public void setUnitAmount(int unitAmount) {
+    this.unitAmount = unitAmount;
+  }
+
+  public void setPlayerID(long playerID) {
+    this.playerID = playerID;
+  }
+
+  public void setOrderType(String orderType) {
+    this.orderType = orderType;
+  }
 
   public Order(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount, String orderType) {
     this.playerID = ID;

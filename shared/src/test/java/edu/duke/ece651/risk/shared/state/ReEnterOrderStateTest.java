@@ -5,6 +5,9 @@ import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.MapTextView;
 import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.order.AttackOrder;
+import edu.duke.ece651.risk.shared.order.MoveOrder;
+import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.junit.jupiter.api.Test;
@@ -14,7 +17,6 @@ import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;

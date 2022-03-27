@@ -1,10 +1,7 @@
 package edu.duke.ece651.risk.server;
 
-import edu.duke.ece651.risk.shared.MoveOrder;
-import edu.duke.ece651.risk.shared.map.RISKMap;
-import org.junit.jupiter.api.Order;
+import edu.duke.ece651.risk.shared.order.MoveOrder;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Or;
 
 import java.io.IOException;
 

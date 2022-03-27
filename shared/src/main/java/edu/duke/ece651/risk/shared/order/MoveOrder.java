@@ -1,16 +1,28 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.order;
 
 import edu.duke.ece651.risk.shared.checker.*;
 import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 public class MoveOrder extends Order {
   private final ActionChecker moveChecker;
 
-  public MoveOrder(long ID, String srcTerritory, String destTerritory, String unitUnderOrder, int unitAmount) {
-    super(ID, srcTerritory, destTerritory, unitUnderOrder, unitAmount, "Move");
+  public MoveOrder() {
     this.moveChecker = new TerrExistChecker(new SrcOwnershipChecker(new ActionUnitChecker(new PathExistMoveChecker(null))));
+  }
+
+  public MoveOrder(long ID, String srcTerritory, String destTerritory, String unitUnderOrder, int unitAmount) {
+    this();
+    this.playerID = ID;
+    this.srcTerritory = srcTerritory;
+    this.destTerritory = destTerritory;
+    this.unitAmount = unitAmount;
+    this.unitType = unitUnderOrder;
+    this.orderType = "Move";
+
+
   }
 
   /**

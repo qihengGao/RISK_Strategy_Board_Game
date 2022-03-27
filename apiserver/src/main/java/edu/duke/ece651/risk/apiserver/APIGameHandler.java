@@ -1,15 +1,15 @@
 package edu.duke.ece651.risk.apiserver;
 
 import edu.duke.ece651.risk.apiserver.models.State;
+import edu.duke.ece651.risk.server.Client;
 import edu.duke.ece651.risk.shared.Color;
-import edu.duke.ece651.risk.shared.checker.PlaceRuleChecker;
-import edu.duke.ece651.risk.shared.checker.PlaceTerrExistChecker;
-import edu.duke.ece651.risk.shared.checker.PlaceTerrIDChecker;
-import edu.duke.ece651.risk.shared.checker.PlaceUnitAmountChecker;
+import edu.duke.ece651.risk.shared.order.Order;
+import edu.duke.ece651.risk.shared.checker.*;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
+import org.apache.commons.lang3.SerializationUtils;
 
 import java.util.*;
 
@@ -24,6 +24,8 @@ public class APIGameHandler {
     private Set<Long> commitedPlayer;
 
     private RISKMap riskMap;
+
+    private ArrayList<Order> temporaryOrders;
 
     public ArrayList<Color> getPredefineColorList() {
         return predefineColorList;
@@ -82,7 +84,10 @@ public class APIGameHandler {
         players = new HashSet<>();
         players.add(hostID);
         commitedPlayer = new HashSet<>();
+        temporaryOrders = new ArrayList<>();
     }
+
+
 
     public boolean tryAddPlayer(Long clientID) {
         if (players.size() == roomSize || players.contains(clientID)) {
@@ -100,27 +105,89 @@ public class APIGameHandler {
 
 
     public boolean tryPlaceUnit(Long clientID, Map<String, Integer> unitPlaceOrders) {
-        //Rule Checker
-        //1.Check if territory exist.
-        //2.Check if total amount valid.
-        PlaceRuleChecker placeRuleChecker =
-                new PlaceTerrExistChecker(
-                        new PlaceTerrIDChecker(
-                                new PlaceUnitAmountChecker(null, 30)));
-        try {
-            placeRuleChecker.checkPlace(riskMap, unitPlaceOrders, clientID);
-        } catch (IllegalArgumentException e) {
+        //Check for valid place
+        //1.Check for current State == PlacingState and clientID not in committedPlayer.
+        if (Objects.equals(currentState, State.PlacingState.name()) && !commitedPlayer.contains(clientID)) {
+
+            //2. Check unit validation.
+
+            //Rule Checker
+            //1.Check if territory exist.
+            //2.Check if total amount valid.
+            PlaceRuleChecker placeRuleChecker =
+                    new PlaceTerrExistChecker(
+                            new PlaceTerrIDChecker(
+                                    new PlaceUnitAmountChecker(null, 30)));
+            try {
+                placeRuleChecker.checkPlace(riskMap, unitPlaceOrders, clientID);
+            } catch (IllegalArgumentException e) {
+                return false;
+            }
+
+            for (String territoryName : unitPlaceOrders.keySet()) {
+                riskMap.getTerritoryByName(territoryName).tryAddUnit(new BasicUnit("Soldier", unitPlaceOrders.get(territoryName)));
+            }
+            commitedPlayer.add(clientID);
+            if (commitedPlayer.size() == roomSize) {
+                orderingPhase();
+            }
+            return true;
+        } else
+            return false;
+    }
+
+
+    public boolean tryPreProcessOrder(Long clientID, ArrayList<Order> orders) {
+        if (Objects.equals(currentState, State.OrderingState.name()) && !commitedPlayer.contains(clientID)) {
+
+            RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
+
+            if (orders==null || tryExecuteOrder(orders, cloneMap)) {
+                temporaryOrders.addAll(orders);
+                commitedPlayer.add(clientID);
+                if (commitedPlayer.size() == roomSize) {
+                    tryExecuteOrder(temporaryOrders, riskMap);
+                    increaseOneInAllTerritory();
+                    if(checkWinner()==null){
+                        orderingPhase();
+                    }else{
+                        showGameResultPhase();
+                    }
+                }
+                return true;
+            }
             return false;
         }
+        else
+            return false;
+    }
 
-        for (String territoryName : unitPlaceOrders.keySet()) {
-            riskMap.getTerritoryByName(territoryName).tryAddUnit(new BasicUnit("Soldier", unitPlaceOrders.get(territoryName)));
+
+    public boolean tryExecuteOrder(ArrayList<Order> orders,RISKMap tmpRiskMap) {
+        ArrayList<Order> moveOrder = new ArrayList<>();
+        ArrayList<Order> attackOrder = new ArrayList<>();
+
+        for (Order order : orders) {
+            if (Objects.equals(order.getOrderType(), "Move"))
+                moveOrder.add(order);
+            else
+                attackOrder.add(order);
         }
-        commitedPlayer.add(clientID);
-        if(commitedPlayer.size() == roomSize){
-            orderingPhase();
+        StringBuilder moveErrorMessage = new StringBuilder();
+        for (Order order : moveOrder) {
+            String errorMessage = order.executeOrder(tmpRiskMap);
+            if(errorMessage!=null)
+            moveErrorMessage.append(errorMessage);
         }
-        return true;
+
+        StringBuilder attackErrorMessage = new StringBuilder();
+        for (Order order : attackOrder) {
+            String errorMessage = order.executeOrder(tmpRiskMap);
+            attackErrorMessage.append(errorMessage);
+        }
+        System.out.println(moveErrorMessage.toString() +"  \n"+  attackErrorMessage.toString());
+        return moveErrorMessage.toString().equals("") && attackErrorMessage.toString().equals("");
+
     }
 
     public void assignColorToPlayers() {
@@ -150,15 +217,18 @@ public class APIGameHandler {
 
     public String getPlayerState(Long clientID) {
 
-        if (commitedPlayer.contains(clientID))
-            return State.WaitingState.name();
-        else
-            return currentState;
+
+        if(isPlayerLost(clientID))
+            return State.LostState.name();
+        else {
+            if (commitedPlayer.contains(clientID))
+                return State.WaitingState.name();
+            else
+                return currentState;
+        }
     }
 
-    public Long getWinner() {
-        return null;
-    }
+
 
     public void unitPlacementPhase(int n_Terr_per_player) {
         currentState = State.PlacingState.name();
@@ -167,9 +237,54 @@ public class APIGameHandler {
         assignTerritoriesToPlayers(n_Terr_per_player);
     }
 
-    public void orderingPhase(){
+    public void orderingPhase() {
         currentState = State.OrderingState.name();
         commitedPlayer.clear();
+        temporaryOrders.clear();
+    }
+
+    public void showGameResultPhase(){
+        currentState = State.EndState.name();
+        commitedPlayer.clear();
+    }
+
+    public void increaseOneInAllTerritory() {
+        for (Territory t : riskMap.getContinent()) {
+            t.getUnitByType("Soldier").tryIncreaseAmount(1);
+        }
+    }
+
+    /**
+     * Check if any player wins.
+     *
+     * @return Client if this player is the only player left, otherwise null.
+     */
+    public Long checkWinner() {
+        HashSet<Long> IDset = new HashSet<>();
+        for (Territory t : riskMap.getContinent()) {
+            IDset.add(t.getOwnerID());
+        }
+        System.out.println("IDset" + IDset.size());
+        if (IDset.size() == 1) {
+            return IDset.iterator().next();
+        }
+        return null;
+    }
+
+
+
+    /**
+     * Check if a player is lost.
+     *
+     * @param clientID The player we want to check with.
+     * @return True if this player is lost, otherwise false.
+     */
+    public boolean isPlayerLost(Long clientID) {
+        for (Territory territory : riskMap.getContinent()) {
+            if (territory.getOwnerID().equals(clientID))
+                return false;
+        }
+        return true;
     }
 
 
