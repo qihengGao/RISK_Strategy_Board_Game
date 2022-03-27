@@ -15,12 +15,13 @@ export default class Graph extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onChangeRoomID = this.onChangeRoomID.bind(this);
         this.state = {
             username: "",
             password: "",
             loading: false,
             message: "",
-            roomID:0
+            roomID:""
         };
         //this.initComponent = this.initComponent.bind(this);
     }
@@ -43,6 +44,7 @@ export default class Graph extends Component {
                                 className="form-control"
                                 name="roomID"
                                 onChange={this.onChangeRoomID}
+                                value={this.state.roomID}
 
                             />
                         </div>
@@ -100,6 +102,7 @@ export default class Graph extends Component {
             message: "",
             loading: true
         });
+        console.log(this.state.roomID);
         axios
             .get(API_URL + "gameStatus", {
                 params: {
