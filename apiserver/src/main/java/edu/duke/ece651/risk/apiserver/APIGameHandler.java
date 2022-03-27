@@ -186,7 +186,8 @@ public class APIGameHandler {
         StringBuilder attackErrorMessage = new StringBuilder();
         for (Order order : attackOrder) {
             String errorMessage = order.executeOrder(tmpRiskMap);
-            attackErrorMessage.append(errorMessage);
+            if (errorMessage != null)
+                attackErrorMessage.append(errorMessage);
         }
         System.out.println(moveErrorMessage.toString() + "  \n" + attackErrorMessage.toString());
         return moveErrorMessage.toString().equals("") && attackErrorMessage.toString().equals("");
