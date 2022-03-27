@@ -151,6 +151,13 @@ public class APIGameHandler {
                 commitedPlayer.add(clientID);
                 if (commitedPlayer.size() == roomSize) {
                     tryExecuteOrder(temporaryOrders, riskMap);
+                    for (Territory t : riskMap.getContinent()) {
+                        //todo: uncomment this line for simple add or minus fight resolver
+                        //t.getBattleField().setAttackResolver(new SimpleAttackResolver());
+                        //
+                        t.getBattleField().fightBattle(t, "Soldier");
+                        t.getBattleField().resetAttackersList();
+                    }
                     increaseOneInAllTerritory();
                     if (checkWinner() == null) {
                         orderingPhase();
