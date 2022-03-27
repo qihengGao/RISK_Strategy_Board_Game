@@ -1,20 +1,24 @@
 package edu.duke.ece651.risk.apiserver;
 
 import edu.duke.ece651.risk.apiserver.models.State;
-import edu.duke.ece651.risk.server.Client;
 import edu.duke.ece651.risk.shared.Color;
-import edu.duke.ece651.risk.shared.order.Order;
-import edu.duke.ece651.risk.shared.checker.*;
+import edu.duke.ece651.risk.shared.checker.PlaceRuleChecker;
+import edu.duke.ece651.risk.shared.checker.PlaceTerrExistChecker;
+import edu.duke.ece651.risk.shared.checker.PlaceTerrIDChecker;
+import edu.duke.ece651.risk.shared.checker.PlaceUnitAmountChecker;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.apache.commons.lang3.SerializationUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class APIGameHandler {
-
+    Logger logger;
     private ArrayList<Color> predefineColorList = new ArrayList<>();
     private Set<Long> players;
     private TreeMap<Long, Color> idToColor;
@@ -85,8 +89,8 @@ public class APIGameHandler {
         players.add(hostID);
         commitedPlayer = new HashSet<>();
         temporaryOrders = new ArrayList<>();
+        logger = LoggerFactory.getLogger(APIGameHandler.class);
     }
-
 
 
     public boolean tryAddPlayer(Long clientID) {
@@ -142,28 +146,27 @@ public class APIGameHandler {
 
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
 
-            if (orders==null || tryExecuteOrder(orders, cloneMap)) {
+            if (orders == null || tryExecuteOrder(orders, cloneMap)) {
                 temporaryOrders.addAll(orders);
                 commitedPlayer.add(clientID);
                 if (commitedPlayer.size() == roomSize) {
                     tryExecuteOrder(temporaryOrders, riskMap);
                     increaseOneInAllTerritory();
-                    if(checkWinner()==null){
+                    if (checkWinner() == null) {
                         orderingPhase();
-                    }else{
+                    } else {
                         showGameResultPhase();
                     }
                 }
                 return true;
             }
             return false;
-        }
-        else
+        } else
             return false;
     }
 
 
-    public boolean tryExecuteOrder(ArrayList<Order> orders,RISKMap tmpRiskMap) {
+    public boolean tryExecuteOrder(ArrayList<Order> orders, RISKMap tmpRiskMap) {
         ArrayList<Order> moveOrder = new ArrayList<>();
         ArrayList<Order> attackOrder = new ArrayList<>();
 
@@ -176,8 +179,8 @@ public class APIGameHandler {
         StringBuilder moveErrorMessage = new StringBuilder();
         for (Order order : moveOrder) {
             String errorMessage = order.executeOrder(tmpRiskMap);
-            if(errorMessage!=null)
-            moveErrorMessage.append(errorMessage);
+            if (errorMessage != null)
+                moveErrorMessage.append(errorMessage);
         }
 
         StringBuilder attackErrorMessage = new StringBuilder();
@@ -185,7 +188,7 @@ public class APIGameHandler {
             String errorMessage = order.executeOrder(tmpRiskMap);
             attackErrorMessage.append(errorMessage);
         }
-        System.out.println(moveErrorMessage.toString() +"  \n"+  attackErrorMessage.toString());
+        System.out.println(moveErrorMessage.toString() + "  \n" + attackErrorMessage.toString());
         return moveErrorMessage.toString().equals("") && attackErrorMessage.toString().equals("");
 
     }
@@ -218,7 +221,7 @@ public class APIGameHandler {
     public String getPlayerState(Long clientID) {
 
 
-        if(isPlayerLost(clientID))
+        if (isPlayerLost(clientID))
             return State.LostState.name();
         else {
             if (commitedPlayer.contains(clientID))
@@ -227,7 +230,6 @@ public class APIGameHandler {
                 return currentState;
         }
     }
-
 
 
     public void unitPlacementPhase(int n_Terr_per_player) {
@@ -243,7 +245,7 @@ public class APIGameHandler {
         temporaryOrders.clear();
     }
 
-    public void showGameResultPhase(){
+    public void showGameResultPhase() {
         currentState = State.EndState.name();
         commitedPlayer.clear();
     }
@@ -264,13 +266,13 @@ public class APIGameHandler {
         for (Territory t : riskMap.getContinent()) {
             IDset.add(t.getOwnerID());
         }
-        System.out.println("IDset" + IDset.size());
+
+        logger.info(String.format("RoomID:%d Current IDset.size()=%d", roomID, IDset.size()));
         if (IDset.size() == 1) {
             return IDset.iterator().next();
         }
         return null;
     }
-
 
 
     /**
@@ -280,36 +282,12 @@ public class APIGameHandler {
      * @return True if this player is lost, otherwise false.
      */
     public boolean isPlayerLost(Long clientID) {
+        //If this player still have any territory,
+        //means that this player is not lost.
         for (Territory territory : riskMap.getContinent()) {
             if (territory.getOwnerID().equals(clientID))
                 return false;
         }
         return true;
     }
-
-
-//    public void unitPlacementPhase()
-//            throws ClassCastException {
-//        for (Client client : players) {
-//            try {
-//                client.writeObject(new RiskGameMessage(client.getClientID(), new UnitPlaceState(), riskMap,
-//                        "Placing order!", idToColor));
-//            } catch (IOException e) {
-//                System.out.println("socket closed");
-//            }
-//        }
-//        for (Client client : players) {
-//
-//            ArrayList<Territory> receive = null;
-//            try {
-//                receive = (ArrayList<Territory>) client.readObject();
-//                updateMap(riskMap, receive);
-//            } catch (IOException | ClassNotFoundException e) {
-//
-//            }
-//
-//
-//        }
-//    }
-
 }
