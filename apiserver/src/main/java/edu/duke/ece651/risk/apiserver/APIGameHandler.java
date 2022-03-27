@@ -260,7 +260,7 @@ public class APIGameHandler {
 
     public void increaseOneInAllTerritory() {
         for (Territory t : riskMap.getContinent()) {
-            t.getUnitByType("Soldier").tryIncreaseAmount(1);
+            t.tryAddUnit(new BasicUnit("Soldier", 1));
         }
     }
 

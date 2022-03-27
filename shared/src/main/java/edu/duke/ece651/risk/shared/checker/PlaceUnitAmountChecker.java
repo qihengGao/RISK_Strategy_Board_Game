@@ -19,6 +19,10 @@ public class PlaceUnitAmountChecker extends PlaceRuleChecker{
             }
             totalAmount-=unitAmount;
         }
+        //check if used all totalAmounts
+        if (totalAmount!=0){
+            throw new IllegalArgumentException("You must place all your units!");
+        }
     }
     public PlaceUnitAmountChecker(PlaceRuleChecker next, int totalAmount) {
         super(next);

@@ -71,6 +71,12 @@ public class BasicTerritory implements Territory {
    * @return
    */
   public boolean tryAddUnit(Unit toAdd) {
+    for (Unit u : units){
+      if (u.getType().equals(toAdd.getType())){
+        u.tryIncreaseAmount(toAdd.getAmount());
+        return true;
+      }
+    }
     this.units.add(toAdd);
     return true;
   }
