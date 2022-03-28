@@ -109,6 +109,7 @@ public class PathExistMoveCheckerTest {
     assertSame(territory3, actualPath.get(0));
     assertSame(territory5, actualPath.get(1));
     assertSame(territory4, actualPath.get(2));
+    assertEquals(4, checker.getCostFromSrcToDest(actualPath));
 
     territory3.tryChangeOwnerTo(1L);
     parents = checker.doDijkstra(riskMap, 0L, territory1);
@@ -117,6 +118,7 @@ public class PathExistMoveCheckerTest {
     assertSame(territory2, actualPath.get(0));
     assertSame(territory4, actualPath.get(1));
     assertSame(territory5, actualPath.get(2));
+    assertEquals(13, checker.getCostFromSrcToDest(actualPath));
   }
 
   @Test

@@ -64,7 +64,7 @@ PathExistMoveChecker extends ActionChecker {
    * to get each territory's parent along the shortest path
    * @param riskMap
    * @param ownerId
-   * @return
+   * @return hashmap for each territory's parent
    */
   protected HashMap<Territory, Territory> doDijkstra(RISKMap riskMap,long ownerId, Territory source){
     Iterable<Territory> territories = riskMap.getContinent();
@@ -147,7 +147,7 @@ PathExistMoveChecker extends ActionChecker {
    * return the cost to move from source to destination territory,
    * given that the path is already computed
    * @param path
-   * @return
+   * @return cost
    */
   protected int getCostFromSrcToDest(ArrayList<Territory> path){
     int cost = 0;
