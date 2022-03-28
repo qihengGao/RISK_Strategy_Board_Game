@@ -15,7 +15,7 @@ public class BasicUnit implements Unit {
     private int level;
     private int amount;
     private int[] predefinedBonus = new int[] {0, 1, 3, 5, 8, 11, 15};
-    private int[] predefinedCosts = new int[] {0, 3, 11, 30, 55, 90, 140};
+    private int[] predefinedAccumulativeCosts = new int[] {0, 3, 11, 30, 55, 90, 140};
 
     public void setAmount(int amount) {
         this.amount = amount;
@@ -52,6 +52,12 @@ public class BasicUnit implements Unit {
     @Override
     public int getBonus() {
         return this.predefinedBonus[this.getLevel()];
+    }
+
+    // Precondition: the upgrade should be checked validity before calling this function
+    @Override
+    public int getCostToLevel(int level) {
+        return this.predefinedAccumulativeCosts[level] - this.predefinedAccumulativeCosts[this.level];
     }
 
     /**

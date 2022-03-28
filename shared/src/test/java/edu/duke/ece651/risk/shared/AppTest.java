@@ -31,7 +31,7 @@ class AppTest {
     void test_normalInput() throws IOException, ClassNotFoundException, InterruptedException {
 
         int randomPortNumber = (int) Math.floor(Math.random()*(9092-9080+1)+9080);
-        RiskGameServer riskGameServer = new RiskGameServer(3, new ServerSocket(randomPortNumber));
+        RiskGameServer riskGameServer = new RiskGameServer(new ServerSocket(randomPortNumber));
         riskGameServer.start();
 
         ByteArrayOutputStream bytes1 = new ByteArrayOutputStream();
