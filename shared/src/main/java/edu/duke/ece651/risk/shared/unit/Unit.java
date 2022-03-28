@@ -14,6 +14,24 @@ public interface Unit extends Serializable{
     public String getType();
 
     /**
+     * Return the level of current unit.
+     * @return int
+     */
+    public int getLevel();
+
+    /**
+     * Return the limit of current unit level.
+     * @return int
+     */
+    public int getLevelBound();
+
+    /**
+     * Return the bonus of the unit.
+     * @return
+     */
+    public int getBonus();
+
+    /**
      * Get current amount of the unit.
      * @return int
      */
