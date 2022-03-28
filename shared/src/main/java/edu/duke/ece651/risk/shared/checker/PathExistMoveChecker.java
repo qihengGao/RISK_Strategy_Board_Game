@@ -53,7 +53,7 @@ PathExistMoveChecker extends ActionChecker {
     for(Territory territory: distances.keySet()){
       if(distances.get(territory) < minimumDistance && queue.contains(territory)){
         toReturn = territory;
-        minimumDistance = territory.getSize();
+        minimumDistance = distances.get(territory);
       }
     }
     return toReturn;
