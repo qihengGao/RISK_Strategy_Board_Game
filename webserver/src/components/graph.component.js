@@ -174,11 +174,9 @@ export default class Graph extends Component {
 
                     // Display the chart using the configuration items and data just specified.
                     console.log(obj);
-                    option["series"][0]["data"].push.apply(option["series"][0]["data"], addAllTerritory(obj["riskMap"]["continent"]))
-                    option["series"][0]["links"].push.apply(option["series"][0]["links"], addAllLink(obj["riskMap"]["continent"]))
 
-
-
+                    option["series"][0]["data"].push(...addAllTerritory(obj["riskMap"]["continent"]));
+                    option["series"][0]["links"].push(...addAllLink(obj["riskMap"]["continent"]));
 
                     columnarChart.setOption(option);
                     console.log(option["series"][0]["data"]);
