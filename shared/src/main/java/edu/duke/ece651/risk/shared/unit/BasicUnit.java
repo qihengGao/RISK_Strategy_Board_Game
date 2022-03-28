@@ -54,7 +54,7 @@ public class BasicUnit implements Unit {
         return this.predefinedBonus[this.getLevel()];
     }
 
-    // Precondition
+    // Precondition: the upgrade should be checked validity before calling this function
     @Override
     public int getCostToLevel(int level) {
         return this.predefinedAccumulativeCosts[level] - this.predefinedAccumulativeCosts[this.level];
