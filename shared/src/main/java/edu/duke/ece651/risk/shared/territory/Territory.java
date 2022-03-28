@@ -34,6 +34,18 @@ public interface Territory extends Serializable {
   public int getSize();
 
   /**
+   * Return the food resource generated on the territory.
+   * @return
+   */
+  public int getFoodResource();
+
+  /**
+   * Return the tech resource generated on the territory.
+   * @return
+   */
+  public int getTechResource();
+
+  /**
    * Try to add the neighbor territory in the territory. True if added successfully.
    * @param toAdd
    * @return
