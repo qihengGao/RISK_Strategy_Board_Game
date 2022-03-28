@@ -14,6 +14,7 @@ import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
 import graph from "./components/graph.component"
 import allRooms from "./components/allRooms.component"
+import joinedRooms from "./components/joinedRooms.component"
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
@@ -116,6 +117,14 @@ class App extends Component {
                   </li>
 
               )}
+              {currentUser && (
+                  <li className="nav-item">
+                    <Link to={"/joinedRooms"} className="nav-link">
+                      Your Games
+                    </Link>
+                  </li>
+
+              )}
             </div>
 
             {currentUser ? (
@@ -160,6 +169,7 @@ class App extends Component {
               <Route path="/admin" component={BoardAdmin} />
               <Route exact path="/graph" component={graph} />
               <Route exact path="/allRooms" component={allRooms} />
+              <Route exact path="/joinedRooms" component={joinedRooms} />
             </Switch>
           </div>
 
