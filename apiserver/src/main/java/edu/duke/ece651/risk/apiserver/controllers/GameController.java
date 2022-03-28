@@ -1,14 +1,12 @@
 package edu.duke.ece651.risk.apiserver.controllers;
 
 import edu.duke.ece651.risk.apiserver.APIGameHandler;
+import edu.duke.ece651.risk.apiserver.models.State;
 import edu.duke.ece651.risk.apiserver.payload.request.CreateRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.JoinRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.PlaceOrderRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.PlaceUnitRequest;
-import edu.duke.ece651.risk.apiserver.payload.response.CreateRoomResponse;
-import edu.duke.ece651.risk.apiserver.payload.response.GameStatusResponse;
-import edu.duke.ece651.risk.apiserver.payload.response.JoinRoomResponse;
-import edu.duke.ece651.risk.apiserver.payload.response.PlaceUnitResponse;
+import edu.duke.ece651.risk.apiserver.payload.response.*;
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -112,12 +113,29 @@ public class GameController {
 
         APIGameHandler currGame = rooms.get(roomID);
 
-        if (currGame == null || !currGame.tryPreProcessOrder(userId,placeOrderRequest.getOrders())) {
+        if (currGame == null || !currGame.tryPreProcessOrder(userId, placeOrderRequest.getOrders())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Failed to place the orders! Room not found or place action invalid right now!"));
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(new PlaceUnitResponse("Successfully placed order into map."));
         }
 
+    }
+
+    @GetMapping("/rooms/available")
+    public ResponseEntity<RoomsAvailableResponse> allRooms( ){
+
+        Map<Long, APIGameHandler> res = rooms.entrySet().stream()
+                .filter(e -> State.WaitingToStartState.name().equals(e.getValue().getCurrentState())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));;
+        return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
+    }
+
+    @GetMapping("/rooms/joined")
+    public ResponseEntity<RoomsAvailableResponse> joinedRooms( ){
+        Long userId = getUserId();
+
+        Map<Long, APIGameHandler> res = rooms.entrySet().stream()
+                .filter(e -> e.getValue().getPlayers().contains(userId)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));;
+        return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
 
 

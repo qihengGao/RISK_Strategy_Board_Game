@@ -15,13 +15,46 @@ public class BasicTerritory implements Territory {
   private TreeSet<String> neighbors; // to make in order with repect to name
   private TreeSet<Unit> units;
   private BattleField battleField;
+  private int size;
+  private int foodResource;
+  private int techResource;
 
   public BasicTerritory(String Name){
     this.OwnerID = -1L;
     this.name = Name;
     this.neighbors = new TreeSet<String>();
-    this.units = new TreeSet<Unit>(new unitCompactor());
+    this.units = new TreeSet<Unit>(new UnitCompactor());
     this.battleField = new BattleField(this);
+    this.size = 1;
+    this.foodResource = 10; // predetermined as 10
+    this.techResource = 20; // predetermined as 20
+  }
+
+  public BasicTerritory(String Name, int size) {
+    this(Name);
+    this.size = size;
+  }
+
+  public BasicTerritory(String name, int size, int foodResource, int techResource) {
+    this(name, size);
+    this.foodResource = foodResource;
+    this.techResource = techResource;
+  }
+
+  /**
+   * Return the size of the territory.
+   * @return int size
+   */
+  public int getSize() { return this.size; }
+
+  @Override
+  public int getFoodResource() {
+    return this.foodResource;
+  }
+
+  @Override
+  public int getTechResource() {
+    return this.techResource;
   }
 
   /**
