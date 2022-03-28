@@ -15,6 +15,7 @@ import BoardAdmin from "./components/board-admin.component";
 import graph from "./components/graph.component"
 import allRooms from "./components/allRooms.component"
 import joinedRooms from "./components/joinedRooms.component"
+import createRoom from "./components/createRoom.component"
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
@@ -170,6 +171,7 @@ class App extends Component {
               <Route exact path="/graph" component={graph} />
               <Route exact path="/allRooms" component={allRooms} />
               <Route exact path="/joinedRooms" component={joinedRooms} />
+              <Route exact path="/createRoom" component={createRoom} />
             </Switch>
           </div>
 
