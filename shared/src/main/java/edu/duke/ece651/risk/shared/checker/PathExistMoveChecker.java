@@ -64,7 +64,7 @@ PathExistMoveChecker extends ActionChecker {
    * to get each territory's parent along the shortest path
    * @param riskMap
    * @param ownerId
-   * @return
+   * @return hashmap for each territory's parent
    */
   protected HashMap<Territory, Territory> doDijkstra(RISKMap riskMap,long ownerId, Territory source){
     Iterable<Territory> territories = riskMap.getContinent();
@@ -72,7 +72,7 @@ PathExistMoveChecker extends ActionChecker {
     // a hashmap to store distance to the territory, initalize to infinity
     HashMap<Territory, Integer> distances = new HashMap<Territory, Integer>();
     for(Territory territory: territories){
-      if(territory.getOwnerID() == ownerId){
+      if(territory.getOwnerID().equals(ownerId)){
         distances.put(territory, Integer.MAX_VALUE);
       }
     }
@@ -83,14 +83,14 @@ PathExistMoveChecker extends ActionChecker {
     // a hashset to record each territory's parent
     HashMap<Territory, Territory> parents = new HashMap<>();
     for(Territory territory: territories){
-      if(territory.getOwnerID() == ownerId) {
+      if(territory.getOwnerID().equals(ownerId)) {
         parents.put(territory, null);
       }
     }
 
     HashSet<Territory> queue = new HashSet<>();
     for(Territory territory: territories){
-      if(territory.getOwnerID() == ownerId){
+      if(territory.getOwnerID().equals(ownerId)){
         queue.add(territory);
       }
     }
@@ -102,7 +102,7 @@ PathExistMoveChecker extends ActionChecker {
       Iterable<String> neighborStrs = currTerritory.getNeighbors();
       for(String neighborStr: neighborStrs){
         Territory neighbor = riskMap.getTerritoryByName(neighborStr);
-        if(neighbor.getOwnerID() == ownerId) {
+        if(neighbor.getOwnerID().equals(ownerId)) {
           if (distances.get(currTerritory) + neighbor.getSize() < distances.get(neighbor)) {
             distances.put(neighbor, distances.get(currTerritory) + neighbor.getSize());
             parents.put(neighbor, currTerritory);
@@ -147,7 +147,7 @@ PathExistMoveChecker extends ActionChecker {
    * return the cost to move from source to destination territory,
    * given that the path is already computed
    * @param path
-   * @return
+   * @return cost
    */
   protected int getCostFromSrcToDest(ArrayList<Territory> path){
     int cost = 0;
