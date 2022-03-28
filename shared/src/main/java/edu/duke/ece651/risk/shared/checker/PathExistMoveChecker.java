@@ -66,7 +66,7 @@ PathExistMoveChecker extends ActionChecker {
    * @param ownerId
    * @return
    */
-  private HashMap<Territory, Territory> doDijkstra(RISKMap riskMap, long ownerId){
+  protected HashMap<Territory, Territory> doDijkstra(RISKMap riskMap,long ownerId, Territory source){
     Iterable<Territory> territories = riskMap.getContinent();
 
     // a hashmap to store distance to the territory, initalize to infinity
@@ -76,6 +76,9 @@ PathExistMoveChecker extends ActionChecker {
         distances.put(territory, Integer.MAX_VALUE);
       }
     }
+
+    // set the distance from source -> source to 0
+    distances.put(source, 0);
 
     // a hashset to record each territory's parent
     HashMap<Territory, Territory> parents = new HashMap<>();
@@ -117,13 +120,14 @@ PathExistMoveChecker extends ActionChecker {
    * @param destination
    * @return an arraylist of path territories if path exists, null otherwise
    */
-  private ArrayList<Territory> getPathFromSrcToDest(HashMap<Territory, Territory> parents,
+  protected ArrayList<Territory> getPathFromSrcToDest(HashMap<Territory, Territory> parents,
                                    Territory source, Territory destination){
     if(!parents.keySet().contains(source) || !parents.keySet().contains(destination)){
       return null;
     }
 
     ArrayList<Territory> path = new ArrayList<>();
+    path.add(destination);
     Territory parent = parents.get(destination);
 
     // get cost of path from source to destination in reverse
@@ -131,7 +135,7 @@ PathExistMoveChecker extends ActionChecker {
       path.add(parent);
       parent = parents.get(parent);
     }
-    if(parents == null){
+    if(parent == null){
       return null;
     }
 
@@ -145,11 +149,9 @@ PathExistMoveChecker extends ActionChecker {
    * @param path
    * @return
    */
-  private int getCostFromSrcToDest(ArrayList<Territory> path){
+  protected int getCostFromSrcToDest(ArrayList<Territory> path){
     int cost = 0;
 
-    // remove the source territory size when computing cost
-    path.remove(0);
     for(Territory territory: path){
       cost += territory.getSize();
     }
