@@ -1,26 +1,20 @@
 Please type in server address
 Please type in server port number
 Please type in you client ID to restore previous game, or Enter to start a new game.
-
-What would you like to do?
- (C)reate a new game room.
- (J)oin a existing game room.
-
-Which game room you want to join?
-RoomID: 0 Waiting for game to start. Still need 0 player!
+Waiting for game to start. Still need 0 player!
 Waiting for server to resolve your orders...
 Placing order!
 Red
 ---
- Test2 (next to: Test0 , Test3 , Test6 )
- Test4 (next to: Test1 , Test3 , Test5 )
- Test6 (next to: Test2 , Test8 )
+ 10 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 10 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 10 Soldiers in Test6 (next to: Test2 , Test8 )
 
 Green
 -----
- Test0 (next to: Test2 , Test3 , Test5 , Test8 )
- Test1 (next to: Test4 , Test7 )
- Test8 (next to: Test0 , Test5 , Test6 )
+ 10 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 10 Soldiers in Test1 (next to: Test4 , Test7 )
+ 10 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Blue
 ----
@@ -76,14 +70,14 @@ Resolved Round 1 Outcome! Now start placing orders!
 Red
 ---
  1 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
- 11 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
- 1 Soldiers in Test6 (next to: Test2 , Test8 )
- 9 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+ 8 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 21 Soldiers in Test6 (next to: Test2 , Test8 )
 
 Green
 -----
- 8 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
- 11 Soldiers in Test1 (next to: Test4 , Test7 )
+ 10 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 8 Soldiers in Test1 (next to: Test4 , Test7 )
+ 11 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Blue
 ----
@@ -102,19 +96,19 @@ Resolved Round 2 Outcome! Now start placing orders!
 Red
 ---
  2 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
- 12 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
- 9 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
- 2 Soldiers in Test6 (next to: Test2 , Test8 )
- 1 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+ 9 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 22 Soldiers in Test6 (next to: Test2 , Test8 )
 
 Green
 -----
- 9 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
- 12 Soldiers in Test1 (next to: Test4 , Test7 )
+ 11 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 9 Soldiers in Test1 (next to: Test4 , Test7 )
+ 12 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Blue
 ----
  11 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 2 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
  22 Soldiers in Test7 (next to: Test1 , Test5 )
 
 
@@ -127,20 +121,20 @@ Waiting for server to resolve your orders...
 Resolved Round 3 Outcome! Now start placing orders!
 Red
 ---
- 10 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
- 13 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
- 3 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
- 3 Soldiers in Test6 (next to: Test2 , Test8 )
- 2 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+ 3 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 10 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 23 Soldiers in Test6 (next to: Test2 , Test8 )
 
 Green
 -----
- 10 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
- 13 Soldiers in Test1 (next to: Test4 , Test7 )
+ 12 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 10 Soldiers in Test1 (next to: Test4 , Test7 )
+ 13 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Blue
 ----
  12 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 3 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
  23 Soldiers in Test7 (next to: Test1 , Test5 )
 
 
@@ -154,20 +148,20 @@ Resolved Game Outcome!
 You Lose! Conquer more next time!
 Red
 ---
- 11 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
- 14 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
- 4 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
- 4 Soldiers in Test6 (next to: Test2 , Test8 )
- 3 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
+ 4 Soldiers in Test2 (next to: Test0 , Test3 , Test6 )
+ 11 Soldiers in Test4 (next to: Test1 , Test3 , Test5 )
+ 24 Soldiers in Test6 (next to: Test2 , Test8 )
 
 Green
 -----
- 11 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
- 14 Soldiers in Test1 (next to: Test4 , Test7 )
+ 13 Soldiers in Test0 (next to: Test2 , Test3 , Test5 , Test8 )
+ 11 Soldiers in Test1 (next to: Test4 , Test7 )
+ 14 Soldiers in Test8 (next to: Test0 , Test5 , Test6 )
 
 Blue
 ----
  13 Soldiers in Test3 (next to: Test0 , Test2 , Test4 )
+ 4 Soldiers in Test5 (next to: Test0 , Test4 , Test7 , Test8 )
  24 Soldiers in Test7 (next to: Test1 , Test5 )
 
 
