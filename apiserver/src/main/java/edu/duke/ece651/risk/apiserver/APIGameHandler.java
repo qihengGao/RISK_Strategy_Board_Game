@@ -29,6 +29,10 @@ public class APIGameHandler {
 
     private RISKMap riskMap;
 
+    public String getCurrentState() {
+        return currentState;
+    }
+
     private ArrayList<Order> temporaryOrders;
 
     public ArrayList<Color> getPredefineColorList() {
@@ -90,6 +94,8 @@ public class APIGameHandler {
         commitedPlayer = new HashSet<>();
         temporaryOrders = new ArrayList<>();
         logger = LoggerFactory.getLogger(APIGameHandler.class);
+        this.currentState = State.WaitingToStartState.name();
+
     }
 
 
