@@ -129,5 +129,14 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
 
+    @GetMapping("/rooms/joined")
+    public ResponseEntity<RoomsAvailableResponse> joinedRooms( ){
+        Long userId = getUserId();
+
+        Map<Long, APIGameHandler> res = rooms.entrySet().stream()
+                .filter(e -> e.getValue().getPlayers().contains(userId)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));;
+        return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
+    }
+
 
 }
