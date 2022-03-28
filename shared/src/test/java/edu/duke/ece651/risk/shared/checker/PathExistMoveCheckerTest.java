@@ -75,8 +75,8 @@ public class PathExistMoveCheckerTest {
 
   @Test
   public void test_doDijkstra(){
-    Territory territory1 = new BasicTerritory("terr1", 10);
-    Territory territory2 = new BasicTerritory("terr2", 5);
+    Territory territory1 = new BasicTerritory("terr1", 5);
+    Territory territory2 = new BasicTerritory("terr2", 10);
     Territory territory3 = new BasicTerritory("terr3", 1);
     Territory territory4 = new BasicTerritory("terr4", 1);
     Territory territory5 = new BasicTerritory("terr5", 2);
