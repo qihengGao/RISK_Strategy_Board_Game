@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import authHeader from "../services/auth-header";
 import Table from 'react-bootstrap/Table'
+import {Link} from "react-router-dom";
 
 const API_URL = "http://localhost:8080/api/game/";
 
@@ -48,6 +49,9 @@ export default class allRoomsComponent extends Component {
         }
         return (
             <div id="table">
+                <Link to={"/createRoom"} className="nav-link">
+                    <button className="btn btn-primary btn-block">Create Room</button>
+                </Link>
                 <Table responsive>
                     <thead>
                     <tr>
