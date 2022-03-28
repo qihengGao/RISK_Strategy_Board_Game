@@ -15,9 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -124,8 +122,8 @@ public class GameController {
     @GetMapping("/rooms/available")
     public ResponseEntity<RoomsAvailableResponse> allRooms( ){
 
-        Map<Long, APIGameHandler> res = rooms.entrySet().stream()
-                .filter(e -> State.WaitingToStartState.name().equals(e.getValue().getCurrentState())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));;
+        List<APIGameHandler> res = rooms.entrySet().stream()
+                .filter(e -> State.WaitingToStartState.name().equals(e.getValue().getCurrentState())).map(Map.Entry::getValue).collect(Collectors.toList());;
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
 
@@ -133,10 +131,11 @@ public class GameController {
     public ResponseEntity<RoomsAvailableResponse> joinedRooms( ){
         Long userId = getUserId();
 
-        Map<Long, APIGameHandler> res = rooms.entrySet().stream()
-                .filter(e -> e.getValue().getPlayers().contains(userId)).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));;
+        List<APIGameHandler> res = rooms.entrySet().stream()
+                .filter(e -> e.getValue().getPlayers().contains(userId)).map(Map.Entry::getValue).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
+
 
 
 }

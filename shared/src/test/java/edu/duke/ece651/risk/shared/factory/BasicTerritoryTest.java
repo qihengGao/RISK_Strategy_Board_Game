@@ -17,6 +17,16 @@ public class BasicTerritoryTest {
     assertEquals(t1.getOwnerID(), -1);
     assertTrue(t1.tryChangeOwnerTo(1L));
     assertEquals(t1.getOwnerID(), 1);
+
+    Territory t = new BasicTerritory("t", 9);
+    assertEquals("t", t.getName());
+    assertEquals(9, t.getSize());
+    assertEquals(10,t.getFoodResource());
+    assertEquals(20, t.getTechResource());
+
+    Territory t_ = new BasicTerritory("t", 9, 10, 20);
+    assertEquals(10,t_.getFoodResource());
+    assertEquals(20, t_.getTechResource());
   }
   
   @Test

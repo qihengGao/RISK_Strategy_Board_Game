@@ -4,17 +4,18 @@ import edu.duke.ece651.risk.apiserver.APIGameHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RoomsAvailableResponse {
 
-    private Map<Long, APIGameHandler> rooms;
+    private List<APIGameHandler> rooms;
 
-    public RoomsAvailableResponse(Map<Long, APIGameHandler> res) {
+    public RoomsAvailableResponse(List<APIGameHandler> res) {
         this.rooms = res;
     }
 
-    public Map<Long, APIGameHandler> getRooms() {
+    public List<APIGameHandler> getRooms() {
         return rooms;
     }
 

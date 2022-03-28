@@ -13,9 +13,11 @@ import BoardUser from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
 import graph from "./components/graph.component"
+import allRooms from "./components/allRooms.component"
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
+import allRoomsComponent from "./components/allRooms.component";
 
 class App extends Component {
   constructor(props) {
@@ -106,6 +108,14 @@ class App extends Component {
                   </li>
 
               )}
+              {currentUser && (
+                  <li className="nav-item">
+                    <Link to={"/allRooms"} className="nav-link">
+                      Open Rooms
+                    </Link>
+                  </li>
+
+              )}
             </div>
 
             {currentUser ? (
@@ -149,6 +159,7 @@ class App extends Component {
               <Route path="/mod" component={BoardModerator} />
               <Route path="/admin" component={BoardAdmin} />
               <Route exact path="/graph" component={graph} />
+              <Route exact path="/allRooms" component={allRooms} />
             </Switch>
           </div>
 
