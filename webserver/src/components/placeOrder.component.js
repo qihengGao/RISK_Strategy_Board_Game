@@ -207,6 +207,9 @@ class unitPlace extends Component {
             .then((response) => {
                 //console.log(response);
                 this.props.handleSnackBarUpdate("success","Successfully commit the orders!")
+                this.setState({
+                    rows:[]
+                })
                 //this.setState({messages: tmpmessage});
                 //window.location.reload();
             }, error => {
