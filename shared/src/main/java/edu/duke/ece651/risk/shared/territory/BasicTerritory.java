@@ -15,6 +15,11 @@ public class BasicTerritory implements Territory {
   private Long OwnerID;
   private final String name;
   private TreeSet<String> neighbors; // to make in order with repect to name
+
+  public void setUnits(TreeSet<Unit> units) {
+    this.units = units;
+  }
+
   private TreeSet<Unit> units;
   private BattleField battleField;
   private int size;

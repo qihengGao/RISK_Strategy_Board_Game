@@ -4,8 +4,14 @@ import edu.duke.ece651.risk.shared.BattleField;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 import java.io.Serializable;
+import java.util.TreeSet;
 
 public interface Territory extends Serializable {
+  /**
+   * @param units to be set
+   */
+  public void setUnits(TreeSet<Unit> units);
+
   /**
    * @return the BattleField in this Territory to resolve battles
    */
