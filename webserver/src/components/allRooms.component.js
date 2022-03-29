@@ -73,7 +73,6 @@ export default class allRoomsComponent extends Component {
                             );
                         axios
                             .post( "/api/game/joinRoom", {
-
                                 roomID:thisRow.id
                             }, {
                                 headers: authHeader()})
@@ -84,10 +83,8 @@ export default class allRoomsComponent extends Component {
                                 this.handleSnackBarUpdate("error","Failed join room\n"+error.messages)
                                 }
                             );
-
                     };
-
-                    return <Button onClick={onClick}>Join</Button>;
+                    return <Button onClick={onClick} href={"play/"+params.id}>Join</Button>;
                 },
             },
         ];

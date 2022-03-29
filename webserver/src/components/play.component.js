@@ -43,8 +43,10 @@ export default class play extends Component {
 
         console.log(state);
         switch (state) {
+            case "WaitingToStartState":
+                return <div>Waiting for other players to join...</div>
             case "WaitingState":
-                return <div>Waiting For Other Player to place.</div>
+                return <div>Waiting for other players to place orders...</div>
             case "PlacingState":
                 return <PlaceUnit {...this.state} handleSnackBarUpdate={this.handleSnackBarUpdate}/>
             case "OrderingState":
