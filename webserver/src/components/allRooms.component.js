@@ -103,7 +103,7 @@ export default class allRoomsComponent extends Component {
 
     async componentDidMount() {
         let response = await axios
-            .get(API_URL + "rooms/available", {
+            .get("/api/game/rooms/available", {
                 params: {},
                 headers: authHeader()
             })

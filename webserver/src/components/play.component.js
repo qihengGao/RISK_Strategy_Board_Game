@@ -23,7 +23,7 @@ export default class play extends Component {
 
     async componentDidMount() {
         let response = await axios
-            .get(API_URL + "gameStatus", {
+            .get("/api/game/gameStatus", {
                 params: {
                     roomID: this.props.match.params.roomID
                 }, headers: authHeader()
