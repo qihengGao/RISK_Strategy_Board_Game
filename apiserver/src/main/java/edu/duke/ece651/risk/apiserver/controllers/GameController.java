@@ -79,7 +79,7 @@ public class GameController {
             APIGameHandler apiGameHandler = rooms.get(roomID);
             return ResponseEntity.status(HttpStatus.OK).body(new GameStatusResponse(
                     apiGameHandler.getPlayerState(userId),
-                    apiGameHandler.getRiskMapByState(),
+                    apiGameHandler.getRiskMap(),
                     apiGameHandler.checkWinner(),
                     apiGameHandler.getIdToColor(),
                     ""

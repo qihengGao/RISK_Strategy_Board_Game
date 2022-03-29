@@ -115,7 +115,7 @@ public class APIGameHandler {
         logger = LoggerFactory.getLogger(APIGameHandler.class);
         this.currentState = State.WaitingToStartState.name();
         InitUnitAmountPerPlayer = 30;
-
+        lostPlayer = new HashSet<>();
     }
 
 
