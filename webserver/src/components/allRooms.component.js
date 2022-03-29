@@ -4,7 +4,16 @@ import authHeader from "../services/auth-header";
 import {DataGrid, GridApi, GridCellValue, GridColDef} from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
-import {Alert} from "@mui/material";
+import {
+    Alert,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Stack,
+    TextField
+} from "@mui/material";
 
 const API_URL = "http://localhost:8080/api/game/";
 
@@ -22,7 +31,9 @@ export default class allRoomsComponent extends Component {
             rows: [],
             openSnackBar: false,
             snackBarMessage: "Successfully commit the message",
-            snackbarType: "success"
+            snackbarType: "success",
+            openCreateRoomDialog: false,
+            roomSize: null
         };
         //this.initComponent = this.initComponent.bind(this);
     }
@@ -48,45 +59,47 @@ export default class allRoomsComponent extends Component {
             );
     }
 
+
     render() {
         console.log(this.state.rooms)
         let columns: GridColDef[] = [{
-                field: 'id', headerName: 'Room ID', width: 90
-            }, {
-                field: 'roomSize', headerName: 'Room Size', width: 150, editable: false,
-            }, {
-                field: 'action',
-                headerName: 'Join',
-                sortable: false,
-                renderCell: (params) => {
-                    const onClick = (e) => {
-                        e.stopPropagation(); // don't select this row after clicking
+            field: 'id', headerName: 'Room ID', width: 90
+        }, {
+            field: 'roomSize', headerName: 'Room Size', width: 150, editable: false,
+        }, {
+            field: 'action',
+            headerName: 'Join',
+            sortable: false,
+            renderCell: (params) => {
+                const onClick = (e) => {
+                    e.stopPropagation(); // don't select this row after clicking
 
-                        const api: GridApi = params.api;
-                        const thisRow: Record<string, GridCellValue> = {};
+                    const api: GridApi = params.api;
+                    const thisRow: Record<string, GridCellValue> = {};
 
-                        api
-                            .getAllColumns()
-                            .filter((c) => c.field !== '__check__' && !!c)
-                            .forEach(
-                                (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
-                            );
-                        axios
-                            .post( "/api/game/joinRoom", {
-                                roomID:thisRow.id
-                            }, {
-                                headers: authHeader()})
-                            .then(() => {
-                                this.handleSnackBarUpdate("success","Successfully join room!")
+                    api
+                        .getAllColumns()
+                        .filter((c) => c.field !== '__check__' && !!c)
+                        .forEach(
+                            (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
+                        );
+                    axios
+                        .post("/api/game/joinRoom", {
+                            roomID: thisRow.id
+                        }, {
+                            headers: authHeader()
+                        })
+                        .then(() => {
+                                this.handleSnackBarUpdate("success", "Successfully join room!")
 
-                                }, error => {
-                                this.handleSnackBarUpdate("error","Failed join room\n"+error.messages)
-                                }
-                            );
-                    };
-                    return <Button onClick={onClick} href={"play/"+params.id}>Join</Button>;
-                },
+                            }, error => {
+                                this.handleSnackBarUpdate("error", "Failed join room\n" + error.messages)
+                            }
+                        );
+                };
+                return <Button onClick={onClick} href={"play/" + params.id}>Join</Button>;
             },
+        },
         ];
 
         return (
@@ -96,7 +109,18 @@ export default class allRoomsComponent extends Component {
                 ,
                 width: '100%'
             }
-            }>
+            }><Stack
+                sx={{width: '100%', mb: 1}}
+                direction="row"
+                alignItems="flex-start"
+                columnGap={1}
+
+            >
+
+                <Button
+                    //variant="contained"
+                    size="small" onClick={this.handleCreateRoomButton}>Add new room</Button>
+            </Stack>
                 <DataGrid
 
                     rows={this.state.rows}
@@ -112,9 +136,75 @@ export default class allRoomsComponent extends Component {
                         {this.state.snackBarMessage}
                     </Alert>
                 </Snackbar>
+
+
+                <Dialog open={this.state.openCreateRoomDialog} onClose={this.handleCreateRoomClose}>
+                    <DialogTitle>Create Room</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            To create a new game room, please room size here.
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="roomSize"
+                            label="Room Size"
+                            type="number"
+                            fullWidth
+                            variant="standard"
+                            onChange={this.handleRoomSizeChange}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleCreateRoomClose}>Cancel</Button>
+                        <Button onClick={this.handleCreateRoomSubmit}>Create</Button>
+                    </DialogActions>
+                </Dialog>
             </div>)
             ;
     }
+
+
+    handleCreateRoomButton = ()=>{
+        this.setState({
+            openCreateRoomDialog: true
+        })
+    }
+    handleCreateRoomClose = () => {
+        this.setState({
+            openCreateRoomDialog: false
+        })
+    }
+
+    handleCreateRoomSubmit = () => {
+        this.setState({
+            openCreateRoomDialog: false
+        })
+        axios
+            .post("/api/game/createRoom", {
+                roomSize: this.state.roomSize,
+            }, {headers: authHeader()})
+            .then((response) => {
+                //console.log(response);
+                this.handleSnackBarUpdate("success", "Successfully create the room!\nroomID: " + response.data.roomIDCreated)
+                //this.setState({messages: tmpmessage});
+                this.props.history.push("/play/"+response.data.roomIDCreated)
+                window.location.reload();
+            }, error => {
+                //window.location.reload();
+                this.handleSnackBarUpdate("error", error.message)
+                this.setState({messages: error});
+            });
+
+    }
+
+    handleRoomSizeChange = (e) => {
+
+        this.setState({
+            roomSize: e.target.value
+        })
+    }
+
     handleSnackBarClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -122,29 +212,23 @@ export default class allRoomsComponent extends Component {
         this.setState({openSnackBar: false})
     };
 
-    handleSnackBarUpdate = (type,message) => {
+    handleSnackBarUpdate = (type, message) => {
         this.setState(
             {
-                openSnackBar:true,
+                openSnackBar: true,
                 snackBarMessage: message,
                 snackbarType: type
             }
         )
     }
-// initComponent() {
-//     axios
-//         .get(API_URL + "rooms/available", {
-//             params: {},
-//             headers: authHeader()
-//         })
-//         .then(response => {
-//             console.log(response.data);
-//             this.setState({rooms:response.data.rooms, loading: true });
-//         });
-//
-// }
 
-     componentDidMount() {
+
+    componentDidMount() {
+        this.getAllRooms();
+
+    }
+
+    getAllRooms=()=>{
         axios
             .get("/api/game/rooms/available", {
                 params: {},
@@ -153,22 +237,21 @@ export default class allRoomsComponent extends Component {
             .then(response => {
 
                 let tmpRows = [];
-                for(const room of response.data.rooms){
+                for (const room of response.data.rooms) {
                     tmpRows.push({
-                        id:room.roomID,
-                        roomSize:room.players.length + "/" + room.roomSize
+                        id: room.roomID,
+                        roomSize: room.players.length + "/" + room.roomSize
                     })
                 }
 
 
-                this.setState( {
+                this.setState({
 
                     rows: tmpRows
 
                 })
 
             });
-
     }
 
     componentDidUpdate() {
