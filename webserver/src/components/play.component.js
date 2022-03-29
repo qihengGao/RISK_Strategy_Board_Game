@@ -4,25 +4,125 @@ import authHeader from "../services/auth-header";
 
 import PlaceUnit from "./placeUnit.component";
 import PlaceOrder from "./placeOrder.component";
+import AuthService from "../services/auth.service";
+import Snackbar from '@mui/material/Snackbar';
+import {Alert} from "@mui/material";
 
 const API_URL = "http://localhost:8080/api/game/";
 let echarts = require('echarts');
 
 
 export default class play extends Component {
+    interval = null;
 
     constructor(props) {
         super(props);
         //this.handleSubmit = this.handleSubmit.bind(this);
         this.onChangeRoomID = this.onChangeRoomID.bind(this);
         this.state = {
-            loading: true, message: "", roomID: "", room: {}
+            loading: true,
+            roomID: "",
+            room: {},
+            responseData: undefined,
+            openSnackBar: false,
+            snackBarMessage: "Successfully commit the message",
+            snackbarType: "error"
         };
         //this.initComponent = this.initComponent.bind(this);
     }
 
     async componentDidMount() {
-        let response = await axios
+
+        this.interval = setInterval(this.getData, 2000);
+        this.getData();
+
+
+    }
+
+    renderSwitch(state) {
+
+        console.log(state);
+        switch (state) {
+            case "WaitingState":
+                return <div>Waiting For Other Player to place.</div>
+            case "PlacingState":
+                return <PlaceUnit {...this.state} handleSnackBarUpdate={this.handleSnackBarUpdate}/>
+            case "OrderingState":
+                return <PlaceOrder {...this.state}  handleSnackBarUpdate={this.handleSnackBarUpdate}/>
+
+        }
+
+    }
+
+    handleSnackBarUpdate = (type,message) => {
+        this.setState(
+            {
+                openSnackBar:true,
+                snackBarMessage: message,
+                snackbarType: type
+            }
+        )
+    }
+
+    render() {
+        // console.log(this.props.match.params.roomID);
+        if (this.state.loading) {
+            return <div className="spinner">Loading.....</div>; // add a spinner or something until the posts are loaded
+        }
+
+
+        return (
+
+            (this.state.message) ?
+                (<div className="alert alert-danger" role="alert">{this.state.message}</div>)
+                :
+                (
+                    <div id="upper">
+                        <div ref="main" id="main" style={{width: "600px", height: "400px"}}/>
+                        <div ref="input" id="input"
+                        >{this.renderSwitch(this.state.room.state)}</div>
+                        <Snackbar open={this.state.openSnackBar} autoHideDuration={6000}
+                                  onClose={this.handleSnackBarClose}>
+                            <Alert onClose={this.handleSnackBarClose} severity={this.state.snackbarType} sx={{width: '100%'}}>
+                                {this.state.snackBarMessage}
+                            </Alert>
+                        </Snackbar>
+                    </div>
+                )
+        );
+    }
+
+    handleSnackBarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({openSnackBar: false})
+    };
+
+    initComponent() {
+
+
+    }
+
+    onChangeRoomID(e) {
+        this.setState({
+            roomID: e.target.value
+        });
+    }
+
+
+    componentDidUpdate() {
+        this.initComponent();
+    }
+
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    getData = () => {
+        axios
             .get("/api/game/gameStatus", {
                 params: {
                     roomID: this.props.match.params.roomID
@@ -37,25 +137,30 @@ export default class play extends Component {
                     let columnarChart = echarts.init(this.refs.main);
                     let option = {
                         title: {
-                            text: 'Basic Graph'
+                            text: 'You are ' + response.data.idToColor[AuthService.getCurrentUser().id].colorName + ' player'
                         }, tooltip: {}, animationDurationUpdate: 1500, animationEasingUpdate: 'quinticInOut', series: [{
-                            type: 'graph', layout: 'force', symbolSize: 150,
+                            type: 'graph',
+                            layout: 'force',
+                            symbolSize: 80,
 
                             roam: true, label: {
                                 show: true
                             }, edgeSymbol: ['arrow', 'none'], edgeSymbolSize: [4, 10], edgeLabel: {
                                 fontSize: 40
                             }, data: [], // links: [],
-                            links: [], categories: [{
-                                0: {
-                                    name: 'A'
-                                }
-                            }, {
-                                1: {
-                                    name: 'B'
-                                }
-                            }], force: {
-                                repulsion: 100000
+                            links: [],
+                            // categories: [{
+                            //     0: {
+                            //         name: 'A'
+                            //     }
+                            // }, {
+                            //     1: {
+                            //         name: 'B'
+                            //     }
+                            // }],
+                            force: {
+                                repulsion: 2500,
+                                //layoutAnimation : false
                             }, lineStyle: {
                                 opacity: 0.9, width: 2, curveness: 0
                             }
@@ -66,8 +171,12 @@ export default class play extends Component {
                     let obj = response.data;
 
                     // initialize the echarts instance
+                    const _ = require("lodash");
+                    if (_.isEqual(obj, this.state.responseData))
+                        return;
 
 
+                    this.setState({responseData: obj})
                     // Display the chart using the configuration items and data just specified.
 
 
@@ -88,7 +197,9 @@ export default class play extends Component {
 
 
                         return {
-                            name: territory.name, category: territory.ownerID, label: {
+                            name: territory.name,
+                            category: territory.ownerID,
+                            label: {
                                 // Styles defined in 'rich' can be applied to some fragments
                                 // of text by adding some markers to those fragment, like
                                 // `{styleName|text content text content}`.
@@ -96,6 +207,9 @@ export default class play extends Component {
                                 formatter: territory.name + "\n" + label,
 
                                 rich: {}
+                            },
+                            itemStyle: {
+                                color: response.data.idToColor[territory.ownerID].colorName
                             }
                         };
                     }
@@ -161,62 +275,5 @@ export default class play extends Component {
                             loading: false, message: resMessage
                         });
                 });
-
-
     }
-
-    renderSwitch(state) {
-
-        console.log(state);
-        switch (state) {
-            case "WaitingState":
-                return <div>Waiting For Other Player to place.</div>
-            case "PlacingState":
-                return <PlaceUnit {...this.state}/>
-            case "OrderingState":
-                return <PlaceOrder {...this.state}/>
-
-        }
-
-    }
-
-    render() {
-        // console.log(this.props.match.params.roomID);
-        if (this.state.loading) {
-            return <div className="spinner">Loading.....</div>; // add a spinner or something until the posts are loaded
-        }
-
-
-        return (
-
-            (this.state.message) ?
-                (<div className="alert alert-danger" role="alert">{this.state.message}</div>)
-                :
-                (
-                    <div id="upper">
-                        <div ref="main" id="main" style={{width: "600px", height: "400px"}}/>
-                        <div ref="input" id="input"
-                            >{this.renderSwitch(this.state.room.state)}</div>
-                    </div>
-                )
-        );
-    }
-
-    initComponent() {
-
-
-    }
-
-    onChangeRoomID(e) {
-        this.setState({
-            roomID: e.target.value
-        });
-    }
-
-
-    componentDidUpdate() {
-        this.initComponent();
-    }
-
-
 }
