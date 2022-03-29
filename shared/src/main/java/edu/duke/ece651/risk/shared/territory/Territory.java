@@ -87,4 +87,12 @@ public interface Territory extends Serializable {
    * @param type
    */
   public Unit getUnitByType(String type);
+
+  /**
+   * Get the unit specified by type and level
+   * @param type
+   * @param level
+   * @return
+   */
+  public Unit getUnitByTypeLevel(String type, int level);
 }
