@@ -49,6 +49,10 @@ export default class play extends Component {
                 return <PlaceUnit {...this.state} handleSnackBarUpdate={this.handleSnackBarUpdate}/>
             case "OrderingState":
                 return <PlaceOrder {...this.state}  handleSnackBarUpdate={this.handleSnackBarUpdate}/>
+            case "EndState":
+                return <div>Game End! Winner is {this.state.responseData.idToColor[this.state.responseData.winner].colorName} player!</div>
+            case "LostState":
+                return <div>You lost, try to conquest more next time!</div>
 
         }
 
