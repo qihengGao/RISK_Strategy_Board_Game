@@ -87,14 +87,28 @@ public class BasicTerritoryTest {
         t.tryAddUnit(u1_);
         assertEquals(11, t.getUnitByTypeLevel("a", 0).getAmount());
         t.tryAddUnit(u2);
-//    for (Unit u : t.getUnits()) {
-//      System.out.println(u);
-//    }
         assertFalse(u1.equals(u2));
         assertNotEquals(u1.hashCode(), u2.hashCode());
         assertNull(t.getUnitByTypeLevel("b", 0));
         assertNull(t.getUnitByTypeLevel("a", 1));
         assertNotNull(t.getUnitByTypeLevel("a", 3));
         assertEquals(11, t.getUnitByTypeLevel("a", 0).getAmount());
+    }
+
+    @Test
+    void test_tryUpgradeUnitToLevel() {
+        Territory t = new BasicTerritory("t", 10);
+        Unit toU = new BasicUnit("a", 10, 2);
+        assertFalse(t.tryUpgradeUnitToLevel(toU, 3));
+        Unit inT = new BasicUnit("a", 9, 2);
+        t.tryAddUnit(inT);
+        assertFalse(t.tryUpgradeUnitToLevel(toU, 2));
+        assertFalse(t.tryUpgradeUnitToLevel(toU, 1));
+        assertFalse(t.tryUpgradeUnitToLevel(toU, 3));
+        Unit add = new BasicUnit("a", 1, 2);
+        t.tryAddUnit(add);
+        assertTrue(t.tryUpgradeUnitToLevel(toU, 3));
+        assertEquals(0, t.getUnitByTypeLevel("a", 2).getAmount());
+        assertEquals(10, t.getUnitByTypeLevel("a", 3).getAmount());
     }
 }
