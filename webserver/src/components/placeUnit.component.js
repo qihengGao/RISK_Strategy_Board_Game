@@ -117,9 +117,6 @@ export default class unitPlace extends Component {
     }
     handleCommit(e) {
         console.log(this.ref)
-        this.ref.current.dispatchEvent(new KeyboardEvent('keypress', {
-            key: 'Enter',
-        }));
         console.log(this.state.rows)
         let unitPlaceOrders = {};
         for (const row of this.state.rows) {
