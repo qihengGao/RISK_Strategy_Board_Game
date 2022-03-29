@@ -301,7 +301,7 @@ public class APIGameHandler {
     public boolean isPlayerLost(Long clientID) {
         //If this player still have any territory,
         //means that this player is not lost.
-        if (currentState == State.WaitingToStartState.name()){
+        if (currentState.equals(State.WaitingToStartState.name())){
             return false;
         }
 

@@ -75,7 +75,7 @@ public class GameController {
     public ResponseEntity<GameStatusResponse> gameStatus(@RequestParam Long roomID){
         Long userId = getUserId();
 
-        if(rooms.containsKey(roomID)){
+        if(rooms.containsKey(roomID)&&rooms.get(roomID).getPlayers().contains(userId)){
             APIGameHandler apiGameHandler = rooms.get(roomID);
             return ResponseEntity.status(HttpStatus.OK).body(new GameStatusResponse(
                     apiGameHandler.getPlayerState(userId),
