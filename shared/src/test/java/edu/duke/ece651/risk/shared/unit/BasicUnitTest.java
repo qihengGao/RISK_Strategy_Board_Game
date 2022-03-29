@@ -7,8 +7,6 @@ import java.util.HashSet;
 
 import edu.duke.ece651.risk.shared.territory.BasicTerritory;
 import edu.duke.ece651.risk.shared.territory.Territory;
-import edu.duke.ece651.risk.shared.unit.BasicUnit;
-import edu.duke.ece651.risk.shared.unit.Unit;
 import org.junit.jupiter.api.Test;
 
 public class BasicUnitTest {
@@ -87,6 +85,27 @@ public class BasicUnitTest {
     assertEquals(4, u4.getLevel());
     assertEquals(6, u4.getLevelBound());
     assertEquals(8, u4.getBonus());
+  }
 
+  @Test
+  public void test_get_cost() {
+    Unit u = new BasicUnit("Soldier", 10);
+    int[] predefinedAccumulativeCosts = new int[] {0, 3, 11, 30, 55, 90, 140};
+    for (int i = 0; i < predefinedAccumulativeCosts.length; ++i) {
+      assertEquals(predefinedAccumulativeCosts[i], u.getCostToLevel(i));
+    }
+  }
+
+  @Test
+  public void test_comparator() {
+    UnitComparator comparator = new UnitComparator();
+    Unit u1 = new BasicUnit("a", 1);
+    Unit u2 = new BasicUnit("a", 1);
+    Unit u3 = new BasicUnit("b", 0);
+    Unit u4 = new BasicUnit("a", 0, 3);
+    assertEquals(0, comparator.compare(u1, u1));
+    assertEquals(0, comparator.compare(u1, u2));
+    assertEquals(-1, comparator.compare(u1, u3));
+    assertEquals(-1, comparator.compare(u1, u4));
   }
 }

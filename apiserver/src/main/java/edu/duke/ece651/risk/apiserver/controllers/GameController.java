@@ -121,9 +121,12 @@ public class GameController {
 
     @GetMapping("/rooms/available")
     public ResponseEntity<RoomsAvailableResponse> allRooms( ){
+        Long userId = getUserId();
 
         List<APIGameHandler> res = rooms.entrySet().stream()
-                .filter(e -> State.WaitingToStartState.name().equals(e.getValue().getCurrentState())).map(Map.Entry::getValue).collect(Collectors.toList());;
+                .filter(e -> (State.WaitingToStartState.name().equals(e.getValue().getCurrentState())
+                        && !e.getValue().getPlayers().contains(userId)))
+                .map(Map.Entry::getValue).collect(Collectors.toList());;
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
 

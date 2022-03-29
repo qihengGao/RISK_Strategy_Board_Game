@@ -29,6 +29,8 @@ public class APIGameHandler {
 
     private RISKMap riskMap;
 
+    private Integer InitUnitAmountPerPlayer;
+
     public String getCurrentState() {
         return currentState;
     }
@@ -95,6 +97,7 @@ public class APIGameHandler {
         temporaryOrders = new ArrayList<>();
         logger = LoggerFactory.getLogger(APIGameHandler.class);
         this.currentState = State.WaitingToStartState.name();
+        InitUnitAmountPerPlayer = 30;
 
     }
 
@@ -127,7 +130,7 @@ public class APIGameHandler {
             PlaceRuleChecker placeRuleChecker =
                     new PlaceTerrExistChecker(
                             new PlaceTerrIDChecker(
-                                    new PlaceUnitAmountChecker(null, 30)));
+                                    new PlaceUnitAmountChecker(null, InitUnitAmountPerPlayer)));
             try {
                 placeRuleChecker.checkPlace(riskMap, unitPlaceOrders, clientID);
             } catch (IllegalArgumentException e) {
