@@ -4,9 +4,9 @@ import Button from "@mui/material/Button";
 import AuthService from "../services/auth.service";
 import axios from "axios";
 import authHeader from "../services/auth-header";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 
 const API_URL = "http://localhost:8080/api/game/";
-
 
 
 export default class unitPlace extends Component {
@@ -19,6 +19,7 @@ export default class unitPlace extends Component {
             message: "",
             roomID: this.props.roomID,
             rows: [], //this.initComponent = this.initComponent.bind(this);
+            openConfirmDialog:false
         };
     }
 
@@ -27,7 +28,7 @@ export default class unitPlace extends Component {
         let tmpRows = [];
         for (const territory of this.props.room.riskMap.continent) {
             if (territory.ownerID === AuthService.getCurrentUser().id) tmpRows.push({
-                id: idCounter++, territoryName: territory.name, unitAmount: 0
+                id: idCounter++, territoryName: territory.name, unitAmount: null
             })
 
         }
@@ -71,8 +72,36 @@ export default class unitPlace extends Component {
                     // experimentalFeatures={{newEditingApi: true}}
                     onCellEditCommit={this.handleCellCommit}
                 />
-                <Button variant="contained" onClick={this.handleCommit}>Commit</Button>
+                <Button variant="contained" onClick={this.handleConfirmDialogOpen}>Commit</Button>
+                <Dialog
+
+                    open={this.state.openConfirmDialog}
+
+                    aria-labelledby="responsive-dialog-title"
+                >
+                    <DialogTitle id="responsive-dialog-title">
+                        {"Confirm Placement?"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                           Are you sure?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button autoFocus onClick={this.handleCommit}>
+                            Commit
+                        </Button>
+                        <Button onClick={this.handleConfirmDialogClose} autoFocus>
+                            Cancle
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
             </div>);
+    }
+
+    handleCellMouseLeave = (e) => {
+        console.log(e)
     }
 
     initComponent() {
@@ -80,7 +109,17 @@ export default class unitPlace extends Component {
 
     }
 
+    handleConfirmDialogOpen =()=>{
+        this.setState({openConfirmDialog:true})
+    }
+    handleConfirmDialogClose =()=>{
+        this.setState({openConfirmDialog:false})
+    }
     handleCommit(e) {
+        console.log(this.ref)
+        this.ref.current.dispatchEvent(new KeyboardEvent('keypress', {
+            key: 'Enter',
+        }));
         console.log(this.state.rows)
         let unitPlaceOrders = {};
         for (const row of this.state.rows) {
@@ -88,15 +127,15 @@ export default class unitPlace extends Component {
         }
         console.log(unitPlaceOrders);
         axios
-            .post( "/api/game/place/unit", {
+            .post("/api/game/place/unit", {
                 roomID: this.state.roomID, unitPlaceOrders
             }, {headers: authHeader()})
             .then((response) => {
                 console.log(response);
                 //this.setState({messages: tmpmessage});
-                this.props.handleSnackBarUpdate("success","Successfully commit the orders!")
+                this.props.handleSnackBarUpdate("success", "Successfully commit the orders!")
             }, error => {
-                this.props.handleSnackBarUpdate("error",error.message)
+                this.props.handleSnackBarUpdate("error", error.message)
                 this.setState({messages: error});
             });
 
