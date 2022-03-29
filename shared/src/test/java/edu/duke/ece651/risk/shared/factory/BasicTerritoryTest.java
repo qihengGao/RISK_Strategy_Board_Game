@@ -68,6 +68,23 @@ public class BasicTerritoryTest {
     assertFalse(t.equals(u));
     assertFalse(u.equals(t));
     assertTrue(t.equals(t_));
-    
+  }
+
+  @Test
+  public void test_type_and_level() {
+    Territory t = new BasicTerritory("t");
+    Unit u1 = new BasicUnit("a", 10, 0);
+    Unit u2 = new BasicUnit("a", 5, 3);
+    t.tryAddUnit(u1);
+    assertTrue(t.tryAddUnit(u2));
+//    for (Unit u : t.getUnits()) {
+//      System.out.println(u);
+//    }
+    assertFalse(u1.equals(u2));
+    assertNotEquals(u1.hashCode(), u2.hashCode());
+    assertNull(t.getUnitByTypeLevel("b", 0));
+    assertNull(t.getUnitByTypeLevel("a", 1));
+    assertNotNull(t.getUnitByTypeLevel("a", 3));
+    assertEquals(10, t.getUnitByTypeLevel("a", 0).getAmount());
   }
 }

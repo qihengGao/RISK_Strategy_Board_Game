@@ -105,7 +105,7 @@ public class BasicTerritory implements Territory {
    */
   public boolean tryAddUnit(Unit toAdd) {
     for (Unit u : units){
-      if (u.getType().equals(toAdd.getType())){
+      if (u.equals(toAdd)){
         u.tryIncreaseAmount(toAdd.getAmount());
         return true;
       }
@@ -143,13 +143,19 @@ public class BasicTerritory implements Territory {
   }
 
   /**
-   * Get the unit specified by type
+   * Get the unit specified by type (version 1)
    * @param type
    */
+  @Deprecated
   @Override
   public Unit getUnitByType(String type) {
+    return getUnitByTypeLevel(type, 0);
+  }
+
+  @Override
+  public Unit getUnitByTypeLevel(String type, int level) {
     for (Unit u : this.getUnits()) {
-      if (u.getType().equals(type)) {
+      if (u.getType().equals(type) && u.getLevel() == level) {
         return u;
       }
     }
