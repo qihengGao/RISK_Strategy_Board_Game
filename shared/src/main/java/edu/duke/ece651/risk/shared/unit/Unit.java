@@ -52,8 +52,15 @@ public interface Unit extends Serializable{
 
     /**
      * Try to decrease the amount.
-     * @param amoount
+     * @param amount
      * @return boolean, true if successful, else false
      */
     public boolean tryDecreaseAmount(int amount);
+
+    /**
+     * Return the cost to upgrade one unit of current to the level specified.
+     * @param level
+     * @return
+     */
+    public int getCostToLevel(int level);
 }

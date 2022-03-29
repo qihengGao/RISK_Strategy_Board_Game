@@ -87,6 +87,14 @@ public class BasicUnitTest {
     assertEquals(4, u4.getLevel());
     assertEquals(6, u4.getLevelBound());
     assertEquals(8, u4.getBonus());
+  }
 
+  @Test
+  public void test_get_cost() {
+    Unit u = new BasicUnit("Soldier", 10);
+    int[] predefinedAccumulativeCosts = new int[] {0, 3, 11, 30, 55, 90, 140};
+    for (int i = 0; i < predefinedAccumulativeCosts.length; ++i) {
+      assertEquals(predefinedAccumulativeCosts[i], u.getCostToLevel(i));
+    }
   }
 }
