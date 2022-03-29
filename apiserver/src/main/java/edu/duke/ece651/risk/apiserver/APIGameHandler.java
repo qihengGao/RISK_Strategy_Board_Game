@@ -301,6 +301,10 @@ public class APIGameHandler {
     public boolean isPlayerLost(Long clientID) {
         //If this player still have any territory,
         //means that this player is not lost.
+        if (currentState == State.WaitingToStartState.name()){
+            return false;
+        }
+
         for (Territory territory : riskMap.getContinent()) {
             if (territory.getOwnerID().equals(clientID))
                 return false;
