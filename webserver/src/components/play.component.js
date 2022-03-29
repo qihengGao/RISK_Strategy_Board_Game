@@ -90,7 +90,7 @@ export default class play extends Component {
                 (<div className="alert alert-danger" role="alert">{this.state.message}</div>)
                 :
                 (
-                    <div id="upper">
+                    <div id="upper" style={{marginTop:"3%"}}>
                         <Box sx={{flexGrow: 1}}>
                             <Grid container spacing={2}>
                                 <Grid item xs={6}>
