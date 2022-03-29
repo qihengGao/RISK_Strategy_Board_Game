@@ -32,120 +32,6 @@ export default class unitPlace extends Component {
 
         }
         this.setState({rows: tmpRows});
-        // let response = await axios
-        //     .get(API_URL + "gameStatus", {
-        //         params: {
-        //             roomID: this.props.match.params.roomID
-        //         }, headers: authHeader()
-        //     })
-        //     .then(response => {
-        //             this.setState({
-        //                 message: "", loading: false,room:response.data
-        //             });
-        //             console.log(this.refs.main)
-        //             let columnarChart = echarts.init(this.refs.main);
-        //
-        //
-        //
-        //             let obj = response.data;
-        //
-        //             // initialize the echarts instance
-        //
-        //
-        //             // Display the chart using the configuration items and data just specified.
-        //             console.log(obj);
-        //
-        //             option["series"][0]["data"].push(...addAllTerritory(obj["riskMap"]["continent"]));
-        //             option["series"][0]["links"].push(...addAllLink(obj["riskMap"]["continent"]));
-        //
-        //             columnarChart.setOption(option);
-        //             console.log(option["series"][0]["data"]);
-        //
-        //             function addNewTerritory(territory) {
-        //
-        //                 let label = "";
-        //                 for (const unit of territory.units) {
-        //
-        //                     label += unit.type + " " + unit.amount + "\n";
-        //
-        //                 }
-        //
-        //
-        //                 return {
-        //                     name: territory.name, category: territory.ownerID, label: {
-        //                         // Styles defined in 'rich' can be applied to some fragments
-        //                         // of text by adding some markers to those fragment, like
-        //                         // `{styleName|text content text content}`.
-        //                         // `'\n'` is the newline character.
-        //                         formatter: territory.name + "\n" + label,
-        //
-        //                         rich: {}
-        //                     }
-        //                 };
-        //             }
-        //
-        //             function addAllTerritory(continent) {
-        //                 let res = [];
-        //                 for (const territory of continent) {
-        //                     res.push(addNewTerritory(territory));
-        //                 }
-        //                 return res;
-        //             }
-        //
-        //
-        //             function addNewLink(territory) {
-        //                 let res = [];
-        //                 for (const neighbor of territory.neighbors) {
-        //
-        //                     res.push({
-        //                         source: territory.name, target: neighbor, symbolSize: [5, 20], label: {
-        //                             show: false
-        //                         }, lineStyle: {
-        //                             width: 5, curveness: 0.2
-        //                         }
-        //
-        //
-        //                     });
-        //
-        //                 }
-        //
-        //
-        //                 return res;
-        //             }
-        //
-        //             function addAllLink(continent) {
-        //                 let res = [];
-        //                 let isRedundent = false;
-        //                 for (const territory of continent) {
-        //                     let tmpRes = addNewLink(territory);
-        //                     for (const tmplink of tmpRes) {
-        //                         isRedundent = false;
-        //                         for (const link of res) {
-        //                             if (tmplink.source === link.target && tmplink.target === link.source) {
-        //                                 isRedundent = true;
-        //                                 break;
-        //                             }
-        //                         }
-        //                         if (!isRedundent) {
-        //                             res.push(tmplink);
-        //                         }
-        //                     }
-        //
-        //                 }
-        //                 return res;
-        //             }
-        //
-        //
-        //         }
-        //
-        //         , error => {
-        //             const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-        //             this
-        //                 .setState({
-        //                     loading: false, message: resMessage
-        //                 });
-        //         });
-        //
 
 
     }
@@ -208,9 +94,9 @@ export default class unitPlace extends Component {
             .then((response) => {
                 console.log(response);
                 //this.setState({messages: tmpmessage});
-                window.location.reload();
+                this.props.handleSnackBarUpdate("success","Successfully commit the orders!")
             }, error => {
-                window.location.reload();
+                this.props.handleSnackBarUpdate("error",error.message)
                 this.setState({messages: error});
             });
 

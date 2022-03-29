@@ -10,7 +10,7 @@ import AuthService from "../services/auth.service";
 const API_URL = "http://localhost:8080/api/game/";
 
 
-export default class unitPlace extends Component {
+class unitPlace extends Component {
     constructor(props) {
         super(props);
 
@@ -205,11 +205,13 @@ export default class unitPlace extends Component {
                 orders
             }, {headers: authHeader()})
             .then((response) => {
-                console.log(response);
+                //console.log(response);
+                this.props.handleSnackBarUpdate("success","Successfully commit the orders!")
                 //this.setState({messages: tmpmessage});
                 //window.location.reload();
             }, error => {
                 //window.location.reload();
+                this.props.handleSnackBarUpdate("error",error.message)
                 this.setState({messages: error});
             });
 
@@ -222,4 +224,7 @@ export default class unitPlace extends Component {
 
 
 }
+
+
+export default unitPlace;
 
