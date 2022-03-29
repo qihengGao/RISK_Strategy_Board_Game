@@ -3,6 +3,7 @@ package edu.duke.ece651.risk.shared.territory;
 // import java.util.HashSet;
 import edu.duke.ece651.risk.shared.BattleField;
 import edu.duke.ece651.risk.shared.unit.Unit;
+import edu.duke.ece651.risk.shared.unit.UnitComparator;
 
 import java.util.TreeSet;
 
@@ -23,7 +24,7 @@ public class BasicTerritory implements Territory {
     this.OwnerID = -1L;
     this.name = Name;
     this.neighbors = new TreeSet<String>();
-    this.units = new TreeSet<Unit>(new UnitCompactor());
+    this.units = new TreeSet<Unit>(new UnitComparator());
     this.battleField = new BattleField(this);
     this.size = 1;
     this.foodResource = 10; // predetermined as 10
