@@ -27,6 +27,7 @@ public class APIGameHandler {
     private String currentState;
 
     private Set<Long> commitedPlayer;
+    private Set<Long> lostPlayer;
 
     private RISKMap riskMap;
 
@@ -268,19 +269,25 @@ public class APIGameHandler {
     public void unitPlacementPhase(int n_Terr_per_player) {
         currentState = State.PlacingState.name();
         commitedPlayer.clear();
+
         assignColorToPlayers();
         assignTerritoriesToPlayers(n_Terr_per_player);
     }
 
     public void orderingPhase() {
+        for(Long id : players){
+            isPlayerLost(id);
+        }
         currentState = State.OrderingState.name();
         commitedPlayer.clear();
+        commitedPlayer.addAll(lostPlayer);
         temporaryOrders.clear();
     }
 
     public void showGameResultPhase() {
         currentState = State.EndState.name();
         commitedPlayer.clear();
+
     }
 
     public void increaseOneInAllTerritory() {
@@ -317,6 +324,8 @@ public class APIGameHandler {
     public boolean isPlayerLost(Long clientID) {
         //If this player still have any territory,
         //means that this player is not lost.
+        if(lostPlayer.contains(clientID))
+            return true;
         if (currentState.equals(State.WaitingToStartState.name())){
             return false;
         }
@@ -325,6 +334,7 @@ public class APIGameHandler {
             if (territory.getOwnerID().equals(clientID))
                 return false;
         }
+        lostPlayer.add(clientID);
         return true;
     }
 }
