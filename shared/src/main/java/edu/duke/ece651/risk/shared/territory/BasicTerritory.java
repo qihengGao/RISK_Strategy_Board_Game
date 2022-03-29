@@ -2,6 +2,7 @@ package edu.duke.ece651.risk.shared.territory;
 
 // import java.util.HashSet;
 import edu.duke.ece651.risk.shared.BattleField;
+import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
 import edu.duke.ece651.risk.shared.unit.UnitComparator;
 
@@ -170,6 +171,24 @@ public class BasicTerritory implements Territory {
   public boolean tryChangeOwnerTo(Long newID){
     OwnerID = newID;
     return true;
+  }
+
+  @Override
+  public boolean tryUpgradeUnitToLevel(Unit toUpgrade, int toLevel) {
+    if (toLevel <= toUpgrade.getLevel()) {
+      return false;
+    }
+    Unit inTerritory = this.getUnitByTypeLevel(toUpgrade.getType(), toUpgrade.getLevel());
+    // Does not have the unit
+    if (inTerritory == null) {
+      return false;
+    }
+    // Amount is not sufficient
+    if (!inTerritory.tryDecreaseAmount(toUpgrade.getAmount())) {
+      return false;
+    }
+    Unit upgraded = new BasicUnit(toUpgrade.getType(), toUpgrade.getAmount(), toLevel);
+    return this.tryAddUnit(upgraded);
   }
 
   @Override
