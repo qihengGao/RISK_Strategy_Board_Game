@@ -3,6 +3,7 @@ import axios from "axios";
 import authHeader from "../services/auth-header";
 
 import PlaceUnit from "./placeUnit.component";
+import PlaceOrder from "./placeOrder.component";
 
 const API_URL = "http://localhost:8080/api/game/";
 let echarts = require('echarts');
@@ -15,7 +16,7 @@ export default class play extends Component {
         //this.handleSubmit = this.handleSubmit.bind(this);
         this.onChangeRoomID = this.onChangeRoomID.bind(this);
         this.state = {
-            loading: true, message: "", roomID: "",room:{}
+            loading: true, message: "", roomID: "", room: {}
         };
         //this.initComponent = this.initComponent.bind(this);
     }
@@ -30,7 +31,7 @@ export default class play extends Component {
             .then(response => {
 
                     this.setState({
-                        message: "", loading: false,room:response.data,roomID:this.props.match.params.roomID
+                        message: "", loading: false, room: response.data, roomID: this.props.match.params.roomID
                     });
                     //console.log(this.refs.main)
                     let columnarChart = echarts.init(this.refs.main);
@@ -162,11 +163,25 @@ export default class play extends Component {
                 });
 
 
+    }
+
+    renderSwitch(state) {
+
+        console.log(state);
+        switch (state) {
+            case "WaitingState":
+                return <div>Waiting For Other Player to place.</div>
+            case "PlacingState":
+                return <PlaceUnit {...this.state}/>
+            case "OrderingState":
+                return <PlaceOrder {...this.state}/>
+
+        }
 
     }
 
     render() {
-       // console.log(this.props.match.params.roomID);
+        // console.log(this.props.match.params.roomID);
         if (this.state.loading) {
             return <div className="spinner">Loading.....</div>; // add a spinner or something until the posts are loaded
         }
@@ -180,7 +195,8 @@ export default class play extends Component {
                 (
                     <div id="upper">
                         <div ref="main" id="main" style={{width: "600px", height: "400px"}}/>
-                        <div ref="input" id="input" style={{width: "600px", height: "400px"}}><PlaceUnit {...this.state}/></div>
+                        <div ref="input" id="input"
+                            >{this.renderSwitch(this.state.room.state)}</div>
                     </div>
                 )
         );
