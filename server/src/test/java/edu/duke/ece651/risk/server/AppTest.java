@@ -58,7 +58,7 @@ class AppTest {
         context2.setBufferedReader(new BufferedReader(new InputStreamReader(input2)));
         RiskGameClient client2 = new RiskGameClient(context2,randomPortNumber);
         client2.start();
-
+        TimeUnit.MILLISECONDS.sleep(200);
 
         ByteArrayOutputStream bytes3 = new ByteArrayOutputStream();
         ClientContext context3 = new ClientContext();
@@ -80,7 +80,7 @@ class AppTest {
         context4.setOut(out4);
         RiskGameClient client4 = new RiskGameClient(context4,randomPortNumber);
         client4.start();
-
+        TimeUnit.MILLISECONDS.sleep(200);
 
 
 
