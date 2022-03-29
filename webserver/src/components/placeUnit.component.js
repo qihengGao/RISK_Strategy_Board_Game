@@ -202,7 +202,7 @@ export default class unitPlace extends Component {
         }
         console.log(unitPlaceOrders);
         axios
-            .post(API_URL + "place/unit", {
+            .post( "/api/game/place/unit", {
                 roomID: this.state.roomID, unitPlaceOrders
             }, {headers: authHeader()})
             .then((response) => {
