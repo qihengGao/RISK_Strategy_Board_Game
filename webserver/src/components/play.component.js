@@ -161,6 +161,7 @@ export default class play extends Component {
                     let columnarChart = echarts.init(this.refs.main);
                     let option = {
                         title: {
+                            //Todo: add round number
                             text: 'You are ' + response.data.idToColor[AuthService.getCurrentUser().id].colorName + ' player'
                         }, tooltip: {}, animationDurationUpdate: 1500, animationEasingUpdate: 'quinticInOut', series: [{
                             type: 'graph',

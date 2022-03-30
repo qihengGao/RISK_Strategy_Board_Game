@@ -251,7 +251,7 @@ class unitPlace extends Component {
             orders.push({
                 srcTerritory:row.source,
                 destTerritory:row.target,
-                unitType:row.unitType,
+                unitType:"Soldier",
                 unitAmount:row.unitAmount,
                 playerID: AuthService.getCurrentUser().id,
                 orderType:row.orderType
@@ -269,6 +269,7 @@ class unitPlace extends Component {
                 this.setState({
                     rows:[]
                 })
+                this.setState({openConfirmDialog:false})
                 //this.setState({messages: tmpmessage});
                 //window.location.reload();
             }, error => {
