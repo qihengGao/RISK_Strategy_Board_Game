@@ -39,7 +39,7 @@ build:
       - .gradle
 
 clover-report:
-  image: eclipse-temurin:17
+  image: eclipse-temurin:11
   stage: test
   script:
     - ./gradlew cloverAggregateReports
