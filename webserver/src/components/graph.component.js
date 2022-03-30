@@ -104,7 +104,7 @@ export default class Graph extends Component {
         });
         console.log(this.state.roomID);
         axios
-            .get(API_URL + "/api/game/gameStatus", {
+            .get("/api/game/gameStatus", {
                 params: {
                     roomID: this.state.roomID
                 },

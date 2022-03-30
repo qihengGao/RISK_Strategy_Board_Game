@@ -115,7 +115,7 @@ export default class joinedRoomsComponent extends Component {
 
     componentDidMount() {
         axios
-            .get(API_URL + "/api/game/rooms/joined", {
+            .get("/api/game/rooms/joined", {
                 params: {},
                 headers: authHeader()
             })

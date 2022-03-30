@@ -200,7 +200,7 @@ class unitPlace extends Component {
         }
         console.log(orders);
         axios
-            .post(API_URL + "/api/game/place/order", {
+            .post("/api/game/place/order", {
                 roomID: this.state.roomID,
                 orders
             }, {headers: authHeader()})

@@ -147,7 +147,7 @@ export default class play extends Component {
 
     getData = () => {
         axios
-            .get(API_URL + "/api/game/gameStatus", {
+            .get("/api/game/gameStatus", {
                 params: {
                     roomID: this.props.match.params.roomID
                 }, headers: authHeader()

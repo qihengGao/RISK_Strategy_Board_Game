@@ -38,28 +38,6 @@ export default class allRoomsComponent extends Component {
         //this.initComponent = this.initComponent.bind(this);
     }
 
-    handleClick(roomID) {
-        axios
-            .post(API_URL + "joinRoom", {
-
-                roomID
-            }, {headers: authHeader()})
-            .then(() => {
-                    //
-                    let tmpmessage = this.state.messages;
-                    tmpmessage.find(o => o.roomID === roomID).isOK = true;
-                    tmpmessage.find(o => o.roomID === roomID).message = "Successfully Joined this room!"
-                    this.setState({messages: tmpmessage});
-                }, error => {
-                    let tmpmessage = this.state.messages;
-                    tmpmessage.find(o => o.roomID === roomID).isOK = false;
-                    tmpmessage.find(o => o.roomID === roomID).message = error.response.data.message
-                    this.setState({messages: tmpmessage});
-                }
-            );
-    }
-
-
     render() {
         console.log(this.state.rooms)
         let columns: GridColDef[] = [{
@@ -84,7 +62,7 @@ export default class allRoomsComponent extends Component {
                             (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
                         );
                     axios
-                        .post(API_URL + "/api/game/joinRoom", {
+                        .post("/api/game/joinRoom", {
                             roomID: thisRow.id
                         }, {
                             headers: authHeader()
@@ -169,7 +147,7 @@ export default class allRoomsComponent extends Component {
             openCreateRoomDialog: false
         })
         axios
-            .post(API_URL + "/api/game/createRoom", {
+            .post("/api/game/createRoom", {
                 roomSize: this.state.roomSize,
             }, {headers: authHeader()})
             .then((response) => {
@@ -203,7 +181,7 @@ export default class allRoomsComponent extends Component {
             openCreateRoomDialog: false
         })
         axios
-            .post(API_URL + "/api/game/createRoom", {
+            .post("/api/game/createRoom", {
                 roomSize: this.state.roomSize,
             }, {headers: authHeader()})
             .then((response) => {
@@ -252,7 +230,7 @@ export default class allRoomsComponent extends Component {
 
     getAllRooms=()=>{
         axios
-            .get(API_URL + "/api/game/rooms/available", {
+            .get("/api/game/rooms/available", {
                 params: {},
                 headers: authHeader()
             })

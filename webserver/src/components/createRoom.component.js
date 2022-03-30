@@ -24,7 +24,7 @@ export default class createRoomComponent extends Component {
 
     handleClick(roomSize) {
         axios
-            .post(API_URL + "/api/game/createRoom", {
+            .post("/api/game/createRoom", {
                 roomSize
             },{headers: authHeader()})
     }
