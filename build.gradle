@@ -26,6 +26,8 @@ buildscript {
 
 allprojects{
     apply plugin: "java"
+    sourceCompatibility = 1.17
+    targetCompatibility = 1.17
     apply plugin: "com.bmuschko.clover"
 
     //apply plugin: "com.github.node-gradle.node"
@@ -61,6 +63,8 @@ allprojects{
     clover{
 
         compiler{
+            sourceCompatibility = 1.9
+            targetCompatibility = 1.9
             additionalArgs = "-g:lines,source,vars"
         }
         report {
