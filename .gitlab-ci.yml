@@ -119,7 +119,7 @@ StopPreviousServer:
   needs:
     - clover-report
   script:
-    - docker stop risk-game-server || true
+#    - docker stop risk-game-server || true
   only:
     - dev
 
@@ -131,7 +131,7 @@ DeployServer:
     - StopPreviousServer
   script:
     - ls
-    - docker run -d --rm --name risk-game-server  --user $(id -u):$(id -g) -p 1777:1777  -v $(pwd):/risk eclipse-temurin:17 /risk/scripts/deploy.sh
+#    - docker run -d --rm --name risk-game-server  --user $(id -u):$(id -g) -p 1777:1777  -v $(pwd):/risk eclipse-temurin:17 /risk/scripts/deploy.sh
   only:
     - dev
 
@@ -142,6 +142,6 @@ TestPortStatus:
   needs:
     - DeployServer
   script:
-    - ./scripts/test-deploy.sh
+#    - ./scripts/test-deploy.sh
   only:
     - dev
