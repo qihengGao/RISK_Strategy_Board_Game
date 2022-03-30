@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import authHeader from "../services/auth-header";
 import Box from '@mui/material/Box';
-import {Stack} from "@mui/material";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack} from "@mui/material";
 import AuthService from "../services/auth.service";
 
 const API_URL = "http://localhost:8080";
@@ -150,15 +150,38 @@ class unitPlace extends Component {
                     alignItems="flex-start"
                     columnGap={1}
 
-                >
-                    <Button variant="contained" size="small" color="success"onClick={this.handleAddRow}>
+                ><Button variant="contained" size="small" color="success"onClick={this.handleAddRow}>
                         Add a order
-                    </Button><Button variant="contained" color="error" size="small"
+                </Button>
+                    <Button variant="contained" color="error" size="small"
                                      onClick={this.handleDeleteSelectedRows}>
 
                     Delete selected rows
                 </Button>
-                    <Button variant="contained" size="small" onClick={this.handleCommit}>Commit</Button>
+                    <Button variant="contained" onClick={this.handleConfirmDialogOpen}>Commit</Button>
+                    <Dialog
+
+                        open={this.state.openConfirmDialog}
+
+                        aria-labelledby="responsive-dialog-title"
+                    >
+                        <DialogTitle id="responsive-dialog-title">
+                            {"Confirm Placement?"}
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Are you sure?
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button autoFocus onClick={this.handleCommit}>
+                                Commit
+                            </Button>
+                            <Button onClick={this.handleConfirmDialogClose} autoFocus>
+                                Cancel
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </Stack>
                 <Box sx={{height: 400, bgcolor: 'background.paper'}}>
                     <DataGrid
@@ -219,7 +242,12 @@ class unitPlace extends Component {
             });
 
     }
-
+    handleConfirmDialogOpen =()=>{
+        this.setState({openConfirmDialog:true})
+    }
+    handleConfirmDialogClose =()=>{
+        this.setState({openConfirmDialog:false})
+    }
 
     componentDidUpdate() {
         this.initComponent();

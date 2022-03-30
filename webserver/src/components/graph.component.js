@@ -185,9 +185,7 @@ export default class Graph extends Component {
 
                         let label = "";
                         for (const unit of territory.units) {
-
-                            label += unit.type + " " + unit.amount + "\n";
-
+                            label += unit.type + "(Level " + unit.level + ") "+ unit.amount + "\n";
                         }
 
 

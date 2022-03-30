@@ -215,9 +215,11 @@ export default class play extends Component {
                         let label = "";
                         for (const unit of territory.units) {
 
-                            label += unit.type + " " + unit.amount + "\n";
+                            label += unit.type + "(Level " + unit.level + ") "+ unit.amount + "\n";
 
                         }
+                        label += "Food Production:" + territory.foodProduction + "\n";
+                        label += "Tech Production:" + territory.techProduction + "\n";
 
 
                         return {
@@ -233,6 +235,8 @@ export default class play extends Component {
                                 rich: {}
                             },
                             itemStyle: {
+                                //Todo: change to fancier colors
+                                // (either in Color or someway to add rgb value to current color)
                                 color: response.data.idToColor[territory.ownerID].colorName
                             }
                         };

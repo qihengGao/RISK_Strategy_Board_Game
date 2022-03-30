@@ -92,7 +92,7 @@ export default class unitPlace extends Component {
                             Commit
                         </Button>
                         <Button onClick={this.handleConfirmDialogClose} autoFocus>
-                            Cancle
+                            Cancel
                         </Button>
                     </DialogActions>
                 </Dialog>
