@@ -119,6 +119,7 @@ StopPreviousServer:
   needs:
     - clover-report
   script:
+    - ls
 #    - docker stop risk-game-server || true
   only:
     - dev
@@ -142,6 +143,7 @@ TestPortStatus:
   needs:
     - DeployServer
   script:
+    - ls
 #    - ./scripts/test-deploy.sh
   only:
     - dev
