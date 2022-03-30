@@ -119,7 +119,7 @@ StopPreviousServer:
     - clover-report
   script:
     - ls
-    - docker stop risk-game-apiserver || true
+    - sudo docker stop risk-game-apiserver || true
   only:
     - 103-fix-ci-cd-pipeline
 
@@ -131,7 +131,7 @@ DeployServer:
     - StopPreviousServer
   script:
     - ls
-    - docker run -d --rm --name risk-game-apiserver  --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/risk eclipse-temurin:17 /risk/scripts/deploy.sh
+    - docker run -d --name risk-game-apiserver  --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/risk eclipse-temurin:17 /risk/scripts/deploy.sh
   only:
     - 103-fix-ci-cd-pipeline
 
