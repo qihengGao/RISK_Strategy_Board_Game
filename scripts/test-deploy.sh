@@ -1,14 +1,15 @@
-#!/bin/bash
+#!/bin/sh
 x=""
 count=0
-while [ "$x" == "" ]
+while [ "$x" != "Public Content." ]
 do
-    if [ "$count" == "20" ]
+    if [ "$count" == "150" ]
     then
-        echo "Giving up after 20 attempts to connect!"
+        echo "Giving up after 150 attempts/s to connect!"
         exit 1
     fi
-    x=`netstat -tuplen | grep 1777`
+    x=`curl -s -X GET http://localhost:8080/api/test/all`
+    echo $x
     let count=count+1
     sleep 1s
 done

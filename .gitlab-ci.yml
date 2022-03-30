@@ -24,11 +24,11 @@ stages:
   - test-deploy
 
 build:
-  image: eclipse-temurin:17
+  image: gradle:7.4.1-jdk17
   stage: build
   script:
-    - ./gradlew resolveDependencies
-    - ./gradlew --build-cache assemble
+    - gradle resolveDependencies
+    - gradle --build-cache assemble
   tags:
     - docker
   cache:
@@ -39,10 +39,10 @@ build:
       - .gradle
 
 clover-report:
-  image: eclipse-temurin:17
+  image: gradle:7.4.1-jdk17
   stage: test
   script:
-    - ./gradlew cloverAggregateReports
+    - gradle cloverAggregateReports
   tags:
     - docker
   cache:
@@ -51,7 +51,6 @@ clover-report:
     paths:
       - build
       - .gradle
-  timeout: 2 minutes
 
 coverage-summary:
   image: python:3.7-alpine3.14
@@ -115,33 +114,37 @@ uploadArtifactsForNotMainBracnh:
 StopPreviousServer:
   stage: deploy
   tags:
-    - deploy
-  needs:
-    - clover-report
+    - vcm25354Deploy
   script:
-    - docker stop risk-game-server || true
+    - ls
+    - docker kill risk-game-apiserver || true
+    - docker rm risk-game-apiserver || true
+    - docker kill risk-game-webserver || true
+    - docker rm risk-game-webserver || true
   only:
     - dev
 
 DeployServer:
   stage: deploy
   tags:
-    - deploy
+    - vcm25354Deploy
   needs:
     - StopPreviousServer
   script:
-    - ls
-    - docker run -d --rm --name risk-game-server  --user $(id -u):$(id -g) -p 1777:1777  -v $(pwd):/risk eclipse-temurin:17 /risk/scripts/deploy.sh
+    - ls scripts
+    - docker run -d --name risk-game-apiserver --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/risk gradle:7.4.1-jdk17 /risk/scripts/deploy.sh
+    - docker run -d --name risk-game-webserver --user $(id -u):$(id -g)  -e npm_config_cache=/risk --network="host" -v $(pwd):/risk node:16 /risk/scripts/deployWebServer.sh
   only:
     - dev
 
-TestPortStatus:
+TestAPIServer:
   stage: test-deploy
   tags:
-    - deploy
+    - vcm25354Deploy
   needs:
     - DeployServer
   script:
+    - ls
     - ./scripts/test-deploy.sh
   only:
     - dev
