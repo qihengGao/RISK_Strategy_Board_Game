@@ -114,7 +114,7 @@ uploadArtifactsForNotMainBracnh:
 StopPreviousServer:
   stage: deploy
   tags:
-    - deploy
+    - vcm25354Deploy
   needs:
     - clover-report
   script:
@@ -126,7 +126,7 @@ StopPreviousServer:
 DeployServer:
   stage: deploy
   tags:
-    - deploy
+    - vcm25354Deploy
   needs:
     - StopPreviousServer
   script:
@@ -138,7 +138,7 @@ DeployServer:
 TestAPIServer:
   stage: test-deploy
   tags:
-    - deploy
+    - vcm25354Deploy
   needs:
     - DeployServer
   script:
