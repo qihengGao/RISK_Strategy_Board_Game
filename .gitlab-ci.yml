@@ -120,6 +120,7 @@ StopPreviousServer:
   script:
     - ls
     - sudo docker stop risk-game-apiserver || true
+    - sudo docker rm risk-game-apiserver || true
   only:
     - 103-fix-ci-cd-pipeline
 
