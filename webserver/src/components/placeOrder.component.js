@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import {Stack} from "@mui/material";
 import AuthService from "../services/auth.service";
 
-const API_URL = "http://localhost:8080/api/game/";
+const API_URL = "http://localhost:8080";
 
 
 class unitPlace extends Component {

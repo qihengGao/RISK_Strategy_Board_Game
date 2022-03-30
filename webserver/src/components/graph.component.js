@@ -5,7 +5,7 @@ import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
 import axios from "axios";
 import authHeader from "../services/auth-header";
-const API_URL = "http://localhost:8080/api/game/";
+const API_URL = "http://localhost:8080";
 let echarts = require('echarts');
 
 

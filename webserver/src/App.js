@@ -4,6 +4,7 @@ import {Switch, Route, Link, withRouter} from "react-router-dom";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import MuiLogin from "./components/MuiLogin.component";
+import MuiRegister from "./components/MUIRegister.component";
 import allRooms from "./components/allRooms.component";
 import joinedRooms from "./components/joinedRooms.component";
 import play from "./components/play.component";
@@ -34,7 +35,7 @@ class App extends React.Component {
             <Switch>
                 <Route exact path={["/", "/home"]} component={Home}/>
                 <Route exact path="/login" component={MuiLogin}/>
-                {/*<Route exact path="/register" component={Register}/>*/}
+                <Route exact path="/register" component={MuiRegister}/>
                 <Route exact path="/profile" component={Profile}/>
                 <Route exact path="/allRooms" component={allRooms}/>
                 <Route exact path="/joinedRooms" component={joinedRooms}/>

@@ -15,7 +15,7 @@ import {
     TextField
 } from "@mui/material";
 
-const API_URL = "http://localhost:8080/api/game/";
+const API_URL = "http://localhost:8080";
 
 
 export default class allRoomsComponent extends Component {
@@ -37,28 +37,6 @@ export default class allRoomsComponent extends Component {
         };
         //this.initComponent = this.initComponent.bind(this);
     }
-
-    handleClick(roomID) {
-        axios
-            .post(API_URL + "joinRoom", {
-
-                roomID
-            }, {headers: authHeader()})
-            .then(() => {
-                    //
-                    let tmpmessage = this.state.messages;
-                    tmpmessage.find(o => o.roomID === roomID).isOK = true;
-                    tmpmessage.find(o => o.roomID === roomID).message = "Successfully Joined this room!"
-                    this.setState({messages: tmpmessage});
-                }, error => {
-                    let tmpmessage = this.state.messages;
-                    tmpmessage.find(o => o.roomID === roomID).isOK = false;
-                    tmpmessage.find(o => o.roomID === roomID).message = error.response.data.message
-                    this.setState({messages: tmpmessage});
-                }
-            );
-    }
-
 
     render() {
         console.log(this.state.rooms)

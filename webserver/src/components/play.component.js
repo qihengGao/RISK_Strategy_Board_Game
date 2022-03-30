@@ -10,7 +10,7 @@ import {Alert} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
-const API_URL = "http://localhost:8080/api/game/";
+const API_URL = "http://localhost:8080";
 let echarts = require('echarts');
 
 
