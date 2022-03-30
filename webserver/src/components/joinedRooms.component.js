@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import {Alert} from "@mui/material";
 
-const API_URL = "http://localhost:8080/api/game/";
+const API_URL = "http://localhost:8080";
 
 
 export default class joinedRoomsComponent extends Component {
@@ -115,7 +115,7 @@ export default class joinedRoomsComponent extends Component {
 
     componentDidMount() {
         axios
-            .get("/api/game/rooms/joined", {
+            .get(API_URL + "/api/game/rooms/joined", {
                 params: {},
                 headers: authHeader()
             })

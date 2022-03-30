@@ -5,7 +5,7 @@ import AuthService from "../services/auth.service";
 import axios from "axios";
 import authHeader from "../services/auth-header";
 
-const API_URL = "http://localhost:8080/api/game/";
+const API_URL = "http://localhost:8080";
 
 
 
@@ -88,7 +88,7 @@ export default class unitPlace extends Component {
         }
         console.log(unitPlaceOrders);
         axios
-            .post( "/api/game/place/unit", {
+            .post( API_URL + "/api/game/place/unit", {
                 roomID: this.state.roomID, unitPlaceOrders
             }, {headers: authHeader()})
             .then((response) => {

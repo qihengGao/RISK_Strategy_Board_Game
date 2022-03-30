@@ -15,7 +15,7 @@ import {
     TextField
 } from "@mui/material";
 
-const API_URL = "http://localhost:8080/api/game/";
+const API_URL = "http://localhost:8080";
 
 
 export default class allRoomsComponent extends Component {
@@ -84,7 +84,7 @@ export default class allRoomsComponent extends Component {
                             (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
                         );
                     axios
-                        .post("/api/game/joinRoom", {
+                        .post(API_URL + "/api/game/joinRoom", {
                             roomID: thisRow.id
                         }, {
                             headers: authHeader()
@@ -169,7 +169,7 @@ export default class allRoomsComponent extends Component {
             openCreateRoomDialog: false
         })
         axios
-            .post("/api/game/createRoom", {
+            .post(API_URL + "/api/game/createRoom", {
                 roomSize: this.state.roomSize,
             }, {headers: authHeader()})
             .then((response) => {
@@ -203,7 +203,7 @@ export default class allRoomsComponent extends Component {
             openCreateRoomDialog: false
         })
         axios
-            .post("/api/game/createRoom", {
+            .post(API_URL + "/api/game/createRoom", {
                 roomSize: this.state.roomSize,
             }, {headers: authHeader()})
             .then((response) => {
@@ -252,7 +252,7 @@ export default class allRoomsComponent extends Component {
 
     getAllRooms=()=>{
         axios
-            .get("/api/game/rooms/available", {
+            .get(API_URL + "/api/game/rooms/available", {
                 params: {},
                 headers: authHeader()
             })

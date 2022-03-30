@@ -8,7 +8,7 @@ import AuthService from "../services/auth.service";
 import Snackbar from '@mui/material/Snackbar';
 import {Alert} from "@mui/material";
 
-const API_URL = "http://localhost:8080/api/game/";
+const API_URL = "http://localhost:8080";
 let echarts = require('echarts');
 
 
@@ -129,7 +129,7 @@ export default class play extends Component {
 
     getData = () => {
         axios
-            .get("/api/game/gameStatus", {
+            .get(API_URL + "/api/game/gameStatus", {
                 params: {
                     roomID: this.props.match.params.roomID
                 }, headers: authHeader()

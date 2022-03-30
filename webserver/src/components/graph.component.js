@@ -5,7 +5,7 @@ import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
 import axios from "axios";
 import authHeader from "../services/auth-header";
-const API_URL = "http://localhost:8080/api/game/";
+const API_URL = "http://localhost:8080";
 let echarts = require('echarts');
 
 
@@ -104,7 +104,7 @@ export default class Graph extends Component {
         });
         console.log(this.state.roomID);
         axios
-            .get("/api/game/gameStatus", {
+            .get(API_URL + "/api/game/gameStatus", {
                 params: {
                     roomID: this.state.roomID
                 },

@@ -22,14 +22,16 @@ import CheckButton from "react-validation/build/button";
 const theme = createTheme();
 
 
-export default class muiLogin extends Component {
+export default class muiRegister extends Component {
     constructor(props) {
         super(props);
-        this.handleLogin = this.handleLogin.bind(this);
+        this.handleRegister = this.handleRegister.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
+        this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.state = {
             username: "",
+            email: "",
             password: "",
             loading: false,
             message: ""
@@ -40,12 +42,17 @@ export default class muiLogin extends Component {
             username: e.target.value
         });
     }
+    onChangeEmail(e) {
+        this.setState({
+            email: e.target.value
+        });
+    }
     onChangePassword(e) {
         this.setState({
             password: e.target.value
         });
     }
-    handleLogin(e) {
+    handleRegister(e) {
         e.preventDefault();
         this.setState({
             message: "",
@@ -53,31 +60,29 @@ export default class muiLogin extends Component {
         });
         //this.form.validateAll();
         //if (this.checkBtn.context._errors.length === 0) {
-            console.log("sssssss")
+        console.log("sssssss")
 
-            AuthService.login(this.state.username, this.state.password).then(
-                () => {
-                    this.props.history.push("/profile");
-                    window.location.reload();
-                },
-                error => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-                    this.setState({
-                        loading: false,
-                        message: resMessage
-                    });
-                }
-            );
-        // } else {
-        //     this.setState({
-        //         loading: false
-        //     });
-        // }
+        AuthService.register(
+            this.state.username,
+            this.state.email,
+            this.state.password)
+            .then( () => {
+                this.props.history.push("/login");
+                window.location.reload();
+            },
+            error => {
+                const resMessage =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+                this.setState({
+                    loading: false,
+                    message: resMessage
+                });
+            }
+        );
     }
     render() {
         return (
@@ -97,9 +102,9 @@ export default class muiLogin extends Component {
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Sign Up
                         </Typography>
-                        <Box component="form" onSubmit={this.handleLogin} noValidate sx={{ mt: 1 }}>
+                        <Box component="form" onSubmit={this.handleRegister} noValidate sx={{ mt: 1 }}>
                             <TextField
                                 margin="normal"
                                 required
@@ -116,6 +121,18 @@ export default class muiLogin extends Component {
                                 margin="normal"
                                 required
                                 fullWidth
+                                id="email"
+                                label="Email"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                                value={this.state.email}
+                                onChange={this.onChangeEmail}
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
                                 name="password"
                                 label="Password"
                                 type="password"
@@ -124,32 +141,14 @@ export default class muiLogin extends Component {
                                 value={this.state.pass}
                                 onChange={this.onChangePassword}
                             />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
-                            />
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                Sign In
+                                Sign Up
                             </Button>
-                            <Grid container>
-
-
-                                {/*<Grid item xs>*/}
-                                {/*    <Link href="#" variant="body2">*/}
-                                {/*        Forgot password?*/}
-                                {/*    </Link>*/}
-                                {/*</Grid>*/}
-                                <Grid item>
-                                    <Link href="/register" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
                         </Box>
                     </Box>
                 </Container>

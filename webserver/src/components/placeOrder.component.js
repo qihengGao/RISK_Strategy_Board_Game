@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import {Stack} from "@mui/material";
 import AuthService from "../services/auth.service";
 
-const API_URL = "http://localhost:8080/api/game/";
+const API_URL = "http://localhost:8080";
 
 
 class unitPlace extends Component {
@@ -200,7 +200,7 @@ class unitPlace extends Component {
         }
         console.log(orders);
         axios
-            .post("/api/game/place/order", {
+            .post(API_URL + "/api/game/place/order", {
                 roomID: this.state.roomID,
                 orders
             }, {headers: authHeader()})
