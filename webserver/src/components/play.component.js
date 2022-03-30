@@ -7,10 +7,16 @@ import PlaceOrder from "./placeOrder.component";
 import AuthService from "../services/auth.service";
 import Snackbar from '@mui/material/Snackbar';
 import {Alert} from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 const API_URL = "http://localhost:8080";
 let echarts = require('echarts');
 
+
+function Item(props: { children: ReactNode }) {
+    return null;
+}
 
 export default class play extends Component {
     interval = null;
@@ -50,9 +56,10 @@ export default class play extends Component {
             case "PlacingState":
                 return <PlaceUnit {...this.state} handleSnackBarUpdate={this.handleSnackBarUpdate}/>
             case "OrderingState":
-                return <PlaceOrder {...this.state}  handleSnackBarUpdate={this.handleSnackBarUpdate}/>
+                return <PlaceOrder {...this.state} handleSnackBarUpdate={this.handleSnackBarUpdate}/>
             case "EndState":
-                return <div>Game End! Winner is {this.state.responseData.idToColor[this.state.responseData.winner].colorName} player!</div>
+                return <div>Game End! Winner
+                    is {this.state.responseData.idToColor[this.state.responseData.winner].colorName} player!</div>
             case "LostState":
                 return <div>You lost, try to conquest more next time!</div>
 
@@ -60,10 +67,10 @@ export default class play extends Component {
 
     }
 
-    handleSnackBarUpdate = (type,message) => {
+    handleSnackBarUpdate = (type, message) => {
         this.setState(
             {
-                openSnackBar:true,
+                openSnackBar: true,
                 snackBarMessage: message,
                 snackbarType: type
             }
@@ -83,13 +90,24 @@ export default class play extends Component {
                 (<div className="alert alert-danger" role="alert">{this.state.message}</div>)
                 :
                 (
-                    <div id="upper">
-                        <div ref="main" id="main" style={{width: "600px", height: "400px"}}/>
-                        <div ref="input" id="input"
-                        >{this.renderSwitch(this.state.room.state)}</div>
+                    <div id="upper" style={{marginTop:"3%"}}>
+                        <Box sx={{flexGrow: 1}}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={6}>
+                                    <div ref="main" id="main" style={{width: "1200px", height: "800px"}}/>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <div ref="input" id="input">{this.renderSwitch(this.state.room.state)}</div>
+                                </Grid>
+
+                            </Grid>
+                        </Box>
+
+
                         <Snackbar open={this.state.openSnackBar} autoHideDuration={6000}
                                   onClose={this.handleSnackBarClose}>
-                            <Alert onClose={this.handleSnackBarClose} severity={this.state.snackbarType} sx={{width: '100%'}}>
+                            <Alert onClose={this.handleSnackBarClose} severity={this.state.snackbarType}
+                                   sx={{width: '100%'}}>
                                 {this.state.snackBarMessage}
                             </Alert>
                         </Snackbar>
