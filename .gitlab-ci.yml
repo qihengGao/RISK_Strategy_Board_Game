@@ -121,6 +121,8 @@ StopPreviousServer:
     - ls
     - docker kill risk-game-apiserver || true
     - docker rm risk-game-apiserver || true
+    - docker kill risk-game-webserver || true
+    - docker rm risk-game-webserver || true
   only:
     - 103-fix-ci-cd-pipeline
 
@@ -132,7 +134,8 @@ DeployServer:
     - StopPreviousServer
   script:
     - ls
-    - docker run -d --name risk-game-apiserver  --dns=1.1.1.1 --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/risk gradle:7.4.1-jdk17 /risk/scripts/deploy.sh
+    - docker run -d --name risk-game-apiserver --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/risk gradle:7.4.1-jdk17 /risk/scripts/deploy.sh
+    - docker run -d --name risk-game-webserver --user $(id -u):$(id -g) --network="host" -v $(pwd):/risk node:16-alpine /risk/scripts/deployWebServer.sh
   only:
     - 103-fix-ci-cd-pipeline
 
