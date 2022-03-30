@@ -27,8 +27,8 @@ build:
   image: gradle:7.4.1-jdk17
   stage: build
   script:
-    - ./gradlew resolveDependencies
-    - ./gradlew --build-cache assemble
+    - gradle resolveDependencies
+    - gradle --build-cache assemble
   tags:
     - docker
   cache:
@@ -42,7 +42,7 @@ clover-report:
   image: gradle:7.4.1-jdk17
   stage: test
   script:
-    - ./gradlew cloverAggregateReports
+    - gradle cloverAggregateReports
   tags:
     - docker
   cache:

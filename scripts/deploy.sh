@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /risk
-./gradlew run-apiserver
+gradle run-apiserver
