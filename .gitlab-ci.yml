@@ -135,7 +135,7 @@ DeployServer:
   only:
     - 103-fix-ci-cd-pipeline
 
-TestPortStatus:
+TestAPIServer:
   stage: test-deploy
   tags:
     - deploy
@@ -143,6 +143,6 @@ TestPortStatus:
     - DeployServer
   script:
     - ls
-#    - ./scripts/test-deploy.sh
+    - ./scripts/test-deploy.sh
   only:
     - 103-fix-ci-cd-pipeline
