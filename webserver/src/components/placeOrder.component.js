@@ -30,48 +30,57 @@ class unitPlace extends Component {
         let allTerritory = [];
         let enemyTerritory = [];
         let ownTerritory = [];
-        let unitTypes = [];
+        let myUnitTypes = [];
         for (const territory of this.props.room.riskMap.continent) {
             allTerritory.push(territory.name);
             if (territory.ownerID === AuthService.getCurrentUser().id) {
                 ownTerritory.push(territory.name);
+                for (const unit of territory.units) {
+                    let unitInfo = unit.type + "(Level " + unit.level +")";
+                    if (!myUnitTypes.includes(unitInfo)) {
+                        myUnitTypes.push(unitInfo);
+                    }
+                }
             } else {
                 enemyTerritory.push(territory.name);
             }
-            for (const unit of territory.units) {
-                if (!unitTypes.includes(unit.type)) {
-                    unitTypes.push(unit.type);
-                }
-            }
-
         }
         this.setState(prevState => ({
             columns: [
-                {field: 'id', headerName: 'ID', width: 45},
+                {field: 'id', headerName: 'ID', width: 30},
                 {
                     field: 'orderType',
                     headerName: 'Order Type',
                     width: 100,
                     editable: true,
                     type: "singleSelect",
-                    valueOptions: ["Move", "Attack"]
+                    valueOptions: ["Move", "Attack","Upgrade Unit", "Upgrade Tech Level"]
                 },
                 {
                     field: 'source',
                     headerName: 'Source Territory',
-                    width: 150,
+                    width: 125,
                     editable: true,
                     type: "singleSelect",
-                    valueOptions: ownTerritory
+                    //valueOptions: ownTerritory
+                    valueOptions: ({row}) => {
+                        if (row === undefined ||
+                            row.orderType === "Upgrade Tech Level") {
+                            return [];
+                        }
+                        return ownTerritory;
+                    }
                 },
                 {
                     field: 'target',
                     headerName: 'Target Territory',
-                    width: 150,
+                    width: 120,
                     editable: true,
                     type: "singleSelect",
                     valueOptions: ({row}) => {
-                        if (row === undefined) {
+                        if (row === undefined ||
+                            row.orderType === "Upgrade Unit" ||
+                            row.orderType === "Upgrade Tech Level") {
                             return [];
                         }
                         if (row.orderType === "Move") {
@@ -85,13 +94,37 @@ class unitPlace extends Component {
                 {
                     field: 'unitType',
                     headerName: 'Unit Type',
-                    width: 150,
+                    width: 80,
                     editable: true,
                     type: "singleSelect",
-                    valueOptions: unitTypes
+                    valueOptions: ({row}) => {
+                        if (row === undefined ||
+                            row.orderType === "Upgrade Tech Level") {
+                            return [];
+                        }
+                        return myUnitTypes;
+                    }
                 },
-                {field: 'unitAmount', headerName: 'Unit amount', width: 150, editable: true, type: 'number',},
-
+                {field: 'unitAmount', headerName: 'Unit amount', width: 110, editable: true, type: 'number'},
+                {field: 'upLevel',
+                    headerName: 'Upgrade To',
+                    width: 110,
+                    editable: true,
+                    type: "singleSelect",
+                    valueOptions: ({row}) => {
+                        if (row === undefined ||
+                            row.orderType === "Move" ||
+                            row.orderType === "Attack") {
+                            return [];
+                        }
+                        if (row.orderType === "Upgrade Unit") {
+                            return ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6"];
+                        }
+                        if (row.orderType === "Upgrade Tech Level")
+                            return ["Yes", "No"];
+                        return [];
+                    }
+                }
             ]
         }))
 
@@ -143,7 +176,8 @@ class unitPlace extends Component {
         let columns: GridColDef[] = this.state.columns;
 
         return (
-            <div style={{width: '100%'}}>
+            <div style={{height: 400,
+                width: '100%'}}>
                 <Stack
                     sx={{width: '100%', mb: 1}}
                     direction="row"
@@ -158,30 +192,7 @@ class unitPlace extends Component {
 
                     Delete selected rows
                 </Button>
-                    <Button variant="contained" onClick={this.handleConfirmDialogOpen}>Commit</Button>
-                    <Dialog
 
-                        open={this.state.openConfirmDialog}
-
-                        aria-labelledby="responsive-dialog-title"
-                    >
-                        <DialogTitle id="responsive-dialog-title">
-                            {"Confirm Placement?"}
-                        </DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                Are you sure?
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button autoFocus onClick={this.handleCommit}>
-                                Commit
-                            </Button>
-                            <Button onClick={this.handleConfirmDialogClose} autoFocus>
-                                Cancel
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
                 </Stack>
                 <Box sx={{height: 400, bgcolor: 'background.paper'}}>
                     <DataGrid
@@ -192,6 +203,31 @@ class unitPlace extends Component {
                         onCellEditCommit={this.handleRowCommit}
                         columns={columns}/>
                 </Box>
+
+                <Button variant="contained" onClick={this.handleConfirmDialogOpen}>Commit</Button>
+                <Dialog
+
+                    open={this.state.openConfirmDialog}
+
+                    aria-labelledby="responsive-dialog-title"
+                >
+                    <DialogTitle id="responsive-dialog-title">
+                        {"Confirm Placement?"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Are you sure?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button autoFocus onClick={this.handleCommit}>
+                            Commit
+                        </Button>
+                        <Button onClick={this.handleConfirmDialogClose} autoFocus>
+                            Cancel
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }

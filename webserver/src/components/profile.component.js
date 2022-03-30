@@ -10,11 +10,18 @@ export default class Profile extends Component {
     render() {
         const { currentUser } = this.state;
         return (
-            <div className="container">
+            <div style={{
+                height: 550,
+                marginLeft: 50,
+                marginRight: 50,
+                marginTop: 40,
+                marginBottom: 40,
+            }}
+                 className="container">
                 <header className="jumbotron">
-                    <h3>
+                    <h2>
                         <strong>{currentUser.username}</strong> Profile
-                    </h3>
+                    </h2>
                 </header>
                 <p>
                     <strong>Token:</strong>{" "}

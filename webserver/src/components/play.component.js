@@ -93,8 +93,8 @@ export default class play extends Component {
                     <div id="upper" style={{marginTop:"3%"}}>
                         <Box sx={{flexGrow: 1}}>
                             <Grid container spacing={2}>
-                                <Grid item xs={6}>
-                                    <div ref="main" id="main" style={{width: "1200px", height: "800px"}}/>
+                                <Grid item xs={5}>
+                                    <div ref="main" id="main" style={{width: "1000px", height: "800px"}}/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div ref="input" id="input">{this.renderSwitch(this.state.room.state)}</div>

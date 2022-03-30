@@ -41,7 +41,7 @@ export default class allRoomsComponent extends Component {
     render() {
         console.log(this.state.rooms)
         let columns: GridColDef[] = [{
-            field: 'id', headerName: 'Room ID', width: 90
+            field: 'id', headerName: 'Room ID', width: 150
         }, {
             field: 'roomSize', headerName: 'Room Size', width: 150, editable: false,
         }, {
@@ -82,64 +82,68 @@ export default class allRoomsComponent extends Component {
 
         return (
 
-            <div style={{
-                height: 400
-                ,
-                width: '100%'
-            }
-            }><Stack
-                sx={{width: '100%', mb: 1}}
-                direction="row"
-                alignItems="flex-start"
-                columnGap={1}
+            <div>
+                <div style={{
+                    height: 550,
+                    marginLeft: 50,
+                    marginRight: 50,
+                    marginTop: 40,
+                    marginBottom: 40,
+                }
+                }><Stack
+                    sx={{width: '100%', mb: 1}}
+                    direction="row"
+                    alignItems="flex-start"
+                    columnGap={1}
 
-            >
+                >
 
-                <Button
-                    //variant="contained"
-                    size="small" onClick={this.handleCreateRoomButton}>Add new room</Button>
-            </Stack>
-                <DataGrid
+                    <Button
+                        variant="contained"
+                        size="small" onClick={this.handleCreateRoomButton}>Add new room</Button>
+                </Stack>
+                    <DataGrid
 
-                    rows={this.state.rows}
-                    columns={columns}
-                    // pageSize={5}
-                    // rowsPerPageOptions={[5]}
-                    // experimentalFeatures={{newEditingApi: true}}
-                    onCellEditCommit={this.handleCellCommit}
-                />
-                <Snackbar open={this.state.openSnackBar} autoHideDuration={6000}
-                          onClose={this.handleSnackBarClose}>
-                    <Alert onClose={this.handleSnackBarClose} severity={this.state.snackbarType} sx={{width: '100%'}}>
-                        {this.state.snackBarMessage}
-                    </Alert>
-                </Snackbar>
+                        rows={this.state.rows}
+                        columns={columns}
+                        pageSize={5}
+                        // rowsPerPageOptions={[5]}
+                        // experimentalFeatures={{newEditingApi: true}}
+                        onCellEditCommit={this.handleCellCommit}
+                    />
+                    <Snackbar open={this.state.openSnackBar} autoHideDuration={6000}
+                              onClose={this.handleSnackBarClose}>
+                        <Alert onClose={this.handleSnackBarClose} severity={this.state.snackbarType} sx={{width: '100%'}}>
+                            {this.state.snackBarMessage}
+                        </Alert>
+                    </Snackbar>
 
 
-                <Dialog open={this.state.openCreateRoomDialog} onClose={this.handleCreateRoomClose}>
-                    <DialogTitle>Create Room</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            To create a new game room, please room size here.
-                        </DialogContentText>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="roomSize"
-                            label="Room Size"
-                            type="number"
-                            fullWidth
-                            variant="standard"
-                            onChange={this.handleRoomSizeChange}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleCreateRoomClose}>Cancel</Button>
-                        <Button onClick={this.handleCreateRoomSubmit}>Create</Button>
-                    </DialogActions>
-                </Dialog>
-            </div>)
-            ;
+                    <Dialog open={this.state.openCreateRoomDialog} onClose={this.handleCreateRoomClose}>
+                        <DialogTitle>Create Room</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                To create a new game room, please room size here.
+                            </DialogContentText>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="roomSize"
+                                label="Room Size"
+                                type="number"
+                                fullWidth
+                                variant="standard"
+                                onChange={this.handleRoomSizeChange}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleCreateRoomClose}>Cancel</Button>
+                            <Button onClick={this.handleCreateRoomSubmit}>Create</Button>
+                        </DialogActions>
+                    </Dialog>
+                </div>
+            </div>
+        )
     }
 
     handleCreateRoomSubmit = () => {
