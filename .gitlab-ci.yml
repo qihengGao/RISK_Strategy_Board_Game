@@ -122,7 +122,7 @@ StopPreviousServer:
     - ls
     - docker stop risk-game-apiserver || true
   only:
-    - dev
+    - 103-fix-ci-cd-pipeline
 
 DeployServer:
   stage: deploy
@@ -134,7 +134,7 @@ DeployServer:
     - ls
     - docker run -d --rm --name risk-game-apiserver  --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/risk eclipse-temurin:17 /risk/scripts/deploy.sh
   only:
-    - dev
+    - 103-fix-ci-cd-pipeline
 
 TestPortStatus:
   stage: test-deploy
@@ -146,4 +146,4 @@ TestPortStatus:
     - ls
 #    - ./scripts/test-deploy.sh
   only:
-    - dev
+    - 103-fix-ci-cd-pipeline
