@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 x=""
 count=0
 while [ "$x" != "Public Content." ]
