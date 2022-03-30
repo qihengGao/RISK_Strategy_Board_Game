@@ -24,7 +24,7 @@ stages:
   - test-deploy
 
 build:
-  image: eclipse-temurin:17
+  image: gradle:7.4.1-jdk17
   stage: build
   script:
     - ./gradlew resolveDependencies
@@ -39,7 +39,7 @@ build:
       - .gradle
 
 clover-report:
-  image: eclipse-temurin:17
+  image: gradle:7.4.1-jdk17
   stage: test
   script:
     - ./gradlew cloverAggregateReports
@@ -132,7 +132,7 @@ DeployServer:
     - StopPreviousServer
   script:
     - ls
-    - docker run -d --name risk-game-apiserver  --dns=1.1.1.1 --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/risk eclipse-temurin:17 /risk/scripts/deploy.sh
+    - docker run -d --name risk-game-apiserver  --dns=1.1.1.1 --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/risk gradle:7.4.1-jdk17 /risk/scripts/deploy.sh
   only:
     - 103-fix-ci-cd-pipeline
 
