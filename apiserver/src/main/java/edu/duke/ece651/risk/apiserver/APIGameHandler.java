@@ -248,7 +248,6 @@ public class APIGameHandler {
             clientIDList.add(clientID);
         for (Territory territory : randomized) {
             territory.tryChangeOwnerTo(clientIDList.get(count++ / n_Terr_per_player));
-
         }
     }
 
@@ -292,7 +291,10 @@ public class APIGameHandler {
 
     public void increaseOneInAllTerritory() {
         for (Territory t : riskMap.getContinent()) {
-            t.tryAddUnit(new BasicUnit("Soldier", 1));
+//            t.tryAddUnit(new BasicUnit("Soldier", 1));
+            for (Unit unit : t.getUnits()) {
+                unit.tryIncreaseAmount(1);
+            }
         }
     }
 

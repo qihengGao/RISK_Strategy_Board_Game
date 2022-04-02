@@ -71,14 +71,14 @@ public class BasicTerritory implements Territory {
     return this.battleField;
   }
 
-  /**    
+  /**
    * @return the ID of the Owner of this Territory, such as 1.
    */
   public Long getOwnerID(){
     return OwnerID;
   }
-  
-  /**    
+
+  /**
    * @return the name of this Territory, such as "Narnia".
    */
   public String getName(){
@@ -120,8 +120,8 @@ public class BasicTerritory implements Territory {
     this.units.add(toAdd);
     return true;
   }
-  
-  /**    
+
+  /**
    * @return the iterable of all neighbors of this Territory,
    * such as "Gondor", "Oz", "Roshar".
    */
@@ -150,13 +150,18 @@ public class BasicTerritory implements Territory {
   }
 
   /**
-   * Get the unit specified by type (version 1)
+   * Get the unit specified by type
    * @param type
    */
-  @Deprecated
+
   @Override
   public Unit getUnitByType(String type) {
-    return getUnitByTypeLevel(type, 0);
+    String[] info = type.split(" ");
+    if (info.length == 1) { // only contains type, version 1
+      return getUnitByTypeLevel(type, 0);
+    } else { // compatible for version2, Soldier level 6
+      return getUnitByTypeLevel(info[0], Integer.parseInt(info[2]));
+    }
   }
 
   @Override
@@ -218,5 +223,5 @@ public class BasicTerritory implements Territory {
     return true;
   }
 
-  
+
 }
