@@ -4,14 +4,17 @@ import edu.duke.ece651.risk.shared.map.RISKMap;
 
 public class UpgradeMaxTechOrder extends Order {
 
-    public UpgradeMaxTechOrder(long ID, String srcTerritory, String destTerritory, String unitUnderOrder,
-                               int unitAmount) {
+    public UpgradeMaxTechOrder(){
+    }
+
+    public UpgradeMaxTechOrder(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount, String orderType) {
+        this();
         this.playerID = ID;
         this.srcTerritory = srcTerritory;
         this.destTerritory = destTerritory;
+        this.unitType = unitType;
         this.unitAmount = unitAmount;
-        this.unitType = unitUnderOrder;
-        this.orderType = "Move";
+        this.orderType = "Upgrade Tech Level";
     }
 
     @Override

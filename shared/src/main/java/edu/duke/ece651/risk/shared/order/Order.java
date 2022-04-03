@@ -9,7 +9,8 @@ import java.io.Serializable;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "orderType", visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = AttackOrder.class, name = "Attack"),
-        @JsonSubTypes.Type(value = MoveOrder.class, name = "Move")
+        @JsonSubTypes.Type(value = MoveOrder.class, name = "Move"),
+        @JsonSubTypes.Type(value = UpgradeMaxTechOrder.class, name = "Upgrade Tech Level")
 })
 public abstract class Order implements Serializable{
   protected String srcTerritory;
