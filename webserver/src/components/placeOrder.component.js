@@ -150,7 +150,8 @@ class unitPlace extends Component {
                 source: null,
                 target: null,
                 unitType: null,
-                unitAmount: null
+                unitAmount: null,
+                toLevel: null
             }],
             idCounter: prevState.idCounter + 1
         }))
@@ -247,7 +248,8 @@ class unitPlace extends Component {
                 unitType:row.unitType,
                 unitAmount:row.unitAmount,
                 playerID: AuthService.getCurrentUser().id,
-                orderType:row.orderType
+                orderType:row.orderType,
+                toLevel:row.upLevel
             })
         }
         console.log(orders);

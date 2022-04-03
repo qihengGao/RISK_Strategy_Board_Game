@@ -85,8 +85,9 @@ public interface Territory extends Serializable {
   
   /**
    * Returns the iterable list of units that the territory has.
+   * @return
    */
-  public Iterable<Unit> getUnits();
+  public TreeSet<Unit> getUnits();
   
   /**
    * Try to add the unit in the territory. True if added successfully.

@@ -16,8 +16,11 @@ public class BasicTerritory implements Territory {
   private final String name;
   private TreeSet<String> neighbors; // to make in order with repect to name
 
-  public void setUnits(TreeSet<Unit> units) {
-    this.units = units;
+  public void setUnits(TreeSet<Unit> unitsToAdd) {
+    this.units.clear();
+    for (Unit u: unitsToAdd){
+      this.units.add(u);
+    }
   }
 
   private TreeSet<Unit> units;
@@ -139,8 +142,9 @@ public class BasicTerritory implements Territory {
 
   /**
    * Returns the iterable list of units that the territory has.
+   * @return
    */
-  public Iterable<Unit> getUnits() {
+  public TreeSet<Unit> getUnits() {
     return this.units;
   }
 

@@ -12,6 +12,11 @@ import java.util.Objects;
 public class BasicUnit implements Unit {
     private final String unitType;
     private final int levelBound;
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     private int level;
     private int amount;
     private int[] predefinedBonus = new int[] {0, 1, 3, 5, 8, 11, 15};

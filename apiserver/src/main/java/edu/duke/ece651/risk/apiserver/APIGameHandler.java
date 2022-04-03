@@ -12,7 +12,6 @@ import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
-import edu.duke.ece651.risk.shared.unit.Unit;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +72,7 @@ public class APIGameHandler {
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
 
             for (Territory t : cloneMap.getContinent()) {
-                t.setUnits(new TreeSet<Unit>());
+                t.setUnits(new TreeSet<>());
             }
 
             return cloneMap;
@@ -185,7 +184,7 @@ public class APIGameHandler {
                         //todo: uncomment this line for simple add or minus fight resolver
                         //t.getBattleField().setAttackResolver(new SimpleAttackResolver());
                         //
-                        t.getBattleField().fightBattle(t, "Soldier");
+                        t.getBattleField().fightAllBattle(t);
                         t.getBattleField().resetAttackersList();
                     }
                     increaseOneInAllTerritory();

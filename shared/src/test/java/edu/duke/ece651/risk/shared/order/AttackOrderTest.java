@@ -8,9 +8,6 @@ import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.MapTextView;
 import edu.duke.ece651.risk.shared.map.RISKMap;
-import edu.duke.ece651.risk.shared.order.AttackOrder;
-import edu.duke.ece651.risk.shared.order.MoveOrder;
-import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.junit.jupiter.api.Test;
@@ -60,9 +57,9 @@ public class AttackOrderTest {
             BattleField BF = riskMap.getTerritoryByName(o.getDestTerritory()).getBattleField();
             BF.setAttackResolver(new SimpleAttackResolver());
             System.out.println("Attackers(" + o.getPlayerID() + "):" + BF.getAttackers().get(o.getPlayerID()));
-            BF.fightBattle(riskMap.getTerritoryByName(o.getDestTerritory()), "Unit");
+            BF.fightAllBattle(riskMap.getTerritoryByName(o.getDestTerritory()));
             BF.resetAttackersList();
-            assertNull(BF.getAttackers().get(o.getPlayerID()));
+//            assertNull(BF.getAttackers().get(o.getPlayerID()));
 
 
         }
@@ -78,25 +75,20 @@ public class AttackOrderTest {
         PrintStream output = new PrintStream(bytes, true);
         //-------------VALID
         //normal consequential orders
-
         String check_message = checkValidOrder(riskMap, new AttackOrder(0, "Test2",
                 "Test3", "Unit", 10));
-        System.out.println(check_message);
-        displayMap(riskMap);
 
         assertEquals(riskMap.getTerritoryByName("Test2").getUnitByType("Unit").getAmount(), 0);
-        assertEquals(riskMap.getTerritoryByName("Test3").getUnitByType("Unit").getAmount(), 0);
-        assertNull(riskMap.getTerritoryByName("Test3").getBattleField().getAttackers().get((long) 0));
+        assertEquals(riskMap.getTerritoryByName("Test3").getUnitByType("Unit"), null);
+        assertEquals(riskMap.getTerritoryByName("Test3").getBattleField().getAttackers().size(), 0);
 
         String check_message2 = checkValidOrder(riskMap, new AttackOrder(0, "Test1",
-                "Test4", "Unit", 2));
-        System.out.println(check_message2);
-        displayMap(riskMap);
+                        "Test4", "Unit", 2));
 
         assertEquals(riskMap.getTerritoryByName("Test1").getUnitByType("Unit").getAmount(), 8);
         assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 8);
+
         assertNull(riskMap.getTerritoryByName("Test4").getBattleField().getAttackers().get((long) 0));
-        displayMap(riskMap);
 
         //resolve same player same territory attacks
         Order o1 = new AttackOrder(0, "Test1", "Test4", "Unit", 2);
@@ -105,7 +97,7 @@ public class AttackOrderTest {
         String check_message3 = checkValidOrder(riskMap, o1, o2);
         System.out.println(check_message3);
         assertEquals(riskMap.getTerritoryByName("Test1").getUnitByType("Unit").getAmount(), 4);
-        assertEquals(riskMap.getTerritoryByName("Test4").getUnitByType("Unit").getAmount(), 4);
+        assertEquals(riskMap.getTerritoryByName("Test4").getUnits().first().getAmount(), 4);
         assertNull(riskMap.getTerritoryByName("Test4").getBattleField().getAttackers().get((long) 0));
 
         displayMap(riskMap);

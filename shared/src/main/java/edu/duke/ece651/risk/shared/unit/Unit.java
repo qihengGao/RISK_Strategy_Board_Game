@@ -20,6 +20,12 @@ public interface Unit extends Serializable{
     public int getLevel();
 
     /**
+     * set the level of current unit.
+     * @param level
+     */
+    public void setLevel(int level);
+
+    /**
      * Return the limit of current unit level.
      * @return int
      */
