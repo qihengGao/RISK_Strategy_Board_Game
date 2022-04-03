@@ -220,9 +220,10 @@ export default class play extends Component {
                         label += "Size:"+territory.size + "\n";
                         for (const unit of territory.units) {
 
-                            label += unit.type + "(Level " + unit.level + ") "+ unit.amount + "\n";
+                            label += unit.amount + " " + unit.type + " level " + unit.level;
 
                         }
+                        label+="\n"
 
                         label += "Food Production:" + territory.foodProduction + "\n";
                         label += "Tech Production:" + territory.techProduction + "\n";

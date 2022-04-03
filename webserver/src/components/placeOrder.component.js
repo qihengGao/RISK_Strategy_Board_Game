@@ -35,11 +35,9 @@ class unitPlace extends Component {
             allTerritory.push(territory.name);
             if (territory.ownerID === AuthService.getCurrentUser().id) {
                 ownTerritory.push(territory.name);
-                for (const unit of territory.units) {
-                    let unitInfo = unit.type + "(Level " + unit.level +")";
-                    if (!myUnitTypes.includes(unitInfo)) {
-                        myUnitTypes.push(unitInfo);
-                    }
+                for (let i = 0; i < 7; i++) {
+                    let unitInfo = "Soldier" + " level " + i;
+                    myUnitTypes.push(unitInfo);
                 }
             } else {
                 enemyTerritory.push(territory.name);
@@ -112,16 +110,9 @@ class unitPlace extends Component {
                     editable: true,
                     type: "singleSelect",
                     valueOptions: ({row}) => {
-                        if (row === undefined ||
-                            row.orderType === "Move" ||
-                            row.orderType === "Attack") {
-                            return [];
-                        }
                         if (row.orderType === "Upgrade Unit") {
-                            return ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6"];
+                            return [1,2,3,4,5,6];
                         }
-                        if (row.orderType === "Upgrade Tech Level")
-                            return ["Yes", "No"];
                         return [];
                     }
                 }
@@ -251,7 +242,7 @@ class unitPlace extends Component {
             orders.push({
                 srcTerritory:row.source,
                 destTerritory:row.target,
-                unitType:"Soldier",
+                unitType:row.unitType,
                 unitAmount:row.unitAmount,
                 playerID: AuthService.getCurrentUser().id,
                 orderType:row.orderType

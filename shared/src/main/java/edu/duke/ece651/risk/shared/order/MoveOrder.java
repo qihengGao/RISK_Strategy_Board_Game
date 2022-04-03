@@ -26,8 +26,6 @@ public class MoveOrder extends Order {
     this.unitAmount = unitAmount;
     this.unitType = unitUnderOrder;
     this.orderType = "Move";
-
-
   }
 
   /**
