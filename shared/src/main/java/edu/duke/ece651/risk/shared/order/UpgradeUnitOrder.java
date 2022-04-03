@@ -12,11 +12,11 @@ public class UpgradeUnitOrder extends Order{
     private int toLevel;
     private final ActionChecker upgradeUnitChecker;
 
-    UpgradeUnitOrder() {
+    public UpgradeUnitOrder() {
         this.upgradeUnitChecker =new SrcOwnershipChecker(new SufficientSourceForUpgradeChecker(null));
     }
 
-    UpgradeUnitOrder(long ID, String srcTerritory, String unitType, int unitAmount, int toLevel) {
+    public UpgradeUnitOrder(long ID, String srcTerritory, String unitType, int unitAmount, int toLevel) {
         this();
         this.playerID = ID;
         this.srcTerritory = srcTerritory;
