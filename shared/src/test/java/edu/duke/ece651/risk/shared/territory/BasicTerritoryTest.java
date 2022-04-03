@@ -6,7 +6,10 @@ import edu.duke.ece651.risk.shared.factory.AbstractUnitFactory;
 import edu.duke.ece651.risk.shared.factory.V1UnitFactory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
+import edu.duke.ece651.risk.shared.unit.UnitComparator;
 import org.junit.jupiter.api.Test;
+
+import java.util.TreeSet;
 
 public class BasicTerritoryTest {
     @Test
@@ -60,6 +63,14 @@ public class BasicTerritoryTest {
         Unit get1 = t1.getUnitByType("Soldier");
         assertTrue(u1.equals(get1));
         assertNull(t1.getUnitByType("soldier"));
+
+        TreeSet<Unit> units = new TreeSet<>(new UnitComparator());
+        units.add(new BasicUnit("Soldier level 0", 1));
+        units.add(new BasicUnit("Soldier level 4", 5));
+        t1.setUnits(units);
+        assertEquals(4, t1.getUnitByType("Soldier level 4").getLevel());
+        assertEquals(1, t1.getUnitByType("Soldier level 0").getAmount());
+        assertNull(t1.getUnitByType("Soldier level 1"));
     }
 
     @Test
@@ -84,6 +95,7 @@ public class BasicTerritoryTest {
         t.tryAddUnit(u1);
         t.tryAddUnit(u1_);
         assertEquals(11, t.getUnitByTypeLevel("a", 0).getAmount());
+        assertEquals(11, t.getUnitByType("a level 0").getAmount());
         t.tryAddUnit(u2);
         assertFalse(u1.equals(u2));
         assertNotEquals(u1.hashCode(), u2.hashCode());
