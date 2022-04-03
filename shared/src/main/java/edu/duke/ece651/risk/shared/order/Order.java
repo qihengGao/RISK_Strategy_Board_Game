@@ -10,6 +10,7 @@ import java.io.Serializable;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = AttackOrder.class, name = "Attack"),
         @JsonSubTypes.Type(value = MoveOrder.class, name = "Move"),
+        @JsonSubTypes.Type(value = UpgradeUnitOrder.class, name = "Upgrade Unit"),
         @JsonSubTypes.Type(value = UpgradeMaxTechOrder.class, name = "Upgrade Tech Level")
 })
 public abstract class Order implements Serializable{
@@ -19,6 +20,7 @@ public abstract class Order implements Serializable{
   protected int unitAmount;
   protected long playerID;
   protected String orderType;
+  protected  int toLevel;
 
   public Order() {
   }
@@ -54,6 +56,12 @@ public abstract class Order implements Serializable{
     this.unitType = unitType;
     this.unitAmount = unitAmount;
     this.orderType = orderType;
+    this.toLevel = 0;
+  }
+
+  public Order(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount, String orderType, int toLevel) {
+    this(ID, srcTerritory, destTerritory, unitType, unitAmount, orderType);
+    this.toLevel = toLevel;
   }
 
   //getters
@@ -78,6 +86,8 @@ public abstract class Order implements Serializable{
   }
 
   public String getOrderType() {return orderType;}
+
+  public int getToLevel() { return this.toLevel; }
 
   //dinamic dispatched methods
 

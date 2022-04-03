@@ -193,21 +193,22 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
-  public boolean tryUpgradeUnitToLevel(Unit toUpgrade, int toLevel) {
+  public String tryUpgradeUnitToLevel(Unit toUpgrade, int toLevel) {
     if (toLevel <= toUpgrade.getLevel()) {
-      return false;
+      return toUpgrade.getType() + " level " + toUpgrade.getLevel() + " cannot upgrade to level " + toLevel;
     }
     Unit inTerritory = this.getUnitByTypeLevel(toUpgrade.getType(), toUpgrade.getLevel());
     // Does not have the unit
     if (inTerritory == null) {
-      return false;
+      return "Current territory does not have the level " + toUpgrade.getLevel() + " " + toUpgrade.getType();
     }
     // Amount is not sufficient
     if (!inTerritory.tryDecreaseAmount(toUpgrade.getAmount())) {
-      return false;
+      return "Unit amount is not sufficient to do the upgrade";
     }
     Unit upgraded = new BasicUnit(toUpgrade.getType(), toUpgrade.getAmount(), toLevel);
-    return this.tryAddUnit(upgraded);
+    this.tryAddUnit(upgraded);
+    return null;
   }
 
   @Override

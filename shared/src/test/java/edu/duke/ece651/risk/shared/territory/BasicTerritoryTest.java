@@ -97,15 +97,15 @@ public class BasicTerritoryTest {
     void test_tryUpgradeUnitToLevel() {
         Territory t = new BasicTerritory("t", 10);
         Unit toU = new BasicUnit("a", 10, 2);
-        assertFalse(t.tryUpgradeUnitToLevel(toU, 3));
+        assertEquals("Current territory does not have the level 2 a", t.tryUpgradeUnitToLevel(toU, 3));
         Unit inT = new BasicUnit("a", 9, 2);
         t.tryAddUnit(inT);
-        assertFalse(t.tryUpgradeUnitToLevel(toU, 2));
-        assertFalse(t.tryUpgradeUnitToLevel(toU, 1));
-        assertFalse(t.tryUpgradeUnitToLevel(toU, 3));
+        assertEquals("a level 2 cannot upgrade to level 2", t.tryUpgradeUnitToLevel(toU, 2));
+        assertEquals("a level 2 cannot upgrade to level 1", t.tryUpgradeUnitToLevel(toU, 1));
+        assertEquals("Unit amount is not sufficient to do the upgrade", t.tryUpgradeUnitToLevel(toU, 3));
         Unit add = new BasicUnit("a", 1, 2);
         t.tryAddUnit(add);
-        assertTrue(t.tryUpgradeUnitToLevel(toU, 3));
+        assertNull(t.tryUpgradeUnitToLevel(toU, 3));
         assertEquals(0, t.getUnitByTypeLevel("a", 2).getAmount());
         assertEquals(10, t.getUnitByTypeLevel("a", 3).getAmount());
     }
