@@ -2,6 +2,7 @@ package edu.duke.ece651.risk.apiserver;
 
 import edu.duke.ece651.risk.apiserver.models.State;
 import edu.duke.ece651.risk.shared.Color;
+import edu.duke.ece651.risk.shared.Owner;
 import edu.duke.ece651.risk.shared.checker.PlaceRuleChecker;
 import edu.duke.ece651.risk.shared.checker.PlaceTerrExistChecker;
 import edu.duke.ece651.risk.shared.checker.PlaceTerrIDChecker;
@@ -67,17 +68,16 @@ public class APIGameHandler {
         return riskMap;
     }
 
-    public RISKMap getRiskMapByState(){
-        if (currentState.equals(State.PlacingState.name())){
+    public RISKMap getRiskMapByState() {
+        if (currentState.equals(State.PlacingState.name())) {
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
 
-            for (Territory t : cloneMap.getContinent()){
+            for (Territory t : cloneMap.getContinent()) {
                 t.setUnits(new TreeSet<Unit>());
             }
 
             return cloneMap;
-        }
-        else {
+        } else {
             return riskMap;
         }
     }
@@ -159,6 +159,7 @@ public class APIGameHandler {
             }
             commitedPlayer.add(clientID);
             if (commitedPlayer.size() == roomSize) {
+                increaseTechFoodForAll();
                 orderingPhase();
             }
             return true;
@@ -170,7 +171,10 @@ public class APIGameHandler {
     public boolean tryPreProcessOrder(Long clientID, ArrayList<Order> orders) {
         if (Objects.equals(currentState, State.OrderingState.name()) && !commitedPlayer.contains(clientID)) {
 
+            System.out.println("in tryPreProcessOrder");
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
+
+            System.out.println("number of orders:" + orders.size());
 
             if (orders == null || tryExecuteOrder(orders, cloneMap)) {
                 temporaryOrders.addAll(orders);
@@ -185,6 +189,8 @@ public class APIGameHandler {
                         t.getBattleField().resetAttackersList();
                     }
                     increaseOneInAllTerritory();
+                    increaseTechFoodForAll();
+
                     if (checkWinner() == null) {
                         orderingPhase();
                     } else {
@@ -202,13 +208,19 @@ public class APIGameHandler {
     public boolean tryExecuteOrder(ArrayList<Order> orders, RISKMap tmpRiskMap) {
         ArrayList<Order> moveOrder = new ArrayList<>();
         ArrayList<Order> attackOrder = new ArrayList<>();
-
+        ArrayList<Order> upgradeMaxTechOrder = new ArrayList<>();
+        System.out.println("in tryExecuteOrder");
         for (Order order : orders) {
             if (Objects.equals(order.getOrderType(), "Move"))
                 moveOrder.add(order);
-            else
+            if (Objects.equals(order.getOrderType(), "Attack"))
                 attackOrder.add(order);
+            if (order.getOrderType().equals("Upgrade Tech Level"))
+                upgradeMaxTechOrder.add(order);
         }
+        System.out.println("number of move orders:" + moveOrder.size());
+        System.out.println("number of attack orders:" + attackOrder.size());
+        System.out.println("number of upgrade orders:" + upgradeMaxTechOrder.size());
         StringBuilder moveErrorMessage = new StringBuilder();
         for (Order order : moveOrder) {
             String errorMessage = order.executeOrder(tmpRiskMap);
@@ -223,7 +235,20 @@ public class APIGameHandler {
                 attackErrorMessage.append(errorMessage);
         }
         System.out.println(moveErrorMessage.toString() + "  \n" + attackErrorMessage.toString());
-        return moveErrorMessage.toString().equals("") && attackErrorMessage.toString().equals("");
+
+        StringBuilder upgradeMaxTechMessage = new StringBuilder();
+        if (!upgradeMaxTechOrder.isEmpty()) {
+            if (upgradeMaxTechOrder.size() > 1) {
+                upgradeMaxTechMessage.append("You cannot upgrade your tech level more than once");
+            } else {
+                String errorMessage = upgradeMaxTechOrder.get(0).executeOrder(tmpRiskMap);
+                if (errorMessage != null) {
+                    upgradeMaxTechMessage.append(errorMessage);
+                }
+            }
+        }
+        return moveErrorMessage.toString().equals("") && attackErrorMessage.toString().equals("")
+                && upgradeMaxTechMessage.toString().equals("");
 
     }
 
@@ -244,11 +269,24 @@ public class APIGameHandler {
         Collections.shuffle(randomized, new Random(1777));
         int count = 0;
         ArrayList<Long> clientIDList = new ArrayList<>();
-        for (Long clientID : players)
+        for (Long clientID : players) {
             clientIDList.add(clientID);
+            riskMap.tryAddOwner(new Owner(clientID));
+        }
         for (Territory territory : randomized) {
             territory.tryChangeOwnerTo(clientIDList.get(count++ / n_Terr_per_player));
-
+        }
+        for (Long clientID : clientIDList) {
+            int totalRest = 10;
+            Random random = new Random();
+            while (totalRest > 0) {
+                for (Territory t : riskMap.getTerritoriesByOwnerID(clientID)) {
+                    if (random.nextBoolean()) {
+                        t.increaseSize(2);
+                        totalRest -= 2;
+                    }
+                }
+            }
         }
     }
 
@@ -275,7 +313,7 @@ public class APIGameHandler {
     }
 
     public void orderingPhase() {
-        for(Long id : players){
+        for (Long id : players) {
             isPlayerLost(id);
         }
         currentState = State.OrderingState.name();
@@ -288,6 +326,16 @@ public class APIGameHandler {
         currentState = State.EndState.name();
         commitedPlayer.clear();
 
+    }
+
+    public void increaseTechFoodForAll() {
+        for (Long id : players) {
+            Owner o = riskMap.getOwners().get(id);
+            for (Territory t : riskMap.getTerritoriesByOwnerID(id)) {
+                o.tryAddOrRemoveFoodResource(t.getFoodProduction());
+                o.tryAddOrRemoveTechResource(t.getTechProduction());
+            }
+        }
     }
 
     public void increaseOneInAllTerritory() {
@@ -324,9 +372,9 @@ public class APIGameHandler {
     public boolean isPlayerLost(Long clientID) {
         //If this player still have any territory,
         //means that this player is not lost.
-        if(lostPlayer.contains(clientID))
+        if (lostPlayer.contains(clientID))
             return true;
-        if (currentState.equals(State.WaitingToStartState.name())){
+        if (currentState.equals(State.WaitingToStartState.name())) {
             return false;
         }
 

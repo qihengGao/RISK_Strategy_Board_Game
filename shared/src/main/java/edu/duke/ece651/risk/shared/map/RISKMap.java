@@ -1,5 +1,6 @@
 package edu.duke.ece651.risk.shared.map;
 
+import edu.duke.ece651.risk.shared.Owner;
 import edu.duke.ece651.risk.shared.territory.Territory;
 
 import java.util.ArrayList;
@@ -10,8 +11,24 @@ import java.util.HashSet;
 public class RISKMap implements GameMap {
   private final HashSet<Territory> continent;
 
+  public HashMap<Long, Owner> getOwners() {
+    return owners;
+  }
+
+  private final HashMap<Long, Owner> owners;
+
   public RISKMap(HashSet<Territory> new_continent) {
     this.continent = new_continent;
+    this.owners = new HashMap<Long, Owner>();
+  }
+
+  /**
+   * try to add a new owner to save player's tech level, total resources, etc.
+   * @param owner
+   * @return boolean: true if successfully added; false if not
+   */
+  public void tryAddOwner(Owner owner){
+    owners.put(owner.getOwnerId(), owner);
   }
 
   /**

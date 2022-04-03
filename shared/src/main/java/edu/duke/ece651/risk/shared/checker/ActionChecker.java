@@ -2,8 +2,13 @@ package edu.duke.ece651.risk.shared.checker;
 
 import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.territory.Territory;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public abstract class ActionChecker implements Serializable {
 

@@ -1,5 +1,6 @@
 package edu.duke.ece651.risk.shared.map;
 
+import edu.duke.ece651.risk.shared.Owner;
 import edu.duke.ece651.risk.shared.territory.Territory;
 
 import java.io.Serializable;
@@ -13,6 +14,13 @@ public interface GameMap extends Serializable, Cloneable{
 
   public int getNumOfContinents();
 
+  /**
+   * try to add a new owner to save player's tech level, total resources, etc.
+   * @param owner
+   * @return void:
+   */
+  public void tryAddOwner(Owner owner);
+  
   /**
    * get the iterable of all territories in continent
    * @return Iterable<Territory>

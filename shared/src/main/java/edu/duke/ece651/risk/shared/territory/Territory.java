@@ -26,7 +26,13 @@ public interface Territory extends Serializable {
    * @return the name of this Territory, such as "Narnia".
    */
   public String getName();
-  
+
+  /**
+   * increase the size of this territory
+   * @param toIncrease
+   */
+  public void increaseSize(int toIncrease);
+
   /**
    * Return the number of curr terrotory's neighbor
    * @return int
@@ -43,13 +49,13 @@ public interface Territory extends Serializable {
    * Return the food resource generated on the territory.
    * @return
    */
-  public int getFoodResource();
+  public int getFoodProduction();
 
   /**
    * Return the tech resource generated on the territory.
    * @return
    */
-  public int getTechResource();
+  public int getTechProduction();
 
   /**
    * Try to add the neighbor territory in the territory. True if added successfully.

@@ -42,7 +42,7 @@ public class OwnerTest {
         assertEquals(2, owner.getOwnedFoodResource());
 
         // error: reduce below 0
-        String prompt = "cannot add or remove food resources, would be negative";
+        String prompt = "You do not have sufficient food resources";
         assertEquals(prompt, owner.tryAddOrRemoveFoodResource(-3));
     }
 
@@ -57,7 +57,7 @@ public class OwnerTest {
         assertEquals(2, owner.getOwnedTechResource());
 
         // error: reduce below 0
-        String prompt = "cannot add or remove technological resources, would become negative";
+        String prompt = "You do not have sufficient tech resources";
         assertEquals(prompt, owner.tryAddOrRemoveTechResource(-3));
     }
 

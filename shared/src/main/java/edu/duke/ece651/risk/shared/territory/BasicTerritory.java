@@ -23,8 +23,8 @@ public class BasicTerritory implements Territory {
   private TreeSet<Unit> units;
   private BattleField battleField;
   private int size;
-  private int foodResource;
-  private int techResource;
+  private int foodProduction;
+  private int techProduction;
 
   public BasicTerritory(String Name){
     this.OwnerID = -1L;
@@ -33,8 +33,8 @@ public class BasicTerritory implements Territory {
     this.units = new TreeSet<Unit>(new UnitComparator());
     this.battleField = new BattleField(this);
     this.size = 1;
-    this.foodResource = 10; // predetermined as 10
-    this.techResource = 20; // predetermined as 20
+    this.foodProduction = 20; // predetermined as 20
+    this.techProduction = 30; // predetermined as 30
   }
 
   public BasicTerritory(String Name, int size) {
@@ -42,10 +42,10 @@ public class BasicTerritory implements Territory {
     this.size = size;
   }
 
-  public BasicTerritory(String name, int size, int foodResource, int techResource) {
+  public BasicTerritory(String name, int size, int foodProduction, int techProduction) {
     this(name, size);
-    this.foodResource = foodResource;
-    this.techResource = techResource;
+    this.foodProduction = foodProduction;
+    this.techProduction = techProduction;
   }
 
   /**
@@ -54,14 +54,22 @@ public class BasicTerritory implements Territory {
    */
   public int getSize() { return this.size; }
 
-  @Override
-  public int getFoodResource() {
-    return this.foodResource;
+  /**
+   * increase the size of this territory
+   * @param toIncrease
+   */
+  public void increaseSize(int toIncrease){
+    this.size+=toIncrease;
   }
 
   @Override
-  public int getTechResource() {
-    return this.techResource;
+  public int getFoodProduction() {
+    return this.foodProduction;
+  }
+
+  @Override
+  public int getTechProduction() {
+    return this.techProduction;
   }
 
   /**
@@ -156,7 +164,13 @@ public class BasicTerritory implements Territory {
   @Deprecated
   @Override
   public Unit getUnitByType(String type) {
-    return getUnitByTypeLevel(type, 0);
+    String[] info = type.split(" ");
+    if (info.length == 1) { // only contains type, version 1
+      return getUnitByTypeLevel(type, 0);
+    } else { // compatible for version2, Soldier level 6
+      return getUnitByTypeLevel(info[0], Integer.parseInt(info[2]));
+    }
+
   }
 
   @Override

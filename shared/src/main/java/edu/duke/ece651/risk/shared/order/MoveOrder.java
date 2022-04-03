@@ -6,11 +6,20 @@ import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+
 public class MoveOrder extends Order {
   private final ActionChecker moveChecker;
 
   public MoveOrder() {
-    this.moveChecker = new TerrExistChecker(new SrcOwnershipChecker(new ActionUnitChecker(new PathExistMoveChecker(null))));
+    this.moveChecker = new TerrExistChecker(
+            new SrcOwnershipChecker(
+                    new ActionUnitChecker(
+                            new PathExistMoveChecker(
+                                    new PathResourceMoveChecker(null)))));
   }
 
   public MoveOrder(long ID, String srcTerritory, String destTerritory, String unitUnderOrder, int unitAmount) {
@@ -21,8 +30,6 @@ public class MoveOrder extends Order {
     this.unitAmount = unitAmount;
     this.unitType = unitUnderOrder;
     this.orderType = "Move";
-
-
   }
 
   /**
@@ -31,10 +38,10 @@ public class MoveOrder extends Order {
   @Override
   public String executeOrder(RISKMap riskMap) {
     String check_message = moveChecker.checkMove(riskMap, this);
+    System.out.println("Executing order:"+ this.toString());
     if (check_message == null){
       Territory sourceTerritory = riskMap.getTerritoryByName(this.srcTerritory);
       Territory destinationTerritory = riskMap.getTerritoryByName(this.destTerritory);
-          
       Unit sourceTerritoryUnit = sourceTerritory.getUnitByType(this.unitType);
       Unit destinationTerritoryUnit = destinationTerritory.getUnitByType(this.unitType);
       sourceTerritoryUnit.tryDecreaseAmount(this.unitAmount);
@@ -42,4 +49,5 @@ public class MoveOrder extends Order {
     }
     return check_message;
   }
+
 }

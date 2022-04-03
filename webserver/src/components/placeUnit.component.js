@@ -63,6 +63,7 @@ export default class unitPlace extends Component {
         return (
 
             <div style={{height: 400, width: '100%'}}>
+                <p>You have 30 units to put.</p>
                 <DataGrid
 
                     rows={this.state.rows}
@@ -92,7 +93,7 @@ export default class unitPlace extends Component {
                             Commit
                         </Button>
                         <Button onClick={this.handleConfirmDialogClose} autoFocus>
-                            Cancle
+                            Cancel
                         </Button>
                     </DialogActions>
                 </Dialog>

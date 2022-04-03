@@ -93,8 +93,8 @@ export default class play extends Component {
                     <div id="upper" style={{marginTop:"3%"}}>
                         <Box sx={{flexGrow: 1}}>
                             <Grid container spacing={2}>
-                                <Grid item xs={6}>
-                                    <div ref="main" id="main" style={{width: "1200px", height: "800px"}}/>
+                                <Grid item xs={5}>
+                                    <div ref="main" id="main" style={{width: "1000px", height: "800px"}}/>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <div ref="input" id="input">{this.renderSwitch(this.state.room.state)}</div>
@@ -161,7 +161,11 @@ export default class play extends Component {
                     let columnarChart = echarts.init(this.refs.main);
                     let option = {
                         title: {
-                            text: 'You are ' + response.data.idToColor[AuthService.getCurrentUser().id].colorName + ' player'
+                            //Todo: add round number
+                            text: 'You are ' + response.data.idToColor[AuthService.getCurrentUser().id].colorName + ' player\n' +
+                                'Current Tech Level: ' + response.data.riskMap.owners[AuthService.getCurrentUser().id].currTechlevel + "\n" +
+                                'Current Food Resource: ' + response.data.riskMap.owners[AuthService.getCurrentUser().id].ownedFoodResource + "\n" +
+                                'Current Tech Resource: ' + response.data.riskMap.owners[AuthService.getCurrentUser().id].ownedTechResource
                         }, tooltip: {}, animationDurationUpdate: 1500, animationEasingUpdate: 'quinticInOut', series: [{
                             type: 'graph',
                             layout: 'force',
@@ -213,11 +217,16 @@ export default class play extends Component {
                     function addNewTerritory(territory) {
 
                         let label = "";
+                        label += "Size:"+territory.size + "\n";
                         for (const unit of territory.units) {
 
-                            label += unit.type + " " + unit.amount + "\n";
+                            label += unit.amount + " " + unit.type + " level " + unit.level;
 
                         }
+                        label+="\n"
+
+                        label += "Food Production:" + territory.foodProduction + "\n";
+                        label += "Tech Production:" + territory.techProduction + "\n";
 
 
                         return {
@@ -233,6 +242,8 @@ export default class play extends Component {
                                 rich: {}
                             },
                             itemStyle: {
+                                //Todo: change to fancier colors
+                                // (either in Color or someway to add rgb value to current color)
                                 color: response.data.idToColor[territory.ownerID].colorName
                             }
                         };

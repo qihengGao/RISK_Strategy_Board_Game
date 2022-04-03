@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import edu.duke.ece651.risk.shared.factory.AbstractUnitFactory;
 import edu.duke.ece651.risk.shared.factory.V1UnitFactory;
-import edu.duke.ece651.risk.shared.territory.BasicTerritory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
-import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.Unit;
 import org.junit.jupiter.api.Test;
 
@@ -23,12 +21,12 @@ public class BasicTerritoryTest {
         Territory t = new BasicTerritory("t", 9);
         assertEquals("t", t.getName());
         assertEquals(9, t.getSize());
-        assertEquals(10,t.getFoodResource());
-        assertEquals(20, t.getTechResource());
+        assertEquals(20,t.getFoodProduction());
+        assertEquals(30, t.getTechProduction());
 
         Territory t_ = new BasicTerritory("t", 9, 10, 20);
-        assertEquals(10,t_.getFoodResource());
-        assertEquals(20, t_.getTechResource());
+        assertEquals(10,t_.getFoodProduction());
+        assertEquals(20, t_.getTechProduction());
     }
 
     @Test

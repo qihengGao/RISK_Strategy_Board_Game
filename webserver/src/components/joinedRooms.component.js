@@ -61,17 +61,19 @@ export default class joinedRoomsComponent extends Component {
         return (
 
             <div style={{
-                height: 400
-                ,
-                width: '100%'
+                height: 600,
+                marginLeft: 50,
+                marginRight: 50,
+                marginTop: 40,
+                marginBottom: 40,
             }
             }>
                 <DataGrid
 
                     rows={this.state.rows}
                     columns={columns}
-                    // pageSize={5}
-                    // rowsPerPageOptions={[5]}
+                    pageSize={9}
+                    rowsPerPageOptions={[8]}
                     // experimentalFeatures={{newEditingApi: true}}
                     onCellEditCommit={this.handleCellCommit}
                 />

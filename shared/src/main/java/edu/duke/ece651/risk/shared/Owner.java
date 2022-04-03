@@ -1,8 +1,9 @@
 package edu.duke.ece651.risk.shared;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Owner {
+public class Owner implements Serializable {
     private long ownerId;
     private int currTechlevel;
     private int ownedFoodResource;
@@ -63,7 +64,7 @@ public class Owner {
         return ownedTechResource;
     }
 
-    public long getOwnerId() {
+    public Long getOwnerId() {
         return ownerId;
     }
 
@@ -74,7 +75,7 @@ public class Owner {
      */
     public String tryAddOrRemoveFoodResource(int offset) {
         if(this.ownedFoodResource + offset < 0){
-            return "cannot add or remove food resources, would be negative";
+            return "You do not have sufficient food resources";
         }
         this.ownedFoodResource += offset;
         return null;
@@ -87,7 +88,7 @@ public class Owner {
      */
     public String tryAddOrRemoveTechResource(int offset) {
         if(this.ownedTechResource + offset < 0){
-            return "cannot add or remove technological resources, would become negative";
+            return "You do not have sufficient tech resources";
         }
         this.ownedTechResource += offset;
         return null;
