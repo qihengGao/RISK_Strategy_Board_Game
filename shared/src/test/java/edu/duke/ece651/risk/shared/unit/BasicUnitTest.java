@@ -15,6 +15,11 @@ public class BasicUnitTest {
     Unit u = new BasicUnit("Soldier", 10);
     assertEquals("Soldier", u.getType());
     assertEquals(10, u.getAmount());
+
+    Unit u1 = new BasicUnit("Soldier level 5", 9);
+    assertEquals("Soldier", u1.getType());
+    assertEquals(5, u1.getLevel());
+    assertEquals(9, u1.getAmount());
   }
 
   @Test

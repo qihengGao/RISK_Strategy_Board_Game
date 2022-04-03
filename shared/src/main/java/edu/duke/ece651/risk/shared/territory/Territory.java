@@ -111,10 +111,10 @@ public interface Territory extends Serializable {
 
   /**
    * Try upgrade the unit specified in the  toUpgrade {type, amount, level} to the toLevel\
-   * return true if successfully
+   * return null if successfully
    * @param toUpgrade
    * @param toLevel
    * @return
    */
-  public boolean tryUpgradeUnitToLevel(Unit toUpgrade, int toLevel);
+  public String tryUpgradeUnitToLevel(Unit toUpgrade, int toLevel);
 }
