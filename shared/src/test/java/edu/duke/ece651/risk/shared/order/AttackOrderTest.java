@@ -1,5 +1,9 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.order;
 
+import edu.duke.ece651.risk.shared.BattleField;
+import edu.duke.ece651.risk.shared.Color;
+import edu.duke.ece651.risk.shared.Owner;
+import edu.duke.ece651.risk.shared.SimpleAttackResolver;
 import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.MapTextView;
@@ -29,6 +33,9 @@ public class AttackOrderTest {
             t.tryChangeOwnerTo((long) (count / 3));
             count++;
         }
+        riskMap.getOwners().put(0L, new Owner(0, 6, 100, 100));
+        riskMap.getOwners().put(1L, new Owner(0, 6, 100, 100));
+        riskMap.getOwners().put(2L, new Owner(0, 6, 100, 100));
         return riskMap;
     }
 

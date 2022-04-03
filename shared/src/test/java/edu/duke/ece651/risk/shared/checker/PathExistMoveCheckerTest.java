@@ -58,6 +58,9 @@ public class PathExistMoveCheckerTest {
       t.tryChangeOwnerTo((long) (count / 3));
       count++;
     }
+    riskMap.getOwners().put(0L, new Owner(0, 6, 100, 100));
+    riskMap.getOwners().put(1L, new Owner(0, 6, 100, 100));
+    riskMap.getOwners().put(2L, new Owner(0, 6, 100, 100));
     
     return riskMap;
   }
@@ -71,107 +74,6 @@ public class PathExistMoveCheckerTest {
 
     MapTextView mapTextView = new MapTextView(riskMap, idToColor);
     System.out.println(mapTextView.displayMap());
-  }
-
-  @Test
-  public void test_doDijkstra(){
-    Territory territory1 = new BasicTerritory("terr1", 5);
-    Territory territory2 = new BasicTerritory("terr2", 10);
-    Territory territory3 = new BasicTerritory("terr3", 1);
-    Territory territory4 = new BasicTerritory("terr4", 1);
-    Territory territory5 = new BasicTerritory("terr5", 2);
-
-    territory1.tryChangeOwnerTo(0L);
-    territory2.tryChangeOwnerTo(0L);
-    territory3.tryChangeOwnerTo(0L);
-    territory4.tryChangeOwnerTo(0L);
-    territory5.tryChangeOwnerTo(0L);
-
-    HashSet<Territory> territories = new HashSet<>();
-    territories.add(territory1);
-    territories.add(territory2);
-    territories.add(territory3);
-    territories.add(territory4);
-    territories.add(territory5);
-
-    RISKMap riskMap = new RISKMap(territories);
-    riskMap.connectTerr("terr1", "terr2");
-    riskMap.connectTerr("terr1", "terr3");
-    riskMap.connectTerr("terr2", "terr3");
-    riskMap.connectTerr("terr2", "terr4");
-    riskMap.connectTerr("terr3", "terr5");
-    riskMap.connectTerr("terr4", "terr5");
-
-    PathExistMoveChecker checker = new PathExistMoveChecker(null);
-    HashMap<Territory, Territory> parents = checker.doDijkstra(riskMap, 0L, territory1);
-    ArrayList<Territory> actualPath = checker.getPathFromSrcToDest(parents, territory1, territory4);
-    assertEquals(3, actualPath.size());
-    assertSame(territory3, actualPath.get(0));
-    assertSame(territory5, actualPath.get(1));
-    assertSame(territory4, actualPath.get(2));
-    assertEquals(4, checker.getCostFromSrcToDest(actualPath));
-
-    territory3.tryChangeOwnerTo(1L);
-    parents = checker.doDijkstra(riskMap, 0L, territory1);
-    actualPath = checker.getPathFromSrcToDest(parents, territory1, territory5);
-    assertEquals(3, actualPath.size());
-    assertSame(territory2, actualPath.get(0));
-    assertSame(territory4, actualPath.get(1));
-    assertSame(territory5, actualPath.get(2));
-    assertEquals(13, checker.getCostFromSrcToDest(actualPath));
-  }
-
-  @Test
-  public void test_getPathFromSrcToDest(){
-    Territory territory1 = new BasicTerritory("terr1");
-    Territory territory2 = new BasicTerritory("terr2");
-    Territory territory3 = new BasicTerritory("terr3");
-    Territory territory4 = new BasicTerritory("terr4");
-    Territory territory5 = new BasicTerritory("terr5");
-
-    HashMap<Territory, Territory> parents = new HashMap<>();
-    parents.put(territory1, null);
-    parents.put(territory2, territory1);
-    parents.put(territory4, territory3);
-    parents.put(territory3, territory2);
-
-    // success: path exists between terr1 -> terr2 -> terr3 -> terr4
-    PathExistMoveChecker checker = new PathExistMoveChecker(null);
-    ArrayList<Territory> actualPath = checker.getPathFromSrcToDest(parents, territory1, territory4);
-    assertEquals(3, actualPath.size());
-    assertSame(territory2, actualPath.get(0));
-    assertSame(territory3, actualPath.get(1));
-    assertSame(territory4, actualPath.get(2));
-
-    // error: source or destination not in hashmap, e.g. terri5
-    actualPath = checker.getPathFromSrcToDest(parents, territory1, territory5);
-    assertNull(actualPath);
-    actualPath = checker.getPathFromSrcToDest(parents, territory5, territory1);
-    assertNull(actualPath);
-
-    // error: both source and destination exist in hashmap, but path does not exist
-    // e.g. terr4 -> terr 3
-    actualPath = checker.getPathFromSrcToDest(parents, territory4, territory3);
-    assertNull(actualPath);
-  }
-
-  @Test
-  public void test_getCostFromSrcToDest(){
-    Territory territory1 = new BasicTerritory("terr1", 1);
-    Territory territory2 = new BasicTerritory("terr2", 2);
-    Territory territory3 = new BasicTerritory("terr3", 3);
-    Territory territory4 = new BasicTerritory("terr4", 4);
-    Territory territory5 = new BasicTerritory("terr5", 5);
-
-    ArrayList<Territory> paths = new ArrayList<>();
-    paths.add(territory1);
-    paths.add(territory2);
-    paths.add(territory3);
-    paths.add(territory4);
-    paths.add(territory5);
-
-    PathExistMoveChecker checker = new PathExistMoveChecker(null);
-    assertEquals(15, checker.getCostFromSrcToDest(paths));
   }
 
 }

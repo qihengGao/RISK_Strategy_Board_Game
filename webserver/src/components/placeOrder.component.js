@@ -37,7 +37,9 @@ class unitPlace extends Component {
                 ownTerritory.push(territory.name);
                 for (let i = 0; i < 7; i++) {
                     let unitInfo = "Soldier" + " level " + i;
-                    myUnitTypes.push(unitInfo);
+                    if (!myUnitTypes.includes(unitInfo)) {
+                        myUnitTypes.push(unitInfo);
+                    }
                 }
             } else {
                 enemyTerritory.push(territory.name);

@@ -46,7 +46,7 @@ public class MapTextView implements MapView{
   private String displayTerrGroup(Iterable<Territory> terrGroup, String groupHeader){
     StringBuilder ans = new StringBuilder(headerBuilder(groupHeader));
     for (Territory t : terrGroup){
-      ans.append(" " + displayUnitsOf(t) + t.getName()+displayNeighbors(t));
+      ans.append(" " + displayUnitsOf(t) + t.getName() +"("+t.getSize()+")"+displayNeighbors(t));
     }
     ans.append("\n");
     return ans.toString();

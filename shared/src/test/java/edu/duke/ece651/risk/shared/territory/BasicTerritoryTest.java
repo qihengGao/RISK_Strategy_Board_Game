@@ -21,8 +21,8 @@ public class BasicTerritoryTest {
         Territory t = new BasicTerritory("t", 9);
         assertEquals("t", t.getName());
         assertEquals(9, t.getSize());
-        assertEquals(10,t.getFoodProduction());
-        assertEquals(20, t.getTechProduction());
+        assertEquals(20,t.getFoodProduction());
+        assertEquals(30, t.getTechProduction());
 
         Territory t_ = new BasicTerritory("t", 9, 10, 20);
         assertEquals(10,t_.getFoodProduction());

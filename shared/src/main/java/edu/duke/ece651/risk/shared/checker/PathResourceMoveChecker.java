@@ -14,7 +14,6 @@ public class PathResourceMoveChecker extends ActionChecker {
     protected String checkMyRule(RISKMap riskMap, Order moveOrder) {
         Territory src = riskMap.getTerritoryByName(moveOrder.getSrcTerritory());
         Territory dst = riskMap.getTerritoryByName(moveOrder.getDestTerritory());
-        HashSet<Territory> visited = new HashSet<Territory>();
 
         HashMap<Territory, Territory> parents = doDijkstra(riskMap, moveOrder.getPlayerID(), src);
         ArrayList<Territory> path = getPathFromSrcToDest(parents, src, dst);
@@ -22,6 +21,24 @@ public class PathResourceMoveChecker extends ActionChecker {
 
         return riskMap.getOwners().get(moveOrder.getPlayerID()).tryAddOrRemoveFoodResource(cost);
     }
+
+  private Territory dfsToDst(RISKMap riskMap, long ID, Territory curr, String dstName, HashSet<Territory> visited){
+    if (curr.getName().equals(dstName)){
+      return riskMap.getTerritoryByName(dstName);
+    }
+    visited.add(curr);
+    Territory end = null;
+    for (String tName: curr.getNeighbors()){
+      Territory t = riskMap.getTerritoryByName(tName);
+      if (!visited.contains(t) && t.getOwnerID().equals(ID)){
+        end = dfsToDst(riskMap, ID, t, dstName, visited);
+        if (end!=null){
+          return end;
+        }
+      }
+    }
+    return null;
+  }
 
     /**
      //   * helper method to get the next node to compute path
@@ -42,6 +59,8 @@ public class PathResourceMoveChecker extends ActionChecker {
     }
     return toReturn;
   }
+
+
 
   /**
    * helper method to use djikstra's algorithm
@@ -72,15 +91,12 @@ public class PathResourceMoveChecker extends ActionChecker {
       }
     }
 
-    HashSet<Territory> queue = new HashSet<>();
-    for(Territory territory: territories){
-      if(territory.getOwnerID().equals(ownerId)){
-        queue.add(territory);
-      }
-    }
+    //build a set of unsettled territory
+    HashSet<Territory> queue = new HashSet<Territory>();
+    dfsToDst(riskMap, ownerId, source, null, queue);
 
     while (!queue.isEmpty()){
-      Territory currTerritory = this.getMinimumDistanceTerritory(distances, queue);
+      Territory currTerritory = getMinimumDistanceTerritory(distances, queue);
       queue.remove(currTerritory);
 
       Iterable<String> neighborStrs = currTerritory.getNeighbors();

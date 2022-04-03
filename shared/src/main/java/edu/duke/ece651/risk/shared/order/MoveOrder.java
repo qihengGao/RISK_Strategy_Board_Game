@@ -15,7 +15,11 @@ public class MoveOrder extends Order {
   private final ActionChecker moveChecker;
 
   public MoveOrder() {
-    this.moveChecker = new TerrExistChecker(new SrcOwnershipChecker(new ActionUnitChecker(new PathExistMoveChecker(new PathResourceMoveChecker(null)))));
+    this.moveChecker = new TerrExistChecker(
+            new SrcOwnershipChecker(
+                    new ActionUnitChecker(
+                            new PathExistMoveChecker(
+                                    new PathResourceMoveChecker(null)))));
   }
 
   public MoveOrder(long ID, String srcTerritory, String destTerritory, String unitUnderOrder, int unitAmount) {

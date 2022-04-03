@@ -164,7 +164,13 @@ public class BasicTerritory implements Territory {
   @Deprecated
   @Override
   public Unit getUnitByType(String type) {
-    return getUnitByTypeLevel(type, 0);
+    String[] info = type.split(" ");
+    if (info.length == 1) { // only contains type, version 1
+      return getUnitByTypeLevel(type, 0);
+    } else { // compatible for version2, Soldier level 6
+      return getUnitByTypeLevel(info[0], Integer.parseInt(info[2]));
+    }
+
   }
 
   @Override

@@ -23,11 +23,8 @@ public class AttackOrder extends Order {
     }
 
     public AttackOrder() {
-
         this.attackChecker = new TerrExistChecker(new SrcOwnershipChecker(new ActionUnitChecker(new PathExistAttackChecker(new PathResourceAttackChecker(null)))));
     }
-
-
 
     @Override
     public String executeOrder(RISKMap riskMap) {
