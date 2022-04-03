@@ -115,6 +115,8 @@ StopPreviousServer:
   stage: deploy
   tags:
     - vcm25354Deploy
+  needs:
+    - clover-report
   script:
     - ls
     - docker kill risk-game-apiserver || true
