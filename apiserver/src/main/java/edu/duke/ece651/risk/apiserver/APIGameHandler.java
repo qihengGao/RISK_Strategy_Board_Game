@@ -160,6 +160,7 @@ public class APIGameHandler {
             }
             commitedPlayer.add(clientID);
             if (commitedPlayer.size() == roomSize) {
+                increaseTechFoodForAll();
                 orderingPhase();
             }
             return true;
@@ -186,6 +187,8 @@ public class APIGameHandler {
                         t.getBattleField().resetAttackersList();
                     }
                     increaseOneInAllTerritory();
+                    increaseTechFoodForAll();
+
                     if (checkWinner() == null) {
                         orderingPhase();
                     } else {
@@ -302,6 +305,16 @@ public class APIGameHandler {
         currentState = State.EndState.name();
         commitedPlayer.clear();
 
+    }
+
+    public void increaseTechFoodForAll(){
+        for (Long id : players){
+            Owner o = riskMap.getOwners().get(id);
+            for (Territory t : riskMap.getTerritoriesByOwnerID(id)){
+                o.tryAddOrRemoveFoodResource(t.getFoodProduction());
+                o.tryAddOrRemoveTechResource(t.getTechProduction());
+            }
+        }
     }
 
     public void increaseOneInAllTerritory() {

@@ -6,6 +6,11 @@ import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+
 public class MoveOrder extends Order {
   private final ActionChecker moveChecker;
 
@@ -34,7 +39,6 @@ public class MoveOrder extends Order {
     if (check_message == null){
       Territory sourceTerritory = riskMap.getTerritoryByName(this.srcTerritory);
       Territory destinationTerritory = riskMap.getTerritoryByName(this.destTerritory);
-          
       Unit sourceTerritoryUnit = sourceTerritory.getUnitByType(this.unitType);
       Unit destinationTerritoryUnit = destinationTerritory.getUnitByType(this.unitType);
       sourceTerritoryUnit.tryDecreaseAmount(this.unitAmount);
@@ -42,4 +46,5 @@ public class MoveOrder extends Order {
     }
     return check_message;
   }
+
 }
