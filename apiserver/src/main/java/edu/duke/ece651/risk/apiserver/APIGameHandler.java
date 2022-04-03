@@ -206,12 +206,15 @@ public class APIGameHandler {
     public boolean tryExecuteOrder(ArrayList<Order> orders, RISKMap tmpRiskMap) {
         ArrayList<Order> moveOrder = new ArrayList<>();
         ArrayList<Order> attackOrder = new ArrayList<>();
+        ArrayList<Order> upgradeMaxTechOrder = new ArrayList<>();
 
         for (Order order : orders) {
             if (Objects.equals(order.getOrderType(), "Move"))
                 moveOrder.add(order);
-            else
+            else if (Objects.equals(order.getOrderType(), "Attack"))
                 attackOrder.add(order);
+            else if (Objects.equals(order.getOrderType(), "Upgrade Tech Level"));
+                upgradeMaxTechOrder.add(order);
         }
         StringBuilder moveErrorMessage = new StringBuilder();
         for (Order order : moveOrder) {
@@ -227,7 +230,20 @@ public class APIGameHandler {
                 attackErrorMessage.append(errorMessage);
         }
         System.out.println(moveErrorMessage.toString() + "  \n" + attackErrorMessage.toString());
-        return moveErrorMessage.toString().equals("") && attackErrorMessage.toString().equals("");
+
+        StringBuilder upgradeMaxTechMessage = new StringBuilder();
+        if (!upgradeMaxTechOrder.isEmpty()) {
+            if (upgradeMaxTechOrder.size() > 1) {
+                upgradeMaxTechMessage.append("You cannot upgrade your tech level more than once");
+            } else {
+                String errorMessage = upgradeMaxTechOrder.get(0).executeOrder(tmpRiskMap);
+                if (errorMessage != null) {
+                    upgradeMaxTechMessage.append(errorMessage);
+                }
+            }
+        }
+        return moveErrorMessage.toString().equals("") && attackErrorMessage.toString().equals("")
+                && upgradeMaxTechMessage.toString().equals("");
 
     }
 
