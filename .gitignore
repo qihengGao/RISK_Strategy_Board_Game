@@ -1,6 +1,6 @@
 # Ignore Gradle project-specific cache directory
 .gradle
-
+!.gradle/7.4.1/
 # Ignore Gradle build output directory
 build
 bin

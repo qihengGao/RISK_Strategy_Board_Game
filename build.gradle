@@ -26,6 +26,8 @@ buildscript {
 
 allprojects{
     apply plugin: "java"
+    sourceCompatibility = 1.17
+    targetCompatibility = 1.17
     apply plugin: "com.bmuschko.clover"
 
     //apply plugin: "com.github.node-gradle.node"
@@ -61,6 +63,8 @@ allprojects{
     clover{
 
         compiler{
+            sourceCompatibility = 1.9
+            targetCompatibility = 1.9
             additionalArgs = "-g:lines,source,vars"
         }
         report {
@@ -85,44 +89,43 @@ allprojects{
 
 // Project specific stuff
 project (':shared'){
-    dependencies {
-        testImplementation project(':client')
-        testImplementation project(':server')
-    }
+//    dependencies {
+//        testImplementation project(':client')
+//        testImplementation project(':server')
+//    }
 }
 
-project (':client'){
-    dependencies {
-        implementation project(':shared')
-    }
-}
+//project (':client'){
+//    dependencies {
+//        implementation project(':shared')
+//    }
+//}
 
-project (':server'){
-    dependencies {
-        implementation project(':shared')
-        testImplementation project(':client')
-    }
-}
+//project (':server'){
+//    dependencies {
+//        implementation project(':shared')
+//        testImplementation project(':client')
+//    }
+//}
 
 project ('apiserver'){
     dependencies {
         implementation project(':shared')
-        implementation project(':server')
     }
 }
 
-tasks.register("run-server") {
-    dependsOn project('server').getTasksByName('run',false)
-    group = 'Run Client/Server'
-    description = 'Run the Server'
-}
-
-
-tasks.register("run-client") {
-    dependsOn project('client').getTasksByName('run',false)
-    group = 'Run Client/Server'
-    description = 'Run the Client'
-}
+//tasks.register("run-server") {
+//    dependsOn project('server').getTasksByName('run',false)
+//    group = 'Run Client/Server'
+//    description = 'Run the Server'
+//}
+//
+//
+//tasks.register("run-client") {
+//    dependsOn project('client').getTasksByName('run',false)
+//    group = 'Run Client/Server'
+//    description = 'Run the Client'
+//}
 
 tasks.register("run-apiserver") {
     dependsOn project('apiserver').getTasksByName('bootRun',false)
