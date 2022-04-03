@@ -33,8 +33,8 @@ public class BasicTerritory implements Territory {
     this.units = new TreeSet<Unit>(new UnitComparator());
     this.battleField = new BattleField(this);
     this.size = 1;
-    this.foodProduction = 10; // predetermined as 10
-    this.techProduction = 20; // predetermined as 20
+    this.foodProduction = 20; // predetermined as 20
+    this.techProduction = 30; // predetermined as 30
   }
 
   public BasicTerritory(String Name, int size) {
@@ -53,6 +53,14 @@ public class BasicTerritory implements Territory {
    * @return int size
    */
   public int getSize() { return this.size; }
+
+  /**
+   * increase the size of this territory
+   * @param toIncrease
+   */
+  public void increaseSize(int toIncrease){
+    this.size+=toIncrease;
+  }
 
   @Override
   public int getFoodProduction() {

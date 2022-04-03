@@ -162,7 +162,10 @@ export default class play extends Component {
                     let option = {
                         title: {
                             //Todo: add round number
-                            text: 'You are ' + response.data.idToColor[AuthService.getCurrentUser().id].colorName + ' player'
+                            text: 'You are ' + response.data.idToColor[AuthService.getCurrentUser().id].colorName + ' player\n' +
+                                'Current Tech Level: ' + response.data.riskMap.owners[AuthService.getCurrentUser().id].currTechlevel + "\n" +
+                                'Current Food Resource: ' + response.data.riskMap.owners[AuthService.getCurrentUser().id].ownedFoodResource + "\n" +
+                                'Current Tech Resource: ' + response.data.riskMap.owners[AuthService.getCurrentUser().id].ownedTechResource
                         }, tooltip: {}, animationDurationUpdate: 1500, animationEasingUpdate: 'quinticInOut', series: [{
                             type: 'graph',
                             layout: 'force',
@@ -214,11 +217,13 @@ export default class play extends Component {
                     function addNewTerritory(territory) {
 
                         let label = "";
+                        label += "Size:"+territory.size + "\n";
                         for (const unit of territory.units) {
 
                             label += unit.type + "(Level " + unit.level + ") "+ unit.amount + "\n";
 
                         }
+
                         label += "Food Production:" + territory.foodProduction + "\n";
                         label += "Tech Production:" + territory.techProduction + "\n";
 

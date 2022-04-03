@@ -2,6 +2,7 @@ package edu.duke.ece651.risk.apiserver;
 
 import edu.duke.ece651.risk.apiserver.models.State;
 import edu.duke.ece651.risk.shared.Color;
+import edu.duke.ece651.risk.shared.Owner;
 import edu.duke.ece651.risk.shared.checker.PlaceRuleChecker;
 import edu.duke.ece651.risk.shared.checker.PlaceTerrExistChecker;
 import edu.duke.ece651.risk.shared.checker.PlaceTerrIDChecker;
@@ -244,11 +245,24 @@ public class APIGameHandler {
         Collections.shuffle(randomized, new Random(1777));
         int count = 0;
         ArrayList<Long> clientIDList = new ArrayList<>();
-        for (Long clientID : players)
+        for (Long clientID : players) {
             clientIDList.add(clientID);
+            riskMap.tryAddOwner(new Owner(clientID));
+        }
         for (Territory territory : randomized) {
             territory.tryChangeOwnerTo(clientIDList.get(count++ / n_Terr_per_player));
-
+        }
+        for (Long clientID : clientIDList) {
+            int totalRest = 10;
+            Random random=new Random();
+            while (totalRest > 0) {
+                for (Territory t : riskMap.getTerritoriesByOwnerID(clientID)) {
+                    if (random.nextBoolean()){
+                        t.increaseSize(2);
+                        totalRest-=2;
+                    }
+                }
+            }
         }
     }
 

@@ -26,7 +26,13 @@ public interface Territory extends Serializable {
    * @return the name of this Territory, such as "Narnia".
    */
   public String getName();
-  
+
+  /**
+   * increase the size of this territory
+   * @param toIncrease
+   */
+  public void increaseSize(int toIncrease);
+
   /**
    * Return the number of curr terrotory's neighbor
    * @return int
