@@ -37,6 +37,9 @@ public class UpgradeUnitOrder extends Order{
         if (checkerMsg != null) {
             return checkerMsg;
         }
+        if(this.toLevel > riskMap.getOwners().get(this.playerID).getCurrTechlevel()){
+            return "cannot upgrade units beyond maximum technology level";
+        }
         int techCost = toUpgrade.getAmount() * toUpgrade.getCostToLevel(this.toLevel);
         String message = riskMap.getTerritoryByName(this.srcTerritory).tryUpgradeUnitToLevel(toUpgrade, toLevel);
         if (message != null) {
