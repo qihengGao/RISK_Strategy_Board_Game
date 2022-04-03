@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import javax.swing.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class SufficientSourceForUpgradeCheckerTest {
 
@@ -36,12 +37,28 @@ public class SufficientSourceForUpgradeCheckerTest {
     public void test_checkMyRule(){
         ActionChecker checker = new SufficientSourceForUpgradeChecker(null);
         RISKMap riskMap = this.buildTestMap();
-        UpgradeUnitOrder order = new UpgradeUnitOrder(0L, "Test1", "Soldier", 10, 1);
-        System.out.println(order.getToLevel());
-        System.out.println(order.getToLevel());
 
-//        String expectedMessage = "";
-//        String actualMessage = checker.checkMove(riskMap, order);
-//        assertEquals("", actualMessage);
+        // error: upgrade to a lower level
+        UpgradeUnitOrder orderLevelLower = new UpgradeUnitOrder(0L, "Test1", "Soldier", 10, 0);
+        String expectedMessage = "Soldier level 0 cannot upgrade to 0";
+        String actualMessage = checker.checkMove(riskMap, orderLevelLower);
+        assertEquals(expectedMessage, actualMessage);
+
+        // error: upgrade to a lower level
+        UpgradeUnitOrder orderHighLevel = new UpgradeUnitOrder(0L, "Test1", "Soldier", 10, 7);
+        expectedMessage = "Soldier level 0 cannot upgrade to 7";
+        actualMessage = checker.checkMove(riskMap, orderHighLevel);
+        assertEquals(expectedMessage, actualMessage);
+
+        // error: insufficient resource
+        UpgradeUnitOrder orderInsufficientResource = new UpgradeUnitOrder(0L, "Test1", "Soldier", 10, 2);
+        expectedMessage = "Insufficient resource to upgrade 10 lv.0 Soldier";
+        actualMessage = checker.checkMove(riskMap, orderInsufficientResource);
+        assertEquals(expectedMessage, actualMessage);
+
+        // success
+        UpgradeUnitOrder orderSuccess = new UpgradeUnitOrder(0L, "Test1", "Soldier", 9, 2);
+        actualMessage = checker.checkMove(riskMap, orderSuccess);
+        assertNull(actualMessage);
     }
 }

@@ -30,8 +30,12 @@ public class UpgradeUnitOrder extends Order{
 
     @Override
     public String executeOrder(RISKMap riskMap) {
-
         Unit toUpgrade = new BasicUnit(this.unitType, this.unitAmount);
+
+        if(this.unitAmount < 0){
+            return "cannot upgrade negative amount of units";
+        }
+
         // checker: sufficient tech resource + valid level
         String checkerMsg = this.upgradeUnitChecker.checkMove(riskMap, this);
         if (checkerMsg != null) {
