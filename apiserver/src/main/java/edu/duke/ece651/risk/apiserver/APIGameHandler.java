@@ -68,17 +68,16 @@ public class APIGameHandler {
         return riskMap;
     }
 
-    public RISKMap getRiskMapByState(){
-        if (currentState.equals(State.PlacingState.name())){
+    public RISKMap getRiskMapByState() {
+        if (currentState.equals(State.PlacingState.name())) {
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
 
-            for (Territory t : cloneMap.getContinent()){
+            for (Territory t : cloneMap.getContinent()) {
                 t.setUnits(new TreeSet<Unit>());
             }
 
             return cloneMap;
-        }
-        else {
+        } else {
             return riskMap;
         }
     }
@@ -172,7 +171,10 @@ public class APIGameHandler {
     public boolean tryPreProcessOrder(Long clientID, ArrayList<Order> orders) {
         if (Objects.equals(currentState, State.OrderingState.name()) && !commitedPlayer.contains(clientID)) {
 
+            System.out.println("in tryPreProcessOrder");
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
+
+            System.out.println("number of orders:" + orders.size());
 
             if (orders == null || tryExecuteOrder(orders, cloneMap)) {
                 temporaryOrders.addAll(orders);
@@ -207,15 +209,18 @@ public class APIGameHandler {
         ArrayList<Order> moveOrder = new ArrayList<>();
         ArrayList<Order> attackOrder = new ArrayList<>();
         ArrayList<Order> upgradeMaxTechOrder = new ArrayList<>();
-
+        System.out.println("in tryExecuteOrder");
         for (Order order : orders) {
             if (Objects.equals(order.getOrderType(), "Move"))
                 moveOrder.add(order);
-            else if (Objects.equals(order.getOrderType(), "Attack"))
+            if (Objects.equals(order.getOrderType(), "Attack"))
                 attackOrder.add(order);
-            else if (Objects.equals(order.getOrderType(), "Upgrade Tech Level"));
+            if (order.getOrderType().equals("Upgrade Tech Level"))
                 upgradeMaxTechOrder.add(order);
         }
+        System.out.println("number of move orders:" + moveOrder.size());
+        System.out.println("number of attack orders:" + attackOrder.size());
+        System.out.println("number of upgrade orders:" + upgradeMaxTechOrder.size());
         StringBuilder moveErrorMessage = new StringBuilder();
         for (Order order : moveOrder) {
             String errorMessage = order.executeOrder(tmpRiskMap);
@@ -273,12 +278,12 @@ public class APIGameHandler {
         }
         for (Long clientID : clientIDList) {
             int totalRest = 10;
-            Random random=new Random();
+            Random random = new Random();
             while (totalRest > 0) {
                 for (Territory t : riskMap.getTerritoriesByOwnerID(clientID)) {
-                    if (random.nextBoolean()){
+                    if (random.nextBoolean()) {
                         t.increaseSize(2);
-                        totalRest-=2;
+                        totalRest -= 2;
                     }
                 }
             }
@@ -308,7 +313,7 @@ public class APIGameHandler {
     }
 
     public void orderingPhase() {
-        for(Long id : players){
+        for (Long id : players) {
             isPlayerLost(id);
         }
         currentState = State.OrderingState.name();
@@ -323,10 +328,10 @@ public class APIGameHandler {
 
     }
 
-    public void increaseTechFoodForAll(){
-        for (Long id : players){
+    public void increaseTechFoodForAll() {
+        for (Long id : players) {
             Owner o = riskMap.getOwners().get(id);
-            for (Territory t : riskMap.getTerritoriesByOwnerID(id)){
+            for (Territory t : riskMap.getTerritoriesByOwnerID(id)) {
                 o.tryAddOrRemoveFoodResource(t.getFoodProduction());
                 o.tryAddOrRemoveTechResource(t.getTechProduction());
             }
@@ -367,9 +372,9 @@ public class APIGameHandler {
     public boolean isPlayerLost(Long clientID) {
         //If this player still have any territory,
         //means that this player is not lost.
-        if(lostPlayer.contains(clientID))
+        if (lostPlayer.contains(clientID))
             return true;
-        if (currentState.equals(State.WaitingToStartState.name())){
+        if (currentState.equals(State.WaitingToStartState.name())) {
             return false;
         }
 

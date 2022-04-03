@@ -38,6 +38,7 @@ public class MoveOrder extends Order {
   @Override
   public String executeOrder(RISKMap riskMap) {
     String check_message = moveChecker.checkMove(riskMap, this);
+    System.out.println("Executing order:"+ this.toString());
     if (check_message == null){
       Territory sourceTerritory = riskMap.getTerritoryByName(this.srcTerritory);
       Territory destinationTerritory = riskMap.getTerritoryByName(this.destTerritory);

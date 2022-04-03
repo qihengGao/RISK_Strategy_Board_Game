@@ -47,8 +47,9 @@ class MoveOrderTest {
     void executeOrder() {
         RISKMap riskMap = buildTestMap();
         displayMap(riskMap);
-        Order order = new MoveOrder(0L, "Test0","Test2","Unit", 1);
-        Order invalid_order = new MoveOrder(0L, "Test0","Test2","Unit", 1);
+        Order order = new MoveOrder(0L, "Test0","Test2","Unit level 0", 1);
+        Order invalid_order = new MoveOrder(0L, "Test0","Test2","Unit", -1);
+        assertNotEquals(invalid_order.executeOrder(riskMap), null);
         assertNull(order.executeOrder(riskMap));
         displayMap(riskMap);
     }
