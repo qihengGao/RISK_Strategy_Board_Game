@@ -120,7 +120,7 @@ TestAPIServer:
     - dev
 
 deploy_test_server:
-  stage: test
+  stage: deploy
   tags:
     - test-ssh
   needs:
