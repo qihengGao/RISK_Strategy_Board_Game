@@ -89,6 +89,38 @@ build_for_deploy:
       - apiserver/build
       - shared/build
 
+DeployServer:
+  stage: deploy
+  tags:
+    - vcm25354Deploy
+  needs:
+    - build_for_deploy
+  script:
+    - ls scripts
+    - docker run -d --name risk-game-apiserver --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/ece651-risk gradle:7.4.1-jdk17 /bin/bash -c "cd /ece651-risk;ls -al; java -jar ./apiserver/build/libs/apiserver-0.0.1-SNAPSHOT.jar"
+    - docker run -d --name risk-game-webserver --user $(id -u):$(id -g)  -e npm_config_cache=/risk --network="host" -v $(pwd):/risk node:16 /risk/scripts/deployWebServer.sh
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
+    paths:
+      - build
+      - .gradle
+      - apiserver/build
+      - shared/build
+  only:
+    - dev
+
+TestAPIServer:
+  stage: test-deploy
+  tags:
+    - vcm25354Deploy
+  needs:
+    - DeployServer
+  script:
+    - ls
+    - ./scripts/test-deploy.sh
+  only:
+    - dev
 
 selenium_grid_server:
   stage: build
@@ -207,35 +239,3 @@ pages:
     - main
 
 
-DeployServer:
-  stage: deploy
-  tags:
-    - vcm25354Deploy
-  needs:
-    - build_for_deploy
-  script:
-    - ls scripts
-    - docker run -d --name risk-game-apiserver --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/ece651-risk gradle:7.4.1-jdk17 /bin/bash -c "cd /ece651-risk;ls -al; java -jar ./apiserver/build/libs/apiserver-0.0.1-SNAPSHOT.jar"
-    - docker run -d --name risk-game-webserver --user $(id -u):$(id -g)  -e npm_config_cache=/risk --network="host" -v $(pwd):/risk node:16 /risk/scripts/deployWebServer.sh
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-      - .gradle
-      - apiserver/build
-      - shared/build
-  only:
-    - dev
-
-TestAPIServer:
-  stage: test-deploy
-  tags:
-    - vcm25354Deploy
-  needs:
-    - DeployServer
-  script:
-    - ls
-    - ./scripts/test-deploy.sh
-  only:
-    - dev
