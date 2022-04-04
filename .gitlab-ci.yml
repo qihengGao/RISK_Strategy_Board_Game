@@ -42,7 +42,7 @@ build_for_test:
 
 build_for_deploy:
   image: gradle:7.4.1-jdk17
-  stage: build_for_test
+  stage: build
   script:
     - gradle resolveDependencies
     - gradle --build-cache assemble
