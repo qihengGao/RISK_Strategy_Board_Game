@@ -3,7 +3,7 @@ x=""
 count=0
 while [ "$x" != "Public Content." ]
 do
-    if [ "$count" == "150" ]
+    if [ "$count" == "60" ]
     then
         echo "Giving up after 150 attempts/s to connect!"
         exit 1
