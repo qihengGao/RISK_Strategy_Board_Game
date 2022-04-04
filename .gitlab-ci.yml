@@ -156,13 +156,16 @@ selenium_web_ui_test:
   image: node:16
   stage: uiTest
   variables:
-    GIT_STRATEGY: none
+    GIT_STRATEGY: clone
+    GIT_CLEAN_FLAGS: none
   needs:
     - verify_deploy_test_server
   tags:
     - docker
   script:
     - npm install -g selenium-side-runner
+    - ls -al
+    - ls -al scripts
     - cat ./scripts/UI_test_scripts/test_login.side
     - selenium-side-runner --server http://host.docker.internal:4444/wd/hub --base-url http://host.docker.internal:8081 ./scripts/UI_test_scripts/test_login.side
 
