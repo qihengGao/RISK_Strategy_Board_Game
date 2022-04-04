@@ -22,6 +22,7 @@ stages:
   - test
   - deploy
   - test-deploy
+  - uiTest
 
 
 
@@ -148,7 +149,7 @@ verify_deploy_test_server:
 
 selenium_web_ui_test:
   image: node:16
-  stage: test
+  stage: uiTest
   needs:
     - verify_deploy_test_server
   tags:
