@@ -114,7 +114,8 @@ verify_deploy_test_server:
   needs:
     - deploy_test_server
   script:
-    - ls
+    - ls -al 
+    - ls -al scripts
     - ./scripts/test-test_deploy.sh
 
 
