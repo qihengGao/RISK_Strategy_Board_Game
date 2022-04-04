@@ -136,14 +136,13 @@ deploy_test_server:
       - apiserver/build
 
 verify_deploy_test_server:
-  stage: test
+  stage: test-deploy
   tags:
     - test-ssh
   needs:
     - deploy_test_server
   script:
-    - ls -al 
-    - ls -al scripts
+    - ls
     - ./scripts/test-deploy.sh
 
 
