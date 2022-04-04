@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /risk
-gradle --project-cache-dir run-apiserver
+gradle --project-cache-dir .gradle run-apiserver
