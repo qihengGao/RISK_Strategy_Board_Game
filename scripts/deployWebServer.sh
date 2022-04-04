@@ -1,5 +1,5 @@
 #!/bin/sh
 cd /risk/webserver
 ls
-npm install
+npm ci
 npm run start
