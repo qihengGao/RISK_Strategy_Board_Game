@@ -112,6 +112,8 @@ verify_deploy_production_server:
   stage: test-deploy
   tags:
     - vcm25354Deploy
+  variables:
+    GIT_STRATEGY: none
   needs:
     - deploy_production_server
   script:
