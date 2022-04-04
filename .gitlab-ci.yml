@@ -75,11 +75,11 @@ build_for_deploy:
 
 
 selenium_grid_server:
-  stage: test
+  stage: build
   tags:
     - test-ssh
   script:
-    - docker run -d  --rm -p 4444:4444 -p 7900:7900 --shm-size= " 4g " selenium/node-chrome:latest
+    - docker run -d  --rm -p 4444:4444 -p 7900:7900 --shm-size="4g" selenium/node-chrome:latest
   only:
     - dev
 
