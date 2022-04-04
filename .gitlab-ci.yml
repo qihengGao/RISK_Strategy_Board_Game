@@ -71,7 +71,7 @@ build_for_test:
       - .gradle
       - apiserver/build
 
-build_for_deploy:
+build_for_production:
   stage: build
   needs:
     - stop_production_server
@@ -90,12 +90,12 @@ build_for_deploy:
     - dev
 
 
-DeployServer:
+deploy_production_server:
   stage: deploy
   tags:
     - vcm25354Deploy
   needs:
-    - build_for_deploy
+    - build_for_production
   script:
     - ls scripts
     - docker run -d --name risk-game-apiserver --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/ece651-risk gradle:7.4.1-jdk17 /bin/bash -c "cd /ece651-risk;ls -al; java -jar ./apiserver/build/libs/apiserver-0.0.1-SNAPSHOT.jar"
@@ -108,12 +108,12 @@ DeployServer:
   only:
     - dev
 
-TestAPIServer:
+verify_deploy_production_server:
   stage: test-deploy
   tags:
     - vcm25354Deploy
   needs:
-    - DeployServer
+    - deploy_production_server
   script:
     - ls
     - ./scripts/test-deploy.sh
@@ -163,7 +163,7 @@ selenium_web_ui_test:
     - npm install -g selenium-side-runner
     - selenium-side-runner --server http://host.docker.internal:4444/wd/hub ./scripts/UI_test_scripts/test_login.side
 
-clover-report:
+generate_clover_report:
   image: gradle:7.4.1-jdk17
   stage: test
   script:
@@ -185,7 +185,7 @@ clover-report:
     paths:
       - coverageout
 
-coverage-summary:
+generate_coverage_summary:
   image: python:3.7-alpine3.14
   stage: test
   script:
@@ -194,7 +194,7 @@ coverage-summary:
   tags:
     - docker
   needs:
-    - clover-report
+    - generate_clover_report
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -209,7 +209,7 @@ pages:
   tags:
     - docker
   needs:
-    - clover-report
+    - generate_clover_report
   script:
     - mkdir .public
     - cp -r build/reports/clover/html/* .public/
