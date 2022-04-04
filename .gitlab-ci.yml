@@ -40,13 +40,13 @@ StopPreviousServer:
 
 
 build_for_test:
-  image: gradle:7.4.1-jdk17
   stage: build
   script:
-    - gradle resolveDependencies
-    - gradle --build-cache assemble
+    - ls -al
+    - docker run --rm --user $(id -u):$(id -g) -v $(pwd)/:/ece651-risk gradle:7.4.1-jdk17 /bin/bash -c "cd /ece651-risk; ls -al; gradle resolveDependencies; gradle --build-cache assemble"
+    - ls -al
   tags:
-    - docker
+    - test-ssh
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
