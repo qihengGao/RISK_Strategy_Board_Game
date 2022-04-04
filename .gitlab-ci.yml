@@ -62,6 +62,8 @@ clover-report:
   stage: test
   script:
     - gradle cloverAggregateReports
+    - mkdir coverageout
+    - cp -r build/reports/clover/html/* coverageout/
   tags:
     - docker
   needs:
@@ -74,6 +76,9 @@ clover-report:
       - .gradle
       - apiserver/build
       - shared/build
+  artifacts:
+    paths:
+      - coverageout
 
 coverage-summary:
   image: python:3.7-alpine3.14
@@ -114,27 +119,6 @@ pages:
     paths:
       - public
   only:
-    - main
-
-uploadArtifactsForNotMainBracnh:
-  image: alpine:3.14
-  stage: test
-  tags:
-    - docker
-  needs:
-    - clover-report
-  script:
-    - mkdir coverageout
-    - cp -r build/reports/clover/html/* coverageout/
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-  artifacts:
-    paths:
-      - coverageout
-  except:
     - main
 
 StopPreviousServer:
