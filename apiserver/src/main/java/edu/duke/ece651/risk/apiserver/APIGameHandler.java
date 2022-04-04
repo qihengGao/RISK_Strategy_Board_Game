@@ -73,7 +73,7 @@ public class APIGameHandler {
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
 
             for (Territory t : cloneMap.getContinent()) {
-                t.setUnits(new TreeSet<Unit>());
+                t.setUnits(new TreeSet<>());
             }
 
             return cloneMap;
@@ -174,7 +174,7 @@ public class APIGameHandler {
             System.out.println("in tryPreProcessOrder");
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
 
-            System.out.println("number of orders:" + orders.size());
+
 
             if (orders == null || tryExecuteOrder(orders, cloneMap)) {
                 temporaryOrders.addAll(orders);
@@ -185,7 +185,7 @@ public class APIGameHandler {
                         //todo: uncomment this line for simple add or minus fight resolver
                         //t.getBattleField().setAttackResolver(new SimpleAttackResolver());
                         //
-                        t.getBattleField().fightBattle(t, "Soldier");
+                        t.getBattleField().fightAllBattle(t);
                         t.getBattleField().resetAttackersList();
                     }
                     increaseOneInAllTerritory();
@@ -206,23 +206,20 @@ public class APIGameHandler {
 
 
     public boolean tryExecuteOrder(ArrayList<Order> orders, RISKMap tmpRiskMap) {
-        ArrayList<Order> moveOrder = new ArrayList<>();
+        ArrayList<Order> moveOrUpgradeOrder = new ArrayList<>();
         ArrayList<Order> attackOrder = new ArrayList<>();
         ArrayList<Order> upgradeMaxTechOrder = new ArrayList<>();
         System.out.println("in tryExecuteOrder");
         for (Order order : orders) {
-            if (Objects.equals(order.getOrderType(), "Move"))
-                moveOrder.add(order);
+            if (Objects.equals(order.getOrderType(), "Move") || Objects.equals(order.getOrderType(), "Upgrade Unit"))
+                moveOrUpgradeOrder.add(order);
             if (Objects.equals(order.getOrderType(), "Attack"))
                 attackOrder.add(order);
             if (order.getOrderType().equals("Upgrade Tech Level"))
                 upgradeMaxTechOrder.add(order);
         }
-        System.out.println("number of move orders:" + moveOrder.size());
-        System.out.println("number of attack orders:" + attackOrder.size());
-        System.out.println("number of upgrade orders:" + upgradeMaxTechOrder.size());
         StringBuilder moveErrorMessage = new StringBuilder();
-        for (Order order : moveOrder) {
+        for (Order order : moveOrUpgradeOrder) {
             String errorMessage = order.executeOrder(tmpRiskMap);
             if (errorMessage != null)
                 moveErrorMessage.append(errorMessage);

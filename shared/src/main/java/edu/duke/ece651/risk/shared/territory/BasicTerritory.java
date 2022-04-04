@@ -16,8 +16,11 @@ public class BasicTerritory implements Territory {
   private final String name;
   private TreeSet<String> neighbors; // to make in order with repect to name
 
-  public void setUnits(TreeSet<Unit> units) {
-    this.units = units;
+  public void setUnits(TreeSet<Unit> unitsToAdd) {
+    this.units.clear();
+    for (Unit u: unitsToAdd){
+      this.units.add(u);
+    }
   }
 
   private TreeSet<Unit> units;
@@ -79,14 +82,14 @@ public class BasicTerritory implements Territory {
     return this.battleField;
   }
 
-  /**    
+  /**
    * @return the ID of the Owner of this Territory, such as 1.
    */
   public Long getOwnerID(){
     return OwnerID;
   }
-  
-  /**    
+
+  /**
    * @return the name of this Territory, such as "Narnia".
    */
   public String getName(){
@@ -128,8 +131,8 @@ public class BasicTerritory implements Territory {
     this.units.add(toAdd);
     return true;
   }
-  
-  /**    
+
+  /**
    * @return the iterable of all neighbors of this Territory,
    * such as "Gondor", "Oz", "Roshar".
    */
@@ -139,8 +142,9 @@ public class BasicTerritory implements Territory {
 
   /**
    * Returns the iterable list of units that the territory has.
+   * @return
    */
-  public Iterable<Unit> getUnits() {
+  public TreeSet<Unit> getUnits() {
     return this.units;
   }
 
@@ -158,10 +162,10 @@ public class BasicTerritory implements Territory {
   }
 
   /**
-   * Get the unit specified by type (version 1)
+   * Get the unit specified by type
    * @param type
    */
-  @Deprecated
+
   @Override
   public Unit getUnitByType(String type) {
     String[] info = type.split(" ");
@@ -170,7 +174,6 @@ public class BasicTerritory implements Territory {
     } else { // compatible for version2, Soldier level 6
       return getUnitByTypeLevel(info[0], Integer.parseInt(info[2]));
     }
-
   }
 
   @Override
@@ -193,21 +196,22 @@ public class BasicTerritory implements Territory {
   }
 
   @Override
-  public boolean tryUpgradeUnitToLevel(Unit toUpgrade, int toLevel) {
+  public String tryUpgradeUnitToLevel(Unit toUpgrade, int toLevel) {
     if (toLevel <= toUpgrade.getLevel()) {
-      return false;
+      return toUpgrade.getType() + " level " + toUpgrade.getLevel() + " cannot upgrade to level " + toLevel;
     }
     Unit inTerritory = this.getUnitByTypeLevel(toUpgrade.getType(), toUpgrade.getLevel());
     // Does not have the unit
     if (inTerritory == null) {
-      return false;
+      return "Current territory does not have the level " + toUpgrade.getLevel() + " " + toUpgrade.getType();
     }
     // Amount is not sufficient
     if (!inTerritory.tryDecreaseAmount(toUpgrade.getAmount())) {
-      return false;
+      return "Unit amount is not sufficient to do the upgrade";
     }
     Unit upgraded = new BasicUnit(toUpgrade.getType(), toUpgrade.getAmount(), toLevel);
-    return this.tryAddUnit(upgraded);
+    this.tryAddUnit(upgraded);
+    return null;
   }
 
   @Override
@@ -232,5 +236,5 @@ public class BasicTerritory implements Territory {
     return true;
   }
 
-  
+
 }

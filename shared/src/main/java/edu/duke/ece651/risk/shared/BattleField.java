@@ -2,9 +2,11 @@ package edu.duke.ece651.risk.shared;
 
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.Unit;
+import edu.duke.ece651.risk.shared.unit.UnitComparator;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 // summarize attack ->
 // <src,dest,amount>
@@ -13,11 +15,11 @@ import java.util.HashMap;
 public class BattleField implements Serializable {
     private Territory territoryOfContest; // include defender territory ID
     private long currDefenderId; // current defender, battle still ongoing
-    private Unit currDefendingUnit; // current defending units
-    private HashMap<Long, Unit> attackers;
+    private TreeSet<Unit> currDefendingUnit; // current defending units
+    private HashMap<Long, TreeSet<Unit>> attackers;
     private AttackResolver attackResolver;
 
-    public HashMap<Long, Unit> getAttackers() {
+    public HashMap<Long, TreeSet<Unit>> getAttackers() {
         return attackers;
     }
 
@@ -28,7 +30,7 @@ public class BattleField implements Serializable {
     public BattleField(Territory territoryOfContest, AttackResolver attackResolver){
         this.territoryOfContest = territoryOfContest;
         this.currDefenderId = territoryOfContest.getOwnerID();
-        this.currDefendingUnit = territoryOfContest.getUnitByType("Soldier");
+        this.currDefendingUnit = territoryOfContest.getUnits();
         this.attackResolver = attackResolver;
         this.attackers = new HashMap<>();
     }
@@ -38,48 +40,73 @@ public class BattleField implements Serializable {
     }
 
     public void resetAttackersList (){
-        this.attackers = new HashMap<Long, Unit>();
+        this.attackers.clear();
     }
     
-    public void addAttacker(Long id, Unit unit) {
+    public void addAttacker(Long id, Unit toAdd) {
         if (!this.attackers.containsKey(id)) {
-            this.attackers.put(id, unit);
-            return;
+            this.attackers.put(id, new TreeSet<Unit>(new UnitComparator()));
         }
-        Unit unitAlreadyIn = this.attackers.get(id);
-        unitAlreadyIn.tryIncreaseAmount(unit.getAmount());
-        this.attackers.put(id, unitAlreadyIn);
+        TreeSet<Unit> unitsAlreadyIn = this.attackers.get(id);
+        for (Unit u : unitsAlreadyIn){
+            if (u.equals(toAdd)){
+                u.tryIncreaseAmount(toAdd.getAmount());
+            }
+        }
+        unitsAlreadyIn.add(toAdd);
     }
 
-    public void fightBattle(Territory territory, String type){
+    public void fightAllBattle(Territory territory){
 
         for (long attackerId : this.attackers.keySet()) {
-            int attacker_num = this.attackers.get(attackerId).getAmount();
-            int defender_num = territory.getUnitByType(type).getAmount();
-            while(attacker_num > 0 && defender_num > 0){
-                //defender wins fight
-                if(attackResolver.resolveCurrent()==1){
-                    attacker_num--;
-                }
-                //duel
-                else if (attackResolver.resolveCurrent()==0){
-                    attacker_num--;
-                    defender_num--;
-                }
-                //defender wins fight
-                else{
-                    defender_num--;
-                }
+            TreeSet<Unit> attackers = this.attackers.get(attackerId);
+            TreeSet<Unit> defenders = this.currDefendingUnit;
+
+            int round = 0;
+            while(attackers.size() > 0 && defenders.size() > 0){
+                fightBetweenTwoUnits(attackers, defenders, round);
+                round++;
             }
-            if (defender_num==0){
-                if (attacker_num != 0) {
+            if (defenders.size()==0){
+                if (attackers.size() != 0) {
                     territory.tryChangeOwnerTo(attackerId);
                 }
-                territory.getUnitByType(type).setAmount(attacker_num);
+                territory.setUnits(attackers);
             }
+        }
+    }
+
+    public void fightBetweenTwoUnits(TreeSet<Unit> attackers, TreeSet<Unit> defenders, int round) {
+        //todo: change order of battle resolve
+        Unit currAttacker = attackers.first();
+        Unit currDefender = defenders.last();
+        if (round%2==1){
+            currAttacker = attackers.last();
+            currDefender = defenders.first();
+        }
+        while (currAttacker.getAmount()>0 && currDefender.getAmount()>0){
+            //defender wins fight
+            if(attackResolver.resolveCurrent(currAttacker, currDefender)==1){
+                currAttacker.tryDecreaseAmount(1);
+            }
+            //duel
+            else if (attackResolver.resolveCurrent(currAttacker, currDefender)==0){
+                currAttacker.tryDecreaseAmount(1);
+                currDefender.tryDecreaseAmount(1);
+            }
+            //attacker wins fight
             else{
-                territory.getUnitByType(type).setAmount(defender_num);
+                currDefender.tryDecreaseAmount(1);
             }
+        }
+        if (currDefender.getAmount()==0){
+            if (currAttacker.getAmount()==0){
+                attackers.remove(currAttacker);
+            }
+            defenders.remove(currDefender);
+        }
+        else{
+            attackers.remove(currAttacker);
         }
     }
 }

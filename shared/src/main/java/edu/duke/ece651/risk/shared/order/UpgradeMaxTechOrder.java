@@ -7,7 +7,7 @@ public class UpgradeMaxTechOrder extends Order {
     public UpgradeMaxTechOrder(){
     }
 
-    public UpgradeMaxTechOrder(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount, String orderType) {
+    public UpgradeMaxTechOrder(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount) {
         this();
         this.playerID = ID;
         this.srcTerritory = srcTerritory;

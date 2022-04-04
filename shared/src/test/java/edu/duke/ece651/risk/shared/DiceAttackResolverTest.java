@@ -1,5 +1,6 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -13,7 +14,7 @@ public class DiceAttackResolverTest {
         int[] list = {-1,0,1,0};
         AttackResolver resolver = new DiceAttackResolver(2);
         for (int i : list) {
-            assertEquals(i, resolver.resolveCurrent());
+            assertEquals(i, resolver.resolveCurrent(new BasicUnit("Unit", 1), new BasicUnit("Unit", 1)));
         }
     }
 }

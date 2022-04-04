@@ -1,5 +1,7 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.unit.Unit;
+
 import java.io.Serializable;
 
 /**
@@ -18,8 +20,10 @@ public abstract class AttackResolver implements Serializable {
 	/**
 	 * Rule need to be overriden by specific rule.
 	 * @return
+	 * @param currAttacker
+	 * @param currDefender
 	 */
-	public abstract int resolveCurrent();
+	public abstract int resolveCurrent(Unit currAttacker, Unit currDefender);
 
 
 }

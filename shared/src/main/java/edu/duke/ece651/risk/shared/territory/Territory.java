@@ -85,8 +85,9 @@ public interface Territory extends Serializable {
   
   /**
    * Returns the iterable list of units that the territory has.
+   * @return
    */
-  public Iterable<Unit> getUnits();
+  public TreeSet<Unit> getUnits();
   
   /**
    * Try to add the unit in the territory. True if added successfully.
@@ -110,10 +111,10 @@ public interface Territory extends Serializable {
 
   /**
    * Try upgrade the unit specified in the  toUpgrade {type, amount, level} to the toLevel\
-   * return true if successfully
+   * return null if successfully
    * @param toUpgrade
    * @param toLevel
    * @return
    */
-  public boolean tryUpgradeUnitToLevel(Unit toUpgrade, int toLevel);
+  public String tryUpgradeUnitToLevel(Unit toUpgrade, int toLevel);
 }

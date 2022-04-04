@@ -1,5 +1,7 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.unit.Unit;
+
 public class SimpleAttackResolver extends AttackResolver{
     public SimpleAttackResolver() {
         super(null);
@@ -10,9 +12,11 @@ public class SimpleAttackResolver extends AttackResolver{
      * @note the one with the higher number win
      * @note resolve again if the numbers are equal
      * @return
+     * @param currAttacker
+     * @param currDefender
      */
     @Override
-    public int resolveCurrent() {
+    public int resolveCurrent(Unit currAttacker, Unit currDefender) {
         return 0;//Soldiers always annihilate with each other
     }
 }

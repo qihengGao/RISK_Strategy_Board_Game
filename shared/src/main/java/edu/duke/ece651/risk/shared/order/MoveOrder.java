@@ -4,6 +4,7 @@ import edu.duke.ece651.risk.shared.checker.*;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
+import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 import java.util.ArrayList;
@@ -43,9 +44,9 @@ public class MoveOrder extends Order {
       Territory sourceTerritory = riskMap.getTerritoryByName(this.srcTerritory);
       Territory destinationTerritory = riskMap.getTerritoryByName(this.destTerritory);
       Unit sourceTerritoryUnit = sourceTerritory.getUnitByType(this.unitType);
-      Unit destinationTerritoryUnit = destinationTerritory.getUnitByType(this.unitType);
       sourceTerritoryUnit.tryDecreaseAmount(this.unitAmount);
-      destinationTerritoryUnit.tryIncreaseAmount(this.unitAmount);
+      Unit toAdd = new BasicUnit(this.unitType, this.unitAmount);
+      destinationTerritory.tryAddUnit(toAdd);
     }
     return check_message;
   }
