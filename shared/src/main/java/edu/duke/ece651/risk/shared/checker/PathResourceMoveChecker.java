@@ -22,7 +22,7 @@ public class PathResourceMoveChecker extends ActionChecker {
         return riskMap.getOwners().get(moveOrder.getPlayerID()).tryAddOrRemoveFoodResource(cost);
     }
 
-  private Territory dfsToDst(RISKMap riskMap, long ID, Territory curr, String dstName, HashSet<Territory> visited){
+  protected Territory dfsToDst(RISKMap riskMap, long ID, Territory curr, String dstName, HashSet<Territory> visited){
     if (curr.getName().equals(dstName)){
       return riskMap.getTerritoryByName(dstName);
     }
