@@ -143,10 +143,7 @@ deploy_test_server:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
     paths:
-      - build
-      - .gradle
       - apiserver/build
-      - shared/build
 
 verify_deploy_test_server:
   stage: test
