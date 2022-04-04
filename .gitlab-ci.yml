@@ -169,7 +169,7 @@ selenium_web_ui_test:
     - docker
   script:
     - npm install -g selenium-side-runner
-    - selenium-side-runner --server http://host.docker.internal:4444/wd/hub
+    - selenium-side-runner --server http://host.docker.internal:4444/wd/hub ./scripts/UI_test_scripts/test_login.side
 
 clover-report:
   image: gradle:7.4.1-jdk17
