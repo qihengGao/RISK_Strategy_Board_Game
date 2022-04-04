@@ -132,7 +132,7 @@ deploy_test_server:
     - sed -i "s/localhost/host.docker.internal/g" ./webserver/package.json
     - docker run -d --name risk-game-apiserver_test --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/ece651-risk gradle:7.4.1-jdk17 /bin/bash -c "cd /ece651-risk;ls -al; java -jar ./apiserver/build/libs/apiserver-0.0.1-SNAPSHOT.jar"
     - docker run -d --name risk-game-webserver_test --user $(id -u):$(id -g) -p 8081:8081  -e npm_config_cache=/risk --add-host host.docker.internal:host-gateway -v $(pwd):/risk node:16 /risk/scripts/deployWebServer.sh
-    - docker run -d --name selenium_server -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:4.1.3-20220327
+    - docker run -d --name selenium_server -p 4444:4444 -p 7900:7900 --add-host host.docker.internal:host-gateway --shm-size="2g" selenium/standalone-chrome:4.1.3-20220327
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
@@ -156,13 +156,16 @@ selenium_web_ui_test:
   image: node:16
   stage: uiTest
   variables:
-    GIT_STRATEGY: none
+    GIT_STRATEGY: clone
+    GIT_CLEAN_FLAGS: none
   needs:
     - verify_deploy_test_server
   tags:
     - docker
   script:
     - npm install -g selenium-side-runner
+    - ls -al
+    - ls -al scripts
     - cat ./scripts/UI_test_scripts/test_login.side
     - selenium-side-runner --server http://host.docker.internal:4444/wd/hub --base-url http://host.docker.internal:8081 ./scripts/UI_test_scripts/test_login.side
 
