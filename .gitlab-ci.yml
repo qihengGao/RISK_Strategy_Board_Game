@@ -122,11 +122,9 @@ pages:
     - main
 
 StopPreviousServer:
-  stage: deploy
+  stage: .pre
   tags:
     - vcm25354Deploy
-  needs:
-    - build_for_deploy
   script:
     - ls
     - docker kill risk-game-apiserver || true
@@ -140,8 +138,6 @@ DeployServer:
   stage: deploy
   tags:
     - vcm25354Deploy
-  needs:
-    - StopPreviousServer
   script:
     - ls scripts
     - docker run -d --name risk-game-apiserver --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/ece651-risk gradle:7.4.1-jdk17 /bin/bash -c "cd /ece651-risk;ls -al; java -jar ./apiserver/build/libs/apiserver-0.0.1-SNAPSHOT.jar"
