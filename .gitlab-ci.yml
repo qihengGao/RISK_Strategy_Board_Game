@@ -71,6 +71,9 @@ coverage-summary:
     policy: pull
     paths:
       - build
+      - .gradle
+      - apiserver/build
+      - shared/build
 
 pages:
   image: alpine:3.14
