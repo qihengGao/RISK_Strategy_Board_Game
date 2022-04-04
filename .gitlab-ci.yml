@@ -84,10 +84,10 @@ build_for_deploy:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
     paths:
-      - build
-      - .gradle
       - apiserver/build
-      - shared/build
+  only:
+    - dev
+
 
 DeployServer:
   stage: deploy
@@ -103,10 +103,7 @@ DeployServer:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
     paths:
-      - build
-      - .gradle
       - apiserver/build
-      - shared/build
   only:
     - dev
 
