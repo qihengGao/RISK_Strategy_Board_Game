@@ -179,4 +179,28 @@ class PathResourceMoveCheckerTest {
         PathResourceMoveChecker checker = new PathResourceMoveChecker(null);
         assertEquals(15, checker.getCostFromSrcToDest(paths));
     }
+
+    @Test
+    public void test_dfsToDst(){
+        // success: src = dest
+        Territory territory1 = new BasicTerritory("test1");
+        Territory territory2 = new BasicTerritory("test2");
+        territory1.tryChangeOwnerTo(0L);
+        territory2.tryChangeOwnerTo(0L);
+
+        HashSet<Territory> territories = new HashSet<>();
+        territories.add(territory1);
+        territories.add(territory2);
+        RISKMap riskMap = new RISKMap(territories);
+        riskMap.connectTerr("test1", "test2");
+
+        PathResourceMoveChecker checker = new PathResourceMoveChecker(null);
+
+        // source same as destination
+        Territory returnedTerritory = checker.dfsToDst(riskMap, 0L, territory1, "test1", new HashSet<Territory>());
+        assertSame(returnedTerritory, territory1);
+
+        returnedTerritory = checker.dfsToDst(riskMap, 0L, territory1, "test2", new HashSet<Territory>());
+        assertSame(returnedTerritory, territory2);
+    }
 }
