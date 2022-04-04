@@ -107,11 +107,22 @@ deploy_test_server:
       - apiserver/build
       - shared/build
 
+verify_deploy_test_server:
+  stage: test
+  tags:
+    - test-ssh
+  needs:
+    - deploy_test_server
+  script:
+    - ls
+    - ./scripts/test-test_deploy.sh
+
+
 selenium_web_ui_test:
   image: node:16
   stage: test
   needs:
-    - deploy_test_server
+    - verify_deploy_test_server
   tags:
     - docker
   script:
