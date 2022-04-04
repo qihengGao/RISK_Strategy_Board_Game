@@ -41,28 +41,28 @@ class BattleFieldTest {
         TreeSet<Unit> ts1 = new TreeSet<>(new UnitComparator());
         TreeSet<Unit> ts2 = new TreeSet<>(new UnitComparator());
         //ts1 add units
-        ts1.add(new BasicUnit("Unit level 0", 5));
-        ts1.add(new BasicUnit("Unit level 1", 10));
-        ts1.add(new BasicUnit("Unit level 2", 10));
-        ts2.add(new BasicUnit("Unit level 0", 10));
-        ts2.add(new BasicUnit("Unit level 1", 10));
-        ts2.add(new BasicUnit("Unit level 2", 10));
+        ts1.add(new BasicUnit("Unit0", 5));
+        ts1.add(new BasicUnit("Unit1", 10));
+        ts1.add(new BasicUnit("Unit2", 10));
+        ts2.add(new BasicUnit("Unit0", 10));
+        ts2.add(new BasicUnit("Unit1", 10));
+        ts2.add(new BasicUnit("Unit2", 10));
 
         //terr1, unit 20, ownerID=3
         Territory t = new BasicTerritory("Test1");
         BattleField BF = new BattleField(t);
         BF.setAttackResolver(new SimpleAttackResolver());
-        BF.fightBetweenTwoUnits(ts1, ts2);
+        BF.fightBetweenTwoUnits(ts1, ts2, 0);
 
         assertEquals(ts1.size(), 2);
         assertEquals(ts2.size(), 3);
-        assertEquals(ts1.first().getType(), "Unit level 1");
-        assertEquals(ts2.first().getType(), "Unit level 0");
-        assertEquals(ts2.first().getAmount(), 5);
-//
+        assertEquals(ts1.first().getType(), "Unit1");
+        assertEquals(ts2.first().getType(), "Unit0");
+        assertEquals(ts2.last().getAmount(), 5);
+
 //        //level 1 units always win
 //        BF.setAttackResolver(new DiceAttackResolver(2));
-//        BF.fightBetweenTwoUnits(ts1, ts2);
+//        BF.fightBetweenTwoUnits(ts1, ts2, 0);
 //
 //        assertTrue(ts1.isEmpty());
 //        assertEquals(ts2.first().getType(), "Unit level 1");

@@ -64,7 +64,7 @@ public class BattleField implements Serializable {
 
             int round = 0;
             while(attackers.size() > 0 && defenders.size() > 0){
-                fightBetweenTwoUnits(attackers, defenders);
+                fightBetweenTwoUnits(attackers, defenders, round);
                 round++;
             }
             if (defenders.size()==0){
@@ -76,10 +76,14 @@ public class BattleField implements Serializable {
         }
     }
 
-    public void fightBetweenTwoUnits(TreeSet<Unit> attackers, TreeSet<Unit> defenders) {
+    public void fightBetweenTwoUnits(TreeSet<Unit> attackers, TreeSet<Unit> defenders, int round) {
         //todo: change order of battle resolve
         Unit currAttacker = attackers.first();
-        Unit currDefender = defenders.first();
+        Unit currDefender = defenders.last();
+        if (round%2==1){
+            currAttacker = attackers.last();
+            currDefender = defenders.first();
+        }
         while (currAttacker.getAmount()>0 && currDefender.getAmount()>0){
             //defender wins fight
             if(attackResolver.resolveCurrent(currAttacker, currDefender)==1){

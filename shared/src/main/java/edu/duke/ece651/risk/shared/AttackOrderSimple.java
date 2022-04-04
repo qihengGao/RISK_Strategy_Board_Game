@@ -10,7 +10,7 @@ public class AttackOrderSimple extends Order {
   private final ActionChecker attackChecker;
 
   public AttackOrderSimple(long ID, String srcTerritory, String destTerritory, String unitUnderOrder, int unitAmount) {
-    super(ID, srcTerritory, destTerritory, unitUnderOrder, unitAmount, "Attack");
+    super(ID, srcTerritory, destTerritory, unitUnderOrder, unitAmount, "Attack", 0);
     this.attackChecker = new TerrExistChecker(new SrcOwnershipChecker(new ActionUnitChecker(new PathExistAttackChecker(null))));
   }
 

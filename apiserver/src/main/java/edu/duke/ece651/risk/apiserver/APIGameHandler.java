@@ -12,6 +12,7 @@ import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
+import edu.duke.ece651.risk.shared.unit.Unit;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,7 +174,7 @@ public class APIGameHandler {
             System.out.println("in tryPreProcessOrder");
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
 
-            System.out.println("number of orders:" + orders.size());
+
 
             if (orders == null || tryExecuteOrder(orders, cloneMap)) {
                 temporaryOrders.addAll(orders);
@@ -217,9 +218,6 @@ public class APIGameHandler {
             if (order.getOrderType().equals("Upgrade Tech Level"))
                 upgradeMaxTechOrder.add(order);
         }
-        System.out.println("number of move/upgrade orders:" + moveOrUpgradeOrder.size());
-        System.out.println("number of attack orders:" + attackOrder.size());
-        System.out.println("number of upgrade orders:" + upgradeMaxTechOrder.size());
         StringBuilder moveErrorMessage = new StringBuilder();
         for (Order order : moveOrUpgradeOrder) {
             String errorMessage = order.executeOrder(tmpRiskMap);
@@ -339,10 +337,7 @@ public class APIGameHandler {
 
     public void increaseOneInAllTerritory() {
         for (Territory t : riskMap.getContinent()) {
-//            t.tryAddUnit(new BasicUnit("Soldier", 1));
-            for (Unit unit : t.getUnits()) {
-                unit.tryIncreaseAmount(1);
-            }
+            t.tryAddUnit(new BasicUnit("Soldier", 1));
         }
     }
 

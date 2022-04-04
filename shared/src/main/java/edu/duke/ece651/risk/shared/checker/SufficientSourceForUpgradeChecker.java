@@ -14,13 +14,13 @@ public class SufficientSourceForUpgradeChecker extends ActionChecker{
         super(next);
     }
     @Override
-    protected String checkMyRule(RISKMap riskMap, Order moveOrder) {
-        Unit toUpgrade = new BasicUnit(moveOrder.getUnitType(), moveOrder.getUnitAmount());
-        if (moveOrder.getToLevel() <= toUpgrade.getLevel() || moveOrder.getToLevel() > toUpgrade.getLevelBound()) {
-            return toUpgrade.getType() + " level " + toUpgrade.getLevel() + " cannot upgrade to " + moveOrder.getToLevel();
+    protected String checkMyRule(RISKMap riskMap, Order unitUpgradeOrder) {
+        Unit toUpgrade = new BasicUnit(unitUpgradeOrder.getUnitType(), unitUpgradeOrder.getUnitAmount());
+        if (unitUpgradeOrder.getToLevel() <= toUpgrade.getLevel() || unitUpgradeOrder.getToLevel() > toUpgrade.getLevelBound()) {
+            return toUpgrade.getType() + " level " + toUpgrade.getLevel() + " cannot upgrade to " + unitUpgradeOrder.getToLevel();
         }
-        int techCost = toUpgrade.getAmount() * toUpgrade.getCostToLevel(moveOrder.getToLevel());
-        if (techCost > riskMap.getOwners().get(moveOrder.getPlayerID()).getOwnedTechResource()) {
+        int techCost = toUpgrade.getAmount() * toUpgrade.getCostToLevel(unitUpgradeOrder.getToLevel());
+        if (techCost > riskMap.getOwners().get(unitUpgradeOrder.getPlayerID()).getOwnedTechResource()) {
             return "Insufficient resource to upgrade " + toUpgrade;
         }
         return null;

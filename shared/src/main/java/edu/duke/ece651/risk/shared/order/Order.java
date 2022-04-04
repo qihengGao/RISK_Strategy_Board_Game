@@ -20,7 +20,12 @@ public abstract class Order implements Serializable{
   protected int unitAmount;
   protected long playerID;
   protected String orderType;
-  protected  int toLevel;
+
+  public void setToLevel(int toLevel) {
+    this.toLevel = toLevel;
+  }
+
+  protected int toLevel;
 
   public Order() {
   }
@@ -49,18 +54,13 @@ public abstract class Order implements Serializable{
     this.orderType = orderType;
   }
 
-  public Order(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount, String orderType) {
+  public Order(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount, String orderType, int toLevel) {
     this.playerID = ID;
     this.srcTerritory = srcTerritory;
     this.destTerritory = destTerritory;
     this.unitType = unitType;
     this.unitAmount = unitAmount;
     this.orderType = orderType;
-    this.toLevel = 0;
-  }
-
-  public Order(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount, String orderType, int toLevel) {
-    this(ID, srcTerritory, destTerritory, unitType, unitAmount, orderType);
     this.toLevel = toLevel;
   }
 

@@ -9,7 +9,6 @@ import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 public class UpgradeUnitOrder extends Order{
-    private int toLevel;
     private final ActionChecker upgradeUnitChecker;
 
     public UpgradeUnitOrder() {
@@ -18,13 +17,13 @@ public class UpgradeUnitOrder extends Order{
 
     public UpgradeUnitOrder(long ID, String srcTerritory, String unitType, int unitAmount, int toLevel) {
         this();
-        super.playerID = ID;
-        super.srcTerritory = srcTerritory;
-        super.destTerritory = srcTerritory;
-        super.unitType = unitType;
-        super.unitAmount = unitAmount;
-        super.orderType = "Upgrade Unit";
-        super.toLevel = toLevel;
+        this.playerID = ID;
+        this.srcTerritory = srcTerritory;
+        this.destTerritory = srcTerritory;
+        this.unitType = unitType;
+        this.unitAmount = unitAmount;
+        this.orderType = "Upgrade Unit";
+        this.toLevel = toLevel;
     }
 
 
