@@ -65,6 +65,8 @@ clover-report:
     - gradle cloverAggregateReports
   tags:
     - docker
+  needs:
+    - build_for_test
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull-push
