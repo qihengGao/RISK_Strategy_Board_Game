@@ -23,7 +23,7 @@ stages:
   - deploy
   - test-deploy
 
-build:
+build_for_test:
   image: gradle:7.4.1-jdk17
   stage: build
   script:
@@ -31,6 +31,23 @@ build:
     - gradle --build-cache assemble
   tags:
     - docker
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
+    paths:
+      - build
+      - .gradle
+      - apiserver/build
+      - shared/build
+
+build_for_deploy:
+  image: gradle:7.4.1-jdk17
+  stage: build_for_test
+  script:
+    - gradle resolveDependencies
+    - gradle --build-cache assemble
+  tags:
+    - vcm25354Deploy
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
