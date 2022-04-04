@@ -140,7 +140,7 @@ deploy_test_server:
 verify_deploy_test_server:
   stage: test-deploy
   variables:
-    GIT_CLEAN_FLAGS: none
+    GIT_STRATEGY: none
   tags:
     - test-ssh
   needs:
@@ -153,6 +153,8 @@ verify_deploy_test_server:
 selenium_web_ui_test:
   image: node:16
   stage: uiTest
+  variables:
+    GIT_STRATEGY: none
   needs:
     - verify_deploy_test_server
   tags:
@@ -164,6 +166,8 @@ selenium_web_ui_test:
 clover-report:
   image: gradle:7.4.1-jdk17
   stage: test
+  variables:
+    GIT_STRATEGY: none
   script:
     - gradle cloverAggregateReports
     - mkdir coverageout
@@ -185,6 +189,8 @@ clover-report:
 
 coverage-summary:
   image: python:3.7-alpine3.14
+  variables:
+    GIT_STRATEGY: none
   stage: test
   script:
     - pip3 install bs4
