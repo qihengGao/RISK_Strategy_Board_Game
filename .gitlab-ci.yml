@@ -45,7 +45,7 @@ build_for_deploy:
   stage: build
   script:
     - ls -al
-    - docker run --rm gradle:7.4.1-jdk17 -v $(pwd)/:/risk /bin/bash -c "cd /risk; gradle resolveDependencies; gradle --build-cache assemble"
+    - docker run --rm -v $(pwd)/:/risk gradle:7.4.1-jdk17 /bin/bash -c "cd /risk; gradle resolveDependencies; gradle --build-cache assemble"
     - ls -al
   tags:
     - vcm25354Deploy
