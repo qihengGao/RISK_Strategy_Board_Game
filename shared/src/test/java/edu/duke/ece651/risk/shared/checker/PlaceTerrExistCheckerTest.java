@@ -29,7 +29,7 @@ public class PlaceTerrExistCheckerTest {
         PlaceRuleChecker checker = new PlaceTerrExistChecker(null);
 
         // success
-        assertDoesNotThrow(()->checker.checkMyRule(riskMap, order, 0L));
+        assertDoesNotThrow(()->checker.checkPlace(riskMap, order, 0L));
 
         // error: place on non-existing territory
         order.put("someRandomTerritory", 10);
