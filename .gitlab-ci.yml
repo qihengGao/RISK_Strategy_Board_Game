@@ -57,7 +57,7 @@ build_for_test:
       - shared/build
 
 build_for_deploy:
-  stage: build
+  stage: test
   script:
     - ls -al
     - docker run --rm --user $(id -u):$(id -g) -v $(pwd)/:/ece651-risk gradle:7.4.1-jdk17 /bin/bash -c "cd /ece651-risk; ls -al; gradle resolveDependencies; gradle --build-cache assemble"
@@ -85,17 +85,38 @@ selenium_grid_server:
   only:
     - dev
 
+deploy_test_server:
+  stage: test
+  tags:
+    - test-ssh
+  needs:
+    - build_for_test
+  script:
+    - docker kill risk-game-apiserver_test || true
+    - docker rm risk-game-apiserver_test || true
+    - docker kill risk-game-webserver_test || true
+    - docker rm risk-game-webserver_test || true
+    - docker run -d --name risk-game-apiserver_test --user $(id -u):$(id -g) -p 8080:8080  -v $(pwd):/ece651-risk gradle:7.4.1-jdk17 /bin/bash -c "cd /ece651-risk;ls -al; java -jar ./apiserver/build/libs/apiserver-0.0.1-SNAPSHOT.jar"
+    - docker run -d --name risk-game-webserver_test --user $(id -u):$(id -g)  -e npm_config_cache=/risk --network="host" -v $(pwd):/risk node:16 /risk/scripts/deployWebServer.sh
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
+    paths:
+      - build
+      - .gradle
+      - apiserver/build
+      - shared/build
+
 selenium_web_ui_test:
   image: node:16
   stage: test
+  needs:
+    - deploy_test_server
   tags:
     - docker
   script:
     - npm install -g selenium-side-runner
     - selenium-side-runner --server http://host.docker.internal:4444/wd/hub
-  only:
-    - dev
-
 
 clover-report:
   image: gradle:7.4.1-jdk17
