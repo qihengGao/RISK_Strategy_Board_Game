@@ -166,8 +166,6 @@ selenium_web_ui_test:
 clover-report:
   image: gradle:7.4.1-jdk17
   stage: test
-  variables:
-    GIT_STRATEGY: none
   script:
     - gradle cloverAggregateReports
     - mkdir coverageout
@@ -189,8 +187,6 @@ clover-report:
 
 coverage-summary:
   image: python:3.7-alpine3.14
-  variables:
-    GIT_STRATEGY: none
   stage: test
   script:
     - pip3 install bs4
