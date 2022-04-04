@@ -157,7 +157,7 @@ verify_deploy_test_server:
   script:
     - ls -al 
     - ls -al scripts
-    - ./scripts/test-test_deploy.sh
+    - ./scripts/test-deploy.sh
 
 
 selenium_web_ui_test:
