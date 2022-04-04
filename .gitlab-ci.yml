@@ -141,6 +141,8 @@ deploy_test_server:
 
 verify_deploy_test_server:
   stage: test-deploy
+  variables:
+    GIT_CLEAN_FLAGS: none
   tags:
     - test-ssh
   needs:
