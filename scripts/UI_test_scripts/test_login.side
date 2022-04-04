@@ -208,7 +208,7 @@
         ["css=p:nth-child(4)", "css:finder"],
         ["xpath=//div[@id='root']/div/div/div/p[3]", "xpath:idRelative"],
         ["xpath=//p[3]", "xpath:position"],
-        ["xpath=//p[contains(.,'Email: test@test.com')]", "xpath:innerText"]
+        ["xpath=//p[contains(.,'Email: est@test.com')]", "xpath:innerText"]
       ],
       "value": "Email: test@test.com"
     }]
