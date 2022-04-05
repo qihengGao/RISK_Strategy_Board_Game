@@ -186,7 +186,6 @@ generate_clover_report:
     paths:
       - build
       - .gradle
-      - apiserver/build
   artifacts:
     paths:
       - coverageout
