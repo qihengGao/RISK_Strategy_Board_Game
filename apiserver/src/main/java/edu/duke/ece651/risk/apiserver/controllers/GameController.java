@@ -41,6 +41,9 @@ public class GameController {
         System.out.println(userId);
 
         int roomSize = createRoomRequest.getRoomSize();
+//        if (roomSize<2 || roomSize > 5) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CreateRoomResponse("Failed to create a room! Room size must be between 2~5!", null));
+//        }
         APIGameHandler gameHandler = new APIGameHandler(roomSize, roomIDCounter++,userId);
 
         rooms.put(gameHandler.getRoomID(), gameHandler);
@@ -111,10 +114,16 @@ public class GameController {
 
         APIGameHandler currGame = rooms.get(roomID);
 
-        if (currGame == null || !currGame.tryPreProcessOrder(userId, placeOrderRequest.getOrders())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Failed to place the orders! Room not found or place action invalid right now!"));
+        if (currGame == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Cannot find room "+roomID+"!"));
+        }
+
+        String preprocess_message = currGame.tryPreProcessOrder(userId, placeOrderRequest.getOrders());
+
+        if (preprocess_message != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse(preprocess_message));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(new PlaceUnitResponse("Successfully placed order into map."));
+            return ResponseEntity.status(HttpStatus.OK).body(new PlaceUnitResponse("Successfully placed order into map!"));
         }
 
     }

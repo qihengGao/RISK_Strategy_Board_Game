@@ -7,15 +7,12 @@ import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.order.UpgradeUnitOrder;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-
-import javax.swing.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class SufficientSourceForUpgradeCheckerTest {
+public class SufficientResourceForUpgradeCheckerTest {
 
     private RISKMap buildTestMap(){
         AbstractMapFactory tmf = new RandomMapFactory();
@@ -35,7 +32,7 @@ public class SufficientSourceForUpgradeCheckerTest {
 
     @Test
     public void test_checkMyRule(){
-        ActionChecker checker = new SufficientSourceForUpgradeChecker(null);
+        ActionChecker checker = new SufficientResourceForUpgradeChecker(null);
         RISKMap riskMap = this.buildTestMap();
 
         // error: upgrade to a lower level

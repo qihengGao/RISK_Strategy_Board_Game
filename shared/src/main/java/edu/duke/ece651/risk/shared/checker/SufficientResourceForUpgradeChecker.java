@@ -8,9 +8,9 @@ import edu.duke.ece651.risk.shared.unit.Unit;
 /**
  * Checker for resource to upgrade unit.
  */
-public class SufficientSourceForUpgradeChecker extends ActionChecker{
+public class SufficientResourceForUpgradeChecker extends ActionChecker{
 
-    public SufficientSourceForUpgradeChecker(ActionChecker next) {
+    public SufficientResourceForUpgradeChecker(ActionChecker next) {
         super(next);
     }
     @Override
