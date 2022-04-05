@@ -98,8 +98,15 @@ public class GameController {
         Long userId = getUserId();
         Long roomID = placeUnitRequest.getRoomID();
         APIGameHandler currGame = rooms.get(roomID);
-        if (currGame == null || !currGame.tryPlaceUnit(userId,placeUnitRequest.getUnitPlaceOrders())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Failed to palce the units! Room not found or palce action invalid right now!"));
+
+        if (currGame == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Cannot find room "+roomID+"!"));
+        }
+
+        String place_error_message = currGame.tryPlaceUnit(userId,placeUnitRequest.getUnitPlaceOrders());
+
+        if (place_error_message!=null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse(place_error_message));
         }else{
             return ResponseEntity.status(HttpStatus.OK).body(new PlaceUnitResponse("Successfully placed unit into map."));
         }
