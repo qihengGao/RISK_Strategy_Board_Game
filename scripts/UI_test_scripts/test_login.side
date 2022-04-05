@@ -376,6 +376,17 @@
       ],
       "value": ""
     }, {
+      "id": "5a9f298b-239c-47bb-bf1e-3480ba549078",
+      "comment": "",
+      "command": "waitForElementPresent",
+      "target": "css=.PrivateSwitchBase-input",
+      "targets": [
+        ["css=.PrivateSwitchBase-input", "css:finder"],
+        ["xpath=//input[@value='remember']", "xpath:attributes"],
+        ["xpath=//span/input", "xpath:position"]
+      ],
+      "value": "30000"
+    }, {
       "id": "e025fa53-cef4-47cc-ae43-2c6d53270bc4",
       "comment": "",
       "command": "click",
