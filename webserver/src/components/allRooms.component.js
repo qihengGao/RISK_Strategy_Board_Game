@@ -137,8 +137,8 @@ export default class allRoomsComponent extends Component {
                             />
                         </DialogContent>
                         <DialogActions>
+                            <Button variant="contained" onClick={this.handleCreateRoomSubmit}>Create</Button>
                             <Button onClick={this.handleCreateRoomClose}>Cancel</Button>
-                            <Button onClick={this.handleCreateRoomSubmit}>Create</Button>
                         </DialogActions>
                     </Dialog>
                 </div>
@@ -162,7 +162,7 @@ export default class allRoomsComponent extends Component {
                 window.location.reload();
             }, error => {
                 //window.location.reload();
-                this.handleSnackBarUpdate("error", error.message)
+                this.handleSnackBarUpdate("error", "Room size invalid")
                 this.setState({messages: error});
             });
 

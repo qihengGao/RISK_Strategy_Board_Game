@@ -89,6 +89,7 @@ class Navbar extends React.Component {
 
     handleLoginButtonInNavBar() {
         //setOpenLoginDialog(true);
+        this.props.history.push("/login");
         this.setState({openLoginDialog: true})
     }
 
@@ -161,12 +162,13 @@ class Navbar extends React.Component {
                     </Box>) : (<Box sx={{flexGrow: 0}}>
                         <Tooltip title="Login">
                             <Button color="inherit" onClick={this.handleLoginButtonInNavBar}>Login</Button>
+
                         </Tooltip>
                     </Box>)}
-                    <Dialog open={this.state.openLoginDialog}>
+                    {/*<Dialog open={this.state.openLoginDialog}>*/}
 
-                        <MuiLogin {...this.props}/>
-                    </Dialog>
+                    {/*    <MuiLogin {...this.props}/>*/}
+                    {/*</Dialog>*/}
                 </Toolbar>
             </Container>
 
