@@ -54,7 +54,7 @@ class unitPlace extends Component {
                     width: 100,
                     editable: true,
                     type: "singleSelect",
-                    valueOptions: ["Move", "Attack","Upgrade Unit", "Upgrade Tech Level"]
+                    valueOptions: ["Move", "Attack", "Upgrade Unit", "Upgrade Tech Level"]
                 },
                 {
                     field: 'source',
@@ -106,14 +106,15 @@ class unitPlace extends Component {
                     }
                 },
                 {field: 'unitAmount', headerName: 'Unit amount', width: 110, editable: true, type: 'number'},
-                {field: 'upLevel',
+                {
+                    field: 'upLevel',
                     headerName: 'Upgrade To',
                     width: 110,
                     editable: true,
                     type: "singleSelect",
                     valueOptions: ({row}) => {
                         if (row.orderType === "Upgrade Unit") {
-                            return [1,2,3,4,5,6];
+                            return [1, 2, 3, 4, 5, 6];
                         }
                         return [];
                     }
@@ -170,22 +171,24 @@ class unitPlace extends Component {
         let columns: GridColDef[] = this.state.columns;
 
         return (
-            <div style={{height: 400,
-                width: '100%'}}>
+            <div style={{
+                height: 400,
+                width: '100%'
+            }}>
                 <Stack
                     sx={{width: '100%', mb: 1}}
                     direction="row"
                     alignItems="flex-start"
                     columnGap={1}
 
-                ><Button variant="contained" size="small" color="success"onClick={this.handleAddRow}>
-                        Add a order
+                ><Button variant="contained" size="small" color="success" onClick={this.handleAddRow}>
+                    Add a order
                 </Button>
                     <Button variant="contained" color="error" size="small"
-                                     onClick={this.handleDeleteSelectedRows}>
+                            onClick={this.handleDeleteSelectedRows}>
 
-                    Delete selected rows
-                </Button>
+                        Delete selected rows
+                    </Button>
 
                 </Stack>
                 <Box sx={{height: 400, bgcolor: 'background.paper'}}>
@@ -225,6 +228,7 @@ class unitPlace extends Component {
             </div>
         );
     }
+
     handleRowCommit = (row) => {
         console.log(row);
         this.setState(prevState => ({
@@ -234,22 +238,24 @@ class unitPlace extends Component {
         }))
 
     }
+
     initComponent() {
 
 
     }
+
     handleCommit(e) {
 
         let orders = [];
         for (const row of this.state.rows) {
             orders.push({
-                srcTerritory:row.source,
-                destTerritory:row.target,
-                unitType:row.unitType,
-                unitAmount:row.unitAmount,
+                srcTerritory: row.source,
+                destTerritory: row.target,
+                unitType: row.unitType,
+                unitAmount: row.unitAmount,
                 playerID: AuthService.getCurrentUser().id,
-                orderType:row.orderType,
-                toLevel:row.upLevel
+                orderType: row.orderType,
+                toLevel: row.upLevel
             })
         }
         console.log(orders);
@@ -259,26 +265,29 @@ class unitPlace extends Component {
                 orders
             }, {headers: authHeader()})
             .then((response) => {
-                //console.log(response);
-                this.props.handleSnackBarUpdate("success","Successfully commit the orders!")
-                this.setState({
-                    rows:[]
-                })
-                this.setState({openConfirmDialog:false})
-                //this.setState({messages: tmpmessage});
-                //window.location.reload();
-            }, error => {
-                //window.location.reload();
-                this.props.handleSnackBarUpdate("error",error.message)
-                this.setState({messages: error});
-            });
+                    console.log(response);
+                    this.props.handleSnackBarUpdate("success", response.data.prompt)
+                    this.setState({
+                        rows: []
+                    })
+                    this.setState({openConfirmDialog: false})
+                    //this.setState({messages: tmpmessage});
+                    //window.location.reload();
+                }
+            ).catch((error) => {
+            console.log(error);
+            this.props.handleSnackBarUpdate("error", error.response.data.prompt);
+            this.setState({messages: error});
+            console.log(error.response);
+        });
 
     }
-    handleConfirmDialogOpen =()=>{
-        this.setState({openConfirmDialog:true})
+
+    handleConfirmDialogOpen = () => {
+        this.setState({openConfirmDialog: true})
     }
-    handleConfirmDialogClose =()=>{
-        this.setState({openConfirmDialog:false})
+    handleConfirmDialogClose = () => {
+        this.setState({openConfirmDialog: false})
     }
 
     componentDidUpdate() {

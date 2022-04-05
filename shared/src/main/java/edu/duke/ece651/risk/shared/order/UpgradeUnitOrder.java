@@ -1,9 +1,9 @@
 package edu.duke.ece651.risk.shared.order;
 
 import edu.duke.ece651.risk.shared.checker.ActionChecker;
+import edu.duke.ece651.risk.shared.checker.ActionUnitChecker;
 import edu.duke.ece651.risk.shared.checker.SrcOwnershipChecker;
-import edu.duke.ece651.risk.shared.checker.SufficientSourceForUpgradeChecker;
-import edu.duke.ece651.risk.shared.checker.TerrExistChecker;
+import edu.duke.ece651.risk.shared.checker.SufficientResourceForUpgradeChecker;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
@@ -12,7 +12,7 @@ public class UpgradeUnitOrder extends Order{
     private final ActionChecker upgradeUnitChecker;
 
     public UpgradeUnitOrder() {
-        this.upgradeUnitChecker =new SrcOwnershipChecker(new SufficientSourceForUpgradeChecker(null));
+        this.upgradeUnitChecker =new SrcOwnershipChecker(new ActionUnitChecker(new SufficientResourceForUpgradeChecker(null)));
     }
 
     public UpgradeUnitOrder(long ID, String srcTerritory, String unitType, int unitAmount, int toLevel) {

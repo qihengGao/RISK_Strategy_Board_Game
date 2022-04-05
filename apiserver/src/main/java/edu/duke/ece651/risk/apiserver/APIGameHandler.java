@@ -168,48 +168,57 @@ public class APIGameHandler {
     }
 
 
-    public boolean tryPreProcessOrder(Long clientID, ArrayList<Order> orders) {
-        if (Objects.equals(currentState, State.OrderingState.name()) && !commitedPlayer.contains(clientID)) {
+    public String tryPreProcessOrder(Long clientID, ArrayList<Order> orders) {
+        //check if in ordering state
+        //check if player committed already
+        if (!Objects.equals(currentState, State.OrderingState.name()) || commitedPlayer.contains(clientID)) {
+            return "Failed to place the orders! Place action invalid right now!";
+        }
 
-            System.out.println("in tryPreProcessOrder");
-            RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
+        System.out.println("PreProcessing Orders...");
 
+        //try execute orders on clone map
+        RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
+        String tryExecuteMessage = tryExecuteOrder(orders, cloneMap);
 
+        //check if the execute messages is null
+        if (orders == null || tryExecuteMessage == null) {
+            temporaryOrders.addAll(orders);
+            commitedPlayer.add(clientID);
+            if (commitedPlayer.size() == roomSize) {
+                tryExecuteOrder(temporaryOrders, riskMap);
+                fightBattlesInAllTerritory();
+                increaseOneInAllTerritory();
+                increaseTechFoodForAll();
 
-            if (orders == null || tryExecuteOrder(orders, cloneMap)) {
-                temporaryOrders.addAll(orders);
-                commitedPlayer.add(clientID);
-                if (commitedPlayer.size() == roomSize) {
-                    tryExecuteOrder(temporaryOrders, riskMap);
-                    for (Territory t : riskMap.getContinent()) {
-                        //todo: uncomment this line for simple add or minus fight resolver
-                        //t.getBattleField().setAttackResolver(new SimpleAttackResolver());
-                        //
-                        t.getBattleField().fightAllBattle(t);
-                        t.getBattleField().resetAttackersList();
-                    }
-                    increaseOneInAllTerritory();
-                    increaseTechFoodForAll();
-
-                    if (checkWinner() == null) {
-                        orderingPhase();
-                    } else {
-                        showGameResultPhase();
-                    }
+                if (checkWinner() == null) {
+                    orderingPhase();
+                } else {
+                    showGameResultPhase();
                 }
-                return true;
             }
-            return false;
-        } else
-            return false;
+        }
+        return tryExecuteMessage;
+    }
+
+    private void fightBattlesInAllTerritory() {
+        for (Territory t : riskMap.getContinent()) {
+            //todo: uncomment this line for simple add or minus fight resolver
+            //t.getBattleField().setAttackResolver(new SimpleAttackResolver());
+            //
+            t.getBattleField().fightAllBattle(t);
+            t.getBattleField().resetAttackersList();
+        }
     }
 
 
-    public boolean tryExecuteOrder(ArrayList<Order> orders, RISKMap tmpRiskMap) {
+    public String tryExecuteOrder(ArrayList<Order> orders, RISKMap tmpRiskMap) {
+        System.out.println("try Executing Orders...");
+
         ArrayList<Order> moveOrUpgradeOrder = new ArrayList<>();
         ArrayList<Order> attackOrder = new ArrayList<>();
         ArrayList<Order> upgradeMaxTechOrder = new ArrayList<>();
-        System.out.println("in tryExecuteOrder");
+
         for (Order order : orders) {
             if (Objects.equals(order.getOrderType(), "Move") || Objects.equals(order.getOrderType(), "Upgrade Unit"))
                 moveOrUpgradeOrder.add(order);
@@ -218,35 +227,39 @@ public class APIGameHandler {
             if (order.getOrderType().equals("Upgrade Tech Level"))
                 upgradeMaxTechOrder.add(order);
         }
-        StringBuilder moveErrorMessage = new StringBuilder();
+
         for (Order order : moveOrUpgradeOrder) {
             String errorMessage = order.executeOrder(tmpRiskMap);
-            if (errorMessage != null)
-                moveErrorMessage.append(errorMessage);
+            if (errorMessage != null) {
+                String showError = "Your order: " + order + " is illegal!\n"
+                        + errorMessage;
+                return showError;
+            }
         }
 
-        StringBuilder attackErrorMessage = new StringBuilder();
         for (Order order : attackOrder) {
             String errorMessage = order.executeOrder(tmpRiskMap);
-            if (errorMessage != null)
-                attackErrorMessage.append(errorMessage);
+            if (errorMessage != null) {
+                String showError = "Your order: " + order + " is illegal!\n"
+                        + errorMessage;
+                return showError;
+            }
         }
-        System.out.println(moveErrorMessage.toString() + "  \n" + attackErrorMessage.toString());
 
-        StringBuilder upgradeMaxTechMessage = new StringBuilder();
         if (!upgradeMaxTechOrder.isEmpty()) {
             if (upgradeMaxTechOrder.size() > 1) {
-                upgradeMaxTechMessage.append("You cannot upgrade your tech level more than once");
+                return "You cannot upgrade your tech level more than once";
             } else {
-                String errorMessage = upgradeMaxTechOrder.get(0).executeOrder(tmpRiskMap);
+                Order order = upgradeMaxTechOrder.get(0);
+                String errorMessage = order.executeOrder(tmpRiskMap);
                 if (errorMessage != null) {
-                    upgradeMaxTechMessage.append(errorMessage);
+                    String showError = "Your order: " + order + " is illegal!\n"
+                            + errorMessage;
+                    return showError;
                 }
             }
         }
-        return moveErrorMessage.toString().equals("") && attackErrorMessage.toString().equals("")
-                && upgradeMaxTechMessage.toString().equals("");
-
+        return null;
     }
 
     public void assignColorToPlayers() {

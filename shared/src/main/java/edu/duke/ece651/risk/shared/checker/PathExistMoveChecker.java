@@ -11,6 +11,9 @@ public class
 PathExistMoveChecker extends ActionChecker {
   @Override
   protected String checkMyRule(RISKMap riskMap, Order moveOrder) {
+    if (moveOrder.getSrcTerritory().equals(moveOrder.getDestTerritory())){
+      return "You cannot move within same territory!";
+    }
     Territory src = riskMap.getTerritoryByName(moveOrder.getSrcTerritory());
     HashSet<Territory> visited = new HashSet<Territory>();
 
