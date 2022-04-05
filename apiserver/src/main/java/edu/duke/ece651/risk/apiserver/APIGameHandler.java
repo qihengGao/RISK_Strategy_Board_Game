@@ -134,37 +134,38 @@ public class APIGameHandler {
     }
 
 
-    public boolean tryPlaceUnit(Long clientID, Map<String, Integer> unitPlaceOrders) {
+    public String tryPlaceUnit(Long clientID, Map<String, Integer> unitPlaceOrders) {
         //Check for valid place
         //1.Check for current State == PlacingState and clientID not in committedPlayer.
-        if (Objects.equals(currentState, State.PlacingState.name()) && !commitedPlayer.contains(clientID)) {
+        if (!Objects.equals(currentState, State.PlacingState.name()) || commitedPlayer.contains(clientID)) {
+            return "Failed to place the orders! Place action invalid right now!";
+        }
 
-            //2. Check unit validation.
+        //2. Check unit validation.
 
-            //Rule Checker
-            //1.Check if territory exist.
-            //2.Check if total amount valid.
-            PlaceRuleChecker placeRuleChecker =
-                    new PlaceTerrExistChecker(
-                            new PlaceTerrIDChecker(
-                                    new PlaceUnitAmountChecker(null, InitUnitAmountPerPlayer)));
-            try {
-                placeRuleChecker.checkPlace(riskMap, unitPlaceOrders, clientID);
-            } catch (IllegalArgumentException e) {
-                return false;
-            }
+        //Rule Checker
+        //1.Check if territory exist.
+        //2.Check if total amount valid.
+        PlaceRuleChecker placeRuleChecker =
+                new PlaceTerrExistChecker(
+                        new PlaceTerrIDChecker(
+                                new PlaceUnitAmountChecker(null, InitUnitAmountPerPlayer)));
+        try {
+            placeRuleChecker.checkPlace(riskMap, unitPlaceOrders, clientID);
+        } catch (IllegalArgumentException e) {
+            int offset = e.toString().indexOf(":") + 2;
+            return e.toString().substring(offset);
+        }
 
-            for (String territoryName : unitPlaceOrders.keySet()) {
-                riskMap.getTerritoryByName(territoryName).tryAddUnit(new BasicUnit("Soldier", unitPlaceOrders.get(territoryName)));
-            }
-            commitedPlayer.add(clientID);
-            if (commitedPlayer.size() == roomSize) {
-                increaseTechFoodForAll();
-                orderingPhase();
-            }
-            return true;
-        } else
-            return false;
+        for (String territoryName : unitPlaceOrders.keySet()) {
+            riskMap.getTerritoryByName(territoryName).tryAddUnit(new BasicUnit("Soldier", unitPlaceOrders.get(territoryName)));
+        }
+        commitedPlayer.add(clientID);
+        if (commitedPlayer.size() == roomSize) {
+            increaseTechFoodForAll();
+            orderingPhase();
+        }
+        return null;
     }
 
 

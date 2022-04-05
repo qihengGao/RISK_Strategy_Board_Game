@@ -17,6 +17,8 @@ import {Component} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import Snackbar from "@mui/material/Snackbar";
+import {Alert} from "@mui/material";
 
 
 const theme = createTheme();
@@ -34,7 +36,10 @@ export default class muiRegister extends Component {
             email: "",
             password: "",
             loading: false,
-            message: ""
+            message: "",
+            openSnackBar: false,
+            snackBarMessage: "",
+            snackbarType: "error"
         };
     }
     onChangeUsername(e) {
@@ -52,6 +57,17 @@ export default class muiRegister extends Component {
             password: e.target.value
         });
     }
+
+    handleSnackBarUpdate = (type, message) => {
+        this.setState(
+            {
+                openSnackBar: true,
+                snackBarMessage: message,
+                snackbarType: type
+            }
+        )
+    }
+
     handleRegister(e) {
         e.preventDefault();
         this.setState({
@@ -67,10 +83,12 @@ export default class muiRegister extends Component {
             this.state.email,
             this.state.password)
             .then( () => {
+                this.handleSnackBarUpdate("success", "Successfully Registered");
                 this.props.history.push("/login");
                 window.location.reload();
             },
             error => {
+                this.handleSnackBarUpdate("error", "Username already exist!");
                 const resMessage =
                     (error.response &&
                         error.response.data &&
@@ -151,6 +169,13 @@ export default class muiRegister extends Component {
                             </Button>
                         </Box>
                     </Box>
+                    <Snackbar open={this.state.openSnackBar} autoHideDuration={6000}
+                              onClose={this.handleSnackBarClose}>
+                        <Alert onClose={this.handleSnackBarClose} severity={this.state.snackbarType}
+                               sx={{width: '100%'}}>
+                            {this.state.snackBarMessage}
+                        </Alert>
+                    </Snackbar>
                 </Container>
             </ThemeProvider>
         );

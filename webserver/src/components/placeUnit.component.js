@@ -121,7 +121,11 @@ export default class unitPlace extends Component {
         console.log(this.state.rows)
         let unitPlaceOrders = {};
         for (const row of this.state.rows) {
-            unitPlaceOrders[row.territoryName] = row.unitAmount;
+            if (row.unitAmount == null){
+                unitPlaceOrders[row.territoryName] = 0;
+            } else{
+                unitPlaceOrders[row.territoryName] = row.unitAmount;
+            }
         }
         console.log(unitPlaceOrders);
         axios
@@ -131,11 +135,12 @@ export default class unitPlace extends Component {
             .then((response) => {
                 console.log(response);
                 //this.setState({messages: tmpmessage});
-                this.props.handleSnackBarUpdate("success", "Successfully commit the orders!")
-            }, error => {
-                this.props.handleSnackBarUpdate("error", error.message)
-                this.setState({messages: error});
-            });
+                this.props.handleSnackBarUpdate("success", response.data.prompt)
+            }).catch((error) => {
+            console.log(error.response);
+            this.props.handleSnackBarUpdate("error", error.response.data.prompt);
+            this.setState({messages: error});
+        });
 
     }
 
