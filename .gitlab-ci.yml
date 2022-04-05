@@ -54,15 +54,16 @@ stop_test_server:
     - docker rm selenium_server || true
 
 build_for_test:
+  image: gradle:7.4.1-jdk17
   stage: build
-  needs:
-    - stop_test_server
   script:
-    - ls -al
-    - docker run --rm --user $(id -u):$(id -g) -v $(pwd)/:/ece651-risk gradle:7.4.1-jdk17 /bin/bash -c "cd /ece651-risk; ls -al; gradle resolveDependencies; gradle --build-cache assemble"
+    - gradle resolveDependencies
+    - gradle --build-cache assemble
     - ls -al
   tags:
-    - test-ssh
+    - docker
+  needs:
+    - stop_test_server
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
