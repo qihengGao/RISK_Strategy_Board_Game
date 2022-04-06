@@ -1,6 +1,6 @@
 package edu.duke.ece651.risk.shared.map;
 
-import edu.duke.ece651.risk.shared.Color;
+import edu.duke.ece651.risk.shared.territory.Color;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
@@ -29,6 +29,10 @@ public class MapTextView implements MapView{
     return displayTerrGroup(toDisplay.getContinent(),"Initial World Map:");
   }
 
+  /**
+   * display the entire map
+   * @return
+   */
   public String displayMap() {
     StringBuilder ans = new StringBuilder();
     for (long id : idToColor.keySet()) {

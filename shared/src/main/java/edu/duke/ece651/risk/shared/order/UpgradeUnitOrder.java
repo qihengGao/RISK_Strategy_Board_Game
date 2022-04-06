@@ -9,8 +9,12 @@ import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 public class UpgradeUnitOrder extends Order{
+    //specific checkers for this unit upgrade order
     private final ActionChecker upgradeUnitChecker;
 
+    /**
+     * ctor to specify the chain of rules for this move order
+     */
     public UpgradeUnitOrder() {
         this.upgradeUnitChecker =new SrcOwnershipChecker(new SufficientResourceForUpgradeChecker(null));
     }
@@ -26,7 +30,12 @@ public class UpgradeUnitOrder extends Order{
         this.toLevel = toLevel;
     }
 
-
+    /**
+     * try to execute this upgrade unit order
+     * move all units into the destination if rules passes
+     * @param riskMap
+     * @return null if success, error message if some rule didn't pass
+     */
     @Override
     public String executeOrder(RISKMap riskMap) {
         Unit toUpgrade = new BasicUnit(this.unitType, this.unitAmount);

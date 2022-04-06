@@ -1,8 +1,8 @@
 package edu.duke.ece651.risk.apiserver;
 
 import edu.duke.ece651.risk.apiserver.models.State;
-import edu.duke.ece651.risk.shared.Color;
-import edu.duke.ece651.risk.shared.Owner;
+import edu.duke.ece651.risk.shared.territory.Color;
+import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.checker.PlaceRuleChecker;
 import edu.duke.ece651.risk.shared.checker.PlaceTerrExistChecker;
 import edu.duke.ece651.risk.shared.checker.PlaceTerrIDChecker;
@@ -12,7 +12,6 @@ import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
-import edu.duke.ece651.risk.shared.unit.Unit;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

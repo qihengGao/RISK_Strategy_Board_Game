@@ -1,13 +1,10 @@
 package edu.duke.ece651.risk.shared.order;
 
-import edu.duke.ece651.risk.shared.AttackOrderSimple;
-import edu.duke.ece651.risk.shared.Color;
+import edu.duke.ece651.risk.shared.territory.Color;
 import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.MapTextView;
 import edu.duke.ece651.risk.shared.map.RISKMap;
-import edu.duke.ece651.risk.shared.order.MoveOrder;
-import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.junit.jupiter.api.Test;

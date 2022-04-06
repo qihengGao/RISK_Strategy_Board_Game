@@ -1,6 +1,6 @@
 package edu.duke.ece651.risk.shared.order;
 
-import edu.duke.ece651.risk.shared.Owner;
+import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.territory.BasicTerritory;
 import edu.duke.ece651.risk.shared.territory.Territory;

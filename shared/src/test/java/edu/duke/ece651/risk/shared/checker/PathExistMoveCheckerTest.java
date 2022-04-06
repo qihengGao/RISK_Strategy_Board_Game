@@ -1,19 +1,15 @@
 package edu.duke.ece651.risk.shared.checker;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.TreeMap;
 
-import edu.duke.ece651.risk.shared.*;
 import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.MapTextView;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.order.MoveOrder;
 import edu.duke.ece651.risk.shared.order.Order;
-import edu.duke.ece651.risk.shared.territory.BasicTerritory;
+import edu.duke.ece651.risk.shared.territory.Color;
+import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.junit.jupiter.api.Test;

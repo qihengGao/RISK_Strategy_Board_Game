@@ -7,7 +7,15 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class PlaceUnitAmountChecker extends PlaceRuleChecker{
+    //a total available amount for each player to place
     private int totalAmount;
+
+    /**
+     * check if this player has issued correct total number of unit placements
+     * @param riskMap
+     * @param unitPlaceOrders
+     * @param userId
+     */
     @Override
     protected void checkMyRule(RISKMap riskMap, Map<String, Integer> unitPlaceOrders, Long userId) {
         for (int unitAmount : unitPlaceOrders.values()){

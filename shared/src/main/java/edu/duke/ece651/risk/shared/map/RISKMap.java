@@ -1,6 +1,6 @@
 package edu.duke.ece651.risk.shared.map;
 
-import edu.duke.ece651.risk.shared.Owner;
+import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.territory.Territory;
 
 import java.util.ArrayList;
@@ -123,6 +123,13 @@ public class RISKMap implements GameMap {
     return ans;
   }
 
+  /**
+   * dfs for path from curr territory to the destination
+   * @param curr
+   * @param dst
+   * @param visited
+   * @return
+   */
   private Territory dfsToDst(Territory curr, String dst, HashSet<Territory> visited){
     if (curr.getName().equals(dst)){
       return getTerritoryByName(dst);

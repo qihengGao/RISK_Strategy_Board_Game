@@ -10,21 +10,13 @@ import java.util.Objects;
  * Basic Unit for Risk Game.
  */
 public class BasicUnit implements Unit {
+    //unit information
     private final String unitType;
     private final int levelBound;
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     private int level;
     private int amount;
     private int[] predefinedBonus = new int[] {0, 1, 3, 5, 8, 11, 15};
     private int[] predefinedAccumulativeCosts = new int[] {0, 3, 11, 30, 55, 90, 140};
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
 
     /**
      * Contructor for the Basic Unit.
@@ -50,21 +42,38 @@ public class BasicUnit implements Unit {
         this.level = level;
     }
 
+
+    /**
+     * setters/ getters
+     * @param amount
+     */
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+    public void setLevel(int level) {
+        this.level = level;
+    }
     @Override
     public int getLevelBound() {
         return this.levelBound;
     }
-
     @Override
     public int getLevel() {
         return this.level;
     }
 
+    /**
+     * @return the bonus of this unit in a fight
+     */
     @Override
     public int getBonus() {
         return this.predefinedBonus[this.getLevel()];
     }
 
+    /**
+     * @param level
+     * @return get the cost to upgrade to a level for this unit
+     */
     // Precondition: the upgrade should be checked validity before calling this function
     @Override
     public int getCostToLevel(int level) {
@@ -73,7 +82,6 @@ public class BasicUnit implements Unit {
 
     /**
      * Return the type name of the unit.
-     * 
      * @return String
      */
     @Override
@@ -83,7 +91,6 @@ public class BasicUnit implements Unit {
 
     /**
      * Get current amount of the unit.
-     * 
      * @return int
      */
     @Override
@@ -93,7 +100,6 @@ public class BasicUnit implements Unit {
 
     /**
     * Try to increase the amount.
-     * 
      * @param amount
      * @return boolean, true if successful, else false
      */
@@ -105,7 +111,6 @@ public class BasicUnit implements Unit {
 
     /**
      * Try to decrease the amount.
-     * 
      * @param amount
      * @return boolean, true if successful, else false
      */
@@ -118,6 +123,10 @@ public class BasicUnit implements Unit {
         return true;
     }
 
+    /**
+     * overrode to string to show info of this unit
+     * @return
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -130,6 +139,11 @@ public class BasicUnit implements Unit {
         return result.toString();
     }
 
+    /**
+     * compare units
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -138,6 +152,10 @@ public class BasicUnit implements Unit {
         return level == basicUnit.level && Objects.equals(unitType, basicUnit.unitType);
     }
 
+    /**
+     * overrode hashcode
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(unitType, level);

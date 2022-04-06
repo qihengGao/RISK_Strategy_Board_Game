@@ -5,6 +5,13 @@ import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.territory.Territory;
 
 public class SrcOwnershipChecker extends ActionChecker {
+
+  /**
+   * check if the source territory is owned by this player
+   * @param riskMap
+   * @param moveOrder
+   * @return
+   */
   @Override
   protected String checkMyRule(RISKMap riskMap, Order moveOrder) {
     Territory src = riskMap.getTerritoryByName(moveOrder.getSrcTerritory());
