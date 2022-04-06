@@ -739,11 +739,11 @@
       "id": "8ab8d1b6-47c2-435f-9da9-6cc796efacd2",
       "comment": "",
       "command": "click",
-      "target": "css=.css-1e6y48t-MuiButtonBase-root-MuiButton-root:nth-child(2)",
+      "target": "css=.MuiButton-containedSizeMedium",
       "targets": [
-        ["css=.css-1e6y48t-MuiButtonBase-root-MuiButton-root:nth-child(2)", "css:finder"],
-        ["xpath=(//button[@type='button'])[11]", "xpath:attributes"],
-        ["xpath=//div[3]/div/div[2]/button[2]", "xpath:position"]
+        ["css=.MuiButton-containedSizeMedium", "css:finder"],
+        ["xpath=(//button[@type='button'])[10]", "xpath:attributes"],
+        ["xpath=//div[7]/div[3]/div/div[2]/button", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -811,11 +811,11 @@
       "id": "89bc7f40-843f-4455-8438-981e88e4f5f9",
       "comment": "",
       "command": "click",
-      "target": "css=.css-1e6y48t-MuiButtonBase-root-MuiButton-root:nth-child(2)",
+      "target": "css=.MuiButton-containedSizeMedium",
       "targets": [
-        ["css=.css-1e6y48t-MuiButtonBase-root-MuiButton-root:nth-child(2)", "css:finder"],
-        ["xpath=(//button[@type='button'])[11]", "xpath:attributes"],
-        ["xpath=//div[3]/div/div[2]/button[2]", "xpath:position"]
+        ["css=.MuiButton-containedSizeMedium", "css:finder"],
+        ["xpath=(//button[@type='button'])[10]", "xpath:attributes"],
+        ["xpath=//div[5]/div[3]/div/div[2]/button", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -1661,16 +1661,23 @@
       ],
       "value": ""
     }, {
+      "id": "0cfecdf2-f720-476a-81c3-2b2a8270e20d",
+      "comment": "",
+      "command": "waitForElementNotPresent",
+      "target": "css=.css-1e6y48t-MuiButtonBase-root-MuiButton-root:nth-child(1)",
+      "targets": [],
+      "value": "30000"
+    }, {
       "id": "44b4a2b8-cf26-48f1-a637-5a06572a3572",
       "comment": "",
-      "command": "assertElementPresent",
-      "target": "css=.MuiPaper-elevation0",
+      "command": "assertText",
+      "target": "css=#input > div",
       "targets": [
-        ["css=.MuiPaper-elevation0", "css:finder"],
-        ["xpath=//div[@id='upper']/div[2]/div", "xpath:idRelative"],
-        ["xpath=//div[3]/div/div/div/div[2]/div", "xpath:position"]
+        ["css=#input > div", "css:finder"],
+        ["xpath=//div[@id='input']/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div", "xpath:position"]
       ],
-      "value": ""
+      "value": "Waiting for other players to place orders..."
     }]
   }, {
     "id": "7307861d-2644-40d2-bb0e-3b922922e49b",
