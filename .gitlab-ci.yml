@@ -227,7 +227,7 @@ generate_js_coverage_report:
     - ls -al
   artifacts:
     paths:
-      - coverage
+      - webserver/coverage
   timeout: 2m
 
 pages:

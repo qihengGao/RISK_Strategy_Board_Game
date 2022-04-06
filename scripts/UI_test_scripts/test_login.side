@@ -132,7 +132,7 @@
       "id": "7e06ea90-299d-4e18-adff-5f39e46eb525",
       "comment": "",
       "command": "pause",
-      "target": "100ms",
+      "target": "100",
       "targets": [],
       "value": ""
     }]
