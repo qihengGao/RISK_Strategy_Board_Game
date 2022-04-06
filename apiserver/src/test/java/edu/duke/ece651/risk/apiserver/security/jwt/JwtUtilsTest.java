@@ -3,7 +3,7 @@ package edu.duke.ece651.risk.apiserver.security.jwt;
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
