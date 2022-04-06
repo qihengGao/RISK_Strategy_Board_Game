@@ -15,7 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -33,6 +35,12 @@ public class GameController {
     private long roomIDCounter;
 
 
+    /**
+     * This method handle the post request of /createRoom.
+     *
+     * @param createRoomRequest A deserialize json object contains roomSize.
+     * @return ResponseEntity which contains the http code to indicate the result.
+     */
     @PostMapping("/createRoom")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<CreateRoomResponse> createRoom(@Valid @RequestBody CreateRoomRequest createRoomRequest) {
@@ -44,13 +52,20 @@ public class GameController {
 //        if (roomSize<2 || roomSize > 5) {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CreateRoomResponse("Failed to create a room! Room size must be between 2~5!", null));
 //        }
-        APIGameHandler gameHandler = new APIGameHandler(roomSize, roomIDCounter++,userId);
+        APIGameHandler gameHandler = new APIGameHandler(roomSize, roomIDCounter++, userId);
 
         rooms.put(gameHandler.getRoomID(), gameHandler);
         return ResponseEntity.ok(new CreateRoomResponse("Successfully create a game room!", gameHandler.getRoomID()));
 
     }
 
+
+    /**
+     * This method handle the post request of /joinRoom.
+     *
+     * @param joinRoomRequest A deserialize json object contains roomID.
+     * @return ResponseEntity which contains the http code to indicate the result.
+     */
     @PostMapping("/joinRoom")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<JoinRoomResponse> createRoom(@Valid @RequestBody JoinRoomRequest joinRoomRequest) {
@@ -68,17 +83,29 @@ public class GameController {
 
     }
 
+    /**
+     * This is a helper function to get the current user id.
+     *
+     * @return The user ID of current user.
+     */
     private Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return userDetails.getId();
     }
 
+
+    /**
+     * This method handle the get request of /gameStatus.
+     *
+     * @param roomID The roomID to look up.
+     * @return ResponseEntity which contains the http code to indicate the result and the room status if the roomID is valid.
+     */
     @GetMapping("/gameStatus")
-    public ResponseEntity<GameStatusResponse> gameStatus(@RequestParam Long roomID){
+    public ResponseEntity<GameStatusResponse> gameStatus(@RequestParam Long roomID) {
         Long userId = getUserId();
 
-        if(rooms.containsKey(roomID)&&rooms.get(roomID).getPlayers().contains(userId)){
+        if (rooms.containsKey(roomID) && rooms.get(roomID).getPlayers().contains(userId)) {
             APIGameHandler apiGameHandler = rooms.get(roomID);
             return ResponseEntity.status(HttpStatus.OK).body(new GameStatusResponse(
                     apiGameHandler.getPlayerState(userId),
@@ -87,12 +114,18 @@ public class GameController {
                     apiGameHandler.getIdToColor(),
                     ""
             ));
-        }
-        else{
+        } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GameStatusResponse("Room not found!"));
         }
     }
 
+
+    /**
+     * This method handle the post request of /place/unit.
+     *
+     * @param placeUnitRequest A deserialize json object contains some Unit object.
+     * @return ResponseEntity which contains the http code to indicate the result.
+     */
     @PostMapping("/place/unit")
     public ResponseEntity<PlaceUnitResponse> placeUnit(@Valid @RequestBody PlaceUnitRequest placeUnitRequest) {
         Long userId = getUserId();
@@ -100,20 +133,25 @@ public class GameController {
         APIGameHandler currGame = rooms.get(roomID);
 
         if (currGame == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Cannot find room "+roomID+"!"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Cannot find room " + roomID + "!"));
         }
 
-        String place_error_message = currGame.tryPlaceUnit(userId,placeUnitRequest.getUnitPlaceOrders());
+        String place_error_message = currGame.tryPlaceUnit(userId, placeUnitRequest.getUnitPlaceOrders());
 
-        if (place_error_message!=null) {
+        if (place_error_message != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse(place_error_message));
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(new PlaceUnitResponse("Successfully placed unit into map."));
         }
 
     }
 
-
+    /**
+     * This method handle the post request of /place/order.
+     *
+     * @param placeOrderRequest A deserialize json object contains some Order object.
+     * @return ResponseEntity which contains the http code to indicate the result.
+     */
     @PostMapping("/place/order")
     public ResponseEntity<PlaceUnitResponse> placeUnit(@Valid @RequestBody PlaceOrderRequest placeOrderRequest) {
         Long userId = getUserId();
@@ -122,7 +160,7 @@ public class GameController {
         APIGameHandler currGame = rooms.get(roomID);
 
         if (currGame == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Cannot find room "+roomID+"!"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Cannot find room " + roomID + "!"));
         }
 
         String preprocess_message = currGame.tryPreProcessOrder(userId, placeOrderRequest.getOrders());
@@ -135,26 +173,37 @@ public class GameController {
 
     }
 
+    /**
+     * This method handle the get request of /rooms/available.
+     *
+     * @return ResponseEntity which contains the http code to indicate the result and the available rooms.
+     */
     @GetMapping("/rooms/available")
-    public ResponseEntity<RoomsAvailableResponse> allRooms( ){
+    public ResponseEntity<RoomsAvailableResponse> allRooms() {
         Long userId = getUserId();
 
         List<APIGameHandler> res = rooms.entrySet().stream()
                 .filter(e -> (State.WaitingToStartState.name().equals(e.getValue().getCurrentState())
                         && !e.getValue().getPlayers().contains(userId)))
-                .map(Map.Entry::getValue).collect(Collectors.toList());;
+                .map(Map.Entry::getValue).collect(Collectors.toList());
+        ;
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
 
+
+    /**
+     * This method handle the get request of /rooms/joined.
+     *
+     * @return ResponseEntity which contains the http code to indicate the result and the joined rooms.
+     */
     @GetMapping("/rooms/joined")
-    public ResponseEntity<RoomsAvailableResponse> joinedRooms( ){
+    public ResponseEntity<RoomsAvailableResponse> joinedRooms() {
         Long userId = getUserId();
 
         List<APIGameHandler> res = rooms.entrySet().stream()
                 .filter(e -> e.getValue().getPlayers().contains(userId)).map(Map.Entry::getValue).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
-
 
 
 }
