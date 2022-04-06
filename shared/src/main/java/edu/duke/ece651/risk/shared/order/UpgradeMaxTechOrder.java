@@ -17,6 +17,11 @@ public class UpgradeMaxTechOrder extends Order {
         this.orderType = "Upgrade Tech Level";
     }
 
+    /**
+     * try to upgrade maximum tech level
+     * @param riskMap
+     * @return null if have enough resource. error message if not
+     */
     @Override
     public String executeOrder(RISKMap riskMap) {
         return riskMap.getOwners().get(this.playerID).tryUpgradeTechLevel();

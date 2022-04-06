@@ -1,10 +1,11 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.battle;
 
+import edu.duke.ece651.risk.shared.battle.AttackResolver;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 import java.util.Random;
 
-public class DiceAttackResolver extends AttackResolver{
+public class DiceAttackResolver extends AttackResolver {
 
     private int diceFacetNumber;
     private Random random;

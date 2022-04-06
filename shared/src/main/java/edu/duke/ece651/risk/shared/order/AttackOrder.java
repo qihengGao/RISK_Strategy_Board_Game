@@ -7,6 +7,7 @@ import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 public class AttackOrder extends Order {
+    //specific checkers for this attack order
     private final ActionChecker attackChecker;
 
     public AttackOrder(long ID, String srcTerritory, String destTerritory, String unitUnderOrder, int unitAmount) {
@@ -22,10 +23,19 @@ public class AttackOrder extends Order {
         this.orderType = "Attack";
     }
 
+    /**
+     * ctor to specify the chain of rules for this attack order
+     */
     public AttackOrder() {
         this.attackChecker = new TerrExistChecker(new SrcOwnershipChecker(new ActionUnitChecker(new PathExistAttackChecker(new PathResourceAttackChecker(null)))));
     }
 
+    /**
+     * try to execute this attack order
+     * move all units into the destination's battlefield if rules passes
+     * @param riskMap
+     * @return null if success, error message if some rule didn't pass
+     */
     @Override
     public String executeOrder(RISKMap riskMap) {
         // TODO change this to battlefield

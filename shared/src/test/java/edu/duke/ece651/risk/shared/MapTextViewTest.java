@@ -9,6 +9,7 @@ import edu.duke.ece651.risk.shared.factory.TestMapFactory;
 import edu.duke.ece651.risk.shared.factory.V1UnitFactory;
 import edu.duke.ece651.risk.shared.map.GameMap;
 import edu.duke.ece651.risk.shared.map.MapTextView;
+import edu.duke.ece651.risk.shared.territory.Color;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.Unit;
 import org.junit.jupiter.api.Test;

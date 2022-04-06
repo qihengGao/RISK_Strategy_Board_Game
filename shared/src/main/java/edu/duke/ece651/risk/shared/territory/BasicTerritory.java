@@ -1,7 +1,7 @@
 package edu.duke.ece651.risk.shared.territory;
 
 // import java.util.HashSet;
-import edu.duke.ece651.risk.shared.BattleField;
+import edu.duke.ece651.risk.shared.battle.BattleField;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
 import edu.duke.ece651.risk.shared.unit.UnitComparator;
@@ -16,19 +16,13 @@ public class BasicTerritory implements Territory {
   private final String name;
   private TreeSet<String> neighbors; // to make in order with repect to name
 
-  public void setUnits(TreeSet<Unit> unitsToAdd) {
-    this.units.clear();
-    for (Unit u: unitsToAdd){
-      this.units.add(u);
-    }
-  }
-
   private TreeSet<Unit> units;
   private BattleField battleField;
   private int size;
   private int foodProduction;
   private int techProduction;
 
+  //ctors
   public BasicTerritory(String Name){
     this.OwnerID = -1L;
     this.name = Name;
@@ -50,6 +44,19 @@ public class BasicTerritory implements Territory {
     this.foodProduction = foodProduction;
     this.techProduction = techProduction;
   }
+
+
+  /**
+   * set the units in this territory
+   * @param unitsToAdd
+   */
+  public void setUnits(TreeSet<Unit> unitsToAdd) {
+    this.units.clear();
+    for (Unit u: unitsToAdd){
+      this.units.add(u);
+    }
+  }
+
 
   /**
    * Return the size of the territory.
@@ -176,6 +183,12 @@ public class BasicTerritory implements Territory {
     }
   }
 
+  /**
+   * get the unit by type and level
+   * @param type
+   * @param level
+   * @return
+   */
   @Override
   public Unit getUnitByTypeLevel(String type, int level) {
     for (Unit u : this.getUnits()) {
@@ -195,6 +208,13 @@ public class BasicTerritory implements Territory {
     return true;
   }
 
+
+  /**
+   * try to upgrade a unit to level
+   * @param toUpgrade
+   * @param toLevel
+   * @return
+   */
   @Override
   public String tryUpgradeUnitToLevel(Unit toUpgrade, int toLevel) {
     if (toLevel <= toUpgrade.getLevel()) {
@@ -214,6 +234,10 @@ public class BasicTerritory implements Territory {
     return null;
   }
 
+  /**
+   * overrode hashcode
+   * @return
+   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -222,6 +246,10 @@ public class BasicTerritory implements Territory {
     return result;
   }
 
+  /**
+   * overrode equals
+   * @return
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj)

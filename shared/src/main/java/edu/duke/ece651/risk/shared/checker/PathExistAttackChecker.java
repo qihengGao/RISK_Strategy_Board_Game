@@ -9,6 +9,12 @@ public class PathExistAttackChecker extends ActionChecker{
         super(next);
     }
 
+    /**
+     * check if the path exist for attack
+     * @param riskMap
+     * @param moveOrder
+     * @return null if all rules passed; return error message if rule didn't pass
+     */
     @Override
     protected String checkMyRule(RISKMap riskMap, Order moveOrder) {
         Territory src = riskMap.getTerritoryByName(moveOrder.getSrcTerritory());

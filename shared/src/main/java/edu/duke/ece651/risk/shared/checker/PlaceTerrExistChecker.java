@@ -6,6 +6,12 @@ import java.util.Map;
 
 public class PlaceTerrExistChecker extends PlaceRuleChecker{
 
+    /**
+     * check if the territory exist for this placement
+     * @param riskMap
+     * @param unitPlaceOrders
+     * @param userId
+     */
     @Override
     protected void checkMyRule(RISKMap riskMap, Map<String, Integer> unitPlaceOrders, Long userId) {
         for (String terrName : unitPlaceOrders.keySet()){

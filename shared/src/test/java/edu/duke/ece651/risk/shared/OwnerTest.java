@@ -1,5 +1,6 @@
 package edu.duke.ece651.risk.shared;
 
+import edu.duke.ece651.risk.shared.territory.Owner;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

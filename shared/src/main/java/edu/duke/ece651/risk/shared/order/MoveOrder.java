@@ -13,8 +13,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class MoveOrder extends Order {
+  //specific checkers for this move order
   private final ActionChecker moveChecker;
 
+  /**
+   * ctor to specify the chain of rules for this move order
+   */
   public MoveOrder() {
     this.moveChecker = new TerrExistChecker(
             new SrcOwnershipChecker(
@@ -34,7 +38,10 @@ public class MoveOrder extends Order {
   }
 
   /**
-   * execute a move order
+   * try to execute this move order
+   * move all units into the destination if rules passes
+   * @param riskMap
+   * @return null if success, error message if some rule didn't pass
    */
   @Override
   public String executeOrder(RISKMap riskMap) {

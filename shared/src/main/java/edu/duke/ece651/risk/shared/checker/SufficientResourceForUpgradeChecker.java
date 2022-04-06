@@ -13,6 +13,13 @@ public class SufficientResourceForUpgradeChecker extends ActionChecker{
     public SufficientResourceForUpgradeChecker(ActionChecker next) {
         super(next);
     }
+
+    /**
+     * check if this player has enough resource to operate unit upgrade order
+     * @param riskMap
+     * @param unitUpgradeOrder
+     * @return
+     */
     @Override
     protected String checkMyRule(RISKMap riskMap, Order unitUpgradeOrder) {
         Unit toUpgrade = new BasicUnit(unitUpgradeOrder.getUnitType(), unitUpgradeOrder.getUnitAmount());

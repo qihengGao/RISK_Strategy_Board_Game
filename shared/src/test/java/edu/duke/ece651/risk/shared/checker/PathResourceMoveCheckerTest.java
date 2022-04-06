@@ -1,7 +1,7 @@
 package edu.duke.ece651.risk.shared.checker;
 
-import edu.duke.ece651.risk.shared.Color;
-import edu.duke.ece651.risk.shared.Owner;
+import edu.duke.ece651.risk.shared.territory.Color;
+import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.map.MapTextView;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.order.MoveOrder;

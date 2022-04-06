@@ -10,6 +10,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class PathResourceMoveChecker extends ActionChecker {
+
+  /**
+   * check if the move order has enough resources to operate on
+   * @param riskMap
+   * @param moveOrder
+   * @return null if all rules passed; return error message if rule didn't pass
+   */
     @Override
     protected String checkMyRule(RISKMap riskMap, Order moveOrder) {
         Territory src = riskMap.getTerritoryByName(moveOrder.getSrcTerritory());
@@ -22,6 +29,16 @@ public class PathResourceMoveChecker extends ActionChecker {
         return riskMap.getOwners().get(moveOrder.getPlayerID()).tryAddOrRemoveFoodResource(cost);
     }
 
+
+  /**
+   * Depth First Search used to build unsettled set of territories connected and own by player (ID)
+   * @param riskMap the map to operate on
+   * @param ID check ownership of territory
+   * @param curr curr territory
+   * @param dstName destination territory name
+   * @param visited visited territories
+   * @return the Territory if found a path. null if not
+   */
   protected Territory dfsToDst(RISKMap riskMap, long ID, Territory curr, String dstName, HashSet<Territory> visited){
     if (curr.getName().equals(dstName)){
       return riskMap.getTerritoryByName(dstName);

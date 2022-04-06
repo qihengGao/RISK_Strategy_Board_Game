@@ -1,8 +1,11 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.territory;
 
 import java.io.Serializable;
 
+
+//save the color information
 public class Color implements Serializable {
+
     private final String colorName;
     private final String colorValue;
 

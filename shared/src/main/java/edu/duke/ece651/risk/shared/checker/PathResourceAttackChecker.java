@@ -9,6 +9,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class PathResourceAttackChecker extends ActionChecker {
+
+    /**
+     * check if the attack order has enough resources to operate on
+     * @param riskMap
+     * @param moveOrder
+     * @return null if all rules passed; return error message if rule didn't pass
+     */
     @Override
     protected String checkMyRule(RISKMap riskMap, Order moveOrder) {
         int cost = -1*moveOrder.getUnitAmount();

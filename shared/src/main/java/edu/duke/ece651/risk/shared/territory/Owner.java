@@ -1,4 +1,4 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.territory;
 
 import java.io.Serializable;
 import java.util.HashMap;

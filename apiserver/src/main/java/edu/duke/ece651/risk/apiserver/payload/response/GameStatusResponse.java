@@ -1,9 +1,8 @@
 package edu.duke.ece651.risk.apiserver.payload.response;
 
-import edu.duke.ece651.risk.shared.Color;
+import edu.duke.ece651.risk.shared.territory.Color;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 
-import javax.persistence.SecondaryTable;
 import java.util.Set;
 import java.util.TreeMap;
 

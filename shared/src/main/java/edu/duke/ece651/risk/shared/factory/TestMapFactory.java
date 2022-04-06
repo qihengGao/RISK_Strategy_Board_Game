@@ -10,7 +10,7 @@ import java.util.HashSet;
 public class TestMapFactory implements AbstractMapFactory {
 
   /**
-   * create random test map
+   * create specified test map
    */
   @Override
   public GameMap createMapForNplayers(int n) {

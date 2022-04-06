@@ -9,6 +9,12 @@ import java.util.Map;
 
 public class PlaceTerrIDChecker extends PlaceRuleChecker{
 
+    /**
+     * check if the territory id is same as the player id who issued this order
+     * @param riskMap
+     * @param unitPlaceOrders
+     * @param userId
+     */
     @Override
     protected void checkMyRule(RISKMap riskMap, Map<String, Integer> unitPlaceOrders, Long userId) {
         ArrayList<Territory> myTerrs = (ArrayList<Territory>) riskMap.getTerritoriesByOwnerID(userId);

@@ -3,15 +3,8 @@ package edu.duke.ece651.risk.shared;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-import org.junit.jupiter.api.Disabled;
+import edu.duke.ece651.risk.shared.territory.Color;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.ResourceAccessMode;
-import org.junit.jupiter.api.parallel.ResourceLock;
-import org.junit.jupiter.api.parallel.Resources;
-
-import java.io.*;
-import java.net.ServerSocket;
-import java.util.concurrent.TimeUnit;
 
 public class ColorTest {
 
