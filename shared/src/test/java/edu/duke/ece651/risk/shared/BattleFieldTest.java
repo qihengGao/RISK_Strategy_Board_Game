@@ -143,57 +143,38 @@ class BattleFieldTest {
         assertEquals(t.getUnits().first().getAmount(), 5);
     }
 
-
-//
-//        //resolve battle by simple attack resolver
-//        BF.fightAllBattle(t);
-//        BF = new BattleField(t, new SimpleAttackResolver());
-//        assertEquals(t.getOwnerID(), 3);
-//        assertEquals(t.getUnitByType("Unit").getAmount(), 0);
-//
-//        //add 11 attackers from player 1
-//        Unit toadd3 = new BasicUnit("Unit",10);
-//        Unit toadd4 = new BasicUnit("Unit",1);
-//        BF.addAttacker((long)1, toadd3);
-//        BF.addAttacker((long)1, toadd4);
-//        assertNull(BF.getAttackers().get((long)0));
-//        assertEquals(BF.getAttackers().get((long)1),1);
-//        BF.fightAllBattle(t);
-//        assertEquals(t.getOwnerID(), 1);
-//        assertEquals(t.getUnitByType("Unit").getAmount(), 1);
-
     @Test
     void fightBattle() {
-//        //terr1, unit 20, ownerID=3
-//        Territory t = new BasicTerritory("Test1");
-//        t.tryAddUnit(new BasicUnit("Unit", 20));
-//        t.tryChangeOwnerTo((long)3);
-//        assertEquals(t.getOwnerID(), 3);
-//
-//        BattleField BF = new BattleField(t);
-//        Unit toadd1 = new BasicUnit("Unit",10);
-//        Unit toadd2 = new BasicUnit("Unit",10);
-//
-//        //add 20 attackers from player 0
-//        BF.addAttacker((long)0, toadd1);
-//        BF.addAttacker((long)0, toadd2);
-//        assertEquals(BF.getAttackers().get((long)0).first().getAmount(),20);//assert 20 attackers in battlefield
-//
-//        //resolve battle by simple attack resolver
-//        BF.fightAllBattle(t);
-//        BF = new BattleField(t);
-//        assertEquals(t.getOwnerID(), 3);
-//        assertEquals(t.getUnitByType("Unit").getAmount(), 9);
-//
-//        //add 11 attackers from player 1
-//        Unit toadd3 = new BasicUnit("Unit",0);
-//        Unit toadd4 = new BasicUnit("Unit",1);
-//        BF.addAttacker((long)1, toadd3);
-//        BF.addAttacker((long)1, toadd4);
-//        assertNull(BF.getAttackers().get((long)0));
-//        assertEquals(BF.getAttackers().get((long)1).first().getAmount(),1);
-//        BF.fightAllBattle(t);
-//        assertEquals(t.getOwnerID(), 3);
-//        assertEquals(t.getUnitByType("Unit").getAmount(), 9);
+        TreeSet<Unit> ts1 = new TreeSet<>(new UnitComparator());
+        ts1.add(new BasicUnit("Unit0", 10));
+        ts1.add(new BasicUnit("Unit1", 10));
+        ts1.add(new BasicUnit("Unit2", 10));
+        ts1.add(new BasicUnit("Unit3", 10));
+        ts1.add(new BasicUnit("Unit4", 10));
+        ts1.add(new BasicUnit("Unit5", 10));
+        ts1.add(new BasicUnit("Unit6", 10));
+        ts1.add(new BasicUnit("Unit7", 10));
+        ts1.add(new BasicUnit("Unit8", 10));
+        ts1.add(new BasicUnit("Unit9", 10));
+        ts1.add(new BasicUnit("Unit10", 10));
+        TreeSet<Unit> ts2 = new TreeSet<>(new UnitComparator());
+        ts2.add(new BasicUnit("Unit0", 10));
+        ts2.add(new BasicUnit("Unit1", 10));
+        ts2.add(new BasicUnit("Unit2", 10));
+        ts2.add(new BasicUnit("Unit3", 10));
+        ts2.add(new BasicUnit("Unit4", 10));
+        ts2.add(new BasicUnit("Unit5", 10));
+        ts2.add(new BasicUnit("Unit6", 10));
+        ts2.add(new BasicUnit("Unit7", 10));
+        ts2.add(new BasicUnit("Unit8", 10));
+        ts2.add(new BasicUnit("Unit9", 10));
+        ts2.add(new BasicUnit("Unit10", 10));
+
+        Territory t = new BasicTerritory("Test1");
+        BattleField BF = new BattleField(t);
+
+        for (int i = 0; i < 10; i++){
+            BF.fightBetweenTwoUnits(ts1, ts2, i);
+        }
     }
 }
