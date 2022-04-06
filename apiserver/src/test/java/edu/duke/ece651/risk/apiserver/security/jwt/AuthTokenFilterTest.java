@@ -4,7 +4,11 @@ package edu.duke.ece651.risk.apiserver.security.jwt;
 
 
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsServiceImpl;
-import org.junit.Test;
+
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.*;
@@ -27,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+
 public class AuthTokenFilterTest {
 
     @Mock
@@ -41,9 +45,15 @@ public class AuthTokenFilterTest {
     private AuthTokenFilter authTokenFilter;
 
 
+    @BeforeEach
+    private void init(){
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void test_doFilterInternal() throws ServletException, IOException {
+
+
         //AuthTokenFilter filter = mock(AuthTokenFilter.class);
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
