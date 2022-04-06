@@ -191,9 +191,6 @@ class APIGameHandlerTest {
         assertNotEquals(game.tryPreProcessOrder(1L, orders1), null);
         assertNotEquals(game.tryPreProcessOrder(1L, orders2), null);
         assertNotEquals(game.tryPreProcessOrder(1L, orders3), null);
-        orders3.remove(0);
-        assertNotEquals(game.tryPreProcessOrder(1L, orders3), null);
-        riskMap.getOwners().get(1L).tryAddOrRemoveTechResource(1000);
 
     }
 
