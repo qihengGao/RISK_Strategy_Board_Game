@@ -128,5 +128,13 @@ public class AttackOrderTest {
 
         displayMap(riskMap);
 
+
+        //invalid
+        Order o7 = new AttackOrder(0, "Test0", "Test3", "Unit", 3);
+        String check_message6 = checkValidOrder(riskMap, o7);
+        System.out.println(check_message6);
+
+        displayMap(riskMap);
+
     }
 }
