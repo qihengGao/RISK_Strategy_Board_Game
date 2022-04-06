@@ -182,38 +182,3 @@ export default class muiLogin extends Component {
         );
     }
 }
-
-
-function hhgh() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        // console.log({
-        //     email: data.get('email'),
-        //     password: data.get('password'),
-        // });
-
-        AuthService.login(data.get('username'), data.get('password')).then(
-            () => {
-                this.props.history.push("/");
-                window.location.reload();
-            },
-            error => {
-                const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-                this.setState({
-                    loading: false,
-                    message: resMessage
-                });
-            }
-        );
-    };
-
-    return (<div/>
-
-    );
-}
