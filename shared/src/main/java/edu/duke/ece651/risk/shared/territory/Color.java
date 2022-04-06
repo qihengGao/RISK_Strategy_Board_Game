@@ -19,14 +19,27 @@ public class Color implements Serializable {
         this.colorValue = _colorvalue;
     }
 
+    /**
+     * get color name
+     * @return color name
+     */
     public String getColorName(){
         return colorName;
     }
 
+    /**
+     * get color value
+     * @return color value
+     */
     public String getColorValue(){
         return colorValue;
     }
 
+    /**
+     * equal comparator
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj){
         if(obj.getClass().equals(this.getClass())){
@@ -36,11 +49,19 @@ public class Color implements Serializable {
         return false;
     }
 
+    /**
+     * toString
+     * @return printed value of the object
+     */
     @Override
     public String toString(){
         return "<" + this.colorName + ": " + this.colorValue + ">";
     }
 
+    /**
+     * hashcode
+     * @return hashcode of the object
+     */
     @Override
     public int hashCode(){
         return this.toString().hashCode();
