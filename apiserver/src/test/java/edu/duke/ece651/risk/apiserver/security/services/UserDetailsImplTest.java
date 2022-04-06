@@ -5,8 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserDetailsImplTest {
 
@@ -24,5 +23,21 @@ public class UserDetailsImplTest {
         assertTrue(userDetails.isAccountNonLocked());
         assertTrue(userDetails.isCredentialsNonExpired());
         assertTrue(userDetails.isEnabled());
+    }
+
+    @Test
+    public void test_equals(){
+        UserDetailsImpl userDetails = new UserDetailsImpl(
+                0L, "username", "email", "password", null);
+        UserDetailsImpl userDetails2 = new UserDetailsImpl(
+                0L, "username", "email", "password", null);
+        UserDetailsImpl userDetails3 = new UserDetailsImpl(
+                1L, "username", "email", "password", null);
+
+        assertEquals(userDetails, userDetails);
+        assertNotEquals(userDetails, null);
+        assertNotEquals(userDetails, 123);
+        assertEquals(userDetails, userDetails2);
+        assertNotEquals(userDetails, userDetails3);
     }
 }
