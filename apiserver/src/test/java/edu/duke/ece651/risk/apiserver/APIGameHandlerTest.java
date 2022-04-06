@@ -190,8 +190,9 @@ class APIGameHandlerTest {
         assertNotEquals(game.tryPreProcessOrder(1L, orders2), null);
         assertNotEquals(game.tryPreProcessOrder(1L, orders3), null);
         orders3.remove(0);
-        assertNull(game.tryPreProcessOrder(1L, orders3));
-        assertNotEquals(game.tryPreProcessOrder(1L, orders3), null);
+        System.out.println(game.getRiskMap().getOwners().get(1L).tryAddOrRemoveTechResource(-90));
+        assertEquals(game.tryPreProcessOrder(1L, orders3),"Your order: Upgrade Tech Level():Test0->Test6: Soldier 1 is illegal!\n" +
+                "you do not have enough technological resource to upgrade");
     }
 
     @Test
