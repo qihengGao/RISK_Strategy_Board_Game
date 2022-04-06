@@ -217,10 +217,12 @@ generate_js_coverage_report:
   needs:
     - selenium_web_ui_test
   script:
+    - cd webserver
     - ls -al /ui_test_downlaod
     - ls -al
     - mkdir tmp
     - mv  -v /ui_test_downlaod/* tmp
+    - cat tmp/test_login.json
     - nyc report -t tmp --reporter=html
     - ls -al
   artifacts:
