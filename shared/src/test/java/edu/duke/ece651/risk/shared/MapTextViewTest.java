@@ -9,10 +9,14 @@ import edu.duke.ece651.risk.shared.factory.TestMapFactory;
 import edu.duke.ece651.risk.shared.factory.V1UnitFactory;
 import edu.duke.ece651.risk.shared.map.GameMap;
 import edu.duke.ece651.risk.shared.map.MapTextView;
+import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.territory.Color;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.Unit;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MapTextViewTest {
   @Test
@@ -22,7 +26,7 @@ public class MapTextViewTest {
     MapTextView mtv = new MapTextView(map);
 
     System.out.println(mtv.displayMapInit());
-
+    assertInstanceOf(RISKMap.class, map);
   }
 
   @Test
@@ -48,5 +52,6 @@ public class MapTextViewTest {
     }
     MapTextView mtv = new MapTextView(map, idToColor);
     System.out.println(mtv.displayMap());
+    assertNotNull(mtv.displayMap());
   }
 }
