@@ -16,6 +16,7 @@ public class RISKMapTest {
   @Test
   public void test_simpleMap() {
     RISKMap map = new RISKMap(new HashSet<Territory>());
+    map.tryAddOwner(new Owner(1L));
     assertEquals(0, map.getNumOfContinents());
     Territory t1 = new BasicTerritory("FitzPatrick");
     assertTrue(map.tryAddTerritory(t1));
