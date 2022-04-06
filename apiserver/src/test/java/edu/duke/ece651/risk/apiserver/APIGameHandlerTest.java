@@ -185,13 +185,13 @@ class APIGameHandlerTest {
         orders3.add(new UpgradeMaxTechOrder(1L, "Test0", "Test6","Soldier",1));
         orders3.add(new UpgradeMaxTechOrder(1L, "Test0", "Test6","Soldier",1));
 
-        RISKMap riskMap = (RISKMap) new RandomMapFactory().createMapForNplayers(2);
-        riskMap.getOwners().put(1L, new Owner(1L));
         assertNotEquals(game.tryPreProcessOrder(1L, orders), null);
         assertNotEquals(game.tryPreProcessOrder(1L, orders1), null);
         assertNotEquals(game.tryPreProcessOrder(1L, orders2), null);
         assertNotEquals(game.tryPreProcessOrder(1L, orders3), null);
-
+        orders3.remove(0);
+        assertNull(game.tryPreProcessOrder(1L, orders3));
+        assertNotEquals(game.tryPreProcessOrder(1L, orders3), null);
     }
 
     @Test
