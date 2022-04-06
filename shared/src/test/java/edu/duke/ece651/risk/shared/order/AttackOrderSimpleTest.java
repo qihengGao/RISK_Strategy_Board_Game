@@ -1,5 +1,7 @@
-package edu.duke.ece651.risk.shared;
+package edu.duke.ece651.risk.shared.order;
 
+import edu.duke.ece651.risk.shared.AttackOrderSimple;
+import edu.duke.ece651.risk.shared.Color;
 import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.MapTextView;
