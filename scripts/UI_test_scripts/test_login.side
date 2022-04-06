@@ -402,6 +402,20 @@
         ["xpath=//p[contains(.,'Email: register@register.com')]", "xpath:innerText"]
       ],
       "value": "Email: register@register.com"
+    }, {
+      "id": "3fa869ec-05c0-4e3a-881d-b3db409bd92a",
+      "comment": "",
+      "command": "executeScript",
+      "target": "function download(content, fileName, contentType) {     var a = document.createElement(\"a\");     var file = new Blob([content], {type: contentType});     a.href = URL.createObjectURL(file);     a.download = fileName;     a.click(); } download(JSON.stringify(window.__coverage__), 'test_register.json', 'text/plain');",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "793da71d-e60b-4ec8-991b-830163aa7801",
+      "comment": "",
+      "command": "pause",
+      "target": "100",
+      "targets": [],
+      "value": ""
     }]
   }, {
     "id": "8c478429-df88-4547-9040-e683b786f40b",
