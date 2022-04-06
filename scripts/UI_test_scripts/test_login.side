@@ -121,6 +121,13 @@
         ["xpath=//p[contains(.,'Email: est@test.com')]", "xpath:innerText"]
       ],
       "value": "Email: test@test.com"
+    }, {
+      "id": "5b13082d-e198-4883-935f-27fe37ab9c0b",
+      "comment": "",
+      "command": "executeScript",
+      "target": "function download(content, fileName, contentType) {     var a = document.createElement(\"a\");     var file = new Blob([content], {type: contentType});     a.href = URL.createObjectURL(file);     a.download = fileName;     a.click(); } download(JSON.stringify(window.__coverage__), 'test_login.json', 'text/plain');",
+      "targets": [],
+      "value": ""
     }]
   }, {
     "id": "8955f6f4-db4a-484c-b97f-e585dc2c69b5",
