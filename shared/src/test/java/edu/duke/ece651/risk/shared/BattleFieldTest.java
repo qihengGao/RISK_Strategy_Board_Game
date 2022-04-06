@@ -156,7 +156,6 @@ class BattleFieldTest {
         ts1.add(new BasicUnit("Unit7", 10));
         ts1.add(new BasicUnit("Unit8", 10));
         ts1.add(new BasicUnit("Unit9", 10));
-        ts1.add(new BasicUnit("Unit10", 10));
         TreeSet<Unit> ts2 = new TreeSet<>(new UnitComparator());
         ts2.add(new BasicUnit("Unit0", 10));
         ts2.add(new BasicUnit("Unit1", 10));
@@ -168,7 +167,6 @@ class BattleFieldTest {
         ts2.add(new BasicUnit("Unit7", 10));
         ts2.add(new BasicUnit("Unit8", 10));
         ts2.add(new BasicUnit("Unit9", 10));
-        ts2.add(new BasicUnit("Unit10", 10));
 
         Territory t = new BasicTerritory("Test1");
         BattleField BF = new BattleField(t);

@@ -23,10 +23,19 @@ public class BattleField implements Serializable {
         return attackers;
     }
 
+    /**
+     * change battle resolve rules
+     * @param attackResolver
+     */
     public void setAttackResolver(AttackResolver attackResolver) {
         this.attackResolver = attackResolver;
     }
 
+    /**
+     * Battlefield ctor
+     * @param territoryOfContest
+     * @param attackResolver
+     */
     public BattleField(Territory territoryOfContest, AttackResolver attackResolver){
         this.territoryOfContest = territoryOfContest;
         this.currDefenderId = territoryOfContest.getOwnerID();
@@ -35,14 +44,26 @@ public class BattleField implements Serializable {
         this.attackers = new HashMap<>();
     }
 
+    /**
+     * Battlefield ctor
+     * @param territoryOfContest
+     */
     public BattleField(Territory territoryOfContest) {
         this(territoryOfContest, new DiceAttackResolver(20));
     }
 
+    /**
+     * clear the attackers list after all battles finished
+     */
     public void resetAttackersList (){
         this.attackers.clear();
     }
-    
+
+    /**
+     * add an attacker from a player (id) with Unit (toAdd)
+     * @param id
+     * @param toAdd
+     */
     public void addAttacker(Long id, Unit toAdd) {
         if (!this.attackers.containsKey(id)) {
             this.attackers.put(id, new TreeSet<Unit>(new UnitComparator()));
@@ -56,6 +77,10 @@ public class BattleField implements Serializable {
         unitsAlreadyIn.add(toAdd);
     }
 
+    /**
+     * resolve all battles in this battlefield
+     * @param territory
+     */
     public void fightAllBattle(Territory territory){
 
         for (long attackerId : this.attackers.keySet()) {
@@ -76,6 +101,12 @@ public class BattleField implements Serializable {
         }
     }
 
+    /**
+     * resolve the battle between two kinds of units
+     * @param attackers
+     * @param defenders
+     * @param round
+     */
     public void fightBetweenTwoUnits(TreeSet<Unit> attackers, TreeSet<Unit> defenders, int round) {
         //todo: change order of battle resolve
         Unit currAttacker = attackers.first();
@@ -84,6 +115,9 @@ public class BattleField implements Serializable {
             currAttacker = attackers.last();
             currDefender = defenders.first();
         }
+
+//        System.out.println("round " + round + ": "+currAttacker.getType() + " (attacker) vs. " + currDefender.getType());
+
         while (currAttacker.getAmount()>0 && currDefender.getAmount()>0){
             //defender wins fight
             if(attackResolver.resolveCurrent(currAttacker, currDefender)==1){
