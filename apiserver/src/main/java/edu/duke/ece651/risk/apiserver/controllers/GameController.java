@@ -68,7 +68,7 @@ public class GameController {
      */
     @PostMapping("/joinRoom")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<JoinRoomResponse> createRoom(@Valid @RequestBody JoinRoomRequest joinRoomRequest) {
+    public ResponseEntity<JoinRoomResponse> joinRoom(@Valid @RequestBody JoinRoomRequest joinRoomRequest) {
 
         Long userId = getUserId();
         Long roomID = joinRoomRequest.getRoomID();
@@ -88,7 +88,7 @@ public class GameController {
      *
      * @return The user ID of current user.
      */
-    private Long getUserId() {
+    protected Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return userDetails.getId();
@@ -153,7 +153,7 @@ public class GameController {
      * @return ResponseEntity which contains the http code to indicate the result.
      */
     @PostMapping("/place/order")
-    public ResponseEntity<PlaceUnitResponse> placeUnit(@Valid @RequestBody PlaceOrderRequest placeOrderRequest) {
+    public ResponseEntity<PlaceUnitResponse> placeOrder(@Valid @RequestBody PlaceOrderRequest placeOrderRequest) {
         Long userId = getUserId();
         Long roomID = placeOrderRequest.getRoomID();
 
