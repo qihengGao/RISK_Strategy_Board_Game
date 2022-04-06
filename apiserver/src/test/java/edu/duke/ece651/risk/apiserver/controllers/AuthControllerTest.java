@@ -1,4 +1,4 @@
-package edu.duke.ece651.risk.apiserver;
+package edu.duke.ece651.risk.apiserver.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
