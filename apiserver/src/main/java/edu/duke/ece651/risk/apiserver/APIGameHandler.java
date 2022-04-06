@@ -20,25 +20,37 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 public class APIGameHandler {
+    //logger to display info in server console
     Logger logger;
+
+    //RISK game related fields
     private ArrayList<Color> predefineColorList = new ArrayList<>();
-    private Set<Long> players;
-    private TreeMap<Long, Color> idToColor;
+    private Set<Long> players; //all joined players
+    private TreeMap<Long, Color> idToColor; //player id to color
 
-    private String currentState;
+    private String currentState; //game's current state
+    private Set<Long> commitedPlayer; //all committed players
 
-    private Set<Long> commitedPlayer;
-    private Set<Long> lostPlayer;
+    public void setLostPlayer(Set<Long> lostPlayer) {
+        this.lostPlayer = lostPlayer;
+    }
 
-    private RISKMap riskMap;
+    private Set<Long> lostPlayer; //all losted players
+    private RISKMap riskMap; //the map to play with
+    private Integer InitUnitAmountPerPlayer; //Initial Total Unit amount available for each player
+    private ArrayList<Order> temporaryOrders; // temporary order holder
 
-    private Integer InitUnitAmountPerPlayer;
+    //room related fields
+    private final int roomSize;
+    private final long roomID;
 
+    //getters/setters
     public String getCurrentState() {
         return currentState;
     }
-
-    private ArrayList<Order> temporaryOrders;
+    public void setCurrentState(String currentState) {
+        this.currentState = currentState;
+    }
 
     public ArrayList<Color> getPredefineColorList() {
         return predefineColorList;
@@ -68,20 +80,6 @@ public class APIGameHandler {
         return riskMap;
     }
 
-    public RISKMap getRiskMapByState() {
-        if (currentState.equals(State.PlacingState.name())) {
-            RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
-
-            for (Territory t : cloneMap.getContinent()) {
-                t.setUnits(new TreeSet<>());
-            }
-
-            return cloneMap;
-        } else {
-            return riskMap;
-        }
-    }
-
     public void setRiskMap(RISKMap riskMap) {
         this.riskMap = riskMap;
     }
@@ -94,10 +92,15 @@ public class APIGameHandler {
         return roomID;
     }
 
-    private final int roomSize;
 
-    private final long roomID;
+    //constructor
 
+    /**
+     * create a new room
+     * @param roomSize
+     * @param roomID
+     * @param hostID
+     */
     public APIGameHandler(int roomSize, long roomID, Long hostID) {
         this.roomSize = roomSize;
         this.roomID = roomID;
@@ -118,22 +121,50 @@ public class APIGameHandler {
         lostPlayer = new HashSet<>();
     }
 
+    /**
+     * return the riskMap according to player state
+     * @return RISKMap
+     */
+    public RISKMap getRiskMapByState() {
+        if (currentState.equals(State.PlacingState.name())) {
+            RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
 
+            for (Territory t : cloneMap.getContinent()) {
+                t.setUnits(new TreeSet<>());
+            }
+
+            return cloneMap;
+        } else {
+            return riskMap;
+        }
+    }
+
+    /**
+     * try to add a player into this game
+     * @param clientID
+     * @return
+     */
     public boolean tryAddPlayer(Long clientID) {
+        //check if all players joined, check if this player has joined already
         if (players.size() == roomSize || players.contains(clientID)) {
             return false;
         } else {
             players.add(clientID);
+            //if have all players, start the game
             if (players.size() == roomSize) {
-
                 unitPlacementPhase(3);
-
             }
             return true;
         }
     }
 
 
+    /**
+     * try to place unit into the map
+     * @param clientID
+     * @param unitPlaceOrders
+     * @return null if all rules passed; error message if some rule didn't pass
+     */
     public String tryPlaceUnit(Long clientID, Map<String, Integer> unitPlaceOrders) {
         //Check for valid place
         //1.Check for current State == PlacingState and clientID not in committedPlayer.
@@ -169,6 +200,13 @@ public class APIGameHandler {
     }
 
 
+    /**
+     * try to process all the orders
+     * @param clientID
+     * @param orders
+     * @return String: null if all orders are executed successfully;
+     * error message if some order is illegal
+     */
     public String tryPreProcessOrder(Long clientID, ArrayList<Order> orders) {
         //check if in ordering state
         //check if player committed already
@@ -186,15 +224,19 @@ public class APIGameHandler {
         if (orders == null || tryExecuteMessage == null) {
             temporaryOrders.addAll(orders);
             commitedPlayer.add(clientID);
+            //if all players committed
             if (commitedPlayer.size() == roomSize) {
                 tryExecuteOrder(temporaryOrders, riskMap);
                 fightBattlesInAllTerritory();
                 increaseOneInAllTerritory();
                 increaseTechFoodForAll();
 
+                //check if the game has a winner
                 if (checkWinner() == null) {
+                    //if not, go to next round
                     orderingPhase();
                 } else {
+                    //show the result of this game
                     showGameResultPhase();
                 }
             }
@@ -202,6 +244,9 @@ public class APIGameHandler {
         return tryExecuteMessage;
     }
 
+    /**
+     * resolve all fights in the Battlefield of all territories
+     */
     private void fightBattlesInAllTerritory() {
         for (Territory t : riskMap.getContinent()) {
             //todo: uncomment this line for simple add or minus fight resolver
@@ -213,6 +258,12 @@ public class APIGameHandler {
     }
 
 
+    /**
+     * try to execute all the orders in the cloned map
+     * @param orders
+     * @param tmpRiskMap
+     * @return String: null if all rules passes; error message if some order is illegal
+     */
     public String tryExecuteOrder(ArrayList<Order> orders, RISKMap tmpRiskMap) {
         System.out.println("try Executing Orders...");
 
@@ -263,6 +314,9 @@ public class APIGameHandler {
         return null;
     }
 
+    /**
+     * assign a color to each player
+     */
     public void assignColorToPlayers() {
         for (Long clientID : players) {
             idToColor.put(clientID, predefineColorList.remove(0));
@@ -271,6 +325,7 @@ public class APIGameHandler {
 
     /**
      * Randomly initialize the territories with client ID.
+     * @param n_Terr_per_player
      */
     public void assignTerritoriesToPlayers(int n_Terr_per_player) {
         ArrayList<Territory> randomized = new ArrayList<>();
@@ -301,12 +356,17 @@ public class APIGameHandler {
         }
     }
 
+    /**
+     * get the state of some player
+     * @param clientID
+     * @return
+     */
     public String getPlayerState(Long clientID) {
-
-
+        //check if this player lost
         if (isPlayerLost(clientID))
             return State.LostState.name();
         else {
+            //check if this player has committed
             if (commitedPlayer.contains(clientID))
                 return State.WaitingState.name();
             else
@@ -314,7 +374,10 @@ public class APIGameHandler {
         }
     }
 
-
+    /**
+     * going into the unitplacement phase after all players joined the room
+     * @param n_Terr_per_player
+     */
     public void unitPlacementPhase(int n_Terr_per_player) {
         currentState = State.PlacingState.name();
         commitedPlayer.clear();
@@ -323,6 +386,9 @@ public class APIGameHandler {
         assignTerritoriesToPlayers(n_Terr_per_player);
     }
 
+    /**
+     * going into placing order for each player
+     */
     public void orderingPhase() {
         for (Long id : players) {
             isPlayerLost(id);
@@ -333,12 +399,17 @@ public class APIGameHandler {
         temporaryOrders.clear();
     }
 
+    /**
+     * show the game result if this game has a winner
+     */
     public void showGameResultPhase() {
         currentState = State.EndState.name();
         commitedPlayer.clear();
-
     }
 
+    /**
+     * increase the tech/food resource for all players
+     */
     public void increaseTechFoodForAll() {
         for (Long id : players) {
             Owner o = riskMap.getOwners().get(id);
@@ -349,6 +420,9 @@ public class APIGameHandler {
         }
     }
 
+    /**
+     * increase one basic unit in all territories
+     */
     public void increaseOneInAllTerritory() {
         for (Territory t : riskMap.getContinent()) {
             t.tryAddUnit(new BasicUnit("Soldier", 1));
@@ -383,8 +457,9 @@ public class APIGameHandler {
     public boolean isPlayerLost(Long clientID) {
         //If this player still have any territory,
         //means that this player is not lost.
-        if (lostPlayer.contains(clientID))
+        if (lostPlayer.contains(clientID)) {
             return true;
+        }
         if (currentState.equals(State.WaitingToStartState.name())) {
             return false;
         }
