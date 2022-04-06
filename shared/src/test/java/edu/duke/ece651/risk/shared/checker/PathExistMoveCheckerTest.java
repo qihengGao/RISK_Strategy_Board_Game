@@ -37,6 +37,9 @@ public class PathExistMoveCheckerTest {
     Order order_not_owned = new MoveOrder(0, "Test0", "Test3", "Unit", 2);
     assertEquals(pathChecker.checkMove(riskMap, order_not_owned), "Move Order path does not exist in your territories!");
 
+    Order order_to_self = new MoveOrder(0, "Test0", "Test0", "Unit", 2);
+    assertEquals(pathChecker.checkMove(riskMap, order_to_self), "You cannot move within same territory!");
+
     displayMap(riskMap);
 
     //test long path (not adjacent)
