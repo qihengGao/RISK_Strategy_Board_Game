@@ -1,13 +1,31 @@
 package edu.duke.ece651.risk.apiserver.security.jwt;
 
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.mockito.Mockito.*;
+import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+@RunWith(MockitoJUnitRunner.class)
 public class JwtUtilsTest {
+
+//    @Mock
+//    private String jwtSecret = "asdfasdf";
+
+
+
+
 
     @Test
     public void test_generateJwtToken(){
@@ -26,11 +44,50 @@ public class JwtUtilsTest {
 
     @Test
     public void test_getUserNameFromJwtToken(){
-        JwtUtils jwtUtils = mock(JwtUtils.class);
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTUxNjIzOTAyMn0.p5Csu2THYW5zJys2CWdbGM8GaWjpY6lOQpdLoP4D7V4";
-        doCallRealMethod().when(jwtUtils).getUserNameFromJwtToken(any());
-        ReflectionTestUtils.setField(jwtUtils, "jwtSecret", "asdf.asdf");
+        String token = Jwts.builder()
+                .setSubject(("test"))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + 860000))
+                .signWith(SignatureAlgorithm.HS512, "ece651riskSecretKey")
+                .compact();
+        JwtUtils jwtUtils =  new JwtUtils();
 
-//        jwtUtils.getUserNameFromJwtToken(token);
+        ReflectionTestUtils.setField(jwtUtils, "jwtSecret", "ece651riskSecretKey");
+
+
+       String res = jwtUtils.getUserNameFromJwtToken(token);
+        assertEquals("test",res);
     }
+
+
+    @Test
+    public void test_validateJwtToken(){
+        String token = Jwts.builder()
+                .setSubject(("test"))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + 86000))
+                .signWith(SignatureAlgorithm.HS512, "ece651riskSecretKey")
+                .compact();
+        JwtUtils jwtUtils =  new JwtUtils();
+
+        ReflectionTestUtils.setField(jwtUtils, "jwtSecret", "ece651riskSecretKey");
+
+
+        Boolean aBoolean = jwtUtils.validateJwtToken(token);
+        assertEquals(true,aBoolean);
+
+
+        token = Jwts.builder()
+                .setSubject(("test"))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + 0))
+                .signWith(SignatureAlgorithm.HS512, "ece651riskSecretKey")
+                .compact();
+
+        aBoolean = jwtUtils.validateJwtToken(token);
+        assertEquals(false,aBoolean);
+
+
+    }
+
 }
