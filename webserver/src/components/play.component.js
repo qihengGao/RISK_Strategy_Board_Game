@@ -58,8 +58,13 @@ export default class play extends Component {
             case "OrderingState":
                 return <PlaceOrder {...this.state} handleSnackBarUpdate={this.handleSnackBarUpdate}/>
             case "EndState":
-                return <div>Game End! Winner
-                    is {this.state.responseData.idToColor[this.state.responseData.winner].colorName} player!</div>
+                console.log(this.state.responseData)
+                return <div>Game End! {typeof(this.state.responseData)==="undefined"
+                    ?"Loading!":
+                    "Winner is " +
+                    this.state.responseData.idToColor[this.state.responseData.winner].colorName +
+                    " Player!"}
+                    </div>
             case "LostState":
                 return <div>You lost, try to conquest more next time!</div>
 
@@ -197,7 +202,8 @@ export default class play extends Component {
 
 
                     let obj = response.data;
-
+                    console.log("obj:")
+                    console.log(obj)
                     // initialize the echarts instance
                     const _ = require("lodash");
                     if (_.isEqual(obj, this.state.responseData))
