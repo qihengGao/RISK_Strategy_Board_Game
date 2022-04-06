@@ -12,11 +12,20 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 @Component
 public class JwtUtils {
+
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+
     @Value("${bezkoder.app.jwtSecret}")
     private String jwtSecret;
+
     @Value("${bezkoder.app.jwtExpirationMs}")
     private int jwtExpirationMs;
+
+    /**
+     * generate a JWT token
+     * @param authentication
+     * @return generated JWT token
+     */
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         return Jwts.builder()
@@ -26,9 +35,21 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
+
+    /**
+     * get username from token
+     * @param token
+     * @return extracted username
+     */
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
+
+    /**
+     * validate a JWT
+     * @param authToken
+     * @return true if validated, false otherwise
+     */
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
