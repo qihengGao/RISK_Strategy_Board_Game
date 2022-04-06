@@ -1,7 +1,7 @@
 package edu.duke.ece651.risk.apiserver.security.jwt;
 
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.util.ReflectionTestUtils;
 

@@ -12,6 +12,8 @@ import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 import javax.servlet.FilterChain;
@@ -46,15 +48,19 @@ public class AuthTokenFilterTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         FilterChain chain = mock(FilterChain.class);
+        UserDetails userDetails = mock(UserDetails.class);
 
         doReturn(true).when(jwtUtils).validateJwtToken(any());
         
-        //doCallRealMethod().when(authTokenFilter).doFilterInternal(request, response, chain);
         doReturn("asdfasdf").when(authTokenFilter).parseJwt(any());
+        doReturn(userDetails).when(userDetailsService).loadUserByUsername(any());
 
         authTokenFilter.doFilterInternal(request, response, chain);
 
         verify(chain).doFilter(any(), any());
+
+        doThrow(new UsernameNotFoundException("")).when(userDetailsService).loadUserByUsername(any());
+        authTokenFilter.doFilterInternal(request, response, chain);
     }
 
     @Test
