@@ -12,10 +12,18 @@ public class CreateRoomRequest {
     @Max(5)
     private int roomSize;
 
+    /**
+     * get room size
+     * @return room size
+     */
     public int getRoomSize() {
         return roomSize;
     }
 
+    /**
+     * set room size
+     * @param roomSize
+     */
     public void setRoomSize(int roomSize) {
         this.roomSize = roomSize;
     }
