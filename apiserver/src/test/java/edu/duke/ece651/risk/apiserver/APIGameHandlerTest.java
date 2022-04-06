@@ -123,18 +123,18 @@ class APIGameHandlerTest {
 
         //second round ---- valid
         System.out.println(displayMap(game.getRiskMap()));
-        ArrayList<Order> orders_invalid1 = new ArrayList<>();
-        orders_invalid1.add(new MoveOrder(1L, "Test0", "Test1","Soldier",1));
-        ArrayList<Order> orders_invalid2 = new ArrayList<>();
-        orders_invalid2.add(new AttackOrder(1L, "Test0", "Test2","Soldier",1));
-        ArrayList<Order> orders_invalid3 = new ArrayList<>();
-        orders_invalid3.add(new UpgradeUnitOrder(1L, "Test0", "Soldier",1, 1));
-        ArrayList<Order> orders_invalid4 = new ArrayList<>();
-        orders_invalid4.add(new UpgradeMaxTechOrder(1L, "Test0", "Test6","Soldier",1));
-        assertNull(game.tryExecuteOrder(orders_invalid1, game.getRiskMap()));
-        assertNull(game.tryExecuteOrder(orders_invalid2, game.getRiskMap()));
-        assertNull(game.tryExecuteOrder(orders_invalid3, game.getRiskMap()));
-        assertNull(game.tryExecuteOrder(orders_invalid4, game.getRiskMap()));
+        ArrayList<Order> orders_valid1 = new ArrayList<>();
+        orders_valid1.add(new MoveOrder(1L, "Test0", "Test1","Soldier",1));
+        ArrayList<Order> orders_valid2 = new ArrayList<>();
+        orders_valid2.add(new AttackOrder(1L, "Test0", "Test2","Soldier",1));
+        ArrayList<Order> orders_valid3 = new ArrayList<>();
+        orders_valid3.add(new UpgradeUnitOrder(1L, "Test0", "Soldier",1, 1));
+        ArrayList<Order> orders_valid4 = new ArrayList<>();
+        orders_valid4.add(new UpgradeMaxTechOrder(1L, "Test0", "Test6","Soldier",1));
+        assertNull(game.tryExecuteOrder(orders_valid1, game.getRiskMap()));
+        assertNull(game.tryExecuteOrder(orders_valid2, game.getRiskMap()));
+        assertNull(game.tryExecuteOrder(orders_valid3, game.getRiskMap()));
+        assertNull(game.tryExecuteOrder(orders_valid4, game.getRiskMap()));
 
         assertNull(game.tryPreProcessOrder(1L,orders2));
         assertNull(game.tryPreProcessOrder(2L,orders2));
@@ -156,8 +156,24 @@ class APIGameHandlerTest {
     }
 
     @Test
-    void tryExecuteOrder_invalid() {
+    void tryPreprocessOrder_invalid() {
         APIGameHandler game = new APIGameHandler(2, 0, 1L);
+
+        Map<String, Integer> unitPlaceOrders = new HashMap<>();
+        assertEquals(game.tryPlaceUnit(1L, unitPlaceOrders), "Failed to place the orders! Place action invalid right now!");
+        game.tryAddPlayer(2L);
+        game.unitPlacementPhase(3);
+
+        unitPlaceOrders.put("Test0", 10);
+        unitPlaceOrders.put("Test1", 10);
+        unitPlaceOrders.put("Test3", 10);
+        assertNull(game.tryPlaceUnit(1L, unitPlaceOrders));
+
+        Map<String, Integer> unitPlaceOrders2= new HashMap<>();
+        unitPlaceOrders2.put("Test2", 10);
+        unitPlaceOrders2.put("Test4", 10);
+        unitPlaceOrders2.put("Test5", 10);
+        assertNull(game.tryPlaceUnit(2L, unitPlaceOrders2));
 
         ArrayList<Order> orders = new ArrayList<>();
         orders.add(new MoveOrder(1L, "Test0", "Test5","Soldier",1));
@@ -168,16 +184,15 @@ class APIGameHandlerTest {
         ArrayList<Order> orders3 = new ArrayList<>();
         orders3.add(new UpgradeMaxTechOrder(1L, "Test0", "Test6","Soldier",1));
         orders3.add(new UpgradeMaxTechOrder(1L, "Test0", "Test6","Soldier",1));
-        ArrayList<Order> orders4 = new ArrayList<>();
 
         RISKMap riskMap = (RISKMap) new RandomMapFactory().createMapForNplayers(2);
         riskMap.getOwners().put(1L, new Owner(1L));
-        assertNotEquals(game.tryExecuteOrder(orders, riskMap), null);
-        assertNotEquals(game.tryExecuteOrder(orders1, riskMap), null);
-        assertNotEquals(game.tryExecuteOrder(orders2, riskMap), null);
-        assertNotEquals(game.tryExecuteOrder(orders3, riskMap), null);
+        assertNotEquals(game.tryPreProcessOrder(1L, orders), null);
+        assertNotEquals(game.tryPreProcessOrder(1L, orders1), null);
+        assertNotEquals(game.tryPreProcessOrder(1L, orders2), null);
+        assertNotEquals(game.tryPreProcessOrder(1L, orders3), null);
         orders3.remove(0);
-        assertNotEquals(game.tryExecuteOrder(orders3, riskMap), null);
+        assertNotEquals(game.tryPreProcessOrder(1L, orders3), null);
         riskMap.getOwners().get(1L).tryAddOrRemoveTechResource(1000);
 
     }
