@@ -74,11 +74,15 @@ class APIGameHandlerTest {
 
     @Test
     void tryAddPlayer() {
-        APIGameHandler game = new APIGameHandler(2, 0, 1L);
+        APIGameHandler game = new APIGameHandler(3, 0, 1L);
         assertTrue(game.tryAddPlayer(2L));
         assertEquals(game.getPlayers().size(),2);
+
         assertFalse(game.tryAddPlayer(2L));
-        assertFalse(game.tryAddPlayer(3L));
+
+        assertTrue(game.tryAddPlayer(3L));
+        assertEquals(game.getPlayers().size(),2);
+        assertFalse(game.tryAddPlayer(4L));
     }
 
     @Test
