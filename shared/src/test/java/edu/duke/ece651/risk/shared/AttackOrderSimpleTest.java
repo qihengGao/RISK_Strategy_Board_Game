@@ -98,5 +98,8 @@ class AttackOrderSimpleTest {
         String actualMessage = moveOrderInvalid.executeOrder(riskMap);
         String expectedMessage = "Move Order path does not exist in your territories!";
         assertEquals(expectedMessage, actualMessage);
+
+        Order attack = new AttackOrderSimple(0L, "Test0", "Test7", "Unit", 5);
+        assertEquals(attack.executeOrder(riskMap), "You cannot attack Test7 from Test0!");
     }
 }
