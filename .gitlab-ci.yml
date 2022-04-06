@@ -212,21 +212,21 @@ generate_js_coverage_report:
   stage: uiTest_report
   variables:
     GIT_STRATEGY: none
-    tags:
-      - test-ssh
-    needs:
-      - selenium_web_ui_test
-    script:
-      - ls -al /ui_test_downlaod
-      - ls -al
-      - mkdir tmp
-      - mv  -v /ui_test_downlaod/* tmp
-      - nyc report -t tmp --reporter=html
-      - ls -al
+  tags:
+    - test-ssh
+  needs:
+    - selenium_web_ui_test
+  script:
+    - ls -al /ui_test_downlaod
+    - ls -al
+    - mkdir tmp
+    - mv  -v /ui_test_downlaod/* tmp
+    - nyc report -t tmp --reporter=html
+    - ls -al
   artifacts:
     paths:
       - coverage
-    timeout: 2m
+  timeout: 2m
 
 pages:
   image: alpine:3.14
