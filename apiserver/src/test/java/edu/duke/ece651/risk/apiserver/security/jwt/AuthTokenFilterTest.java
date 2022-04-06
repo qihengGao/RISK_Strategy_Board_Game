@@ -71,6 +71,10 @@ public class AuthTokenFilterTest {
 
         doThrow(new UsernameNotFoundException("")).when(userDetailsService).loadUserByUsername(any());
         authTokenFilter.doFilterInternal(request, response, chain);
+
+        doReturn(null).when(authTokenFilter).parseJwt(any());
+        authTokenFilter.doFilterInternal(request, response, chain);
+        verify(chain,times(3)).doFilter(any(),any());
     }
 
     @Test

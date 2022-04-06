@@ -30,6 +30,9 @@ public class BasicTerritoryTest {
         Territory t_ = new BasicTerritory("t", 9, 10, 20);
         assertEquals(10,t_.getFoodProduction());
         assertEquals(20, t_.getTechProduction());
+
+        t_.increaseSize(1);
+        assertEquals(10, t_.getSize());
     }
 
     @Test

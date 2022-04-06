@@ -12,7 +12,7 @@ public class UpgradeUnitOrder extends Order{
     private final ActionChecker upgradeUnitChecker;
 
     public UpgradeUnitOrder() {
-        this.upgradeUnitChecker =new SrcOwnershipChecker(new ActionUnitChecker(new SufficientResourceForUpgradeChecker(null)));
+        this.upgradeUnitChecker =new SrcOwnershipChecker(new SufficientResourceForUpgradeChecker(null));
     }
 
     public UpgradeUnitOrder(long ID, String srcTerritory, String unitType, int unitAmount, int toLevel) {

@@ -20,6 +20,9 @@ public class BasicUnitTest {
     assertEquals("Soldier", u1.getType());
     assertEquals(5, u1.getLevel());
     assertEquals(9, u1.getAmount());
+
+    u1.setLevel(6);
+    assertEquals(6, u1.getLevel());
   }
 
   @Test

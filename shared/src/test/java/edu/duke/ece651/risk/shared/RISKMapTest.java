@@ -60,5 +60,17 @@ public class RISKMapTest {
       }
     }
   }
+
+  @Test
+  public void test_add_owner() {
+    AbstractMapFactory amf = new RandomMapFactory();
+    GameMap map = amf.createMapForNplayers(2);
+    Owner o1 = new Owner(0);
+    Owner o2 = new Owner(1);
+    map.tryAddOwner(o1);
+    map.tryAddOwner(o2);
+    RISKMap r = (RISKMap) map;
+    assertEquals(2, r.getOwners().size());
+  }
   
 }
