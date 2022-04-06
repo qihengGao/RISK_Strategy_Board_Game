@@ -21,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +40,13 @@ public class AuthController {
     PasswordEncoder encoder;
     @Autowired
     JwtUtils jwtUtils;
+
+    /**
+     * This method handle the post request of /signin.
+     *
+     * @param loginRequest A deserialize json object contains username and password.
+     * @return ResponseEntity which contains the jwt token or nothing if the username and password is invalid.
+     */
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -62,12 +68,12 @@ public class AuthController {
     }
 
 
-
-
-
-
-
-
+    /**
+     * This method handle the post request of /signup.
+     *
+     * @param signUpRequest A deserialize json object contains username, password, emails and etc.
+     * @return ResponseEntity which contains the http code to indicate the result.
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
