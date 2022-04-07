@@ -18,7 +18,14 @@ import Link from "@mui/material/Link";
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
+/**
+ * controls the navigation bar of each page
+ */
 class Navbar extends React.Component {
+    /**
+     * ctor
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.logOut = this.logOut.bind(this);
@@ -50,6 +57,9 @@ class Navbar extends React.Component {
         // });
     }
 
+    /**
+     * controls logout action
+     */
     logOut() {
         this.setState({
             showModeratorBoard: false, showAdminBoard: false, currentUser: undefined, anchorElUser: false
@@ -69,6 +79,10 @@ class Navbar extends React.Component {
     //     this.setState({anchorElNav: true});
     // };
 
+    /**
+     * open the user menu
+     * @param e
+     */
     handleOpenUserMenu(e) {
         //setAnchorElUser(event.currentTarget);
         this.setState({anchorElUser: true});
@@ -80,6 +94,9 @@ class Navbar extends React.Component {
     //     this.setState({anchorElUser: false});
     // };
 
+    /**
+     * close the user menu
+     */
     handleCloseUserMenu() {
         //setAnchorElUser(null);
         this.setState({anchorElUser: false});
@@ -87,12 +104,19 @@ class Navbar extends React.Component {
 
     };
 
+    /**
+     * handle the action of clicking the login button
+     */
     handleLoginButtonInNavBar() {
         //setOpenLoginDialog(true);
         this.props.history.push("/login");
         this.setState({openLoginDialog: true})
     }
 
+    /**
+     * render the elements in the page
+     * @returns {JSX.Element}
+     */
     render() {
         console.log(this.props.history);
         const {currentUser, showModeratorBoard, showAdminBoard} = this.state;

@@ -23,8 +23,14 @@ import {Alert} from "@mui/material";
 
 const theme = createTheme();
 
-
+/**
+ * control the sign up action of users
+ */
 export default class muiRegister extends Component {
+    /**
+     * sign up ctor
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.handleRegister = this.handleRegister.bind(this);
@@ -42,22 +48,42 @@ export default class muiRegister extends Component {
             snackbarType: "error"
         };
     }
+
+    /**
+     * change username value to input value
+     * @param e
+     */
     onChangeUsername(e) {
         this.setState({
             username: e.target.value
         });
     }
+
+    /**
+     * change email value to input value
+     * @param e
+     */
     onChangeEmail(e) {
         this.setState({
             email: e.target.value
         });
     }
+
+    /**
+     * change password value to input value
+     * @param e
+     */
     onChangePassword(e) {
         this.setState({
             password: e.target.value
         });
     }
 
+    /**
+     * handle snack bar
+     * @param type
+     * @param message
+     */
     handleSnackBarUpdate = (type, message) => {
         this.setState(
             {
@@ -68,6 +94,10 @@ export default class muiRegister extends Component {
         )
     }
 
+    /**
+     * handle the action of clicking the register button
+     * @param e
+     */
     handleRegister(e) {
         e.preventDefault();
         this.setState({
@@ -102,6 +132,11 @@ export default class muiRegister extends Component {
             }
         );
     }
+
+    /**
+     * render the elements in the page
+     * @returns {JSX.Element}
+     */
     render() {
         return (
             <ThemeProvider theme={theme}>

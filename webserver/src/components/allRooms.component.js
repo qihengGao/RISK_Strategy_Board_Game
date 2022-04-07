@@ -20,6 +20,10 @@ const API_URL = "http://localhost:8080";
 
 export default class allRoomsComponent extends Component {
 
+    /**
+     * constructor to build this component
+     * @param props
+     */
     constructor(props) {
         super(props);
         //this.handleClick = this.handleClick.bind(this);
@@ -38,6 +42,10 @@ export default class allRoomsComponent extends Component {
         //this.initComponent = this.initComponent.bind(this);
     }
 
+    /**
+     * render the page of all rooms
+     * @returns {JSX.Element}
+     */
     render() {
         console.log(this.state.rooms)
         let columns: GridColDef[] = [{
@@ -48,6 +56,11 @@ export default class allRoomsComponent extends Component {
             field: 'action',
             headerName: 'Join',
             sortable: false,
+            /**
+             * render each cell in the list of rooms
+             * @param params
+             * @returns {JSX.Element}
+             */
             renderCell: (params) => {
                 const onClick = (e) => {
                     e.stopPropagation(); // don't select this row after clicking
@@ -80,6 +93,9 @@ export default class allRoomsComponent extends Component {
         },
         ];
 
+        /**
+         * define the elements in the page
+         */
         return (
 
             <div>
@@ -146,18 +162,26 @@ export default class allRoomsComponent extends Component {
         )
     }
 
-
+    /**
+     * handle the action of clicking create room
+     */
     handleCreateRoomButton = ()=>{
         this.setState({
             openCreateRoomDialog: true
         })
     }
+    /**
+     * handle the action of clicking close create room window
+     */
     handleCreateRoomClose = () => {
         this.setState({
             openCreateRoomDialog: false
         })
     }
 
+    /**
+     * handle the action when submit a create room request
+     */
     handleCreateRoomSubmit = () => {
         this.setState({
             openCreateRoomDialog: false
@@ -180,6 +204,10 @@ export default class allRoomsComponent extends Component {
 
     }
 
+    /**
+     * handle choose of changing room size
+     * @param e
+     */
     handleRoomSizeChange = (e) => {
 
         this.setState({
@@ -187,6 +215,11 @@ export default class allRoomsComponent extends Component {
         })
     }
 
+    /**
+     * snack bar handlers
+     * @param event
+     * @param reason
+     */
     handleSnackBarClose = (event,reason) => {
         this.setState({openSnackBar: false})
     };
@@ -207,6 +240,9 @@ export default class allRoomsComponent extends Component {
 
     }
 
+    /**
+     * get all rooms data
+     */
     getAllRooms=()=>{
         axios
             .get("/api/game/rooms/available", {

@@ -8,9 +8,14 @@ import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, St
 import AuthService from "../services/auth.service";
 
 
-
-
+/**
+ * handle the acitons of placing orders
+ */
 class unitPlace extends Component {
+    /**
+     * ctor
+     * @param props
+     */
     constructor(props) {
         super(props);
 
@@ -26,6 +31,9 @@ class unitPlace extends Component {
         };
     }
 
+    /**
+     * set the default values or choosable value for the grid cell data
+     */
     componentDidMount() {
         let allTerritory = [];
         let enemyTerritory = [];
@@ -124,6 +132,10 @@ class unitPlace extends Component {
 
     }
 
+    /**
+     * handle the commit of one cell
+     * @param id
+     */
     handleCellCommit = (id) => {
 
 
@@ -138,11 +150,19 @@ class unitPlace extends Component {
         }))
 
     }
+
+    /**
+     * handle the select of some row
+     * @param selection
+     */
     handleSelect = (selection) => {
         //console.log(selection);
         this.setState({selectedRowsID: selection})
     }
 
+    /**
+     * handle add one row
+     */
     handleAddRow = () => {
         this.setState(prevState => ({
             rows: [...prevState.rows, {
@@ -158,6 +178,9 @@ class unitPlace extends Component {
         }))
     }
 
+    /**
+     * handle delete some selected row
+     */
     handleDeleteSelectedRows = () => {
         this.setState(prevState => ({
 
@@ -166,6 +189,10 @@ class unitPlace extends Component {
         }))
     }
 
+    /**
+     * render all the elements in the page
+     * @returns {JSX.Element}
+     */
     render() {
         //console.log(this.props.room)
         let columns: GridColDef[] = this.state.columns;

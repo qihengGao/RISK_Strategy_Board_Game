@@ -13,10 +13,16 @@ import Box from "@mui/material/Box";
 
 let echarts = require('echarts');
 
-
+/**
+ * controls the view of each game room
+ */
 export default class play extends Component {
     interval = null;
 
+    /**
+     * ctor
+     * @param props
+     */
     constructor(props) {
         super(props);
         //this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,6 +38,10 @@ export default class play extends Component {
         //this.initComponent = this.initComponent.bind(this);
     }
 
+    /**
+     * set defualt data
+     * @returns {Promise<void>}
+     */
     async componentDidMount() {
 
         this.interval = setInterval(this.getData, 2000);
@@ -40,6 +50,11 @@ export default class play extends Component {
 
     }
 
+    /**
+     * render the page according to the status of this game room
+     * @param state
+     * @returns {JSX.Element}
+     */
     renderSwitch(state) {
 
         console.log(state);
@@ -77,13 +92,19 @@ export default class play extends Component {
         )
     }
 
+    /**
+     * render the elements in this page
+     * @returns {JSX.Element}
+     */
     render() {
         // console.log(this.props.match.params.roomID);
         if (this.state.loading) {
             return <div className="spinner">Loading.....</div>; // add a spinner or something until the posts are loaded
         }
 
-
+        /**
+         * define the elements in this page
+         */
         return (
 
             (this.state.message) ?
@@ -141,6 +162,9 @@ export default class play extends Component {
     //     clearInterval(this.interval);
     // }
 
+    /**
+     * read data from server for this game room
+     */
     getData = () => {
         axios
             .get("/api/game/gameStatus", {

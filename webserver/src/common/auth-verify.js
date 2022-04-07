@@ -9,6 +9,9 @@ const parseJwt = (token) => {
     }
 };
 
+/**
+ * Verify authentication token for a user
+ */
 class AuthVerify extends Component {
     constructor(props) {
         super(props);

@@ -12,6 +12,10 @@ const API_URL = "http://localhost:8080";
 
 export default class joinedRoomsComponent extends Component {
 
+    /**
+     * ctor for joined rooms
+     * @param props
+     */
     constructor(props) {
         super(props);
         //this.handleClick = this.handleClick.bind(this);
@@ -28,6 +32,10 @@ export default class joinedRoomsComponent extends Component {
         //this.initComponent = this.initComponent.bind(this);
     }
 
+    /**
+     * render the information in this page+
+     * @returns {JSX.Element}
+     */
     render() {
         console.log(this.state.rooms)
         let columns: GridColDef[] = [{
@@ -38,6 +46,11 @@ export default class joinedRoomsComponent extends Component {
             field: 'action',
             headerName: 'Return',
             sortable: false,
+            /**
+             * render the cells in the list of rooms in joined rooms
+             * @param params
+             * @returns {JSX.Element}
+             */
             renderCell: (params) => {
                 // const onClick = (e) => {
                 //     e.stopPropagation(); // don't select this row after clicking
@@ -58,6 +71,9 @@ export default class joinedRoomsComponent extends Component {
         },
         ];
 
+        /**
+         * define all the elements in the page
+         */
         return (
 
             <div style={{
@@ -111,6 +127,9 @@ export default class joinedRoomsComponent extends Component {
 //
 // }
 
+    /**
+     * get data
+     */
     componentDidMount() {
         axios
             .get("/api/game/rooms/joined", {

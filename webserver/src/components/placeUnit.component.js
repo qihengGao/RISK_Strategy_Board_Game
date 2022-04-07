@@ -9,7 +9,14 @@ import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} fr
 const API_URL = "http://localhost:8080/api/game/";
 
 
+/**
+ * handle the action of placing units from user
+ */
 export default class unitPlace extends Component {
+    /**
+     * ctor
+     * @param props
+     */
     constructor(props) {
         super(props);
 
@@ -23,6 +30,9 @@ export default class unitPlace extends Component {
         };
     }
 
+    /**
+     * add default values for fields
+     */
     componentDidMount() {
         let idCounter = 0;
         let tmpRows = [];
@@ -37,6 +47,10 @@ export default class unitPlace extends Component {
 
     }
 
+    /**
+     * handle the commit of some cell
+     * @param id
+     */
     handleCellCommit = (id) => {
 
 
@@ -52,6 +66,10 @@ export default class unitPlace extends Component {
 
     }
 
+    /**
+     * render the elements in this page
+     * @returns {JSX.Element}
+     */
     render() {
         console.log(this.props.room)
         let columns: GridColDef[] = [{field: 'id', headerName: 'ID', width: 90}, {
@@ -108,12 +126,23 @@ export default class unitPlace extends Component {
 
     }
 
+    /**
+     * open the confirm dialog ask for confirmation from user
+     */
     handleConfirmDialogOpen =()=>{
         this.setState({openConfirmDialog:true})
     }
+    /**
+     * close the confirm dialog
+     */
     handleConfirmDialogClose =()=>{
         this.setState({openConfirmDialog:false})
     }
+
+    /**
+     * handle the commit of all placing unit orders
+     * @param e
+     */
     handleCommit(e) {
         console.log(this.ref)
         console.log(this.state.rows)

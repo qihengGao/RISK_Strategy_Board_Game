@@ -23,7 +23,9 @@ import {Alert} from "@mui/material";
 
 const theme = createTheme();
 
-
+/**
+ * control login actions of the user
+ */
 export default class muiLogin extends Component {
     constructor(props) {
         super(props);
@@ -40,17 +42,32 @@ export default class muiLogin extends Component {
             snackbarType: "error"
         };
     }
+
+    /**
+     * change username value to input value
+     * @param e
+     */
     onChangeUsername(e) {
         this.setState({
             username: e.target.value
         });
     }
+
+    /**
+     * change password value to input value
+     * @param e
+     */
     onChangePassword(e) {
         this.setState({
             password: e.target.value
         });
     }
 
+    /**
+     * update snack bar
+     * @param type
+     * @param message
+     */
     handleSnackBarUpdate = (type, message) => {
         this.setState(
             {
@@ -61,6 +78,10 @@ export default class muiLogin extends Component {
         )
     }
 
+    /**
+     * handle the action of clicking login button
+     * @param e
+     */
     handleLogin(e) {
         e.preventDefault();
         this.setState({
@@ -97,6 +118,11 @@ export default class muiLogin extends Component {
         //     });
         // }
     }
+
+    /**
+     * render the page (define the elements in the page)
+     * @returns {JSX.Element}
+     */
     render() {
         return (
             <ThemeProvider theme={theme}>
