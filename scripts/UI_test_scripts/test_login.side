@@ -2856,6 +2856,13 @@
       ],
       "value": ""
     }, {
+      "id": "2432e538-82dd-42e7-a46c-12df407e4f24",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "11c9a683-5912-44b8-bc7c-654c03b3b02c",
       "comment": "",
       "command": "click",
@@ -2923,6 +2930,13 @@
         ["xpath=//li[4]", "xpath:position"],
         ["xpath=//li[contains(.,'Upgrade Tech Level')]", "xpath:innerText"]
       ],
+      "value": ""
+    }, {
+      "id": "0719b036-81d3-42d3-97f7-9ca26cd7ae11",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
       "value": ""
     }, {
       "id": "96c8d6a9-93f4-41bb-a421-44ad117ff0d2",
@@ -3060,7 +3074,7 @@
       ],
       "value": "571,12.364578247070312"
     }, {
-      "id": "2432e538-82dd-42e7-a46c-12df407e4f24",
+      "id": "acfd63bb-9ba5-4633-a1b5-be5e32f21030",
       "comment": "",
       "command": "executeScript",
       "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
