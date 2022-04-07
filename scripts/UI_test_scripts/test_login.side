@@ -3060,6 +3060,13 @@
       ],
       "value": "571,12.364578247070312"
     }, {
+      "id": "2432e538-82dd-42e7-a46c-12df407e4f24",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "7743f957-7bfd-4d03-b76d-097f5b59df45",
       "comment": "",
       "command": "click",
@@ -3069,13 +3076,6 @@
         ["xpath=//div[@id='main']/div/canvas", "xpath:idRelative"],
         ["xpath=//canvas", "xpath:position"]
       ],
-      "value": ""
-    }, {
-      "id": "2432e538-82dd-42e7-a46c-12df407e4f24",
-      "comment": "",
-      "command": "executeScript",
-      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
-      "targets": [],
       "value": ""
     }, {
       "id": "5cee97bf-7387-4e3f-86bf-3830453cf2ca",
