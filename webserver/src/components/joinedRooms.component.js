@@ -39,19 +39,19 @@ export default class joinedRoomsComponent extends Component {
             headerName: 'Return',
             sortable: false,
             renderCell: (params) => {
-                const onClick = (e) => {
-                    e.stopPropagation(); // don't select this row after clicking
-
-                    const api: GridApi = params.api;
-                    const thisRow: Record<string, GridCellValue> = {};
-
-                    api
-                        .getAllColumns()
-                        .filter((c) => c.field !== '__check__' && !!c)
-                        .forEach(
-                            (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
-                        );
-                };
+                // const onClick = (e) => {
+                //     e.stopPropagation(); // don't select this row after clicking
+                //
+                //     const api: GridApi = params.api;
+                //     const thisRow: Record<string, GridCellValue> = {};
+                //
+                //     api
+                //         .getAllColumns()
+                //         .filter((c) => c.field !== '__check__' && !!c)
+                //         .forEach(
+                //             (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
+                //         );
+                // };
 
                 return <Button href={"play/"+params.id} >Return</Button>;
             },
@@ -93,15 +93,15 @@ export default class joinedRoomsComponent extends Component {
         this.setState({openSnackBar: false})
     };
 
-    handleSnackBarUpdate = (type,message) => {
-        this.setState(
-            {
-                openSnackBar:true,
-                snackBarMessage: message,
-                snackbarType: type
-            }
-        )
-    }
+    // handleSnackBarUpdate = (type,message) => {
+    //     this.setState(
+    //         {
+    //             openSnackBar:true,
+    //             snackBarMessage: message,
+    //             snackbarType: type
+    //         }
+    //     )
+    // }
 // initComponent() {
 //     axios
 //         .get(API_URL + "rooms/available", {

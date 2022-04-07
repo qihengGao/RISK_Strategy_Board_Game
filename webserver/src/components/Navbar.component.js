@@ -64,10 +64,10 @@ class Navbar extends React.Component {
     //     EventBus.remove("logout");
     // }
 
-    handleOpenNavMenu(event) {
-        //setAnchorElNav(event.currentTarget);
-        this.setState({anchorElNav: true});
-    };
+    // handleOpenNavMenu(event) {
+    //     //setAnchorElNav(event.currentTarget);
+    //     this.setState({anchorElNav: true});
+    // };
 
     handleOpenUserMenu(e) {
         //setAnchorElUser(event.currentTarget);
@@ -75,10 +75,10 @@ class Navbar extends React.Component {
 
     };
 
-    handleCloseNavMenu() {
-        //setAnchorElNav(null);
-        this.setState({anchorElUser: false});
-    };
+    // handleCloseNavMenu() {
+    //     //setAnchorElNav(null);
+    //     this.setState({anchorElUser: false});
+    // };
 
     handleCloseUserMenu() {
         //setAnchorElUser(null);
