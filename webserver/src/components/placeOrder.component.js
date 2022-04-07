@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack} from "@mui/material";
 import AuthService from "../services/auth.service";
 
-const API_URL = "http://localhost:8080";
+
 
 
 class unitPlace extends Component {

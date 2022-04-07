@@ -2932,7 +2932,7 @@
       ],
       "value": ""
     }, {
-      "id": "0719b036-81d3-42d3-97f7-9ca26cd7ae11",
+      "id": "1d267a93-c16b-4a63-ba56-664b3c9df67e",
       "comment": "",
       "command": "executeScript",
       "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
@@ -2950,6 +2950,13 @@
       ],
       "value": ""
     }, {
+      "id": "5676bc6d-8fdb-4433-bd06-03ab5b294080",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "7aa193a0-fee6-4fc7-b443-b05e39a5f8f4",
       "comment": "",
       "command": "mouseOver",
@@ -2960,6 +2967,13 @@
         ["xpath=//div[@id='input']/div/button", "xpath:idRelative"],
         ["xpath=//body/div/div/div/div/div/div/div[2]/div/div/button", "xpath:position"]
       ],
+      "value": ""
+    }, {
+      "id": "9df7a1a2-07b0-423a-beb1-ba826f267919",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
       "value": ""
     }, {
       "id": "df2479cd-9dec-4e91-a442-6ef67241933b",
@@ -2974,6 +2988,13 @@
       ],
       "value": ""
     }, {
+      "id": "ffd0276c-1919-462d-a612-96930774d53a",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "69a1a141-1ece-410f-86bb-edf61135625a",
       "comment": "",
       "command": "mouseOut",
@@ -2986,6 +3007,20 @@
       ],
       "value": ""
     }, {
+      "id": "0abd1ef3-94e6-4697-817e-6907ef2d0566",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "cc8c4c51-f764-4c02-bb6f-d6d1317dfd83",
+      "comment": "",
+      "command": "executeScript",
+      "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "a95b7caa-ecdd-4102-a1d5-53cd9fa630a4",
       "comment": "",
       "command": "click",
@@ -2995,6 +3030,20 @@
         ["xpath=(//button[@type='button'])[19]", "xpath:attributes"],
         ["xpath=//div[3]/div[3]/div/div[2]/button", "xpath:position"]
       ],
+      "value": ""
+    }, {
+      "id": "3d739110-2180-4768-9e21-a9aef7a7843c",
+      "comment": "",
+      "command": "executeScript",
+      "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "933a26ac-72af-4f23-9a14-f763c9b3d491",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
       "value": ""
     }, {
       "id": "2fc1e71d-6f1a-417b-9b7f-a1e38897cc7b",
@@ -3018,6 +3067,13 @@
         ["xpath=//canvas", "xpath:position"]
       ],
       "value": "797,13.364578247070312"
+    }, {
+      "id": "5e0039a9-376a-41c6-bf1b-25242eb83de1",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
     }, {
       "id": "a564b517-1d4c-435e-89a7-5d3110f7581b",
       "comment": "",
@@ -3051,6 +3107,13 @@
         ["xpath=//canvas", "xpath:position"]
       ],
       "value": "571,12.364578247070312"
+    }, {
+      "id": "0719b036-81d3-42d3-97f7-9ca26cd7ae11",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
     }, {
       "id": "a5edacaa-745a-4ff0-a2eb-1397606e0bc1",
       "comment": "",
