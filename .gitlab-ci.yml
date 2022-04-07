@@ -223,7 +223,7 @@ generate_js_coverage_report:
     - mkdir tmp
     - mv  -v /ui_test_downlaod/* tmp
     - sed -i -- 's/\/risk\/webserver/\/home\/gitlab-runner\/builds\/PasKz8W2\/0\/ece651-group1\/ece651-risk\/webserver/g' tmp/*
-    - nyc report -t tmp --reporter=html
+    - nyc report -t tmp --reporter=html  --exclude "coverage/**","packages/*/test{,s}/**","**/*.d.ts","test{,s}/**","test{,-*}.{js,cjs,mjs,ts,tsx,jsx}","**/*{.,-}test.{js,cjs,mjs,ts,tsx,jsx}","**/__tests__/**","**/{ava,babel,nyc}.config.{js,cjs,mjs}","**/jest.config.{js,cjs,mjs,ts}","**/{karma,rollup,webpack}.config.js","**/.{eslint,mocha}rc.{js,cjs}"
     - ls -al
   artifacts:
     paths:
