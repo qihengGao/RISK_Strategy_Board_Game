@@ -250,6 +250,6 @@ pages:
     paths:
       - public
   only:
-    - main
+    - dev
 
 
