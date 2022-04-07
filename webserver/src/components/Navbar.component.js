@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AuthService from "../services/auth.service";
 import MuiLogin from "./MuiLogin.component"
 import {Dialog} from "@mui/material";
-import EventBus from "../common/EventBus";
+
 import Link from "@mui/material/Link";
 
 const pages = ['Products', 'Pricing', 'Blog'];
@@ -45,9 +45,9 @@ class Navbar extends React.Component {
                 showAdminBoard: user.roles.includes("ROLE_ADMIN"),
             });
         }
-        EventBus.on("logout", () => {
-            this.logOut();
-        });
+        // EventBus.on("logout", () => {
+        //     this.logOut();
+        // });
     }
 
     logOut() {
@@ -60,9 +60,9 @@ class Navbar extends React.Component {
 
     }
 
-    componentWillUnmount() {
-        EventBus.remove("logout");
-    }
+    // componentWillUnmount() {
+    //     EventBus.remove("logout");
+    // }
 
     handleOpenNavMenu(event) {
         //setAnchorElNav(event.currentTarget);

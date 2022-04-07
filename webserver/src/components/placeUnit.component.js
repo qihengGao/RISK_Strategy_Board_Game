@@ -101,9 +101,7 @@ export default class unitPlace extends Component {
             </div>);
     }
 
-    handleCellMouseLeave = (e) => {
-        console.log(e)
-    }
+
 
     initComponent() {
 
