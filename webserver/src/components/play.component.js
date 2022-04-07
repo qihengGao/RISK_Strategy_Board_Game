@@ -20,7 +20,6 @@ export default class play extends Component {
     constructor(props) {
         super(props);
         //this.handleSubmit = this.handleSubmit.bind(this);
-        this.onChangeRoomID = this.onChangeRoomID.bind(this);
         this.state = {
             loading: true,
             roomID: "",
@@ -130,11 +129,7 @@ export default class play extends Component {
 
     }
 
-    onChangeRoomID(e) {
-        this.setState({
-            roomID: e.target.value
-        });
-    }
+
 
 
     componentDidUpdate() {
@@ -142,9 +137,9 @@ export default class play extends Component {
     }
 
 
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
+    // componentWillUnmount() {
+    //     clearInterval(this.interval);
+    // }
 
     getData = () => {
         axios

@@ -87,9 +87,6 @@ export default class joinedRoomsComponent extends Component {
             ;
     }
     handleSnackBarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
         this.setState({openSnackBar: false})
     };
 
