@@ -146,28 +146,6 @@ export default class allRoomsComponent extends Component {
         )
     }
 
-    handleCreateRoomSubmit = () => {
-        this.setState({
-            openCreateRoomDialog: false
-        })
-        axios
-            .post("/api/game/createRoom", {
-                roomSize: this.state.roomSize,
-            }, {headers: authHeader()})
-            .then((response) => {
-                //console.log(response);
-                this.handleSnackBarUpdate("success", "Successfully create the room!\nroomID: " + response.data.roomIDCreated)
-                //this.setState({messages: tmpmessage});
-                this.props.history.push("/play/"+response.data.roomIDCreated)
-                window.location.reload();
-            }, error => {
-                //window.location.reload();
-                this.handleSnackBarUpdate("error", "Room size invalid")
-                this.setState({messages: error});
-            });
-
-    }
-
 
     handleCreateRoomButton = ()=>{
         this.setState({
@@ -209,10 +187,7 @@ export default class allRoomsComponent extends Component {
         })
     }
 
-    handleSnackBarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+    handleSnackBarClose = (event,reason) => {
         this.setState({openSnackBar: false})
     };
 
