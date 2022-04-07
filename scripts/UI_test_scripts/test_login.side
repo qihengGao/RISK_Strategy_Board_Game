@@ -21,6 +21,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "c2fb807e-4fe4-4350-950a-4bc02398d74e",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "79ed6a72-2c62-4787-8817-a08bcdb941b5",
       "comment": "",
       "command": "executeScript",
@@ -97,13 +104,6 @@
       ],
       "value": "12345678"
     }, {
-      "id": "c2fb807e-4fe4-4350-950a-4bc02398d74e",
-      "comment": "",
-      "command": "executeScript",
-      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
-      "targets": [],
-      "value": ""
-    }, {
       "id": "c9b029fb-d88b-470b-8ec5-676fedec87b2",
       "comment": "",
       "command": "sendKeys",
@@ -151,6 +151,13 @@
       "comment": "",
       "command": "setWindowSize",
       "target": "1920x1040",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0a190fa1-619e-45b2-9a5f-f4e1527a0138",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
       "targets": [],
       "value": ""
     }, {
@@ -300,20 +307,6 @@
       ],
       "value": ""
     }, {
-      "id": "3fa869ec-05c0-4e3a-881d-b3db409bd92a",
-      "comment": "",
-      "command": "executeScript",
-      "target": "function download(content, fileName, contentType) {     var a = document.createElement(\"a\");     var file = new Blob([content], {type: contentType});     a.href = URL.createObjectURL(file);     a.download = fileName;     a.click(); } download(JSON.stringify(window.__coverage__), 'test_register_register_page.json', 'text/plain');",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "793da71d-e60b-4ec8-991b-830163aa7801",
-      "comment": "",
-      "command": "pause",
-      "target": "100",
-      "targets": [],
-      "value": ""
-    }, {
       "id": "5a9f298b-239c-47bb-bf1e-3480ba549078",
       "comment": "",
       "command": "waitForElementPresent",
@@ -416,20 +409,6 @@
         ["xpath=//p[contains(.,'Email: register@register.com')]", "xpath:innerText"]
       ],
       "value": "Email: register@register.com"
-    }, {
-      "id": "5de69ef0-a331-4075-8ca8-689a8399c34e",
-      "comment": "",
-      "command": "executeScript",
-      "target": "function download(content, fileName, contentType) {     var a = document.createElement(\"a\");     var file = new Blob([content], {type: contentType});     a.href = URL.createObjectURL(file);     a.download = fileName;     a.click(); } download(JSON.stringify(window.__coverage__), 'test_register.json', 'text/plain');",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "4e79f087-b97d-49a5-816a-99dd1b070f55",
-      "comment": "",
-      "command": "pause",
-      "target": "100",
-      "targets": [],
-      "value": ""
     }]
   }, {
     "id": "8c478429-df88-4547-9040-e683b786f40b",
@@ -446,6 +425,13 @@
       "comment": "",
       "command": "setWindowSize",
       "target": "2395x1400",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1fc1629a-e9c8-4600-90bd-f63bce56b822",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
       "targets": [],
       "value": ""
     }, {
@@ -600,6 +586,13 @@
       "comment": "",
       "command": "setWindowSize",
       "target": "2395x1400",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d2174cf7-9444-48ff-be91-18c6bbe19b19",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
       "targets": [],
       "value": ""
     }, {
@@ -914,6 +907,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "86d038ca-48d1-4ce6-8dc0-cfb0ec05e417",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "a389c279-9b38-4916-aeb8-372e1f492eb1",
       "comment": "",
       "command": "executeScript",
@@ -1135,6 +1135,13 @@
       "targets": [],
       "value": ""
     }, {
+      "id": "e951f30b-5841-444b-b058-b7597b975904",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "31929f26-cc95-457a-a444-64e0bc049cbc",
       "comment": "",
       "command": "executeScript",
@@ -1353,6 +1360,13 @@
       "comment": "",
       "command": "setWindowSize",
       "target": "2395x1400",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "66f6a752-1760-4444-b2c9-d2cac16c4e62",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
       "targets": [],
       "value": ""
     }, {
@@ -1736,6 +1750,13 @@
       "comment": "",
       "command": "setWindowSize",
       "target": "2395x1400",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d77602bc-176e-4009-a710-dce66af80540",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
       "targets": [],
       "value": ""
     }, {
