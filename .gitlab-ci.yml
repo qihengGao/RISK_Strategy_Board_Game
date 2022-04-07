@@ -170,43 +170,43 @@ selenium_web_ui_test:
     - cat ./scripts/UI_test_scripts/test_login.side
     - selenium-side-runner --server http://host.docker.internal:4444/wd/hub --base-url http://host.docker.internal:8081 ./scripts/UI_test_scripts/test_login.side || true
 
-generate_clover_report:
-  image: gradle:7.4.1-jdk17
-  stage: test
-  script:
-    - gradle cloverAggregateReports
-    - mkdir coverageout
-    - cp -r build/reports/clover/html/* coverageout/
-  tags:
-    - docker
-  needs:
-    - build_for_test
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull-push
-    paths:
-      - build
-      - .gradle
-  artifacts:
-    paths:
-      - coverageout
+#generate_clover_report:
+#  image: gradle:7.4.1-jdk17
+#  stage: test
+#  script:
+#    - gradle cloverAggregateReports
+#    - mkdir coverageout
+#    - cp -r build/reports/clover/html/* coverageout/
+#  tags:
+#    - docker
+#  needs:
+#    - build_for_test
+#  cache:
+#    key: "$CI_COMMIT_REF_NAME"
+#    policy: pull-push
+#    paths:
+#      - build
+#      - .gradle
+#  artifacts:
+#    paths:
+#      - coverageout
 
-generate_coverage_summary:
-  image: python:3.7-alpine3.14
-  stage: test
-  script:
-    - pip3 install bs4
-    - python3 scripts/clover.py
-  tags:
-    - docker
-  needs:
-    - generate_clover_report
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-      - .gradle
+#generate_coverage_summary:
+#  image: python:3.7-alpine3.14
+#  stage: test
+#  script:
+#    - pip3 install bs4
+#    - python3 scripts/clover.py
+#  tags:
+#    - docker
+#  needs:
+#    - generate_clover_report
+#  cache:
+#    key: "$CI_COMMIT_REF_NAME"
+#    policy: pull
+#    paths:
+#      - build
+#      - .gradle
 
 generate_js_coverage_report:
   stage: uiTest_report

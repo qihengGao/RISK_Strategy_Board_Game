@@ -2244,6 +2244,138 @@
       ],
       "value": ""
     }]
+  }, {
+    "id": "7d828f6a-ae61-4c56-8590-a113dea1cbdb",
+    "name": "test_login_failed",
+    "commands": [{
+      "id": "b33f87a5-6e80-43ba-aa42-a80355852e41",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "64f8859f-c21c-4ec1-b94a-4fd385cdc555",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "2395x1400",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "be5f74e0-0f0c-4399-ad40-36380a0f3d57",
+      "comment": "",
+      "command": "executeScript",
+      "target": "localStorage.clear();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f0903690-154e-43a5-a003-a9d47be8de9d",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.location.reload();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3e687fb7-0443-43ae-a47c-0a4d011a6a0e",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.MuiButton-textInherit",
+      "targets": [
+        ["css=.MuiButton-textInherit", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/header/div/div/div[3]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "366c09b4-b7ee-4091-9827-24e288d3ebf6",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiButton-textInherit",
+      "targets": [
+        ["css=.MuiButton-textInherit", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/header/div/div/div[3]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "80ca9ae5-c142-4d7b-954e-5634a218a2bb",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.MuiButton-textInherit",
+      "targets": [
+        ["css=.MuiButton-textInherit", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/header/div/div/div[3]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "26cce3e2-6907-43e7-b2a7-22e747faeb7e",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "test100"
+    }, {
+      "id": "da8e6d5f-29a3-4cc9-87db-d75e73b1d92a",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "12345678"
+    }, {
+      "id": "c5da6a0e-f19e-4bad-881a-a155c254e8b4",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "5b05ba7e-04a6-4168-a548-5c9f8f89731b",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.MuiAlert-message",
+      "targets": [
+        ["css=.MuiAlert-message", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/main/div[2]/div/div[2]", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div[2]", "xpath:position"]
+      ],
+      "value": "Failed to login"
+    }, {
+      "id": "9ff2612e-8fb2-4d05-8c9e-b7e4d365e130",
+      "comment": "",
+      "command": "executeScript",
+      "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6fdac0c3-4a97-47dc-855b-2df12478afc2",
+      "comment": "",
+      "command": "pause",
+      "target": "100",
+      "targets": [],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "458cb907-9f61-4b6e-b072-5b13ab4f305e",
