@@ -78,17 +78,16 @@ export default class joinedRoomsComponent extends Component {
                     onCellEditCommit={this.handleCellCommit}
                 />
                 <Snackbar open={this.state.openSnackBar} autoHideDuration={6000}
-                          onClose={this.handleSnackBarClose}>
-                    <Alert onClose={this.handleSnackBarClose} severity={this.state.snackbarType} sx={{width: '100%'}}>
+                          // onClose={this.handleSnackBarClose}
+                    >
+                    <Alert  severity={this.state.snackbarType} sx={{width: '100%'}}>
                         {this.state.snackBarMessage}
                     </Alert>
                 </Snackbar>
             </div>)
             ;
     }
-    handleSnackBarClose = (event, reason) => {
-        this.setState({openSnackBar: false})
-    };
+
 
     // handleSnackBarUpdate = (type,message) => {
     //     this.setState(
