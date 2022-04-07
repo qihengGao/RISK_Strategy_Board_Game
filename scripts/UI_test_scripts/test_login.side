@@ -3032,7 +3032,7 @@
       ],
       "value": ""
     }, {
-      "id": "3d739110-2180-4768-9e21-a9aef7a7843c",
+      "id": "fb276eca-d9cf-4b46-b536-aaf768a121fb",
       "comment": "",
       "command": "executeScript",
       "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
@@ -3153,6 +3153,13 @@
         ["xpath=//div[@id='main']/div/canvas", "xpath:idRelative"],
         ["xpath=//canvas", "xpath:position"]
       ],
+      "value": ""
+    }, {
+      "id": "3d739110-2180-4768-9e21-a9aef7a7843c",
+      "comment": "",
+      "command": "executeScript",
+      "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
+      "targets": [],
       "value": ""
     }, {
       "id": "5cee97bf-7387-4e3f-86bf-3830453cf2ca",
