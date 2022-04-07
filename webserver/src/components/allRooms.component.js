@@ -66,14 +66,14 @@ export default class allRoomsComponent extends Component {
                             roomID: thisRow.id
                         }, {
                             headers: authHeader()
-                        })
-                        .then(() => {
-                                this.handleSnackBarUpdate("success", "Successfully join room!")
-
-                            }, error => {
-                                this.handleSnackBarUpdate("error", "Failed join room\n" + error.messages)
-                            }
-                        );
+                        });
+                        // .then(() => {
+                        //         this.handleSnackBarUpdate("success", "Successfully join room!")
+                        //
+                        //     }, error => {
+                        //         this.handleSnackBarUpdate("error", "Failed join room\n" + error.messages)
+                        //     }
+                        // );
                 };
                 return <Button onClick={onClick} href={"play/" + params.id}>Join</Button>;
             },
