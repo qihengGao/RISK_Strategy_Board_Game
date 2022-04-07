@@ -222,7 +222,6 @@ generate_js_coverage_report:
     - ls -al
     - mkdir tmp
     - mv  -v /ui_test_downlaod/* tmp
-    - cat tmp/test_login.json
     - sed -i -- 's/\/risk\/webserver/\/home\/gitlab-runner\/builds\/PasKz8W2\/0\/ece651-group1\/ece651-risk\/webserver/g' tmp/*
     - nyc report -t tmp --reporter=html
     - ls -al

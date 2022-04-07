@@ -428,13 +428,6 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "1fc1629a-e9c8-4600-90bd-f63bce56b822",
-      "comment": "",
-      "command": "executeScript",
-      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
-      "targets": [],
-      "value": ""
-    }, {
       "id": "cbe400cf-49cf-446f-93db-6ba034395b10",
       "comment": "",
       "command": "executeScript",
@@ -547,6 +540,20 @@
         ["xpath=//a[contains(@href, '/allRooms')]", "xpath:href"],
         ["xpath=//a", "xpath:position"]
       ],
+      "value": ""
+    }, {
+      "id": "1fc1629a-e9c8-4600-90bd-f63bce56b822",
+      "comment": "",
+      "command": "executeScript",
+      "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0f01436b-1c8f-4490-8d01-5d85c744615f",
+      "comment": "",
+      "command": "pause",
+      "target": "100",
+      "targets": [],
       "value": ""
     }, {
       "id": "598afae0-0282-49aa-a67b-4a29d7cd325b",
@@ -942,13 +949,6 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "86d038ca-48d1-4ce6-8dc0-cfb0ec05e417",
-      "comment": "",
-      "command": "executeScript",
-      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
-      "targets": [],
-      "value": ""
-    }, {
       "id": "a389c279-9b38-4916-aeb8-372e1f492eb1",
       "comment": "",
       "command": "executeScript",
@@ -1050,6 +1050,13 @@
       ],
       "value": "Email: test2@test2.com"
     }, {
+      "id": "d96f6587-52c0-4414-8ffc-6285f6d22332",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "548ff8f7-2ff2-4e21-93ec-48226ffea402",
       "comment": "",
       "command": "click",
@@ -1061,6 +1068,13 @@
         ["xpath=//a[contains(@href, '/allRooms')]", "xpath:href"],
         ["xpath=//a", "xpath:position"]
       ],
+      "value": ""
+    }, {
+      "id": "86d038ca-48d1-4ce6-8dc0-cfb0ec05e417",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
       "value": ""
     }, {
       "id": "d681d676-4965-4fd3-8eb9-8a88f8896dcd",
@@ -1076,6 +1090,13 @@
       ],
       "value": ""
     }, {
+      "id": "4201a043-0276-4df8-9876-e8d23ee8704d",
+      "comment": "",
+      "command": "executeScript",
+      "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "f5bac9a8-4418-4424-b00a-d8b53fa081ae",
       "comment": "",
       "command": "assertElementPresent",
@@ -1087,6 +1108,13 @@
         ["xpath=//p[contains(.,'You have 30 units to put.')]", "xpath:innerText"]
       ],
       "value": "You have 30 units to put."
+    }, {
+      "id": "c04a5eb4-5966-452c-8731-84ea9a3945fa",
+      "comment": "",
+      "command": "executeScript",
+      "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
+      "targets": [],
+      "value": ""
     }, {
       "id": "d2597ad4-30fc-4655-ad9b-14e122449c3d",
       "comment": "",
@@ -1112,6 +1140,13 @@
         ["xpath=//a[contains(@href, '/allRooms')]", "xpath:href"],
         ["xpath=//a", "xpath:position"]
       ],
+      "value": ""
+    }, {
+      "id": "bd828103-0796-43c1-a6e1-6dde62e2112b",
+      "comment": "",
+      "command": "executeScript",
+      "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
+      "targets": [],
       "value": ""
     }, {
       "id": "a2547faf-87c5-49f1-89e5-669a3d51ed3d",
@@ -1151,6 +1186,20 @@
         ["xpath=//p[contains(.,'You have 30 units to put.')]", "xpath:innerText"]
       ],
       "value": "You have 30 units to put."
+    }, {
+      "id": "17bfed47-50bd-440c-91dc-1a99a3983f9f",
+      "comment": "",
+      "command": "executeScript",
+      "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1341f6e7-b604-4070-abc9-ba605e7b7628",
+      "comment": "",
+      "command": "pause",
+      "target": "100",
+      "targets": [],
+      "value": ""
     }]
   }, {
     "id": "2f07c0da-2e8c-475e-98f0-c23a202426c5",
@@ -1342,6 +1391,13 @@
       ],
       "value": "You have 30 units to put."
     }, {
+      "id": "1c7551f7-7a28-4c93-b42c-882b0d3210be",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "320bca56-bba8-4145-83a8-51101a1c4142",
       "comment": "",
       "command": "click",
@@ -1353,6 +1409,13 @@
         ["xpath=//a[contains(@href, '/joinedRooms')]", "xpath:href"],
         ["xpath=//a[2]", "xpath:position"]
       ],
+      "value": ""
+    }, {
+      "id": "cbb3da61-48d2-43db-b41f-98586bb57f79",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
       "value": ""
     }, {
       "id": "88e4d356-ca98-4db3-acc3-4249a0bf33f6",
@@ -1379,6 +1442,20 @@
         ["xpath=//p[contains(.,'You have 30 units to put.')]", "xpath:innerText"]
       ],
       "value": "You have 30 units to put."
+    }, {
+      "id": "a483bb1a-b14b-49de-990f-823d34bbfc2e",
+      "comment": "",
+      "command": "executeScript",
+      "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9ea4acdd-ee39-4125-9dba-0fcee507718c",
+      "comment": "",
+      "command": "pause",
+      "target": "100",
+      "targets": [],
+      "value": ""
     }]
   }, {
     "id": "50b77f76-e26b-4678-83b8-c5dd0e1eb5be",
