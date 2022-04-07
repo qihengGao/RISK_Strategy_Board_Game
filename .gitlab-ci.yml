@@ -230,26 +230,26 @@ generate_js_coverage_report:
       - webserver/coverage
   timeout: 2m
 
-pages:
-  image: alpine:3.14
-  stage: test
-  tags:
-    - docker
-  needs:
-    - generate_clover_report
-  script:
-    - mkdir .public
-    - cp -r build/reports/clover/html/* .public/
-    - mv .public public
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-  artifacts:
-    paths:
-      - public
-  only:
-    - main
+# pages:
+#   image: alpine:3.14
+#   stage: test
+#   tags:
+#     - docker
+#   needs:
+#     - generate_clover_report
+#   script:
+#     - mkdir .public
+#     - cp -r build/reports/clover/html/* .public/
+#     - mv .public public
+#   cache:
+#     key: "$CI_COMMIT_REF_NAME"
+#     policy: pull
+#     paths:
+#       - build
+#   artifacts:
+#     paths:
+#       - public
+#   only:
+#     - main
 
 
