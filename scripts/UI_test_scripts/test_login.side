@@ -2,7 +2,7 @@
   "id": "4a315ea3-f4fb-4cd3-8ac1-7810681b3c95",
   "version": "2.0",
   "name": "test_login",
-  "url": "http://localhost:8081",
+  "url": "http://localhost:8081/",
   "tests": [{
     "id": "a00ffb31-913b-45e2-a514-8cf6e81a453e",
     "name": "test_login",
@@ -100,14 +100,7 @@
       "id": "c2fb807e-4fe4-4350-950a-4bc02398d74e",
       "comment": "",
       "command": "executeScript",
-      "target": "function download(content, fileName, contentType) {     var a = document.createElement(\"a\");     var file = new Blob([content], {type: contentType});     a.href = URL.createObjectURL(file);     a.download = fileName;     a.click(); } download(JSON.stringify(window.__coverage__), 'test_login_login_page.json', 'text/plain');",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "a82ddd84-f28f-499c-aaf7-28a6bbd04776",
-      "comment": "",
-      "command": "pause",
-      "target": "100",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
       "targets": [],
       "value": ""
     }, {
@@ -124,6 +117,13 @@
       ],
       "value": "${KEY_ENTER}"
     }, {
+      "id": "a82ddd84-f28f-499c-aaf7-28a6bbd04776",
+      "comment": "",
+      "command": "pause",
+      "target": "100",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "fa5671b0-3550-4a8a-b776-ba4e3d53b1ec",
       "comment": "",
       "command": "assertText",
@@ -135,20 +135,6 @@
         ["xpath=//p[contains(.,'Email: est@test.com')]", "xpath:innerText"]
       ],
       "value": "Email: test@test.com"
-    }, {
-      "id": "52923cd8-6829-4e90-b5c5-9781a591ac80",
-      "comment": "",
-      "command": "executeScript",
-      "target": "function download(content, fileName, contentType) {     var a = document.createElement(\"a\");     var file = new Blob([content], {type: contentType});     a.href = URL.createObjectURL(file);     a.download = fileName;     a.click(); } download(JSON.stringify(window.__coverage__), 'test_login.json', 'text/plain');",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "7e06ea90-299d-4e18-adff-5f39e46eb525",
-      "comment": "",
-      "command": "pause",
-      "target": "100",
-      "targets": [],
-      "value": ""
     }]
   }, {
     "id": "8955f6f4-db4a-484c-b97f-e585dc2c69b5",
@@ -2120,6 +2106,6 @@
     "timeout": 300,
     "tests": ["a00ffb31-913b-45e2-a514-8cf6e81a453e", "8955f6f4-db4a-484c-b97f-e585dc2c69b5", "e846d4fc-c5ba-4df2-9ca0-fa6d579b3c3e", "8c478429-df88-4547-9040-e683b786f40b", "212d489b-1886-48a7-a3ca-78d95c25a75e", "2f07c0da-2e8c-475e-98f0-c23a202426c5", "50b77f76-e26b-4678-83b8-c5dd0e1eb5be", "7307861d-2644-40d2-bb0e-3b922922e49b"]
   }],
-  "urls": ["http://vcm-25354.vm.duke.edu:8081/", "http://localhost:8081/"],
+  "urls": ["http://vcm-25354.vm.duke.edu:8081/", "http://localhost:8081/", "http://localhost:3000/"],
   "plugins": []
 }
