@@ -118,10 +118,10 @@ export default class play extends Component {
 
     handleSnackBarClose = (event, reason) => {
         if (reason === 'clickaway') {
-            return;
+            this.setState({openSnackBar: false})
         }
 
-        this.setState({openSnackBar: false})
+
     };
 
     initComponent() {
@@ -298,13 +298,6 @@ export default class play extends Component {
 
 
                 }
-
-                , error => {
-                    const resMessage = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-                    this
-                        .setState({
-                            loading: false, message: resMessage
-                        });
-                });
+);
     }
 }
