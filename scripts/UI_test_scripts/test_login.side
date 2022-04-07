@@ -1475,13 +1475,6 @@
       "targets": [],
       "value": ""
     }, {
-      "id": "66f6a752-1760-4444-b2c9-d2cac16c4e62",
-      "comment": "",
-      "command": "executeScript",
-      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
-      "targets": [],
-      "value": ""
-    }, {
       "id": "7678fad1-27c0-4b3c-bb89-a930816db631",
       "comment": "",
       "command": "executeScript",
@@ -1818,6 +1811,13 @@
       ],
       "value": ""
     }, {
+      "id": "66f6a752-1760-4444-b2c9-d2cac16c4e62",
+      "comment": "",
+      "command": "executeScript",
+      "target": "window.onbeforeunload = function() {     var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now()+\".json\";     a.click();  }",
+      "targets": [],
+      "value": ""
+    }, {
       "id": "c46f7eb8-29a4-4a23-8bf3-76368e3ce119",
       "comment": "",
       "command": "click",
@@ -1846,6 +1846,20 @@
         ["xpath=//div[2]/div/div", "xpath:position"]
       ],
       "value": "Waiting for other players to place orders..."
+    }, {
+      "id": "6f16d1f1-8e75-4480-b3cd-94a8ea0e64f0",
+      "comment": "",
+      "command": "executeScript",
+      "target": "    var a = document.createElement(\"a\");     var file = new Blob([JSON.stringify(window.__coverage__)], {type: 'text/plain'});     a.href = URL.createObjectURL(file);     a.download = Date.now() + \".json\";     a.click();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c6d78a87-9da3-444d-9d3a-e2b84a842b6b",
+      "comment": "",
+      "command": "pause",
+      "target": "100",
+      "targets": [],
+      "value": ""
     }]
   }, {
     "id": "7307861d-2644-40d2-bb0e-3b922922e49b",
