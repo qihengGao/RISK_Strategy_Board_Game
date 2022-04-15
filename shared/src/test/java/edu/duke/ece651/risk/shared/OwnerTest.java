@@ -3,6 +3,10 @@ package edu.duke.ece651.risk.shared;
 import edu.duke.ece651.risk.shared.territory.Owner;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OwnerTest {
@@ -30,6 +34,25 @@ public class OwnerTest {
         assertEquals(1, owner.getCurrTechlevel());
         assertEquals(0, owner.getOwnedFoodResource());
         assertEquals(0, owner.getOwnedTechResource());
+    }
+
+    @Test
+    public void test_alliance(){
+        Owner owner = new Owner(0L);
+        assertTrue(owner.getAlliance().isEmpty());
+        owner.setAlliance(new HashSet<Long>(Arrays.asList(1L,2L)));
+        assertTrue(owner.getAlliance().contains(1L));
+        assertTrue(owner.getAlliance().contains(2L));
+
+        assertFalse(owner.formAlliance(0L));
+        assertFalse(owner.formAlliance(2L));
+        assertTrue(owner.formAlliance(3L));
+        assertTrue(owner.getAlliance().contains(3L));
+
+        assertFalse(owner.breakAlliance(0L));
+        assertFalse(owner.breakAlliance(4L));
+        assertTrue(owner.breakAlliance(1L));
+        assertTrue(!owner.getAlliance().contains(1L));
     }
 
     @Test
