@@ -21,6 +21,19 @@ public class BasicUnit implements Unit {
     private int[] predefinedBonus = new int[] {0, 1, 3, 5, 8, 11, 15};
     private int[] predefinedAccumulativeCosts = new int[] {0, 3, 11, 30, 55, 90, 140};
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BasicUnit basicUnit = (BasicUnit) o;
+        return ownerId == basicUnit.ownerId && level == basicUnit.level && unitType.equals(basicUnit.unitType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ownerId, unitType, level);
+    }
+
     /**
      * Contructor for the Basic Unit.
      * 
@@ -166,25 +179,4 @@ public class BasicUnit implements Unit {
         return result.toString();
     }
 
-    /**
-     * compare units
-     * @param o
-     * @return
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BasicUnit basicUnit = (BasicUnit) o;
-        return level == basicUnit.level && Objects.equals(unitType, basicUnit.unitType);
-    }
-
-    /**
-     * overrode hashcode
-     * @return
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(unitType, level);
-    }
 }
