@@ -342,15 +342,10 @@ public class APIGameHandler {
             territory.tryChangeOwnerTo(clientIDList.get(count++ / n_Terr_per_player));
         }
         for (Long clientID : clientIDList) {
-            int totalRest = 10;
-            Random random = new Random();
-            while (totalRest > 0) {
-                for (Territory t : riskMap.getTerritoriesByOwnerID(clientID)) {
-                    if (random.nextBoolean()) {
-                        t.increaseSize(2);
-                        totalRest -= 2;
-                    }
-                }
+            ArrayList<Integer> totalRest = new ArrayList<Integer>(Arrays.asList(0,2,6));
+            ArrayList<Territory> myTerrs = (ArrayList<Territory>) riskMap.getTerritoriesByOwnerID(clientID);
+            for (int i = 0; i < 3; i++) {
+               myTerrs.get(i).increaseSize(totalRest.get(i));
             }
         }
     }

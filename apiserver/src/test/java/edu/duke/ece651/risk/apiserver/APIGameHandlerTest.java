@@ -17,8 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class APIGameHandlerTest {
     private String displayMap(RISKMap riskMap) {
         TreeMap<Long, Color> idToColor = new TreeMap<Long, Color>();
-        idToColor.put((long)1, new Color("Green"));
-        idToColor.put((long)2, new Color("Blue"));
+        idToColor.put((long)1, new Color("Red"));
+        idToColor.put((long)2, new Color("Green"));
+        idToColor.put((long)3, new Color("Blue"));
 
         MapTextView mapTextView = new MapTextView(riskMap, idToColor);
         return mapTextView.displayMap();
@@ -206,5 +207,13 @@ class APIGameHandlerTest {
         assertEquals(game.getPlayerState(1L), State.LostState.name());
 
 
+    }
+
+    @Test
+    void assignTerritoriesToPlayers() {
+        APIGameHandler game = new APIGameHandler(3, 0, 1L);
+        game.tryAddPlayer(2L);
+        game.tryAddPlayer(3L);
+        System.out.println(displayMap(game.getRiskMap()));
     }
 }
