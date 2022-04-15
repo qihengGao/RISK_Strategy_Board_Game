@@ -2,6 +2,7 @@ package edu.duke.ece651.risk.shared.checker;
 
 import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.territory.Territory;
 
 import javax.management.Query;
@@ -71,7 +72,7 @@ PathExistMoveChecker extends ActionChecker {
   }
 
   private boolean ownByAlliance(RISKMap riskMap, Territory t, long ID) {
-    return riskMap.getOwners().get(ID).getAlliance().contains(t.getOwnerID());
+    return riskMap.getOwners().getOrDefault(ID, new Owner(-1L)).getAlliance().contains(t.getOwnerID());
   }
 
   public PathExistMoveChecker(ActionChecker next) {
