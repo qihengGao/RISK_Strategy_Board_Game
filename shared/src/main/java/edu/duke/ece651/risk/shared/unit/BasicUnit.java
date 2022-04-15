@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.shared.unit;
 
 import edu.duke.ece651.risk.shared.territory.BasicTerritory;
+import edu.duke.ece651.risk.shared.territory.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +12,8 @@ import java.util.Objects;
  */
 public class BasicUnit implements Unit {
     //unit information
+    private long ownerId;
+    private Color color;
     private final String unitType;
     private final int levelBound;
     private int level;
@@ -35,6 +38,8 @@ public class BasicUnit implements Unit {
             this.unitType = info[0];
             this.level = Integer.parseInt(info[2]);
         }
+        this.ownerId = -1;
+        this.color = null;
     }
 
     public BasicUnit(String unitType, int amount, int level) {
@@ -47,9 +52,11 @@ public class BasicUnit implements Unit {
      * setters/ getters
      * @param amount
      */
+    @Override
     public void setAmount(int amount) {
         this.amount = amount;
     }
+    @Override
     public void setLevel(int level) {
         this.level = level;
     }
@@ -60,6 +67,22 @@ public class BasicUnit implements Unit {
     @Override
     public int getLevel() {
         return this.level;
+    }
+    @Override
+    public Color getColor() {
+        return color;
+    }
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
+    }
+    @Override
+    public long getOwnerId() {
+        return ownerId;
+    }
+    @Override
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
     }
 
     /**
@@ -136,6 +159,10 @@ public class BasicUnit implements Unit {
         result.append(this.getLevel());
         result.append(" ");
         result.append(this.getType());
+        if (this.getColor() != null) { // compatible for previous test
+            result.append(" ");
+            result.append("(").append(this.getColor().getColorName()).append(")");
+        }
         return result.toString();
     }
 

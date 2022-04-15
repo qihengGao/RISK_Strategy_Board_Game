@@ -16,6 +16,9 @@ public class UnitComparator implements Comparator<Unit>, Serializable {
      */
     public int compare(Unit u1, Unit u2) {
         if (u1.getType().equals(u2.getType())) {
+            if (u1.getLevel() == u2.getLevel()) {
+                return Long.compare(u1.getOwnerId(), u2.getOwnerId());
+            }
             return Integer.compare(u1.getLevel(), u2.getLevel());
         }
         return u1.getType().compareTo(u2.getType());
