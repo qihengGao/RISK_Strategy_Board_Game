@@ -2,7 +2,6 @@ package edu.duke.ece651.risk.shared.territory;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Owner implements Serializable {
     private long ownerId;
@@ -12,8 +11,6 @@ public class Owner implements Serializable {
 
     private int maxAllowedTechLevel;
     private HashMap<Integer, Integer> costToUpgradeTech;
-
-    private HashSet<Long> alliance;
 
     /**
      * default constructor, used to set all values
@@ -38,7 +35,6 @@ public class Owner implements Serializable {
         this.ownedFoodResource = ownedFoodResource;
         this.ownedTechResource = ownedTechResource;
         this.maxAllowedTechLevel = 6;
-        this.alliance = new HashSet<>();
 
         this.costToUpgradeTech = new HashMap<>();
         this.costToUpgradeTech.put(2, 50);
@@ -70,34 +66,6 @@ public class Owner implements Serializable {
 
     public Long getOwnerId() {
         return ownerId;
-    }
-
-    public HashSet<Long> getAlliance() {
-        return alliance;
-    }
-
-    public void setAlliance(HashSet<Long> alliance) {
-        this.alliance = alliance;
-    }
-
-    /**
-     * alliance former and breaker
-     * @param id
-     */
-    public boolean formAlliance(Long id) {
-        if (id.equals(ownerId) || this.alliance.contains(id)){
-            return false;
-        }
-        this.alliance.add(id);
-        return true;
-    }
-
-    public boolean breakAlliance(Long id) {
-        if (id.equals(ownerId) || !this.alliance.contains(id)){
-            return false;
-        }
-        this.alliance.remove(id);
-        return true;
     }
 
     /**
