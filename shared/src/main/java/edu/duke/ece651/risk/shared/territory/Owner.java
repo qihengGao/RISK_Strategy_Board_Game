@@ -49,7 +49,7 @@ public class Owner implements Serializable {
     }
 
     /**
-     * initializer constructor, used to create an minimum owner
+     * initializer constructor, used to create a minimum owner
      * @param ownerId
      */
     public Owner(long ownerId){
@@ -83,6 +83,7 @@ public class Owner implements Serializable {
     /**
      * alliance former and breaker
      * @param id
+     * @return true if successfully formed or broke alliance, false if not
      */
     public boolean formAlliance(Long id) {
         if (id.equals(ownerId) || this.alliance.contains(id)){
