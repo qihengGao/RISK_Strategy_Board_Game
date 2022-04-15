@@ -12,7 +12,8 @@ import java.io.Serializable;
         @JsonSubTypes.Type(value = AttackOrder.class, name = "Attack"),
         @JsonSubTypes.Type(value = MoveOrder.class, name = "Move"),
         @JsonSubTypes.Type(value = UpgradeUnitOrder.class, name = "Upgrade Unit"),
-        @JsonSubTypes.Type(value = UpgradeMaxTechOrder.class, name = "Upgrade Tech Level")
+        @JsonSubTypes.Type(value = UpgradeMaxTechOrder.class, name = "Upgrade Tech Level"),
+        @JsonSubTypes.Type(value = FormAllianceOrder.class, name = "Form Alliance")
 })
 public abstract class Order implements Serializable{
   //all required information for some order
@@ -20,9 +21,10 @@ public abstract class Order implements Serializable{
   protected String destTerritory;
   protected String unitType;
   protected int unitAmount;
-  protected long playerID;
+  protected Long playerID;
   protected String orderType;
   protected int toLevel;
+  protected Long allianceID;
 
   //default ctor
   public Order() {
@@ -50,6 +52,10 @@ public abstract class Order implements Serializable{
   public void setToLevel(int toLevel) {
     this.toLevel = toLevel;
   }
+  public void setAllianceID(Long allianceID) {
+    this.allianceID = allianceID;
+  }
+
   //getters required for Json deserialization
   public long getPlayerID(){
     return this.playerID;
@@ -66,11 +72,18 @@ public abstract class Order implements Serializable{
   public int getUnitAmount(){
     return this.unitAmount;
   }
-  public String getOrderType() {return orderType;}
-  public int getToLevel() { return this.toLevel; }
+  public String getOrderType() {
+    return orderType;
+  }
+  public int getToLevel() {
+    return this.toLevel;
+  }
+  public Long getAllianceID() {
+    return allianceID;
+  }
 
   //ctor
-  public Order(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount, String orderType, int toLevel) {
+  public Order(long ID, String srcTerritory, String destTerritory, String unitType, int unitAmount, String orderType, int toLevel, Long allianceID) {
     this.playerID = ID;
     this.srcTerritory = srcTerritory;
     this.destTerritory = destTerritory;
@@ -78,6 +91,7 @@ public abstract class Order implements Serializable{
     this.unitAmount = unitAmount;
     this.orderType = orderType;
     this.toLevel = toLevel;
+    this.allianceID = allianceID;
   }
   //dinamic dispatched methods
 
