@@ -54,7 +54,7 @@ PathExistMoveChecker extends ActionChecker {
     //iterate over neighbors owned by same person
     for (String tName: curr.getNeighbors()){
       Territory t = riskMap.getTerritoryByName(tName);
-      if (!visited.contains(t) && t.getOwnerID().equals(ID)){
+      if (!visited.contains(t) && (ownBySelf(t, ID) || ownByAlliance(riskMap, t, ID))){
         end = dfsToDst(riskMap, ID, t, dstName, visited);
         //if found destination, return
         if (end!=null){
@@ -64,6 +64,14 @@ PathExistMoveChecker extends ActionChecker {
     }
     //if not return null
     return null;
+  }
+
+  private boolean ownBySelf(Territory t, long ID) {
+    return t.getOwnerID().equals(ID);
+  }
+
+  private boolean ownByAlliance(RISKMap riskMap, Territory t, long ID) {
+    return riskMap.getOwners().get(ID).getAlliance().contains(t.getOwnerID());
   }
 
   public PathExistMoveChecker(ActionChecker next) {
