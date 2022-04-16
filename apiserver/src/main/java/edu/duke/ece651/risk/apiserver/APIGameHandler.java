@@ -293,12 +293,20 @@ public class APIGameHandler {
                 return showError;
             }
         }
-
+        // store fake alliance
+        HashMap<Long, ArrayList<Long>> idToFakeAlliance = new HashMap<>();
         for (Long id : tmpRiskMap.getOwners().keySet()){
             for (Long allianceID: tmpRiskMap.getOwners().get(id).getAlliance()){
+                // alliance does not connect to self, need to del alliance in self's alliance set
                 if (!tmpRiskMap.getOwners().get(allianceID).getAlliance().contains(id)){
-                    tmpRiskMap.getOwners().get(id).getAlliance().remove(allianceID);
+                    idToFakeAlliance.computeIfAbsent(id, x -> new ArrayList<>()).add(allianceID);
                 }
+            }
+        }
+        // carry out deletion
+        for (Long key : idToFakeAlliance.keySet()) {
+            for (Long toDel : idToFakeAlliance.get(key)) {
+                tmpRiskMap.getOwners().get(key).getAlliance().remove(toDel);
             }
         }
 
