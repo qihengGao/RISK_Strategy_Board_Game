@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import edu.duke.ece651.risk.shared.territory.BasicTerritory;
+import edu.duke.ece651.risk.shared.territory.Color;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import org.junit.jupiter.api.Test;
 
@@ -115,5 +116,25 @@ public class BasicUnitTest {
     assertEquals(0, comparator.compare(u1, u2));
     assertEquals(-1, comparator.compare(u1, u3));
     assertEquals(-1, comparator.compare(u1, u4));
+    u1.setOwnerId(0L);
+    u2.setOwnerId(1L);
+    assertEquals(-1, comparator.compare(u1, u2));
+  }
+
+  @Test
+  public void test_ownerId() {
+    Unit u = new BasicUnit("a level 2", 5);
+    assertEquals(-1L, u.getOwnerId());
+    u.setOwnerId(0L);
+    assertEquals(0L, u.getOwnerId());
+  }
+
+  @Test
+  public void test_color() {
+    Unit u = new BasicUnit("a level 2", 5);
+    assertEquals("5 lv.2 a", u.toString());
+    assertNull(u.getColor());
+    u.setColor(new Color("Red"));
+    assertEquals("5 lv.2 a (Red)", u.toString());
   }
 }
