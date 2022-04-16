@@ -240,9 +240,9 @@ export default class play extends Component {
                         let label = "";
                         label += "Size:"+territory.size + "\n";
                         for (const unit of territory.units) {
-                            //todo: change 4 to unit.ownerId
-                            label += response.data.idToColor[unit.ownerId].colorName + "'s" + unit.amount + " " + unit.type + " level " + unit.level+"\n";
-
+                            if (unit.amount >0){
+                                label += response.data.idToColor[unit.ownerId].colorName + "'s" + unit.amount + " " + unit.type + " level " + unit.level+"\n";
+                            }
                         }
 
                         label += "Food Production:" + territory.foodProduction + "\n";

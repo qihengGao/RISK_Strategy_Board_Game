@@ -10,6 +10,7 @@ public class FormAllianceOrder extends Order{
     public FormAllianceOrder(long ID, long allianceID) {
         this.playerID = ID;
         this.allianceID = allianceID;
+        this.orderType = "Form Alliance";
     }
 
     public FormAllianceOrder(){

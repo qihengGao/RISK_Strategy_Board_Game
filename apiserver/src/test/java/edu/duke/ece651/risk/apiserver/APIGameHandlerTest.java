@@ -196,6 +196,54 @@ class APIGameHandlerTest {
     }
 
     @Test
+    void test_allianceOrders(){
+        //build test game
+        APIGameHandler game = new APIGameHandler(3, 0, 1L);
+        game.tryAddPlayer(2L);
+        game.tryAddPlayer(3L);
+
+        Map<String, Integer> unitPlaceOrders1= new HashMap<>();
+        unitPlaceOrders1.put("Test2", 10);
+        unitPlaceOrders1.put("Test4", 10);
+        unitPlaceOrders1.put("Test6", 10);
+        assertNull(game.tryPlaceUnit(1L, unitPlaceOrders1));
+
+        Map<String, Integer> unitPlaceOrders2= new HashMap<>();
+        unitPlaceOrders2.put("Test0", 10);
+        unitPlaceOrders2.put("Test1", 10);
+        unitPlaceOrders2.put("Test8", 10);
+        assertNull(game.tryPlaceUnit(2L, unitPlaceOrders2));
+
+        Map<String, Integer> unitPlaceOrders3= new HashMap<>();
+        unitPlaceOrders3.put("Test3", 10);
+        unitPlaceOrders3.put("Test5", 10);
+        unitPlaceOrders3.put("Test7", 10);
+        assertNull(game.tryPlaceUnit(3L, unitPlaceOrders3));
+        System.out.println(displayMap(game.getRiskMap()));
+
+        //true alliance
+        ArrayList<Order> orders1 = new ArrayList<>();
+        orders1.add(new FormAllianceOrder(1L, 2L));
+        ArrayList<Order> orders2 = new ArrayList<>();
+        orders2.add(new FormAllianceOrder(2L, 1L));
+        //fake alliance
+        ArrayList<Order> orders3 = new ArrayList<>();
+        orders2.add(new FormAllianceOrder(3L, 1L));
+
+        assertNull(game.tryPreProcessOrder(1L,orders1));
+        assertNull(game.tryPreProcessOrder(2L,orders2));
+        assertNull(game.tryPreProcessOrder(3L,orders3));
+
+        assertTrue(game.getRiskMap().getOwners().get(1L).getAlliance().contains(2L));
+        assertTrue(game.getRiskMap().getOwners().get(2L).getAlliance().contains(1L));
+        assertTrue(game.getRiskMap().getOwners().get(3L).getAlliance().isEmpty());
+
+        //invalid alliance
+        assertNotNull(game.tryPreProcessOrder(1L,orders1));
+
+    }
+
+    @Test
     void isPlayerLost() {
         APIGameHandler game = new APIGameHandler(2, 0, 1L);
         assertFalse(game.isPlayerLost(1L));
