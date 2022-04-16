@@ -5,6 +5,7 @@ import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.territory.BasicTerritory;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
+import edu.duke.ece651.risk.shared.unit.Unit;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -27,7 +28,9 @@ class UpgradeUnitOrderTest {
         map.tryAddOwner(o);
         UpgradeUnitOrder o3 = new UpgradeUnitOrder(1, "Test1", "Soldier",1, 1);
         assertEquals("You must place orders from your own territories!", o3.executeOrder(map));
-        t1.tryAddUnit(new BasicUnit("Soldier", 10));
+        Unit u = new BasicUnit("Soldier", 10);
+        u.setOwnerId(0L);
+        t1.tryAddUnit(u);
         UpgradeUnitOrder o4 = new UpgradeUnitOrder(0, "Test1", "Soldier",1, 2);
         assertEquals("Insufficient resource to upgrade 1 lv.0 Soldier", o4.executeOrder(map));
         o.tryAddOrRemoveTechResource(100);

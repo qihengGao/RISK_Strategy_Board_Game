@@ -220,6 +220,7 @@ public class BasicTerritory implements Territory {
       return "Unit amount is not sufficient to do the upgrade";
     }
     Unit upgraded = new BasicUnit(toUpgrade.getType(), toUpgrade.getAmount(), toLevel);
+    upgraded.setOwnerId(this.getOwnerID());
     this.tryAddUnit(upgraded);
     return null;
   }

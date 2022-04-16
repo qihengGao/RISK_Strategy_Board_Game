@@ -26,7 +26,9 @@ public class AttackOrderTest {
         RISKMap riskMap = (RISKMap) tmf.createMapForNplayers(3);
         int count = 0;
         for (Territory t : riskMap.getContinent()) {
-            t.tryAddUnit(new BasicUnit("Unit", 10));
+            BasicUnit unit = new BasicUnit("Unit", 10);
+            unit.setOwnerId((long) (count / 3));
+            t.tryAddUnit(unit);
             t.tryChangeOwnerTo((long) (count / 3));
             count++;
         }
