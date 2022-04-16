@@ -241,6 +241,24 @@ class APIGameHandlerTest {
         //invalid alliance
         assertNotNull(game.tryPreProcessOrder(1L,orders1));
 
+        //try to move through alliance terrs
+        ArrayList<Order> orders4 = new ArrayList<>();
+        orders4.add(new MoveOrder(1L, "Test2", "Test8","Soldier",10));
+        assertNull(game.tryPreProcessOrder(1L,orders4));
+        assertNull(game.tryPreProcessOrder(2L,new ArrayList<>()));
+        assertNull(game.tryPreProcessOrder(3L,new ArrayList<>()));
+        System.out.println(displayMap(game.getRiskMap()));
+
+        ArrayList<Order> orders5 = new ArrayList<>();
+        orders5.add(new MoveOrder(1L, "Test8", "Test2","Soldier",10));
+        assertNull(game.tryPreProcessOrder(1L,orders5));
+        assertNull(game.tryPreProcessOrder(2L,new ArrayList<>()));
+        assertNull(game.tryPreProcessOrder(3L,new ArrayList<>()));
+        System.out.println(displayMap(game.getRiskMap()));
+
+        //invalid move from alliance terr
+        System.out.println(game.tryPreProcessOrder(1L,orders5));
+
     }
 
     @Test

@@ -31,6 +31,7 @@ public class SrcOwnershipCheckerTest {
 
         // error: place from a foreign territory
         MoveOrder moveOrder2 = new MoveOrder(0L, "Test2", "Test1", "Soldier", 10);
-        assertEquals("You must place orders from your own territories!", checker.checkMyRule(riskMap, moveOrder2));
+        assertEquals("You must place orders from your own territories or from your alliance territories!",
+                checker.checkMyRule(riskMap, moveOrder2));
     }
 }

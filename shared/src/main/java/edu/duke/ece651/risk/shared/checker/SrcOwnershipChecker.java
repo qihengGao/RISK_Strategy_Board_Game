@@ -19,7 +19,7 @@ public class SrcOwnershipChecker extends ActionChecker {
     if (ownBySelf(src, moveOrder.getPlayerID()) || ownByAlliance(riskMap, src, moveOrder.getPlayerID())){
       return null;
     }
-    return "You must place orders from your own territories!";
+    return "You must place orders from your own territories or from your alliance territories!";
   }
 
   public SrcOwnershipChecker(ActionChecker next) {

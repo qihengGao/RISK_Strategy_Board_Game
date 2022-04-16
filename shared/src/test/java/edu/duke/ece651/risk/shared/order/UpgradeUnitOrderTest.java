@@ -22,12 +22,12 @@ class UpgradeUnitOrderTest {
         UpgradeUnitOrder order = new UpgradeUnitOrder(0, "Test1", "Soldier", -1, 1);
         assertEquals("cannot upgrade negative amount of units", order.executeOrder(map));
         UpgradeUnitOrder order2 = new UpgradeUnitOrder(0, "Test1", "Soldier",1, 1);
-        assertEquals("You must place orders from your own territories!", order2.executeOrder(map));
+        assertEquals("You must place orders from your own territories or from your alliance territories!", order2.executeOrder(map));
         t1.tryChangeOwnerTo(0L);
         Owner o = new Owner(0);
         map.tryAddOwner(o);
         UpgradeUnitOrder o3 = new UpgradeUnitOrder(1, "Test1", "Soldier",1, 1);
-        assertEquals("You must place orders from your own territories!", o3.executeOrder(map));
+        assertEquals("You must place orders from your own territories or from your alliance territories!", o3.executeOrder(map));
         Unit u = new BasicUnit("Soldier", 10);
         u.setOwnerId(0L);
         t1.tryAddUnit(u);

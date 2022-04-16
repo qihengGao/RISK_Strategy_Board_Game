@@ -27,7 +27,7 @@ public class AttackOrder extends Order {
      * ctor to specify the chain of rules for this attack order
      */
     public AttackOrder() {
-        this.attackChecker = new TerrExistChecker(new SrcOwnershipChecker(new ActionUnitChecker(new PathExistAttackChecker(new PathResourceAttackChecker(null)))));
+        this.attackChecker = new TerrExistChecker(new SrcOwnershipAttackChecker(new ActionUnitChecker(new PathExistAttackChecker(new PathResourceAttackChecker(null)))));
     }
 
     /**
