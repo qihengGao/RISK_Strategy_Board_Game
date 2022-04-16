@@ -12,6 +12,9 @@ public class FormAllianceOrder extends Order{
         this.allianceID = allianceID;
     }
 
+    public FormAllianceOrder(){
+    }
+
     @Override
     public String executeOrder(RISKMap riskMap) {
         if (riskMap.getOwners().get(this.playerID).formAlliance(this.allianceID)){
