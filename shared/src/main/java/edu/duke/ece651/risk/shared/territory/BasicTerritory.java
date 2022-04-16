@@ -175,12 +175,7 @@ public class BasicTerritory implements Territory {
 
   @Override
   public Unit getUnitByType(String type) {
-    String[] info = type.split(" ");
-    if (info.length == 1) { // only contains type, version 1
-      return getUnitByTypeLevel(type, 0);
-    } else { // compatible for version2, Soldier level 6
-      return getUnitByTypeLevel(info[0], Integer.parseInt(info[2]));
-    }
+    return getUnitByTypeAndID(type, this.getOwnerID());
   }
 
   /**
@@ -191,12 +186,7 @@ public class BasicTerritory implements Territory {
    */
   @Override
   public Unit getUnitByTypeLevel(String type, int level) {
-    for (Unit u : this.getUnits()) {
-      if (u.getType().equals(type) && u.getLevel() == level) {
-        return u;
-      }
-    }
-    return null;
+    return getUnitByTypeLevelID(type, level, this.getOwnerID());
   }
 
   /**
@@ -231,6 +221,26 @@ public class BasicTerritory implements Territory {
     }
     Unit upgraded = new BasicUnit(toUpgrade.getType(), toUpgrade.getAmount(), toLevel);
     this.tryAddUnit(upgraded);
+    return null;
+  }
+
+  @Override
+  public Unit getUnitByTypeAndID(String type, long ownerId) {
+    String[] info = type.split(" ");
+    if (info.length == 1) { // only contains type, version 1
+      return getUnitByTypeLevelID(type, 0, ownerId);
+    } else { // compatible for version2, Soldier level 6
+      return getUnitByTypeLevelID(info[0], Integer.parseInt(info[2]), ownerId);
+    }
+  }
+
+  @Override
+  public Unit getUnitByTypeLevelID(String type, int level, long ownerId) {
+    for (Unit u : this.getUnits()) {
+      if (u.getType().equals(type) && u.getLevel() == level && u.getOwnerId() == ownerId) {
+        return u;
+      }
+    }
     return null;
   }
 

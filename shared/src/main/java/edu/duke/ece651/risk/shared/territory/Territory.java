@@ -117,4 +117,8 @@ public interface Territory extends Serializable {
    * @return
    */
   public String tryUpgradeUnitToLevel(Unit toUpgrade, int toLevel);
+
+  public Unit getUnitByTypeAndID(String type, long ownerId);
+
+  public Unit getUnitByTypeLevelID(String type, int level, long ownerId);
 }
