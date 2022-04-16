@@ -215,7 +215,7 @@ public class APIGameHandler {
             return "Failed to place the orders! Place action invalid right now!";
         }
 
-        System.out.println("PreProcessing Orders...\n" + orders.get(0).getAllianceID());
+//        System.out.println("PreProcessing Orders...\n" + orders.get(0).getAllianceID());
 
         //try execute orders on clone map
         RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
@@ -227,7 +227,7 @@ public class APIGameHandler {
             commitedPlayer.add(clientID);
             //if all players committed
             if (commitedPlayer.size() == roomSize) {
-                System.out.println("PreProcessing All Orders...\n" + temporaryOrders.get(0).getAllianceID());
+//                System.out.println("PreProcessing All Orders...\n" + temporaryOrders.get(0).getAllianceID());
                 tryExecuteOrder(temporaryOrders, riskMap);
                 fightBattlesInAllTerritory();
                 increaseOneInAllTerritory();

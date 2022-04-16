@@ -56,7 +56,12 @@ class unitPlace extends Component {
                     }
                 }
             } else {
-                enemyTerritory.push(territory.name);
+                if (this.props.room.riskMap.owners[AuthService.getCurrentUser().id].alliance.includes(territory.ownerID)){
+                    ownTerritory.push((territory.name));
+                }
+                else {
+                    enemyTerritory.push(territory.name);
+                }
             }
         }
         let otherPlayers = [];
