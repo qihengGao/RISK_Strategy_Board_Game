@@ -63,7 +63,6 @@ public class AttackOrderTest {
             BF.resetAttackersList();
 //            assertNull(BF.getAttackers().get(o.getPlayerID()));
 
-
         }
 
 
