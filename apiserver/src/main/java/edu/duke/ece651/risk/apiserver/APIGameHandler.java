@@ -24,7 +24,7 @@ public class APIGameHandler {
 
     //RISK game related fields
     private ArrayList<Color> predefineColorList = new ArrayList<>();
-    private Set<Long> players; //all joined players
+    private HashSet<Long> players; //all joined players
     private TreeMap<Long, Color> idToColor; //player id to color
 
     private String currentState; //game's current state
@@ -63,7 +63,7 @@ public class APIGameHandler {
         return players;
     }
 
-    public void setPlayers(Set<Long> players) {
+    public void setPlayers(HashSet<Long> players) {
         this.players = players;
     }
 
@@ -188,7 +188,9 @@ public class APIGameHandler {
         }
 
         for (String territoryName : unitPlaceOrders.keySet()) {
-            riskMap.getTerritoryByName(territoryName).tryAddUnit(new BasicUnit("Soldier", unitPlaceOrders.get(territoryName)));
+            BasicUnit newUnit = new BasicUnit("Soldier", unitPlaceOrders.get(territoryName));
+            newUnit.setOwnerId(clientID);
+            riskMap.getTerritoryByName(territoryName).tryAddUnit(newUnit);
         }
         commitedPlayer.add(clientID);
         if (commitedPlayer.size() == roomSize) {
@@ -213,7 +215,7 @@ public class APIGameHandler {
             return "Failed to place the orders! Place action invalid right now!";
         }
 
-        System.out.println("PreProcessing Orders...");
+//        System.out.println("PreProcessing Orders...\n" + orders.get(0).getAllianceID());
 
         //try execute orders on clone map
         RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
@@ -225,6 +227,7 @@ public class APIGameHandler {
             commitedPlayer.add(clientID);
             //if all players committed
             if (commitedPlayer.size() == roomSize) {
+//                System.out.println("PreProcessing All Orders...\n" + temporaryOrders.get(0).getAllianceID());
                 tryExecuteOrder(temporaryOrders, riskMap);
                 fightBattlesInAllTerritory();
                 increaseOneInAllTerritory();
@@ -269,14 +272,34 @@ public class APIGameHandler {
         ArrayList<Order> moveOrUpgradeOrder = new ArrayList<>();
         ArrayList<Order> attackOrder = new ArrayList<>();
         ArrayList<Order> upgradeMaxTechOrder = new ArrayList<>();
+        ArrayList<Order> allianceOrder = new ArrayList<>();
 
         for (Order order : orders) {
             if (Objects.equals(order.getOrderType(), "Move") || Objects.equals(order.getOrderType(), "Upgrade Unit"))
                 moveOrUpgradeOrder.add(order);
-            if (Objects.equals(order.getOrderType(), "Attack"))
+            else if (Objects.equals(order.getOrderType(), "Attack"))
                 attackOrder.add(order);
-            if (order.getOrderType().equals("Upgrade Tech Level"))
+            else if (order.getOrderType().equals("Upgrade Tech Level"))
                 upgradeMaxTechOrder.add(order);
+            else if (order.getOrderType().equals("Form Alliance"))
+                allianceOrder.add(order);
+        }
+
+        for (Order order : allianceOrder){
+            String errorMessage = order.executeOrder(tmpRiskMap);
+            if (errorMessage != null) {
+                String showError = "Your order: " + order + " is illegal!\n"
+                        + errorMessage;
+                return showError;
+            }
+        }
+
+        for (Long id : tmpRiskMap.getOwners().keySet()){
+            for (Long allianceID: tmpRiskMap.getOwners().get(id).getAlliance()){
+                if (!tmpRiskMap.getOwners().get(allianceID).getAlliance().contains(id)){
+                    tmpRiskMap.getOwners().get(id).getAlliance().remove(allianceID);
+                }
+            }
         }
 
         for (Order order : moveOrUpgradeOrder) {
@@ -419,7 +442,9 @@ public class APIGameHandler {
      */
     public void increaseOneInAllTerritory() {
         for (Territory t : riskMap.getContinent()) {
-            t.tryAddUnit(new BasicUnit("Soldier", 1));
+            BasicUnit newUnit = new BasicUnit("Soldier", 1);
+            newUnit.setOwnerId(t.getOwnerID());
+            t.tryAddUnit(newUnit);
         }
     }
 

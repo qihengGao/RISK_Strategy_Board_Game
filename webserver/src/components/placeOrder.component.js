@@ -35,6 +35,12 @@ class unitPlace extends Component {
      * set the default values or choosable value for the grid cell data
      */
     componentDidMount() {
+        let orderChoices = ["Move", "Attack", "Upgrade Unit", "Upgrade Tech Level"];
+        // console.log("ROOMSIZE:", Object.keys(this.props.room.idToColor).length)
+        if (Object.keys(this.props.room.idToColor).length > 2){
+            orderChoices.push("Form Alliance");
+        }
+
         let allTerritory = [];
         let enemyTerritory = [];
         let ownTerritory = [];
@@ -50,10 +56,23 @@ class unitPlace extends Component {
                     }
                 }
             } else {
-                enemyTerritory.push(territory.name);
+                if (this.props.room.riskMap.owners[AuthService.getCurrentUser().id].alliance.includes(territory.ownerID)){
+                    ownTerritory.push((territory.name));
+                }
+                else {
+                    enemyTerritory.push(territory.name);
+                }
             }
         }
-        this.setState(prevState => ({
+        let otherPlayers = [];
+        for (var id in this.props.room.idToColor){
+            if (id != AuthService.getCurrentUser().id){
+                console.log("Other player", id);
+                otherPlayers.push(this.props.room.idToColor[id].colorName)
+            }
+        }
+
+            this.setState(prevState => ({
             columns: [
                 {field: 'id', headerName: 'ID', width: 30},
                 {
@@ -62,7 +81,7 @@ class unitPlace extends Component {
                     width: 100,
                     editable: true,
                     type: "singleSelect",
-                    valueOptions: ["Move", "Attack", "Upgrade Unit", "Upgrade Tech Level"]
+                    valueOptions: orderChoices
                 },
                 {
                     field: 'source',
@@ -73,7 +92,8 @@ class unitPlace extends Component {
                     //valueOptions: ownTerritory
                     valueOptions: ({row}) => {
                         if (row === undefined ||
-                            row.orderType === "Upgrade Tech Level") {
+                            row.orderType === "Upgrade Tech Level" ||
+                            row.orderType === "Form Alliance") {
                             return [];
                         }
                         return ownTerritory;
@@ -88,7 +108,8 @@ class unitPlace extends Component {
                     valueOptions: ({row}) => {
                         if (row === undefined ||
                             row.orderType === "Upgrade Unit" ||
-                            row.orderType === "Upgrade Tech Level") {
+                            row.orderType === "Upgrade Tech Level" ||
+                            row.orderType === "Form Alliance") {
                             return [];
                         }
                         if (row.orderType === "Move") {
@@ -107,7 +128,8 @@ class unitPlace extends Component {
                     type: "singleSelect",
                     valueOptions: ({row}) => {
                         if (row === undefined ||
-                            row.orderType === "Upgrade Tech Level") {
+                            row.orderType === "Upgrade Tech Level" ||
+                            row.orderType === "Form Alliance") {
                             return [];
                         }
                         return myUnitTypes;
@@ -123,6 +145,19 @@ class unitPlace extends Component {
                     valueOptions: ({row}) => {
                         if (row.orderType === "Upgrade Unit") {
                             return [1, 2, 3, 4, 5, 6];
+                        }
+                        return [];
+                    }
+                },
+                {
+                    field: 'allianceWith',
+                    headerName: 'Target Player',
+                    width: 110,
+                    editable: true,
+                    type: "singleSelect",
+                    valueOptions: ({row}) => {
+                        if (row.orderType === "Form Alliance") {
+                            return otherPlayers;
                         }
                         return [];
                     }
@@ -172,7 +207,8 @@ class unitPlace extends Component {
                 target: null,
                 unitType: null,
                 unitAmount: null,
-                toLevel: null
+                toLevel: null,
+                allianceWith: null
             }],
             idCounter: prevState.idCounter + 1
         }))
@@ -272,9 +308,16 @@ class unitPlace extends Component {
     }
 
     handleCommit(e) {
+        const ColorToId = new Map();
+        for (var id in this.props.room.idToColor){
+            ColorToId.set(this.props.room.idToColor[id].colorName, id)
+        }
+        console.log("ColorToID:",ColorToId);
 
         let orders = [];
+        console.log("logging", this.props.room);
         for (const row of this.state.rows) {
+            console.log("row alliance",row.allianceWith);
             orders.push({
                 srcTerritory: row.source,
                 destTerritory: row.target,
@@ -282,7 +325,8 @@ class unitPlace extends Component {
                 unitAmount: row.unitAmount,
                 playerID: AuthService.getCurrentUser().id,
                 orderType: row.orderType,
-                toLevel: row.upLevel
+                toLevel: row.upLevel,
+                allianceID: ColorToId.get(row.allianceWith)
             })
         }
         console.log(orders);
