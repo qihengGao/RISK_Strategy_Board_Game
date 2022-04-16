@@ -36,16 +36,20 @@ public class PathExistMoveCheckerTest {
     Order order_to_self = new MoveOrder(0, "Test0", "Test0", "Unit", 2);
     assertEquals(pathChecker.checkMove(riskMap, order_to_self), "You cannot move within same territory!");
 
-    displayMap(riskMap);
+    // can move to alliance's continent
+    riskMap.getOwners().get(0L).formAlliance(1L);
+    riskMap.getOwners().get(1L).formAlliance(0L);
+    assertNull(pathChecker.checkMove(riskMap, order_not_owned));
+
+//    displayMap(riskMap);
 
     //test long path (not adjacent)
     riskMap.getTerritoryByName("Test4").tryChangeOwnerTo(0L);
     riskMap.getTerritoryByName("Test5").tryChangeOwnerTo(0L);
-    displayMap(riskMap);
+//    displayMap(riskMap);
     Order order_long = new MoveOrder(0, "Test0", "Test1", "Unit", 2);
     assertEquals(order_long.executeOrder(riskMap), null);
-    displayMap(riskMap);
-    
+//    displayMap(riskMap);
   }
 
   private RISKMap buildTestMap(){

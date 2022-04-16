@@ -2,6 +2,7 @@ package edu.duke.ece651.risk.shared.checker;
 
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.order.Order;
+import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.territory.Territory;
 
 import java.util.ArrayList;
@@ -47,8 +48,10 @@ public class PathResourceMoveChecker extends ActionChecker {
     Territory end = null;
     for (String tName: curr.getNeighbors()){
       Territory t = riskMap.getTerritoryByName(tName);
-      if (!visited.contains(t) && t.getOwnerID().equals(ID)){
+//      if (!visited.contains(t) && t.getOwnerID().equals(ID)){
+      if (!visited.contains(t) && (ownBySelf(t, ID) || ownByAlliance(riskMap, t, ID))){
         end = dfsToDst(riskMap, ID, t, dstName, visited);
+
         if (end!=null){
           return end;
         }
@@ -92,7 +95,8 @@ public class PathResourceMoveChecker extends ActionChecker {
     // a hashmap to store distance to the territory, initalize to infinity
     HashMap<Territory, Integer> distances = new HashMap<Territory, Integer>();
     for(Territory territory: territories){
-      if(territory.getOwnerID().equals(ownerId)){
+//      if(territory.getOwnerID().equals(ownerId)){
+      if(ownBySelf(territory, ownerId) || ownByAlliance(riskMap, territory, ownerId)) {
         distances.put(territory, Integer.MAX_VALUE);
       }
     }
@@ -103,7 +107,8 @@ public class PathResourceMoveChecker extends ActionChecker {
     // a hashset to record each territory's parent
     HashMap<Territory, Territory> parents = new HashMap<>();
     for(Territory territory: territories){
-      if(territory.getOwnerID().equals(ownerId)) {
+//      if(territory.getOwnerID().equals(ownerId)) {
+      if(ownBySelf(territory, ownerId) || ownByAlliance(riskMap, territory, ownerId)) {
         parents.put(territory, null);
       }
     }
@@ -119,7 +124,8 @@ public class PathResourceMoveChecker extends ActionChecker {
       Iterable<String> neighborStrs = currTerritory.getNeighbors();
       for(String neighborStr: neighborStrs){
         Territory neighbor = riskMap.getTerritoryByName(neighborStr);
-        if(neighbor.getOwnerID().equals(ownerId)) {
+        // approachable neighbor: own / alliance
+        if(ownBySelf(neighbor, ownerId) || ownByAlliance(riskMap, neighbor, ownerId)) {
           if (distances.get(currTerritory) + neighbor.getSize() < distances.get(neighbor)) {
             distances.put(neighbor, distances.get(currTerritory) + neighbor.getSize());
             parents.put(neighbor, currTerritory);
@@ -128,6 +134,14 @@ public class PathResourceMoveChecker extends ActionChecker {
       }
     }
     return parents;
+  }
+
+  private boolean ownBySelf(Territory territory, long ownerId) {
+    return territory.getOwnerID().equals(ownerId);
+  }
+
+  private boolean ownByAlliance(RISKMap riskMap, Territory territory, long ownerId) {
+    return riskMap.getOwners().getOrDefault(ownerId, new Owner(-1L)).getAlliance().contains(territory.getOwnerID());
   }
 
   /**

@@ -1,5 +1,7 @@
 package edu.duke.ece651.risk.shared.unit;
 
+import edu.duke.ece651.risk.shared.territory.Color;
+
 import java.io.Serializable;
 
 /**
@@ -69,4 +71,26 @@ public interface Unit extends Serializable{
      * @return
      */
     public int getCostToLevel(int level);
+
+    /**
+     * Return the ownerId where the unit belongs to.
+     * @return
+     */
+    public long getOwnerId();
+
+    /**
+     * Set current unit to a specified ownerId.
+     * @param ownerId
+     */
+    public void setOwnerId(long ownerId);
+
+    /**
+     * Get the color info of the unit.
+     */
+    public Color getColor();
+
+    /**
+     * Set the unit to a specified color.
+     */
+    public void setColor(Color color);
 }

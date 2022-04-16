@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.shared.unit;
 
 import edu.duke.ece651.risk.shared.territory.BasicTerritory;
+import edu.duke.ece651.risk.shared.territory.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,12 +12,27 @@ import java.util.Objects;
  */
 public class BasicUnit implements Unit {
     //unit information
+    private long ownerId;
+    private Color color;
     private final String unitType;
     private final int levelBound;
     private int level;
     private int amount;
     private int[] predefinedBonus = new int[] {0, 1, 3, 5, 8, 11, 15};
     private int[] predefinedAccumulativeCosts = new int[] {0, 3, 11, 30, 55, 90, 140};
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BasicUnit basicUnit = (BasicUnit) o;
+        return ownerId == basicUnit.ownerId && level == basicUnit.level && unitType.equals(basicUnit.unitType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ownerId, unitType, level);
+    }
 
     /**
      * Contructor for the Basic Unit.
@@ -35,6 +51,8 @@ public class BasicUnit implements Unit {
             this.unitType = info[0];
             this.level = Integer.parseInt(info[2]);
         }
+        this.ownerId = -1;
+        this.color = null;
     }
 
     public BasicUnit(String unitType, int amount, int level) {
@@ -47,9 +65,11 @@ public class BasicUnit implements Unit {
      * setters/ getters
      * @param amount
      */
+    @Override
     public void setAmount(int amount) {
         this.amount = amount;
     }
+    @Override
     public void setLevel(int level) {
         this.level = level;
     }
@@ -60,6 +80,22 @@ public class BasicUnit implements Unit {
     @Override
     public int getLevel() {
         return this.level;
+    }
+    @Override
+    public Color getColor() {
+        return color;
+    }
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
+    }
+    @Override
+    public long getOwnerId() {
+        return ownerId;
+    }
+    @Override
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
     }
 
     /**
@@ -136,28 +172,11 @@ public class BasicUnit implements Unit {
         result.append(this.getLevel());
         result.append(" ");
         result.append(this.getType());
+        if (this.getColor() != null) { // compatible for previous test
+            result.append(" ");
+            result.append("(").append(this.getColor().getColorName()).append(")");
+        }
         return result.toString();
     }
 
-    /**
-     * compare units
-     * @param o
-     * @return
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BasicUnit basicUnit = (BasicUnit) o;
-        return level == basicUnit.level && Objects.equals(unitType, basicUnit.unitType);
-    }
-
-    /**
-     * overrode hashcode
-     * @return
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(unitType, level);
-    }
 }
