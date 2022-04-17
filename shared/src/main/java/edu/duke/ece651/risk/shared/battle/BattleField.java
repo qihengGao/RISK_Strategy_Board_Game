@@ -1,11 +1,14 @@
 package edu.duke.ece651.risk.shared.battle;
 
+import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.Unit;
 import edu.duke.ece651.risk.shared.unit.UnitComparator;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 // summarize attack ->
@@ -65,16 +68,24 @@ public class BattleField implements Serializable {
      * @param toAdd
      */
     public void addAttacker(Long id, Unit toAdd) {
-        if (!this.attackers.containsKey(id)) {
-            this.attackers.put(id, new TreeSet<Unit>(new UnitComparator()));
+        addAttacker(new HashSet<Long>(), id, toAdd);
+    }
+
+    public void addAttacker(HashSet<Long> myAllies, Long id, Unit toAdd){
+        for (Long allyID : myAllies){
+            if (this.attackers.containsKey(allyID)){
+                id = allyID;
+            }
         }
-        TreeSet<Unit> unitsAlreadyIn = this.attackers.get(id);
-        for (Unit u : unitsAlreadyIn){
+
+        TreeSet<Unit> IDattackerList = this.attackers.getOrDefault(id, new TreeSet<>(new UnitComparator()));
+        for (Unit u : IDattackerList){
             if (u.equals(toAdd)){
                 u.tryIncreaseAmount(toAdd.getAmount());
             }
         }
-        unitsAlreadyIn.add(toAdd);
+        IDattackerList.add(toAdd);
+        this.attackers.put(id, IDattackerList);
     }
 
     /**

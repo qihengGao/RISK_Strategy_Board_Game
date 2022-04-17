@@ -9,6 +9,8 @@ import edu.duke.ece651.risk.shared.unit.Unit;
 import edu.duke.ece651.risk.shared.unit.UnitComparator;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,7 +37,11 @@ class BattleFieldTest {
         assertSame(BF.getAttackers().get((long) 0).first(), toadd1);
         assertEquals(BF.getAttackers().get((long) 0).first().getAmount(), 20);
 
-
+        //with ally info
+        BF.addAttacker(new HashSet<Long>(Arrays.asList(0L,4L)), 2L, toadd2);
+        assertEquals(BF.getAttackers().get((long) 0).size(), 1);//assert 30 attackers in battlefield
+        assertSame(BF.getAttackers().get((long) 0).first(), toadd1);
+        assertEquals(BF.getAttackers().get((long) 0).first().getAmount(), 30);
     }
 
     @Test

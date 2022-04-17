@@ -53,7 +53,8 @@ public class AttackOrder extends Order {
             sourceTerritoryUnit.tryDecreaseAmount(this.unitAmount);
             Unit Attackers = new BasicUnit(this.unitType, this.unitAmount);
             Attackers.setOwnerId(this.playerID);
-            destinationTerritory.getBattleField().addAttacker(this.playerID, Attackers);
+            destinationTerritory.getBattleField().addAttacker(riskMap.getOwners().get(this.playerID).getAlliance(),
+                    this.playerID, Attackers);
         }
         return check_message;
     }
