@@ -1,12 +1,13 @@
 package edu.duke.ece651.risk.shared.map;
 
+import edu.duke.ece651.risk.shared.checker.PathResourceMoveChecker;
 import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.territory.Territory;
+import edu.duke.ece651.risk.shared.unit.BasicUnit;
+import edu.duke.ece651.risk.shared.unit.Unit;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.awt.image.AreaAveragingScaleFilter;
+import java.util.*;
 
 public class RISKMap implements GameMap {
   private final HashSet<Territory> continent;
@@ -24,27 +25,30 @@ public class RISKMap implements GameMap {
 
   /**
    * try to add a new owner to save player's tech level, total resources, etc.
+   *
    * @param owner
    * @return boolean: true if successfully added; false if not
    */
-  public void tryAddOwner(Owner owner){
+  public void tryAddOwner(Owner owner) {
     owners.put(owner.getOwnerId(), owner);
   }
 
   /**
    * get the number of continents in the map
+   *
    * @return int
-   */  
+   */
   public int getNumOfContinents() {
     return this.continent.size();
   }
 
   /**
    * Try to add territory into continent
+   *
    * @return true if succeed
    */
   public boolean tryAddTerritory(Territory newTerr) {
-    if(this.continent.contains(newTerr)){
+    if (this.continent.contains(newTerr)) {
       this.continent.remove(newTerr);
     }
     this.continent.add(newTerr);
@@ -53,6 +57,7 @@ public class RISKMap implements GameMap {
 
   /**
    * get the territory object by the name of territory
+   *
    * @param name: String
    * @return territory if exist, null if not
    */
@@ -67,6 +72,7 @@ public class RISKMap implements GameMap {
 
   /**
    * get the iterable of all territories in continent
+   *
    * @return Iterable<Territory>
    */
   public Iterable<Territory> getContinent() {
@@ -74,9 +80,10 @@ public class RISKMap implements GameMap {
     Collections.sort(result, new TerritoryNameComparator());
     return result;
   }
-  
+
   /**
    * get the iterable of territories by owner ID
+   *
    * @param id: int
    * @return Iterable<Territory>
    */
@@ -90,61 +97,113 @@ public class RISKMap implements GameMap {
     Collections.sort(ownedByMe, new TerritoryNameComparator());
     return ownedByMe;
   }
-  
+
   /**
    * Add two territories as neighbors
    */
-  public void connectTerr(String terr1, String terr2){
+  public void connectTerr(String terr1, String terr2) {
     Territory t1 = getTerritoryByName(terr1);
     Territory t2 = getTerritoryByName(terr2);
     t1.tryAddNeighbor(terr2);
     t2.tryAddNeighbor(terr1);
   }
 
-  /**
-   * check the validity of path from src to dst
-   * @param src (String): path origin
-   * @param dst (String): path destination
-   * @return pair of territory if exist such path; null if not
-   */
-  public HashMap<Territory, Territory> getPath(String src, String dst){
-    Territory start = getTerritoryByName(src);
-    Territory end = getTerritoryByName(dst);
-    if (start == null || end == null){
-      return null;
+  public void handleBreakAlliance(Long ownerID1, Long ownerID2) {
+    for (Territory t : continent) {
+      terrBreakAlliance(ownerID1, ownerID2, t);
     }
-    HashSet<Territory> visited = new HashSet<Territory>(); 
-    end = dfsToDst(start, dst, visited);
-    if (start.equals(end) || end == null){
-      return null;
-    }
-    HashMap<Territory, Territory> ans = new HashMap<Territory, Territory>();
-    ans.put(start, end);
-    return ans;
+    this.owners.get(ownerID1).breakAlliance(ownerID2);
+    this.owners.get(ownerID2).breakAlliance(ownerID1);
   }
 
-  /**
-   * dfs for path from curr territory to the destination
-   * @param curr
-   * @param dst
-   * @param visited
-   * @return
-   */
-  private Territory dfsToDst(Territory curr, String dst, HashSet<Territory> visited){
-    if (curr.getName().equals(dst)){
-      return getTerritoryByName(dst);
+  public void terrBreakAlliance(Long ownerID1, Long ownerID2, Territory t) {
+    if (!t.getOwnerID().equals(ownerID1) && !t.getOwnerID().equals(ownerID2)){
+      return;
     }
-    visited.add(curr);
-    Territory end;
-    for (String tName: curr.getNeighbors()){
-      Territory t = getTerritoryByName(tName);
-      if (!visited.contains(t)){
-        end = dfsToDst(t, dst, visited);
-        if (end!=null){
-          return end;
+    Long guest = ownerID2;
+    if (t.getOwnerID().equals(ownerID2)){
+      guest = ownerID1;
+    }
+
+    for (Unit u : t.getUnits()) {
+      if (u.getOwnerId()==guest){
+        HashMap<Territory, Integer> distance = doDijkstra(t);
+        Territory closestMyTerr = getMyClosestTerr(distance, guest);
+        //move unit u from t to closestTerr
+        Unit toMove = new BasicUnit(u.getType(), u.getAmount());
+        u.tryDecreaseAmount(u.getAmount());
+        toMove.setOwnerId(guest);
+        closestMyTerr.tryAddUnit(toMove);
+      }
+    }
+  }
+
+  public Territory getMyClosestTerr(HashMap<Territory, Integer> distance, Long myID) {
+    int minimumDistance = Integer.MAX_VALUE;
+    Territory toReturn = null;
+
+    for (Territory territory : distance.keySet()) {
+      if (distance.get(territory) < minimumDistance && territory.getOwnerID().equals(myID)) {
+        toReturn = territory;
+        minimumDistance = distance.get(territory);
+      }
+    }
+
+    return toReturn;
+  }
+
+
+  /**
+   * helper method to use djikstra's algorithm
+   * to get each territory's parent along the shortest path
+   *
+   * @return hashmap for each territory's distance from source
+   */
+  public HashMap<Territory, Integer> doDijkstra(Territory source) {
+    // a hashmap to store distance from source to the territory, initalize to infinity
+    HashMap<Territory, Integer> distances = new HashMap<Territory, Integer>();
+    for (Territory territory : continent) {
+      distances.put(territory, Integer.MAX_VALUE);
+    }
+
+    // set the distance from source -> source to 0
+    distances.put(source, 0);
+
+    //build a set of unsettled territory
+    ArrayList<Territory> queue = (ArrayList<Territory>) this.getContinent();
+
+    while (!queue.isEmpty()) {
+      Territory currTerritory = getMinimumDistanceTerritory(distances, queue);
+      queue.remove(currTerritory);
+
+      for (String neighborName : currTerritory.getNeighbors()) {
+        Territory neighbor = this.getTerritoryByName(neighborName);
+        if (distances.get(currTerritory) + neighbor.getSize() < distances.get(neighbor)) {
+          distances.put(neighbor, distances.get(currTerritory) + neighbor.getSize());
         }
       }
     }
-    return null;
+    return distances;
+  }
+
+  /**
+   * //   * helper method to get the next node to compute path
+   * //   * @param distances
+   * //   * @param queue
+   * //   * @return the node to continuing computing path
+   * //
+   */
+  private Territory getMinimumDistanceTerritory(
+          HashMap<Territory, Integer> distances, ArrayList<Territory> queue) {
+    int minimumDistance = Integer.MAX_VALUE;
+    Territory toReturn = null;
+
+    for (Territory territory : distances.keySet()) {
+      if (distances.get(territory) < minimumDistance && queue.contains(territory)) {
+        toReturn = territory;
+        minimumDistance = distances.get(territory);
+      }
+    }
+    return toReturn;
   }
 }

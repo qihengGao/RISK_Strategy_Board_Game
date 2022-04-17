@@ -108,6 +108,8 @@ class PathResourceMoveCheckerTest {
         riskMap.connectTerr("terr3", "terr5");
         riskMap.connectTerr("terr4", "terr5");
 
+        displayMap(riskMap);
+
         PathResourceMoveChecker checker = new PathResourceMoveChecker(null);
         HashMap<Territory, Territory> parents = checker.doDijkstra(riskMap, 0L, territory1);
         ArrayList<Territory> actualPath = checker.getPathFromSrcToDest(parents, territory1, territory4);

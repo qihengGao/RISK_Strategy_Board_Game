@@ -50,9 +50,11 @@ public class MoveOrder extends Order {
     if (check_message == null){
       Territory sourceTerritory = riskMap.getTerritoryByName(this.srcTerritory);
       Territory destinationTerritory = riskMap.getTerritoryByName(this.destTerritory);
-      Unit sourceTerritoryUnit = sourceTerritory.getUnitByType(this.unitType);
+//      Unit sourceTerritoryUnit = sourceTerritory.getUnitByType(this.unitType);
+      Unit sourceTerritoryUnit = sourceTerritory.getUnitByTypeAndID(this.unitType, this.playerID);
       sourceTerritoryUnit.tryDecreaseAmount(this.unitAmount);
       Unit toAdd = new BasicUnit(this.unitType, this.unitAmount);
+      toAdd.setOwnerId(this.playerID);
       destinationTerritory.tryAddUnit(toAdd);
     }
     return check_message;

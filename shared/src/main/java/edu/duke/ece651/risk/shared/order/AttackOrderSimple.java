@@ -30,6 +30,7 @@ public class AttackOrderSimple extends Order {
       if (difference>0){
         destinationTerritoryUnit.tryDecreaseAmount(destinationTerritoryUnit.getAmount());
         destinationTerritoryUnit.tryIncreaseAmount(difference);
+        destinationTerritoryUnit.setOwnerId(this.playerID);
         destinationTerritory.tryChangeOwnerTo(this.playerID);
       }
       else {

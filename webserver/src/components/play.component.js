@@ -179,10 +179,16 @@ export default class play extends Component {
                     });
                     //console.log(this.refs.main)
                     let columnarChart = echarts.init(this.refs.main);
+                    let allianceColors = [];
+                    for (const allianceID of response.data.riskMap.owners[AuthService.getCurrentUser().id].alliance){
+                        allianceColors.push(response.data.idToColor[allianceID].colorName)
+                    }
+                    console.log("allianceColors: ", allianceColors)
                     let option = {
                         title: {
                             //Todo: add round number
                             text: 'You are ' + response.data.idToColor[AuthService.getCurrentUser().id].colorName + ' player\n' +
+                                'Alliances: ' + allianceColors + '\n' +
                                 'Current Tech Level: ' + response.data.riskMap.owners[AuthService.getCurrentUser().id].currTechlevel + "\n" +
                                 'Current Food Resource: ' + response.data.riskMap.owners[AuthService.getCurrentUser().id].ownedFoodResource + "\n" +
                                 'Current Tech Resource: ' + response.data.riskMap.owners[AuthService.getCurrentUser().id].ownedTechResource
@@ -240,9 +246,9 @@ export default class play extends Component {
                         let label = "";
                         label += "Size:"+territory.size + "\n";
                         for (const unit of territory.units) {
-
-                            label += unit.amount + " " + unit.type + " level " + unit.level+"\n";
-
+                            if (unit.amount >0){
+                                label += response.data.idToColor[unit.ownerId].colorName + "'s" + unit.amount + " " + unit.type + " level " + unit.level+"\n";
+                            }
                         }
 
                         label += "Food Production:" + territory.foodProduction + "\n";

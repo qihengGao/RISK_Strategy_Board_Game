@@ -35,14 +35,20 @@ class unitPlace extends Component {
      * set the default values or choosable value for the grid cell data
      */
     componentDidMount() {
-        let allTerritory = [];
+        let orderChoices = ["Move", "Attack", "Upgrade Unit", "Upgrade Tech Level"];
+        // console.log("ROOMSIZE:", Object.keys(this.props.room.idToColor).length)
+        if (Object.keys(this.props.room.idToColor).length > 2){
+            orderChoices.push("Form Alliance");
+        }
+
         let enemyTerritory = [];
         let ownTerritory = [];
         let myUnitTypes = [];
+        let ownAndAllyTerr = [];
         for (const territory of this.props.room.riskMap.continent) {
-            allTerritory.push(territory.name);
             if (territory.ownerID === AuthService.getCurrentUser().id) {
                 ownTerritory.push(territory.name);
+                ownAndAllyTerr.push(territory.name);
                 for (let i = 0; i < 7; i++) {
                     let unitInfo = "Soldier" + " level " + i;
                     if (!myUnitTypes.includes(unitInfo)) {
@@ -50,10 +56,21 @@ class unitPlace extends Component {
                     }
                 }
             } else {
+                if (this.props.room.riskMap.owners[AuthService.getCurrentUser().id].alliance.includes(territory.ownerID)){
+                    ownAndAllyTerr.push(territory.name);
+                }
                 enemyTerritory.push(territory.name);
             }
         }
-        this.setState(prevState => ({
+        let otherPlayers = [];
+        for (var id in this.props.room.idToColor){
+            if (id != AuthService.getCurrentUser().id){
+                console.log("Other player", id);
+                otherPlayers.push(this.props.room.idToColor[id].colorName)
+            }
+        }
+
+            this.setState(prevState => ({
             columns: [
                 {field: 'id', headerName: 'ID', width: 30},
                 {
@@ -62,7 +79,7 @@ class unitPlace extends Component {
                     width: 100,
                     editable: true,
                     type: "singleSelect",
-                    valueOptions: ["Move", "Attack", "Upgrade Unit", "Upgrade Tech Level"]
+                    valueOptions: orderChoices
                 },
                 {
                     field: 'source',
@@ -73,10 +90,14 @@ class unitPlace extends Component {
                     //valueOptions: ownTerritory
                     valueOptions: ({row}) => {
                         if (row === undefined ||
-                            row.orderType === "Upgrade Tech Level") {
+                            row.orderType === "Upgrade Tech Level" ||
+                            row.orderType === "Form Alliance") {
                             return [];
                         }
-                        return ownTerritory;
+                        else if (row.orderType === "Attack"){
+                            return ownTerritory;
+                        }
+                        return ownAndAllyTerr;
                     }
                 },
                 {
@@ -88,11 +109,12 @@ class unitPlace extends Component {
                     valueOptions: ({row}) => {
                         if (row === undefined ||
                             row.orderType === "Upgrade Unit" ||
-                            row.orderType === "Upgrade Tech Level") {
+                            row.orderType === "Upgrade Tech Level" ||
+                            row.orderType === "Form Alliance") {
                             return [];
                         }
                         if (row.orderType === "Move") {
-                            return ownTerritory;
+                            return ownAndAllyTerr;
                         }
                         if (row.orderType === "Attack")
                             return enemyTerritory;
@@ -107,7 +129,8 @@ class unitPlace extends Component {
                     type: "singleSelect",
                     valueOptions: ({row}) => {
                         if (row === undefined ||
-                            row.orderType === "Upgrade Tech Level") {
+                            row.orderType === "Upgrade Tech Level" ||
+                            row.orderType === "Form Alliance") {
                             return [];
                         }
                         return myUnitTypes;
@@ -123,6 +146,19 @@ class unitPlace extends Component {
                     valueOptions: ({row}) => {
                         if (row.orderType === "Upgrade Unit") {
                             return [1, 2, 3, 4, 5, 6];
+                        }
+                        return [];
+                    }
+                },
+                {
+                    field: 'allianceWith',
+                    headerName: 'Target Player',
+                    width: 110,
+                    editable: true,
+                    type: "singleSelect",
+                    valueOptions: ({row}) => {
+                        if (row.orderType === "Form Alliance") {
+                            return otherPlayers;
                         }
                         return [];
                     }
@@ -172,7 +208,8 @@ class unitPlace extends Component {
                 target: null,
                 unitType: null,
                 unitAmount: null,
-                toLevel: null
+                toLevel: null,
+                allianceWith: null
             }],
             idCounter: prevState.idCounter + 1
         }))
@@ -272,9 +309,16 @@ class unitPlace extends Component {
     }
 
     handleCommit(e) {
+        const ColorToId = new Map();
+        for (var id in this.props.room.idToColor){
+            ColorToId.set(this.props.room.idToColor[id].colorName, id)
+        }
+        console.log("ColorToID:",ColorToId);
 
         let orders = [];
+        console.log("logging", this.props.room);
         for (const row of this.state.rows) {
+            console.log("row alliance",row.allianceWith);
             orders.push({
                 srcTerritory: row.source,
                 destTerritory: row.target,
@@ -282,7 +326,8 @@ class unitPlace extends Component {
                 unitAmount: row.unitAmount,
                 playerID: AuthService.getCurrentUser().id,
                 orderType: row.orderType,
-                toLevel: row.upLevel
+                toLevel: row.upLevel,
+                allianceID: ColorToId.get(row.allianceWith)
             })
         }
         console.log(orders);

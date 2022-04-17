@@ -83,14 +83,4 @@ public interface Unit extends Serializable{
      * @param ownerId
      */
     public void setOwnerId(long ownerId);
-
-    /**
-     * Get the color info of the unit.
-     */
-    public Color getColor();
-
-    /**
-     * Set the unit to a specified color.
-     */
-    public void setColor(Color color);
 }

@@ -10,6 +10,7 @@ import edu.duke.ece651.risk.shared.order.MoveOrder;
 import edu.duke.ece651.risk.shared.order.Order;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
+import edu.duke.ece651.risk.shared.unit.Unit;
 import org.junit.jupiter.api.Test;
 
 import java.util.TreeMap;
@@ -23,7 +24,9 @@ class ActionUnitCheckerTest {
         RISKMap riskMap = (RISKMap) tmf.createMapForNplayers(3);
         int count = 0;
         for (Territory t: riskMap.getContinent()){
-            t.tryAddUnit(new BasicUnit("Unit", 10));
+            Unit u = new BasicUnit("Unit", 10);
+            u.setOwnerId((long) (count / 3));
+            t.tryAddUnit(u);
             t.tryChangeOwnerTo((long) (count / 3));
             count++;
         }

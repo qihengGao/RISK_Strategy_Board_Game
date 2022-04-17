@@ -27,7 +27,7 @@ public class AttackOrder extends Order {
      * ctor to specify the chain of rules for this attack order
      */
     public AttackOrder() {
-        this.attackChecker = new TerrExistChecker(new SrcOwnershipChecker(new ActionUnitChecker(new PathExistAttackChecker(new PathResourceAttackChecker(null)))));
+        this.attackChecker = new TerrExistChecker(new SrcOwnershipAttackChecker(new ActionUnitChecker(new PathExistAttackChecker(new PathResourceAttackChecker(null)))));
     }
 
     /**
@@ -45,9 +45,14 @@ public class AttackOrder extends Order {
             Territory sourceTerritory = riskMap.getTerritoryByName(this.srcTerritory);
             Territory destinationTerritory = riskMap.getTerritoryByName(this.destTerritory);
 
-            Unit sourceTerritoryUnit = sourceTerritory.getUnitByType(this.unitType);
+            if(riskMap.getOwners().get(this.playerID).getAlliance().contains(destinationTerritory.getOwnerID())){
+                riskMap.handleBreakAlliance(this.playerID, destinationTerritory.getOwnerID());
+            }
+
+            Unit sourceTerritoryUnit = sourceTerritory.getUnitByTypeAndID(this.unitType, this.playerID);
             sourceTerritoryUnit.tryDecreaseAmount(this.unitAmount);
             Unit Attackers = new BasicUnit(this.unitType, this.unitAmount);
+            Attackers.setOwnerId(this.playerID);
             destinationTerritory.getBattleField().addAttacker(this.playerID, Attackers);
         }
         return check_message;

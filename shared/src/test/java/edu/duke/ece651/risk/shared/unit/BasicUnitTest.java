@@ -133,8 +133,5 @@ public class BasicUnitTest {
   public void test_color() {
     Unit u = new BasicUnit("a level 2", 5);
     assertEquals("5 lv.2 a", u.toString());
-    assertNull(u.getColor());
-    u.setColor(new Color("Red"));
-    assertEquals("5 lv.2 a (Red)", u.toString());
   }
 }

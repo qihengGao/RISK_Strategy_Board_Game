@@ -31,6 +31,14 @@ public class PathResourceMoveChecker extends ActionChecker {
     }
 
 
+  private boolean ownBySelf(Territory territory, long ownerId) {
+    return territory.getOwnerID().equals(ownerId);
+  }
+
+  private boolean ownByAlliance(RISKMap riskMap, Territory territory, long ownerId) {
+    return riskMap.getOwners().getOrDefault(ownerId, new Owner(-1L)).getAlliance().contains(territory.getOwnerID());
+  }
+
   /**
    * Depth First Search used to build unsettled set of territories connected and own by player (ID)
    * @param riskMap the map to operate on
@@ -134,14 +142,6 @@ public class PathResourceMoveChecker extends ActionChecker {
       }
     }
     return parents;
-  }
-
-  private boolean ownBySelf(Territory territory, long ownerId) {
-    return territory.getOwnerID().equals(ownerId);
-  }
-
-  private boolean ownByAlliance(RISKMap riskMap, Territory territory, long ownerId) {
-    return riskMap.getOwners().getOrDefault(ownerId, new Owner(-1L)).getAlliance().contains(territory.getOwnerID());
   }
 
   /**

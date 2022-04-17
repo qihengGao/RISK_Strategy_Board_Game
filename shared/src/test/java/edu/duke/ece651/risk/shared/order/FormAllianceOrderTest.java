@@ -40,11 +40,13 @@ class FormAllianceOrderTest {
         assertTrue(map.getOwners().get(0L).getAlliance().contains(1L));
         assertFalse(map.getOwners().get(1L).getAlliance().contains(0L));
 
-        allianceOrder.setAllianceID(0L);
-        assertEquals(allianceOrder.getAllianceID(), 0L);
-        assertEquals(allianceOrder.executeOrder(map), "Invalid target alliance!");
+        Order allianceOrder2 = new FormAllianceOrder();
+        allianceOrder2.setPlayerID(0L);
+        allianceOrder2.setAllianceID(0L);
+        assertEquals(allianceOrder2.getAllianceID(), 0L);
+        assertEquals(allianceOrder2.executeOrder(map), "Invalid target alliance!");
 
-        allianceOrder.setAllianceID(1L);
-        assertEquals(allianceOrder.executeOrder(map), "Invalid target alliance!");
+        allianceOrder2.setAllianceID(1L);
+        assertEquals(allianceOrder2.executeOrder(map), "Invalid target alliance!");
     }
 }
