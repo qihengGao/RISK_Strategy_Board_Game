@@ -49,7 +49,7 @@ public class SufficientResourceForUpgradeCheckerTest {
 
         // error: insufficient resource
         UpgradeUnitOrder orderInsufficientResource = new UpgradeUnitOrder(0L, "Test1", "Soldier", 10, 2);
-        expectedMessage = "Insufficient resource to upgrade 10 lv.0 Soldier";
+        expectedMessage = "Insufficient resource to upgrade -1's 10 lv.0 Soldier";
         actualMessage = checker.checkMove(riskMap, orderInsufficientResource);
         assertEquals(expectedMessage, actualMessage);
 

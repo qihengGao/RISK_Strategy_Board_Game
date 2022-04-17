@@ -45,7 +45,10 @@ public class AttackOrder extends Order {
             Territory sourceTerritory = riskMap.getTerritoryByName(this.srcTerritory);
             Territory destinationTerritory = riskMap.getTerritoryByName(this.destTerritory);
 
-//            Unit sourceTerritoryUnit = sourceTerritory.getUnitByType(this.unitType);
+            if(riskMap.getOwners().get(this.playerID).getAlliance().contains(destinationTerritory.getOwnerID())){
+                riskMap.handleBreakAlliance(this.playerID, destinationTerritory.getOwnerID());
+            }
+
             Unit sourceTerritoryUnit = sourceTerritory.getUnitByTypeAndID(this.unitType, this.playerID);
             sourceTerritoryUnit.tryDecreaseAmount(this.unitAmount);
             Unit Attackers = new BasicUnit(this.unitType, this.unitAmount);

@@ -41,14 +41,14 @@ class unitPlace extends Component {
             orderChoices.push("Form Alliance");
         }
 
-        let allTerritory = [];
         let enemyTerritory = [];
         let ownTerritory = [];
         let myUnitTypes = [];
+        let ownAndAllyTerr = [];
         for (const territory of this.props.room.riskMap.continent) {
-            allTerritory.push(territory.name);
             if (territory.ownerID === AuthService.getCurrentUser().id) {
                 ownTerritory.push(territory.name);
+                ownAndAllyTerr.push(territory.name);
                 for (let i = 0; i < 7; i++) {
                     let unitInfo = "Soldier" + " level " + i;
                     if (!myUnitTypes.includes(unitInfo)) {
@@ -57,11 +57,9 @@ class unitPlace extends Component {
                 }
             } else {
                 if (this.props.room.riskMap.owners[AuthService.getCurrentUser().id].alliance.includes(territory.ownerID)){
-                    ownTerritory.push((territory.name));
+                    ownAndAllyTerr.push(territory.name);
                 }
-                else {
-                    enemyTerritory.push(territory.name);
-                }
+                enemyTerritory.push(territory.name);
             }
         }
         let otherPlayers = [];
@@ -96,7 +94,10 @@ class unitPlace extends Component {
                             row.orderType === "Form Alliance") {
                             return [];
                         }
-                        return ownTerritory;
+                        else if (row.orderType === "Attack"){
+                            return ownTerritory;
+                        }
+                        return ownAndAllyTerr;
                     }
                 },
                 {
@@ -113,7 +114,7 @@ class unitPlace extends Component {
                             return [];
                         }
                         if (row.orderType === "Move") {
-                            return ownTerritory;
+                            return ownAndAllyTerr;
                         }
                         if (row.orderType === "Attack")
                             return enemyTerritory;

@@ -293,22 +293,9 @@ public class APIGameHandler {
                 return showError;
             }
         }
-        // store fake alliance
-        HashMap<Long, ArrayList<Long>> idToFakeAlliance = new HashMap<>();
-        for (Long id : tmpRiskMap.getOwners().keySet()){
-            for (Long allianceID: tmpRiskMap.getOwners().get(id).getAlliance()){
-                // alliance does not connect to self, need to del alliance in self's alliance set
-                if (!tmpRiskMap.getOwners().get(allianceID).getAlliance().contains(id)){
-                    idToFakeAlliance.computeIfAbsent(id, x -> new ArrayList<>()).add(allianceID);
-                }
-            }
-        }
-        // carry out deletion
-        for (Long key : idToFakeAlliance.keySet()) {
-            for (Long toDel : idToFakeAlliance.get(key)) {
-                tmpRiskMap.getOwners().get(key).getAlliance().remove(toDel);
-            }
-        }
+
+        //handle Fake Alliances
+        handleFakeAlliances(tmpRiskMap);
 
         for (Order order : moveOrUpgradeOrder) {
             String errorMessage = order.executeOrder(tmpRiskMap);
@@ -342,6 +329,29 @@ public class APIGameHandler {
             }
         }
         return null;
+    }
+
+    /**
+     * delete all fake alliances from the executing results
+     * @param tmpRiskMap
+     */
+    private void handleFakeAlliances(RISKMap tmpRiskMap) {
+        // store fake alliance
+        HashMap<Long, ArrayList<Long>> idToFakeAlliance = new HashMap<>();
+        for (Long id : tmpRiskMap.getOwners().keySet()){
+            for (Long allianceID: tmpRiskMap.getOwners().get(id).getAlliance()){
+                // alliance does not connect to self, need to del alliance in self's alliance set
+                if (!tmpRiskMap.getOwners().get(allianceID).getAlliance().contains(id)){
+                    idToFakeAlliance.computeIfAbsent(id, x -> new ArrayList<>()).add(allianceID);
+                }
+            }
+        }
+        // carry out deletion
+        for (Long key : idToFakeAlliance.keySet()) {
+            for (Long toDel : idToFakeAlliance.get(key)) {
+                tmpRiskMap.getOwners().get(key).getAlliance().remove(toDel);
+            }
+        }
     }
 
     /**

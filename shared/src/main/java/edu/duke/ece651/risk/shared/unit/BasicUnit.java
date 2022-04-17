@@ -157,6 +157,8 @@ public class BasicUnit implements Unit {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
+        result.append(this.getOwnerId());
+        result.append("'s ");
         result.append(this.getAmount());
         result.append(" ");
         result.append("lv.");
