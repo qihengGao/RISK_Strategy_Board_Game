@@ -228,7 +228,7 @@ class APIGameHandlerTest {
         orders2.add(new FormAllianceOrder(2L, 1L));
         //fake alliance
         ArrayList<Order> orders3 = new ArrayList<>();
-        orders2.add(new FormAllianceOrder(3L, 1L));
+        orders3.add(new FormAllianceOrder(3L, 1L));
 
         assertNull(game.tryPreProcessOrder(1L,orders1));
         assertNull(game.tryPreProcessOrder(2L,orders2));

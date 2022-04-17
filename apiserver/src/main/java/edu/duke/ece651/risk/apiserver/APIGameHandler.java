@@ -275,14 +275,17 @@ public class APIGameHandler {
         ArrayList<Order> allianceOrder = new ArrayList<>();
 
         for (Order order : orders) {
+            System.out.println(orders);
             if (Objects.equals(order.getOrderType(), "Move") || Objects.equals(order.getOrderType(), "Upgrade Unit"))
                 moveOrUpgradeOrder.add(order);
             else if (Objects.equals(order.getOrderType(), "Attack"))
                 attackOrder.add(order);
             else if (order.getOrderType().equals("Upgrade Tech Level"))
                 upgradeMaxTechOrder.add(order);
-            else if (order.getOrderType().equals("Form Alliance"))
+            else{
                 allianceOrder.add(order);
+            }
+
         }
 
         for (Order order : allianceOrder){
