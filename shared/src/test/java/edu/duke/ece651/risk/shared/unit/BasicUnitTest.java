@@ -40,7 +40,7 @@ public class BasicUnitTest {
   @Test
   public void test_tostring_and_equals() {
     Unit u1 = new BasicUnit("Soldier", 10);
-    assertEquals("-1's 10 lv.0 Soldier", u1.toString());
+    assertEquals("10 lv.0 Soldier", u1.toString());
     Unit u2 = new BasicUnit("Soldier", 20);
     Unit u3 = new BasicUnit("Soldier", 30);
     Unit u4 = new BasicUnit("Soldeir", 10);
@@ -132,6 +132,6 @@ public class BasicUnitTest {
   @Test
   public void test_color() {
     Unit u = new BasicUnit("a level 2", 5);
-    assertEquals("-1's 5 lv.2 a", u.toString());
+    assertEquals("5 lv.2 a", u.toString());
   }
 }

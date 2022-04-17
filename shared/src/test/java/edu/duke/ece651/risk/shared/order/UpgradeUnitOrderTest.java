@@ -32,7 +32,7 @@ class UpgradeUnitOrderTest {
         u.setOwnerId(0L);
         t1.tryAddUnit(u);
         UpgradeUnitOrder o4 = new UpgradeUnitOrder(0, "Test1", "Soldier",1, 2);
-        assertEquals("Insufficient resource to upgrade -1's 1 lv.0 Soldier", o4.executeOrder(map));
+        assertEquals("Insufficient resource to upgrade 1 lv.0 Soldier", o4.executeOrder(map));
         o.tryAddOrRemoveTechResource(100);
         assertEquals("cannot upgrade units beyond maximum technology level", o4.executeOrder(map));
         o.tryUpgradeTechLevel();

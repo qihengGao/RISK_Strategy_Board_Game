@@ -80,6 +80,7 @@ public class MapTextView implements MapView{
   private String displayUnitsOf(Territory t) {
     StringBuilder units = new StringBuilder();
     for (Unit unit : t.getUnits()) {
+      units.append(unit.getOwnerId()+"'s ");
       units.append(unit);
       units.append("s");
       units.append(", ");
