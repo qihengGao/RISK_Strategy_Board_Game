@@ -10,6 +10,7 @@ import edu.duke.ece651.risk.shared.map.MapTextView;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
+import edu.duke.ece651.risk.shared.unit.Unit;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -135,6 +136,35 @@ public class AttackOrderTest {
         String check_message6 = checkValidOrder(riskMap, o7);
         System.out.println(check_message6);
 
+        displayMap(riskMap);
+
+    }
+
+    @Test
+    public void test_attackBreakAlliance(){
+        RISKMap riskMap = buildTestMap();
+
+        riskMap.getOwners().get(0L).formAlliance(1L);
+        riskMap.getOwners().get(1L).formAlliance(0L);
+        Unit guest_unit1 = new BasicUnit("Unit", 10);
+        guest_unit1.setOwnerId(1L);
+        riskMap.getTerritoryByName("Test0").tryAddUnit(guest_unit1);
+        Unit guest_unit2 = new BasicUnit("Unit", 10);
+        guest_unit2.setOwnerId(0L);
+        riskMap.getTerritoryByName("Test3").tryAddUnit(guest_unit2);
+        displayMap(riskMap);
+
+        AttackOrder attackNotAlly = new AttackOrder(0L, "Test0", "Test8","Unit",2);
+        attackNotAlly.executeOrder(riskMap);
+        assertEquals(riskMap.getTerritoryByName("Test0").getUnitByTypeAndID("Unit", 1).getAmount(), 10);
+        assertEquals(riskMap.getTerritoryByName("Test3").getUnitByTypeAndID("Unit", 0).getAmount(), 10);
+        displayMap(riskMap);
+
+
+        AttackOrder attackAlly = new AttackOrder(0L, "Test0", "Test3","Unit",2);
+        attackAlly.executeOrder(riskMap);
+        assertEquals(riskMap.getTerritoryByName("Test0").getUnitByTypeAndID("Unit", 1).getAmount(), 0);
+        assertEquals(riskMap.getTerritoryByName("Test3").getUnitByTypeAndID("Unit", 0).getAmount(), 0);
         displayMap(riskMap);
 
     }
