@@ -25,7 +25,6 @@ public class APIGameHandler {
     @Autowired
     UserRepository userRepository;
 
-
     //logger to display info in server console
     Logger logger;
 
@@ -223,6 +222,7 @@ public class APIGameHandler {
         }
 
 //        System.out.println("PreProcessing Orders...\n" + orders.get(0).getAllianceID());
+        //System.out.println(userRepository.findByid(players.iterator().next()).orElse(null).getElo());
 
         //try execute orders on clone map
         RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
@@ -450,6 +450,25 @@ public class APIGameHandler {
     public void showGameResultPhase() {
         currentState = State.EndState.name();
         commitedPlayer.clear();
+        adjustRank();
+    }
+
+    private void adjustRank() {
+        for (Long userId : players){
+            if (lostPlayer.contains(userId)){
+                Long currElo = userRepository.findByid(userId).orElse(null).getElo();
+                if (currElo>=10){
+                    userRepository.findByid(userId).orElse(null).setElo((long)(currElo-10));
+                }
+                else{
+                    userRepository.findByid(userId).orElse(null).setElo(0L);
+                }
+            }
+            else {
+                Long currElo = userRepository.findByid(userId).orElse(null).getElo();
+                userRepository.findByid(userId).orElse(null).setElo(currElo+roomSize*10);
+            }
+        }
     }
 
     /**

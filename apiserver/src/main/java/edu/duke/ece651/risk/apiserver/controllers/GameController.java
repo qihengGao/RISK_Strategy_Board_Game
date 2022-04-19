@@ -113,6 +113,7 @@ public class GameController {
     @GetMapping("/gameStatus")
     public ResponseEntity<GameStatusResponse> gameStatus(@RequestParam Long roomID) {
         Long userId = getUserId();
+        System.out.println(userRepository.findByid(userId).orElse(null).getElo());
 
         if (rooms.containsKey(roomID) && rooms.get(roomID).getPlayers().contains(userId)) {
             APIGameHandler apiGameHandler = rooms.get(roomID);
@@ -191,9 +192,8 @@ public class GameController {
     public ResponseEntity<RoomsAvailableResponse> allRooms() {
         Long userId = getUserId();
         System.out.println(userRepository.findByid(userId).orElse(null).getElo());
-        userRepository.findByid(userId).orElse(null).setElo(1000L);
-
-        System.out.println(userRepository.findByid(userId).orElse(null).getElo());
+//        userRepository.findByid(userId).orElse(null).setElo(1000L);
+//        System.out.println(userRepository.findByid(userId).orElse(null).getElo());
 
 
         List<APIGameHandler> res = rooms.entrySet().stream()
