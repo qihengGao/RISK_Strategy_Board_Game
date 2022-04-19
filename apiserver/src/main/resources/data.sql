@@ -2,7 +2,7 @@ INSERT INTO roles(name) VALUES('ROLE_USER');
 INSERT INTO roles(name) VALUES('ROLE_MODERATOR');
 INSERT INTO roles(name) VALUES('ROLE_ADMIN');
 
-INSERT INTO users(email,password,username,elo) VALUES('test@test.com','$2a$10$mR4MU5esBbUd6JWuwWKTA.tRy.jo4d4XRkgnamcOJfw5pJ8Ao/RDS','test', 30L);
+INSERT INTO users(email,password,username,elo) VALUES('test@test.com','$2a$10$mR4MU5esBbUd6JWuwWKTA.tRy.jo4d4XRkgnamcOJfw5pJ8Ao/RDS','test', 30);
 
 INSERT INTO user_roles(user_id,role_id) VALUES ('1','1');
 

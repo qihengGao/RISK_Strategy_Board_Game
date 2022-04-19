@@ -51,10 +51,11 @@ public class User {
      * @param email
      * @param password
      */
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, Long elo) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.elo = elo;
     }
 
     /**

@@ -9,6 +9,15 @@ public class JwtResponse {
     private String username;
     private String email;
     private List<String> roles;
+    private Long elo;
+
+    public Long getElo() {
+        return elo;
+    }
+
+    public void setElo(Long elo) {
+        this.elo = elo;
+    }
 
     /**
      * default constructor
@@ -18,12 +27,13 @@ public class JwtResponse {
      * @param email
      * @param roles
      */
-    public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
+    public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles,Long elo) {
         this.token = accessToken;
         this.id = id;
         this.username = username;
         this.email = email;
         this.roles = roles;
+        this.elo =elo;
     }
 
     /**

@@ -15,7 +15,7 @@ public class JwtResponseTest {
         roles.add("admin");
         roles.add("user");
 
-        JwtResponse response = new JwtResponse("", 0L, "", "", roles);
+        JwtResponse response = new JwtResponse("", 0L, "", "", roles,30L);
         response.setAccessToken("token");
         assertEquals("token", response.getAccessToken());
 
