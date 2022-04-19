@@ -17,11 +17,14 @@ import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Controller
 public class APIGameHandler {
-
     @Autowired
     UserRepository userRepository;
 
@@ -100,6 +103,11 @@ public class APIGameHandler {
 
     //constructor
 
+    public APIGameHandler(){
+        this.roomSize = 0;
+        this.roomID = 0;
+    }
+
     /**
      * create a new room
      * @param roomSize
@@ -177,6 +185,8 @@ public class APIGameHandler {
             return "Failed to place the orders! Place action invalid right now!";
         }
 
+        System.out.println(userRepository.findByid(players.iterator().next()).orElse(null).getElo());
+
         //2. Check unit validation.
 
         //Rule Checker
@@ -222,7 +232,6 @@ public class APIGameHandler {
         }
 
 //        System.out.println("PreProcessing Orders...\n" + orders.get(0).getAllianceID());
-        //System.out.println(userRepository.findByid(players.iterator().next()).orElse(null).getElo());
 
         //try execute orders on clone map
         RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
