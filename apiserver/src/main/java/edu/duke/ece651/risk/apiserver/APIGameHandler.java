@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.apiserver;
 
 import edu.duke.ece651.risk.apiserver.models.State;
+import edu.duke.ece651.risk.apiserver.repository.UserRepository;
 import edu.duke.ece651.risk.shared.territory.Color;
 import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.checker.PlaceRuleChecker;
@@ -15,10 +16,16 @@ import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
 public class APIGameHandler {
+
+    @Autowired
+    UserRepository userRepository;
+
+
     //logger to display info in server console
     Logger logger;
 

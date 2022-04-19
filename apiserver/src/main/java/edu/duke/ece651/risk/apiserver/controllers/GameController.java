@@ -2,16 +2,21 @@ package edu.duke.ece651.risk.apiserver.controllers;
 
 import edu.duke.ece651.risk.apiserver.APIGameHandler;
 import edu.duke.ece651.risk.apiserver.models.State;
+import edu.duke.ece651.risk.apiserver.models.User;
 import edu.duke.ece651.risk.apiserver.payload.request.CreateRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.JoinRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.PlaceOrderRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.PlaceUnitRequest;
 import edu.duke.ece651.risk.apiserver.payload.response.*;
+import edu.duke.ece651.risk.apiserver.repository.UserRepository;
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
+import edu.duke.ece651.risk.apiserver.security.services.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +29,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/game")
 public class GameController {
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     private HashMap<Long, APIGameHandler> rooms;
@@ -93,6 +101,7 @@ public class GameController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return userDetails.getId();
     }
+
 
 
     /**
@@ -181,6 +190,11 @@ public class GameController {
     @GetMapping("/rooms/available")
     public ResponseEntity<RoomsAvailableResponse> allRooms() {
         Long userId = getUserId();
+        System.out.println(userRepository.findByid(userId).orElse(null).getElo());
+        userRepository.findByid(userId).orElse(null).setElo(1000L);
+
+        System.out.println(userRepository.findByid(userId).orElse(null).getElo());
+
 
         List<APIGameHandler> res = rooms.entrySet().stream()
                 .filter(e -> (State.WaitingToStartState.name().equals(e.getValue().getCurrentState())
