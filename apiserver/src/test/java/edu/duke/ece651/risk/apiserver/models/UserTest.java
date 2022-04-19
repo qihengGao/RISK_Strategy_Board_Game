@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserTest {
 
@@ -25,6 +25,11 @@ public class UserTest {
 
         user.setPassword("password");
         assertEquals("password", user.getPassword());
+
+        assertNull(user.getElo());
+
+        user.setElo(0L);
+        assertEquals(user.getElo(), 0L);
 
         Set<Role> roles = new HashSet<>();
         roles.add(new Role());

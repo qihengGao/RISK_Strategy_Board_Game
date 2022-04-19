@@ -37,6 +37,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    private Long elo;
+
     /**
      * default constructor
      */
@@ -69,6 +71,14 @@ public class User {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getElo() {
+        return elo;
+    }
+
+    public void setElo(Long elo) {
+        this.elo = elo;
     }
 
     /**
