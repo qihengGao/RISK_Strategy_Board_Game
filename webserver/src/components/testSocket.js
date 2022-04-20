@@ -1,7 +1,6 @@
 import * as React from "react";
 import {Component} from "react";
 import Container from "@mui/material/Container";
-import SockJsClient from 'react-stomp';
 import authHeader from "../services/auth-header";
 import SockJS from "sockjs-client"
 import * as Stomp from 'stompjs'
@@ -20,10 +19,10 @@ export default class testSocket extends Component {
             openSnackBar: false,
             snackBarMessage: "",
             snackbarType: "error",
-            socket_client : null,
-            topic:"public",
+            socket_client: null,
+            topic: "public",
             currentUser: AuthService.getCurrentUser(),
-            socket_message:"demo"
+            socket_message: "demo"
         };
     }
 
@@ -33,14 +32,18 @@ export default class testSocket extends Component {
      */
     handleConnectSocket = () => {
 
-        let client = Stomp.over(new SockJS('http://localhost:8080/chat'));
-        client.connect({}, function (frame) {
+        let client = Stomp.over(new SockJS('http://localhost:8080/chat', null, {
+            transports: ['xhr-streaming'],
+            headers: {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9...'}
+        }));
+        client.connect(authHeader(), function (frame) {
             //setConnected(true);
+            console.log("connect Stomp")
             client.subscribe('/topic/messages', function (message) {
                 //showMessage(JSON.parse(message.body));
             });
             this.setState({
-                socket_client:client
+                socket_client: client
             });
         }.bind(this));
     }
@@ -90,44 +93,44 @@ export default class testSocket extends Component {
                     <div className="row">
                         <div className="col-md-12 space-bottom10">
 
-                                <div className="form-group">
-                                    <label htmlFor="from">Name?</label>
-                                    <input type="text" id="from" className="form-control"
-                                           placeholder="enter your name..."/>
-                                </div>
-                                <button
+                            <div className="form-group">
+                                <label htmlFor="from">Name?</label>
+                                <input type="text" id="from" className="form-control"
+                                       placeholder="enter your name..."/>
+                            </div>
+                            <button
 
-                                        onClick={() => this.handleConnectSocket()}>Connect
-                                </button>
-                                <button id="disconnect"
-                                        className="btn btn-default"
-                                        type="submit"
-                                        disabled="disabled">Disconnect
-                                </button>
+                                onClick={() => this.handleConnectSocket()}>Connect
+                            </button>
+                            <button id="disconnect"
+                                    className="btn btn-default"
+                                    type="submit"
+                                    disabled="disabled">Disconnect
+                            </button>
 
                         </div>
                     </div>
                     <div className="row space-bottom10">
 
-                            <div className="col-md-2">
-                                <select name="topic"
-                                        id="topic"
-                                        className="form-control">
-                                    <option>Lifestyle</option>
-                                    <option>Travel</option>
-                                    <option>Career</option>
-                                </select>
-                            </div>
-                            <div className="col-md-6">
-                                <input type="text"
-                                       id="text"
-                                       className="form-control"
-                                       placeholder="enter message ..."/>
-                            </div>
-                            <div className="col-md-4">
-                                <button onClick={() => this.handleSendMessage()}>Send
-                                </button>
-                            </div>
+                        <div className="col-md-2">
+                            <select name="topic"
+                                    id="topic"
+                                    className="form-control">
+                                <option>Lifestyle</option>
+                                <option>Travel</option>
+                                <option>Career</option>
+                            </select>
+                        </div>
+                        <div className="col-md-6">
+                            <input type="text"
+                                   id="text"
+                                   className="form-control"
+                                   placeholder="enter message ..."/>
+                        </div>
+                        <div className="col-md-4">
+                            <button onClick={() => this.handleSendMessage()}>Send
+                            </button>
+                        </div>
 
                     </div>
                     <div className="row">
