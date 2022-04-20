@@ -41,10 +41,10 @@ export default class joinedRoomsComponent extends Component {
         let columns: GridColDef[] = [{
             field: 'id', headerName: 'Room ID', width: 90
         }, {
-            field: 'roomSize', headerName: 'Room Size', width: 150, editable: false,
+            field: 'roomSize', headerName: 'Room State', width: 150, editable: false,
         }, {
             field: 'action',
-            headerName: 'Return',
+            headerName: '',
             sortable: false,
             /**
              * render the cells in the list of rooms in joined rooms

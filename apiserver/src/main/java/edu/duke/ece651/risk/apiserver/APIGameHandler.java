@@ -2,6 +2,7 @@ package edu.duke.ece651.risk.apiserver;
 
 import edu.duke.ece651.risk.apiserver.models.State;
 import edu.duke.ece651.risk.apiserver.repository.UserRepository;
+import edu.duke.ece651.risk.apiserver.security.services.UserService;
 import edu.duke.ece651.risk.shared.territory.Color;
 import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.checker.PlaceRuleChecker;
@@ -31,6 +32,9 @@ import java.util.*;
 public class APIGameHandler {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
 
     //logger to display info in server console
     Logger logger;
@@ -136,11 +140,10 @@ public class APIGameHandler {
         this.currentState = State.WaitingToStartState.name();
         InitUnitAmountPerPlayer = 30;
         lostPlayer = new HashSet<>();
-
     }
 
     public void test_user_repo(){
-        System.out.println(userRepository.findByid(players.iterator().next()).orElse(null).getElo());
+        System.out.println("Printing elo "+ userRepository.findByid(players.iterator().next()).orElse(null).getElo());
     }
 
     /**
@@ -194,7 +197,7 @@ public class APIGameHandler {
             return "Failed to place the orders! Place action invalid right now!";
         }
 
-
+        test_user_repo();
         //2. Check unit validation.
 
         //Rule Checker
@@ -256,6 +259,7 @@ public class APIGameHandler {
                 fightBattlesInAllTerritory();
                 increaseOneInAllTerritory();
                 increaseTechFoodForAll();
+                updateLostPlayer();
 
                 //check if the game has a winner
                 if (checkWinner() == null) {
@@ -425,8 +429,9 @@ public class APIGameHandler {
      */
     public String getPlayerState(Long clientID) {
         //check if this player lost
-        if (isPlayerLost(clientID))
+        if (isPlayerLost(clientID)) {
             return State.LostState.name();
+        }
         else {
             //check if this player has committed
             if (commitedPlayer.contains(clientID))
@@ -452,13 +457,16 @@ public class APIGameHandler {
      * going into placing order for each player
      */
     public void orderingPhase() {
-        for (Long id : players) {
-            isPlayerLost(id);
-        }
         currentState = State.OrderingState.name();
         commitedPlayer.clear();
         commitedPlayer.addAll(lostPlayer);
         temporaryOrders.clear();
+    }
+
+    private void updateLostPlayer() {
+        for (Long id : players) {
+            isPlayerLost(id);
+        }
     }
 
     /**
@@ -471,19 +479,24 @@ public class APIGameHandler {
     }
 
     private void adjustRank() {
+        logger.info(String.format("RoomID:%d adjusting rank", roomID));
         for (Long userId : players){
             if (lostPlayer.contains(userId)){
+                logger.info(String.format("Loser ID:%d ,adjusting rank", userId));
                 Long currElo = userRepository.findByid(userId).orElse(null).getElo();
                 if (currElo>=10){
-                    userRepository.findByid(userId).orElse(null).setElo((long)(currElo-10));
+                    userService.setEloByUserID(userId, (currElo-10L));
                 }
                 else{
-                    userRepository.findByid(userId).orElse(null).setElo(0L);
+                    userService.setEloByUserID(userId, (currElo-10L));
                 }
+                logger.info(String.format("Loser curr elo:%d", userRepository.findByid(userId).orElse(null).getElo()));
             }
             else {
+                logger.info(String.format("Winner ID:%d ,adjusting rank", userId));
                 Long currElo = userRepository.findByid(userId).orElse(null).getElo();
-                userRepository.findByid(userId).orElse(null).setElo(currElo+roomSize*10);
+                userService.setEloByUserID(userId, (currElo+(long)roomSize*10));
+                logger.info(String.format("Winner curr elo:%d", userRepository.findByid(userId).orElse(null).getElo()));
             }
         }
     }
@@ -522,8 +535,7 @@ public class APIGameHandler {
         for (Territory t : riskMap.getContinent()) {
             IDset.add(t.getOwnerID());
         }
-
-        logger.info(String.format("RoomID:%d Current IDset.size()=%d", roomID, IDset.size()));
+//        logger.info(String.format("RoomID:%d Current IDset.size()=%d", roomID, IDset.size()));
         if (IDset.size() == 1) {
             return IDset.iterator().next();
         }

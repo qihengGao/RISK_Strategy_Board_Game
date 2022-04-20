@@ -12,7 +12,7 @@ public class UserTest {
     @Test
     public void test_setGet(){
         User user = new User();
-        user = new User("", "", "", null);
+        user = new User("", "", "", 50L);
 
         user.setId(0L);
         assertEquals(0L, user.getId());

@@ -53,8 +53,10 @@ export default class allRoomsComponent extends Component {
         }, {
             field: 'roomSize', headerName: 'Room Size', width: 150, editable: false,
         }, {
+            field: 'roomState', headerName: 'Room Status', width: 150, editable: false,
+        }, {
             field: 'action',
-            headerName: 'Join',
+            headerName: '',
             sortable: false,
             /**
              * render each cell in the list of rooms
@@ -255,7 +257,8 @@ export default class allRoomsComponent extends Component {
                 for (const room of response.data.rooms) {
                     tmpRows.push({
                         id: room.roomID,
-                        roomSize: room.players.length + "/" + room.roomSize
+                        roomSize: room.players.length + "/" + room.roomSize,
+                        roomState: "Waiting To Start"
                     })
                 }
 

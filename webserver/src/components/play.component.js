@@ -68,6 +68,7 @@ export default class play extends Component {
             case "OrderingState":
                 return <PlaceOrder {...this.state} handleSnackBarUpdate={this.handleSnackBarUpdate}/>
             case "EndState":
+                console.log("logging end state")
                 console.log(this.state.responseData)
                 return <div>Game End! {typeof(this.state.responseData)==="undefined"
                     ?"Loading!":
