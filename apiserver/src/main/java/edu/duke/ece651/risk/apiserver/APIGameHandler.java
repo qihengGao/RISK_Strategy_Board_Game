@@ -16,16 +16,18 @@ import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@Service
-@Configurable
 public class APIGameHandler {
     @Autowired
     UserRepository userRepository;
@@ -134,6 +136,10 @@ public class APIGameHandler {
         this.currentState = State.WaitingToStartState.name();
         InitUnitAmountPerPlayer = 30;
         lostPlayer = new HashSet<>();
+
+    }
+
+    public void test_user_repo(){
         System.out.println(userRepository.findByid(players.iterator().next()).orElse(null).getElo());
     }
 
