@@ -177,7 +177,7 @@ export default class play extends Component {
                             {/*    </Button>*/}
                             {/*</Box>*/}
 
-                            <TestSocket/>
+                            <TestSocket {...this.state} />
 
                         </Box>
 

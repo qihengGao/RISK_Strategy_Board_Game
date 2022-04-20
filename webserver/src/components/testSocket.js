@@ -50,7 +50,7 @@ export default class testSocket extends Component {
         client.connect(authHeader(), function (frame) {
 
             console.log("connect Stomp")
-            client.subscribe('/topic/messages', function (message) {
+            client.subscribe('/topic/'+this.props.roomID, function (message) {
                 this.setState(prevState => ({
 
                     socket_history_messages: [...prevState.socket_history_messages, JSON.parse(message.body)]
