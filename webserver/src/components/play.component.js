@@ -9,6 +9,9 @@ import Snackbar from '@mui/material/Snackbar';
 import {Alert} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import {DataGrid, GridColDef} from "@mui/x-data-grid";
 
 
 let echarts = require('echarts');
@@ -102,7 +105,11 @@ export default class play extends Component {
         if (this.state.loading) {
             return <div className="spinner">Loading.....</div>; // add a spinner or something until the posts are loaded
         }
-
+        let columns_chat: GridColDef[] = [{
+            field: 'id', headerName: 'Player ID', width: 90
+        }, {
+            field: 'message', headerName: 'Message', width: 150, editable: false,
+        }]
         /**
          * define the elements in this page
          */
@@ -114,6 +121,7 @@ export default class play extends Component {
                 (
                     <div id="upper" style={{marginTop:"3%"}}>
                         <Box sx={{flexGrow: 1}}>
+
                             <Grid container spacing={2}>
                                 <Grid item xs={5}>
                                     <div ref="main" id="main" style={{width: "1000px", height: "800px"}}/>
@@ -121,8 +129,52 @@ export default class play extends Component {
                                 <Grid item xs={6}>
                                     <div ref="input" id="input">{this.renderSwitch(this.state.room.state)}</div>
                                 </Grid>
-
                             </Grid>
+
+                            <div style={{
+                                height: 600,
+                                marginLeft: 50,
+                                marginRight: 50,
+                                marginTop: 40,
+                                marginBottom: 40,
+                            }
+                            }>
+                            <DataGrid
+                                rows={this.state.rows}
+                                columns={columns_chat}
+                                pageSize={9}
+                                rowsPerPageOptions={[8]}
+                            />
+                                </div>
+
+                            <Box component="form" onSubmit={this.handleRegister} noValidate sx={{ mt: 1 }}>
+                                <label htmlFor="target">Chat Target:</label>
+                                <select name="target" id="target">
+                                    <option value="allies">Your Allies</option>
+                                    <option value="all">All Players</option>
+                                </select>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="username"
+                                    label="Message"
+                                    name="username"
+                                    autoComplete="username"
+                                    autoFocus
+                                    value={this.state.username}
+                                    onChange={this.onChangeUsername}
+                                />
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                >
+                                    Send
+                                </Button>
+                            </Box>
+
                         </Box>
 
 

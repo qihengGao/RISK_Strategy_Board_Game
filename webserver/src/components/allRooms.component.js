@@ -55,6 +55,8 @@ export default class allRoomsComponent extends Component {
         }, {
             field: 'roomState', headerName: 'Room Status', width: 150, editable: false,
         }, {
+            field: 'roomAvgElo', headerName: 'Average Rank', width: 150, editable: false,
+        }, {
             field: 'action',
             headerName: '',
             sortable: false,
@@ -258,7 +260,8 @@ export default class allRoomsComponent extends Component {
                     tmpRows.push({
                         id: room.roomID,
                         roomSize: room.players.length + "/" + room.roomSize,
-                        roomState: "Waiting To Start"
+                        roomState: "Waiting To Start",
+                        roomAvgElo: room.averageElo
                     })
                 }
 
