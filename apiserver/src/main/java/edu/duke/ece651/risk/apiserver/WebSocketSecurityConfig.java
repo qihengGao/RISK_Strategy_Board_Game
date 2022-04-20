@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.apiserver;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
@@ -24,13 +25,26 @@ public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBro
 
     @Override
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
+//        messages
+//                .simpMessageDestMatchers("/chat/**").permitAll()
+//                .anyMessage().permitAll();
+
         messages
-                .simpMessageDestMatchers("/chat/**").permitAll()
-                .anyMessage().permitAll();
+                .simpTypeMatchers(
+                        SimpMessageType.CONNECT,
+                        SimpMessageType.MESSAGE,
+                        SimpMessageType.SUBSCRIBE).authenticated()
+                .simpTypeMatchers(
+                        SimpMessageType.UNSUBSCRIBE,
+                        SimpMessageType.DISCONNECT).permitAll()
+                //.nullDestMatcher().authenticated()
+                .anyMessage().denyAll();
     }
 
     @Override
     protected boolean sameOriginDisabled() {
         return true;
     }
+
+
 }
