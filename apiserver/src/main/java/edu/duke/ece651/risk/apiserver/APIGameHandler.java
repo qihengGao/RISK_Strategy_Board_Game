@@ -60,6 +60,7 @@ public class APIGameHandler {
     private final int roomSize;
     private final long roomID;
     private long averageElo;
+    private boolean competitive;
 
     //getters/setters
     public String getCurrentState() {
@@ -117,12 +118,21 @@ public class APIGameHandler {
         this.averageElo = averageElo;
     }
 
+    public boolean isCompetitive() {
+        return competitive;
+    }
+
+    public void setCompetitive(boolean competitive) {
+        this.competitive = competitive;
+    }
+
     //constructor
 
     public APIGameHandler(){
         this.roomSize = 0;
         this.roomID = 0;
         this.averageElo = 0;
+        this.competitive = true;
     }
 
     /**
@@ -150,6 +160,7 @@ public class APIGameHandler {
         InitUnitAmountPerPlayer = 30;
         lostPlayer = new HashSet<>();
         this.averageElo = 0;
+        this.competitive = true;
     }
 
     public void test_user_repo(){

@@ -143,7 +143,7 @@ export default class allRoomsComponent extends Component {
                         <DialogTitle>Create Room</DialogTitle>
                         <DialogContent>
                             <DialogContentText>
-                                To create a new game room, please room size here.
+                                To create a new game room, specify room size here.
                             </DialogContentText>
                             <TextField
                                 autoFocus

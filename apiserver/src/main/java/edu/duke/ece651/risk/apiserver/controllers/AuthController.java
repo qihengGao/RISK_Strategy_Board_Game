@@ -41,6 +41,7 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+
     /**
      * This method handle the post request of /signin.
      *
