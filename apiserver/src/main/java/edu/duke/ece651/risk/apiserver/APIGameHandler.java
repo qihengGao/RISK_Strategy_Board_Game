@@ -59,6 +59,7 @@ public class APIGameHandler {
     //room related fields
     private final int roomSize;
     private final long roomID;
+    private long averageElo;
 
     //getters/setters
     public String getCurrentState() {
@@ -108,12 +109,20 @@ public class APIGameHandler {
         return roomID;
     }
 
+    public long getAverageElo() {
+        return averageElo;
+    }
+
+    public void setAverageElo(long averageElo) {
+        this.averageElo = averageElo;
+    }
 
     //constructor
 
     public APIGameHandler(){
         this.roomSize = 0;
         this.roomID = 0;
+        this.averageElo = 0;
     }
 
     /**
@@ -140,6 +149,7 @@ public class APIGameHandler {
         this.currentState = State.WaitingToStartState.name();
         InitUnitAmountPerPlayer = 30;
         lostPlayer = new HashSet<>();
+        this.averageElo = 0;
     }
 
     public void test_user_repo(){
@@ -175,6 +185,7 @@ public class APIGameHandler {
             return false;
         } else {
             players.add(clientID);
+            updateAverageElo();
             //if have all players, start the game
             if (players.size() == roomSize) {
                 unitPlacementPhase(3);
@@ -183,6 +194,13 @@ public class APIGameHandler {
         }
     }
 
+    public void updateAverageElo(){
+        Long sum = 0L;
+        for (Long userId : players){
+            sum+=userRepository.findByid(userId).orElse(null).getElo();
+        }
+        this.averageElo = sum/players.size();
+    }
 
     /**
      * try to place unit into the map

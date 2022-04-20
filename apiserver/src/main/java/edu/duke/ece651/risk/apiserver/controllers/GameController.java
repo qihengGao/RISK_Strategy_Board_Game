@@ -1,6 +1,7 @@
 package edu.duke.ece651.risk.apiserver.controllers;
 
 import edu.duke.ece651.risk.apiserver.APIGameHandler;
+import edu.duke.ece651.risk.apiserver.APIGameHandlerComparator;
 import edu.duke.ece651.risk.apiserver.models.State;
 import edu.duke.ece651.risk.apiserver.payload.request.CreateRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.JoinRoomRequest;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +66,7 @@ public class GameController {
         APIGameHandler gameHandler = new APIGameHandler(roomSize, roomIDCounter++, userId);
         beanFactory.autowireBean(gameHandler);
 
-        gameHandler.test_user_repo();
+        gameHandler.updateAverageElo();
         rooms.put(gameHandler.getRoomID(), gameHandler);
         return ResponseEntity.ok(new CreateRoomResponse("Successfully create a game room!", gameHandler.getRoomID()));
 
@@ -203,7 +205,8 @@ public class GameController {
                 .filter(e -> (State.WaitingToStartState.name().equals(e.getValue().getCurrentState())
                         && !e.getValue().getPlayers().contains(userId)))
                 .map(Map.Entry::getValue).collect(Collectors.toList());
-        ;
+
+        Collections.sort(res, new APIGameHandlerComparator());
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
 
