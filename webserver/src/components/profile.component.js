@@ -37,6 +37,10 @@ export default class Profile extends Component {
                     {currentUser.accessToken}
                 </p>
                 <p>
+                    <strong>Elo:</strong>{" "}
+                    {currentUser.elo}
+                </p>
+                <p>
                     <strong>Id:</strong>{" "}
                     {currentUser.id}
                 </p>

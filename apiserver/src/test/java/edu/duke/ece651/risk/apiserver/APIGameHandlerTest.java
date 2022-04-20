@@ -7,6 +7,7 @@ import edu.duke.ece651.risk.shared.factory.TestMapFactory;
 import edu.duke.ece651.risk.shared.map.MapTextView;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.order.*;
+import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +29,7 @@ class APIGameHandlerTest {
     @Test
     void APIGameHandlerCtorAndGetters() {
         APIGameHandler game = new APIGameHandler(3, 0, 1L);
+
         assertEquals(game.getRoomSize(), 3);
         assertEquals(game.getRoomID(), 0);
         assertEquals(game.getPredefineColorList().get(0), new Color("Red"));
@@ -264,15 +266,21 @@ class APIGameHandlerTest {
     @Test
     void isPlayerLost() {
         APIGameHandler game = new APIGameHandler(2, 0, 1L);
-        assertFalse(game.isPlayerLost(1L));
         assertEquals(game.getPlayerState(1L), State.WaitingToStartState.name());
+        game.tryAddPlayer(2L);
+        assertFalse(game.isPlayerLost(1L));
+        assertEquals(game.getPlayerState(1L), State.PlacingState.name());
         HashSet<Long> lost = new HashSet<>();
         lost.add(1L);
         game.setLostPlayer(lost);
         assertTrue(game.isPlayerLost(1L));
+
+        for (Territory t : game.getRiskMap().getContinent()){
+            t.tryChangeOwnerTo(2L);
+        }
+
         assertEquals(game.getPlayerState(1L), State.LostState.name());
-
-
+        assertEquals(game.getPlayerState(2L), State.EndState.name());
     }
 
     @Test

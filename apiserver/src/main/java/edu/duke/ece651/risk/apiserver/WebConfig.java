@@ -1,0 +1,23 @@
+package edu.duke.ece651.risk.apiserver;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+@EnableWebMvc
+public class WebConfig implements WebMvcConfigurer
+{
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/chat/**")
+                .allowedOrigins("*")
+                .allowCredentials(true)
+                .maxAge(3600)
+                .allowedHeaders("Accept", "Content-Type", "Origin",
+                        "Authorization", "X-Auth-Token")
+                .exposedHeaders("X-Auth-Token", "Authorization")
+                .allowedMethods("POST", "GET", "DELETE", "PUT", "OPTIONS");
+    }
+}

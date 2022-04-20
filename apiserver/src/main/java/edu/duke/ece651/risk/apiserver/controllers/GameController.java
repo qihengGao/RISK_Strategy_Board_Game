@@ -1,20 +1,26 @@
 package edu.duke.ece651.risk.apiserver.controllers;
 
 import edu.duke.ece651.risk.apiserver.APIGameHandler;
+import edu.duke.ece651.risk.apiserver.APIGameHandlerComparator;
 import edu.duke.ece651.risk.apiserver.models.State;
 import edu.duke.ece651.risk.apiserver.payload.request.CreateRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.JoinRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.PlaceOrderRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.PlaceUnitRequest;
 import edu.duke.ece651.risk.apiserver.payload.response.*;
+import edu.duke.ece651.risk.apiserver.repository.UserRepository;
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +30,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/game")
 public class GameController {
+    @Autowired
+    private AutowireCapableBeanFactory beanFactory;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     private HashMap<Long, APIGameHandler> rooms;
@@ -46,14 +57,16 @@ public class GameController {
     public ResponseEntity<CreateRoomResponse> createRoom(@Valid @RequestBody CreateRoomRequest createRoomRequest) {
 
         Long userId = getUserId();
-        System.out.println(userId);
+        System.out.println("User " + userId + " trying to create a Room");
 
         int roomSize = createRoomRequest.getRoomSize();
 //        if (roomSize<2 || roomSize > 5) {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CreateRoomResponse("Failed to create a room! Room size must be between 2~5!", null));
 //        }
         APIGameHandler gameHandler = new APIGameHandler(roomSize, roomIDCounter++, userId);
+        beanFactory.autowireBean(gameHandler);
 
+        gameHandler.updateAverageElo();
         rooms.put(gameHandler.getRoomID(), gameHandler);
         return ResponseEntity.ok(new CreateRoomResponse("Successfully create a game room!", gameHandler.getRoomID()));
 
@@ -91,6 +104,7 @@ public class GameController {
     protected Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        userDetails.setElo(1000L);
         return userDetails.getId();
     }
 
@@ -104,6 +118,7 @@ public class GameController {
     @GetMapping("/gameStatus")
     public ResponseEntity<GameStatusResponse> gameStatus(@RequestParam Long roomID) {
         Long userId = getUserId();
+//        System.out.println(userRepository.findByid(userId).orElse(null).getElo());
 
         if (rooms.containsKey(roomID) && rooms.get(roomID).getPlayers().contains(userId)) {
             APIGameHandler apiGameHandler = rooms.get(roomID);
@@ -178,15 +193,20 @@ public class GameController {
      *
      * @return ResponseEntity which contains the http code to indicate the result and the available rooms.
      */
+    @Transactional
     @GetMapping("/rooms/available")
     public ResponseEntity<RoomsAvailableResponse> allRooms() {
         Long userId = getUserId();
+        System.out.println("all room elo "+userRepository.findByid(userId).orElse(null).getElo());
+//        userRepository.findByid(userId).orElse(null).setElo(1000L);
+//        System.out.println("all room elo "+userRepository.findByid(userId).orElse(null).getElo());
 
         List<APIGameHandler> res = rooms.entrySet().stream()
                 .filter(e -> (State.WaitingToStartState.name().equals(e.getValue().getCurrentState())
                         && !e.getValue().getPlayers().contains(userId)))
                 .map(Map.Entry::getValue).collect(Collectors.toList());
-        ;
+
+        Collections.sort(res, new APIGameHandlerComparator());
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
 
@@ -199,6 +219,7 @@ public class GameController {
     @GetMapping("/rooms/joined")
     public ResponseEntity<RoomsAvailableResponse> joinedRooms() {
         Long userId = getUserId();
+        System.out.println("Join room elo "+userRepository.findByid(userId).orElse(null).getElo());
 
         List<APIGameHandler> res = rooms.entrySet().stream()
                 .filter(e -> e.getValue().getPlayers().contains(userId)).map(Map.Entry::getValue).collect(Collectors.toList());

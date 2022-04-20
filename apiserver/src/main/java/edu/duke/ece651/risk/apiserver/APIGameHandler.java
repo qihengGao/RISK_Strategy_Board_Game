@@ -1,6 +1,8 @@
 package edu.duke.ece651.risk.apiserver;
 
 import edu.duke.ece651.risk.apiserver.models.State;
+import edu.duke.ece651.risk.apiserver.repository.UserRepository;
+import edu.duke.ece651.risk.apiserver.security.services.UserService;
 import edu.duke.ece651.risk.shared.territory.Color;
 import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.checker.PlaceRuleChecker;
@@ -15,10 +17,25 @@ import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 public class APIGameHandler {
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
+
     //logger to display info in server console
     Logger logger;
 
@@ -42,6 +59,7 @@ public class APIGameHandler {
     //room related fields
     private final int roomSize;
     private final long roomID;
+    private long averageElo;
 
     //getters/setters
     public String getCurrentState() {
@@ -91,8 +109,21 @@ public class APIGameHandler {
         return roomID;
     }
 
+    public long getAverageElo() {
+        return averageElo;
+    }
+
+    public void setAverageElo(long averageElo) {
+        this.averageElo = averageElo;
+    }
 
     //constructor
+
+    public APIGameHandler(){
+        this.roomSize = 0;
+        this.roomID = 0;
+        this.averageElo = 0;
+    }
 
     /**
      * create a new room
@@ -118,6 +149,11 @@ public class APIGameHandler {
         this.currentState = State.WaitingToStartState.name();
         InitUnitAmountPerPlayer = 30;
         lostPlayer = new HashSet<>();
+        this.averageElo = 0;
+    }
+
+    public void test_user_repo(){
+        System.out.println("Printing elo "+ userRepository.findByid(players.iterator().next()).orElse(null).getElo());
     }
 
     /**
@@ -149,6 +185,7 @@ public class APIGameHandler {
             return false;
         } else {
             players.add(clientID);
+            updateAverageElo();
             //if have all players, start the game
             if (players.size() == roomSize) {
                 unitPlacementPhase(3);
@@ -157,6 +194,13 @@ public class APIGameHandler {
         }
     }
 
+    public void updateAverageElo(){
+        Long sum = 0L;
+        for (Long userId : players){
+            sum+=userRepository.findByid(userId).orElse(null).getElo();
+        }
+        this.averageElo = sum/players.size();
+    }
 
     /**
      * try to place unit into the map
@@ -171,6 +215,7 @@ public class APIGameHandler {
             return "Failed to place the orders! Place action invalid right now!";
         }
 
+        test_user_repo();
         //2. Check unit validation.
 
         //Rule Checker
@@ -232,6 +277,7 @@ public class APIGameHandler {
                 fightBattlesInAllTerritory();
                 increaseOneInAllTerritory();
                 increaseTechFoodForAll();
+                updateLostPlayer();
 
                 //check if the game has a winner
                 if (checkWinner() == null) {
@@ -401,8 +447,9 @@ public class APIGameHandler {
      */
     public String getPlayerState(Long clientID) {
         //check if this player lost
-        if (isPlayerLost(clientID))
+        if (isPlayerLost(clientID)) {
             return State.LostState.name();
+        }
         else {
             //check if this player has committed
             if (commitedPlayer.contains(clientID))
@@ -428,13 +475,16 @@ public class APIGameHandler {
      * going into placing order for each player
      */
     public void orderingPhase() {
-        for (Long id : players) {
-            isPlayerLost(id);
-        }
         currentState = State.OrderingState.name();
         commitedPlayer.clear();
         commitedPlayer.addAll(lostPlayer);
         temporaryOrders.clear();
+    }
+
+    private void updateLostPlayer() {
+        for (Long id : players) {
+            isPlayerLost(id);
+        }
     }
 
     /**
@@ -443,6 +493,30 @@ public class APIGameHandler {
     public void showGameResultPhase() {
         currentState = State.EndState.name();
         commitedPlayer.clear();
+        adjustRank();
+    }
+
+    private void adjustRank() {
+        logger.info(String.format("RoomID:%d adjusting rank", roomID));
+        for (Long userId : players){
+            if (lostPlayer.contains(userId)){
+                logger.info(String.format("Loser ID:%d ,adjusting rank", userId));
+                Long currElo = userRepository.findByid(userId).orElse(null).getElo();
+                if (currElo>=10){
+                    userService.setEloByUserID(userId, (currElo-10L));
+                }
+                else{
+                    userService.setEloByUserID(userId, (currElo-10L));
+                }
+                logger.info(String.format("Loser curr elo:%d", userRepository.findByid(userId).orElse(null).getElo()));
+            }
+            else {
+                logger.info(String.format("Winner ID:%d ,adjusting rank", userId));
+                Long currElo = userRepository.findByid(userId).orElse(null).getElo();
+                userService.setEloByUserID(userId, (currElo+(long)roomSize*10));
+                logger.info(String.format("Winner curr elo:%d", userRepository.findByid(userId).orElse(null).getElo()));
+            }
+        }
     }
 
     /**
@@ -479,8 +553,7 @@ public class APIGameHandler {
         for (Territory t : riskMap.getContinent()) {
             IDset.add(t.getOwnerID());
         }
-
-        logger.info(String.format("RoomID:%d Current IDset.size()=%d", roomID, IDset.size()));
+//        logger.info(String.format("RoomID:%d Current IDset.size()=%d", roomID, IDset.size()));
         if (IDset.size() == 1) {
             return IDset.iterator().next();
         }

@@ -18,6 +18,15 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
+    private Long elo;
+
+    public Long getElo() {
+        return elo;
+    }
+
+    public void setElo(Long elo) {
+        this.elo = elo;
+    }
 
     /**
      * default constructor
@@ -28,12 +37,13 @@ public class UserDetailsImpl implements UserDetails {
      * @param authorities
      */
     public UserDetailsImpl(Long id, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
+                           Collection<? extends GrantedAuthority> authorities,Long elo) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.elo = elo;
     }
 
     /**
@@ -50,7 +60,8 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                authorities);
+                authorities,
+                user.getElo());
     }
 
     /**
