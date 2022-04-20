@@ -2,7 +2,7 @@ package edu.duke.ece651.risk.apiserver.controllers;
 
 import edu.duke.ece651.risk.apiserver.APIGameHandler;
 import edu.duke.ece651.risk.apiserver.APIGameHandlerComparator;
-import edu.duke.ece651.risk.apiserver.models.State;
+import edu.duke.ece651.risk.apiserver.models.EState;
 import edu.duke.ece651.risk.apiserver.payload.request.CreateRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.JoinRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.PlaceOrderRequest;
@@ -202,7 +202,7 @@ public class GameController {
 //        System.out.println("all room elo "+userRepository.findByid(userId).orElse(null).getElo());
 
         List<APIGameHandler> res = rooms.entrySet().stream()
-                .filter(e -> (State.WaitingToStartState.name().equals(e.getValue().getCurrentState())
+                .filter(e -> (EState.WaitingToStartState.name().equals(e.getValue().getCurrentState())
                         && !e.getValue().getPlayers().contains(userId)))
                 .map(Map.Entry::getValue).collect(Collectors.toList());
 

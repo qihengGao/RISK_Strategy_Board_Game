@@ -1,6 +1,6 @@
 package edu.duke.ece651.risk.apiserver;
 
-import edu.duke.ece651.risk.apiserver.models.State;
+import edu.duke.ece651.risk.apiserver.models.EState;
 import edu.duke.ece651.risk.apiserver.repository.UserRepository;
 import edu.duke.ece651.risk.apiserver.security.services.UserService;
 import edu.duke.ece651.risk.shared.territory.Color;
@@ -17,15 +17,7 @@ import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -146,7 +138,7 @@ public class APIGameHandler {
         commitedPlayer = new HashSet<>();
         temporaryOrders = new ArrayList<>();
         logger = LoggerFactory.getLogger(APIGameHandler.class);
-        this.currentState = State.WaitingToStartState.name();
+        this.currentState = EState.WaitingToStartState.name();
         InitUnitAmountPerPlayer = 30;
         lostPlayer = new HashSet<>();
         this.averageElo = 0;
@@ -161,7 +153,7 @@ public class APIGameHandler {
      * @return RISKMap
      */
     public RISKMap getRiskMapByState() {
-        if (currentState.equals(State.PlacingState.name())) {
+        if (currentState.equals(EState.PlacingState.name())) {
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
 
             for (Territory t : cloneMap.getContinent()) {
@@ -211,7 +203,7 @@ public class APIGameHandler {
     public String tryPlaceUnit(Long clientID, Map<String, Integer> unitPlaceOrders) {
         //Check for valid place
         //1.Check for current State == PlacingState and clientID not in committedPlayer.
-        if (!Objects.equals(currentState, State.PlacingState.name()) || commitedPlayer.contains(clientID)) {
+        if (!Objects.equals(currentState, EState.PlacingState.name()) || commitedPlayer.contains(clientID)) {
             return "Failed to place the orders! Place action invalid right now!";
         }
 
@@ -256,7 +248,7 @@ public class APIGameHandler {
     public String tryPreProcessOrder(Long clientID, ArrayList<Order> orders) {
         //check if in ordering state
         //check if player committed already
-        if (!Objects.equals(currentState, State.OrderingState.name()) || commitedPlayer.contains(clientID)) {
+        if (!Objects.equals(currentState, EState.OrderingState.name()) || commitedPlayer.contains(clientID)) {
             return "Failed to place the orders! Place action invalid right now!";
         }
 
@@ -448,12 +440,12 @@ public class APIGameHandler {
     public String getPlayerState(Long clientID) {
         //check if this player lost
         if (isPlayerLost(clientID)) {
-            return State.LostState.name();
+            return EState.LostState.name();
         }
         else {
             //check if this player has committed
             if (commitedPlayer.contains(clientID))
-                return State.WaitingState.name();
+                return EState.WaitingState.name();
             else
                 return currentState;
         }
@@ -464,7 +456,7 @@ public class APIGameHandler {
      * @param n_Terr_per_player
      */
     public void unitPlacementPhase(int n_Terr_per_player) {
-        currentState = State.PlacingState.name();
+        currentState = EState.PlacingState.name();
         commitedPlayer.clear();
 
         assignColorToPlayers();
@@ -475,7 +467,7 @@ public class APIGameHandler {
      * going into placing order for each player
      */
     public void orderingPhase() {
-        currentState = State.OrderingState.name();
+        currentState = EState.OrderingState.name();
         commitedPlayer.clear();
         commitedPlayer.addAll(lostPlayer);
         temporaryOrders.clear();
@@ -491,7 +483,7 @@ public class APIGameHandler {
      * show the game result if this game has a winner
      */
     public void showGameResultPhase() {
-        currentState = State.EndState.name();
+        currentState = EState.EndState.name();
         commitedPlayer.clear();
         adjustRank();
     }
@@ -573,7 +565,7 @@ public class APIGameHandler {
         if (lostPlayer.contains(clientID)) {
             return true;
         }
-        if (currentState.equals(State.WaitingToStartState.name())) {
+        if (currentState.equals(EState.WaitingToStartState.name())) {
             return false;
         }
 

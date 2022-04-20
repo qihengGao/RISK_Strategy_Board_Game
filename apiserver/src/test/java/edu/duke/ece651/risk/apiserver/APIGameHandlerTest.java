@@ -1,6 +1,6 @@
 package edu.duke.ece651.risk.apiserver;
 
-import edu.duke.ece651.risk.apiserver.models.State;
+import edu.duke.ece651.risk.apiserver.models.EState;
 import edu.duke.ece651.risk.shared.territory.Color;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.factory.TestMapFactory;
@@ -41,7 +41,7 @@ class APIGameHandlerTest {
         RISKMap riskMap = (RISKMap) new RandomMapFactory().createMapForNplayers(3);
         assertEquals(displayMap(game.getRiskMap()), displayMap(riskMap));
         assertTrue(game.getPlayers().contains(1L));
-        assertEquals(game.getCurrentState(), State.WaitingToStartState.name());
+        assertEquals(game.getCurrentState(), EState.WaitingToStartState.name());
     }
 
     @Test
@@ -56,19 +56,19 @@ class APIGameHandlerTest {
         game.setRiskMap((RISKMap) new TestMapFactory().createMapForNplayers(3));
         RISKMap riskMap = (RISKMap) new TestMapFactory().createMapForNplayers(3);
         assertEquals(displayMap(game.getRiskMap()), displayMap(riskMap));
-        game.setCurrentState(State.PlacingState.name());
-        assertEquals(game.getCurrentState(), State.PlacingState.name());
+        game.setCurrentState(EState.PlacingState.name());
+        assertEquals(game.getCurrentState(), EState.PlacingState.name());
     }
 
     @Test
     void getRiskMapByState() {
         APIGameHandler game = new APIGameHandler(2, 0, 1L);
 
-        game.setCurrentState(State.PlacingState.name());
+        game.setCurrentState(EState.PlacingState.name());
         RISKMap riskMap = (RISKMap) new RandomMapFactory().createMapForNplayers(2);
         assertEquals(displayMap(game.getRiskMapByState()), displayMap(riskMap));
 
-        game.setCurrentState(State.OrderingState.name());
+        game.setCurrentState(EState.OrderingState.name());
         riskMap.getTerritoryByName("Test1").tryAddUnit(new BasicUnit("unit", 10));
         assertEquals(displayMap(game.getRiskMapByState()), displayMap(riskMap));
 
@@ -117,7 +117,7 @@ class APIGameHandlerTest {
 
         //first round
         assertNull(game.tryPreProcessOrder(1L,orders));
-        assertEquals(game.getPlayerState(1L), State.WaitingState.name());
+        assertEquals(game.getPlayerState(1L), EState.WaitingState.name());
         assertEquals(game.tryPreProcessOrder(1L,orders), "Failed to place the orders! Place action invalid right now!");
         ArrayList<Order> orders2 = new ArrayList<>();
         orders2.add(new MoveOrder(2L, "Test2", "Test4", "Soldier", 1));
@@ -150,7 +150,7 @@ class APIGameHandlerTest {
         assertNull(game.tryPreProcessOrder(1L,orders));
         assertNull(game.tryPreProcessOrder(2L,new ArrayList<>()));
         System.out.println(displayMap(game.getRiskMap()));
-        assertEquals(game.getCurrentState(), State.EndState.name());
+        assertEquals(game.getCurrentState(), EState.EndState.name());
 
         assertTrue(game.isPlayerLost(2L));
         assertFalse(game.isPlayerLost(1L));
@@ -266,10 +266,10 @@ class APIGameHandlerTest {
     @Test
     void isPlayerLost() {
         APIGameHandler game = new APIGameHandler(2, 0, 1L);
-        assertEquals(game.getPlayerState(1L), State.WaitingToStartState.name());
+        assertEquals(game.getPlayerState(1L), EState.WaitingToStartState.name());
         game.tryAddPlayer(2L);
         assertFalse(game.isPlayerLost(1L));
-        assertEquals(game.getPlayerState(1L), State.PlacingState.name());
+        assertEquals(game.getPlayerState(1L), EState.PlacingState.name());
         HashSet<Long> lost = new HashSet<>();
         lost.add(1L);
         game.setLostPlayer(lost);
@@ -279,8 +279,8 @@ class APIGameHandlerTest {
             t.tryChangeOwnerTo(2L);
         }
 
-        assertEquals(game.getPlayerState(1L), State.LostState.name());
-        assertEquals(game.getPlayerState(2L), State.EndState.name());
+        assertEquals(game.getPlayerState(1L), EState.LostState.name());
+        assertEquals(game.getPlayerState(2L), EState.EndState.name());
     }
 
     @Test
