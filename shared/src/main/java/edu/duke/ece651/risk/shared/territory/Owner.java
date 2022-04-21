@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class Owner implements Serializable {
+
+
     private long ownerId;
     private int currTechlevel;
     private int ownedFoodResource;
@@ -14,7 +16,8 @@ public class Owner implements Serializable {
     private HashMap<Integer, Integer> costToUpgradeTech;
 
     private HashSet<Long> alliance;
-
+    public Owner() {
+    }
     /**
      * default constructor, used to set all values
      * @param ownerId

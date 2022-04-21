@@ -13,14 +13,19 @@ import java.util.TreeSet;
  */
 public class BasicTerritory implements Territory {
   private Long OwnerID;
-  private final String name;
+  private  String name;
   private TreeSet<String> neighbors; // to make in order with repect to name
 
   private TreeSet<Unit> units;
+
+
   private BattleField battleField;
   private int size;
   private int foodProduction;
   private int techProduction;
+
+  public BasicTerritory() {
+  }
 
   //ctors
   public BasicTerritory(String Name){

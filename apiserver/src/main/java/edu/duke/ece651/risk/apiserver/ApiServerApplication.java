@@ -1,12 +1,13 @@
 package edu.duke.ece651.risk.apiserver;
 
+import edu.duke.ece651.risk.apiserver.repository.APIGameHandlerRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.EnableLoadTimeWeaving;
-import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import static org.springframework.context.annotation.EnableLoadTimeWeaving.AspectJWeaving.ENABLED;
-
+@Configuration
+@EnableMongoRepositories
 @SpringBootApplication
 public class ApiServerApplication {
 

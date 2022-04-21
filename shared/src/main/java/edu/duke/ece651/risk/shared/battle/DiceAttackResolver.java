@@ -2,12 +2,14 @@ package edu.duke.ece651.risk.shared.battle;
 
 import edu.duke.ece651.risk.shared.battle.AttackResolver;
 import edu.duke.ece651.risk.shared.unit.Unit;
-
+import org.springframework.data.annotation.Transient;
 import java.util.Random;
 
 public class DiceAttackResolver extends AttackResolver {
 
     private int diceFacetNumber;
+
+    @Transient
     private Random random;
 
     public DiceAttackResolver(int diceFacetNumber) {
@@ -15,9 +17,12 @@ public class DiceAttackResolver extends AttackResolver {
     }
     
     public DiceAttackResolver(int diceFacetNumber, AttackResolver next){
-        super(next);
+
         this.diceFacetNumber = diceFacetNumber;
         this.random = new Random(12345);
+    }
+
+    public DiceAttackResolver() {
     }
 
     /**

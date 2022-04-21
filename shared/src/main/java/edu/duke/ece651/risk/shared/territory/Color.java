@@ -6,8 +6,19 @@ import java.io.Serializable;
 //save the color information
 public class Color implements Serializable {
 
-    private final String colorName;
-    private final String colorValue;
+    private String colorName;
+    private String colorValue;
+
+    public void setColorName(String colorName) {
+        this.colorName = colorName;
+    }
+
+    public void setColorValue(String colorValue) {
+        this.colorValue = colorValue;
+    }
+
+    public Color() {
+    }
 
     public Color(String _colorName){
         this.colorName = _colorName;

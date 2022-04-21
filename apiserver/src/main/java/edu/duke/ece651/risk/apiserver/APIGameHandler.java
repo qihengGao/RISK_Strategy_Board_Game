@@ -22,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
@@ -29,36 +32,52 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Document("APIGameHandler")
 public class APIGameHandler {
+    @Transient
     @Autowired
     UserRepository userRepository;
 
+    @Transient
     @Autowired
     UserService userService;
 
+
+    @Id
+    private String roomID;
     //logger to display info in server console
+
+    @Transient
     Logger logger;
 
     //RISK game related fields
+
     private ArrayList<Color> predefineColorList = new ArrayList<>();
+
     private HashSet<Long> players; //all joined players
+
     private TreeMap<Long, Color> idToColor; //player id to color
 
     private String currentState; //game's current state
+
     private Set<Long> commitedPlayer; //all committed players
 
     public void setLostPlayer(Set<Long> lostPlayer) {
         this.lostPlayer = lostPlayer;
     }
 
+
     private Set<Long> lostPlayer; //all losted players
+
     private RISKMap riskMap; //the map to play with
+
     private Integer InitUnitAmountPerPlayer; //Initial Total Unit amount available for each player
+
     private ArrayList<Order> temporaryOrders; // temporary order holder
 
     //room related fields
-    private final int roomSize;
-    private final long roomID;
+    private int roomSize;
+
     private long averageElo;
     private boolean competitive;
 
@@ -107,7 +126,7 @@ public class APIGameHandler {
     }
 
     public long getRoomID() {
-        return roomID;
+        return Long.parseLong(roomID);
     }
 
     public long getAverageElo() {
@@ -129,10 +148,10 @@ public class APIGameHandler {
     //constructor
 
     public APIGameHandler(){
-        this.roomSize = 0;
-        this.roomID = 0;
-        this.averageElo = 0;
-        this.competitive = true;
+//        this.roomSize = 0;
+//        this.roomID = 0;
+//        this.averageElo = 0;
+//        this.competitive = true;
     }
 
     /**
@@ -143,7 +162,7 @@ public class APIGameHandler {
      */
     public APIGameHandler(int roomSize, long roomID, Long hostID) {
         this.roomSize = roomSize;
-        this.roomID = roomID;
+        this.roomID = String.valueOf(roomID);
         predefineColorList.add(new Color("Red"));
         predefineColorList.add(new Color("Green"));
         predefineColorList.add(new Color("Blue"));

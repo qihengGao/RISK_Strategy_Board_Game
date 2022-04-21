@@ -8,13 +8,9 @@ import java.io.Serializable;
  * Abstract class for general chaining defensing attack check.
  */
 public abstract class AttackResolver implements Serializable {
-	protected final AttackResolver next;
 
-	/**
-	 * Constructors.
-	 */
-	public AttackResolver(AttackResolver next){
-		this.next = next;
+
+	public AttackResolver() {
 	}
 
 	/**
