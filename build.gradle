@@ -57,7 +57,7 @@ allprojects{
         testImplementation 'org.mockito:mockito-core:4.3.1'
         testImplementation 'org.mockito:mockito-junit-jupiter:4.3.1'
 
-        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 
 
 
@@ -91,10 +91,9 @@ allprojects{
 
 // Project specific stuff
 project (':shared'){
-//    dependencies {
-//        testImplementation project(':client')
-//        testImplementation project(':server')
-//    }
+    dependencies {
+
+    }
 }
 
 //project (':client'){

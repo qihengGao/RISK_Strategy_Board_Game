@@ -32,16 +32,6 @@ public class ChatRoomController {
     @Autowired
     private ChatRoomMessageRepository chatRoomMessageRepository;
 
-//
-//    @MessageMapping("/chat/{topic}")
-////    @SendTo("/topic/{topic}")
-//    public OutputMessage send(
-//            @DestinationVariable("topic") String topic, Message message)
-//            throws Exception {
-//        System.out.println(topic);
-//
-//        return new OutputMessage(message.getFrom(), message.getText(), topic);
-//    }
 
     @MessageMapping("/chat/{roomID}")
     public void simple(@DestinationVariable String roomID, Message message, StompHeaderAccessor accessor) {
