@@ -1,7 +1,8 @@
 import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import { deepOrange } from "@material-ui/core/colors";
+import {deepOrange} from "@material-ui/core/colors";
+import {blue, green, pink, yellow} from "@mui/material/colors";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: "10px",
             padding: "10px",
             backgroundColor: "#A8DDFD",
-            width: "60%",
+            //width: "60%",
             //height: "50px",
             textAlign: "left",
             font: "400 .9em 'Open Sans', sans-serif",
@@ -113,21 +114,39 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     })
 );
-
+const avatarBgColor = (note) => {
+    if (note.category === "work") {
+        return yellow[700];
+    }
+    if (note.category === "money") {
+        return green[700];
+    }
+    if (note.category === "todos") {
+        return pink[500];
+    } else {
+        return blue[500];
+    }
+};
 //avatarが左にあるメッセージ（他人）
 export const MessageLeft = (props) => {
     const message = props.message ? props.message : "no message";
-    const timestamp = props.timestamp ? props.timestamp : "";
+    const timestamp = props.timestamp ? new Date(Date.parse(props.timestamp)).toLocaleTimeString("en-US", {
+        hour: '2-digit',
+        minute: '2-digit'
+    }) : "";
     const photoURL = props.photoURL ? props.photoURL : "dummy.js";
-    const displayName = props.displayName ? props.displayName : "名無しさん";
+    const displayName = props.displayName ? props.displayName : "";
     const classes = useStyles();
+    console.log(classes)
     return (
         <>
             <div className={classes.messageRow}>
                 <Avatar
                     alt={displayName}
-                    className={classes.orange}
                     src={photoURL}
+                    style={{
+                        backgroundColor: props.color
+                    }}
                 ></Avatar>
                 <div>
                     <div className={classes.displayName}>{displayName}</div>
@@ -146,7 +165,10 @@ export const MessageLeft = (props) => {
 export const MessageRight = (props) => {
     const classes = useStyles();
     const message = props.message ? props.message : "no message";
-    const timestamp = props.timestamp ? props.timestamp : "";
+    const timestamp = props.timestamp ? new Date(Date.parse(props.timestamp)).toLocaleTimeString("en-US", {
+        hour: '2-digit',
+        minute: '2-digit'
+    }) : "";
     return (
         <div className={classes.messageRowRight}>
             <div className={classes.messageOrange}>

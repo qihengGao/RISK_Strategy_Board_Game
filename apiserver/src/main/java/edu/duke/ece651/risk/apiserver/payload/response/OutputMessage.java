@@ -1,25 +1,28 @@
 package edu.duke.ece651.risk.apiserver.payload.response;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class OutputMessage {
 
-    private String from;
+    private Long from;
     private String message;
     private String topic;
-    private Date time = new Date();
 
-    public OutputMessage(String from, String message, String topic) {
+    private LocalDateTime timestamp;
+
+    public OutputMessage(Long from, String message, String topic,LocalDateTime timestamp) {
         this.from = from;
         this.message = message;
         this.topic = topic;
+        this.timestamp = timestamp;
     }
 
-    public String getFrom() {
+    public Long getFrom() {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(Long from) {
         this.from = from;
     }
 
@@ -39,12 +42,13 @@ public class OutputMessage {
         this.topic = topic;
     }
 
-    public Date getTime() {
-        return time;
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
+
 // add getters and setters here
 }

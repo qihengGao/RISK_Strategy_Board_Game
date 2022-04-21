@@ -1,5 +1,7 @@
 package edu.duke.ece651.risk.apiserver.payload.response;
 
+
+
 public class MessageResponse {
     private String message;
 
