@@ -148,6 +148,14 @@ class Navbar extends React.Component {
                         >
                             Joined rooms
                         </Button>
+                        <Button
+                            key="historyRooms"
+                            component={Link}
+                            href="/historyRooms"
+                            sx={{my: 2, color: 'white', display: 'block'}}
+                        >
+                            History Games
+                        </Button>
                     </Box>
                     {currentUser ? (<Box sx={{flexGrow: 0}}>
                         <Tooltip title="Open settings">

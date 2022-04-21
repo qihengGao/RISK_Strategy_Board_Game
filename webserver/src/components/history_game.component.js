@@ -14,6 +14,13 @@ import Button from "@mui/material/Button";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 
 import TestSocket from "./testSocket";
+import MenuItem from "@mui/material/MenuItem";
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
 
 
 let echarts = require('echarts');
@@ -123,6 +130,28 @@ export default class play extends Component {
                 (
                     <div id="upper" style={{marginTop:"3%"}}>
                         <Box sx={{flexGrow: 1}}>
+                            <Menu
+                                sx={{mt: '45px'}}
+                                id="round-selectbar"
+                                keepMounted
+                                open={this.state.anchorElUser}
+                                onClose={this.handleCloseUserMenu}
+                            >
+                                <MenuItem key="Profile" component={Link} href={"/profile"}>
+                                    <Typography>
+                                        Profile
+                                    </Typography>
+                                </MenuItem>
+
+                                <MenuItem key="Logout">
+                                    <Typography onClick={this.logOut}>
+                                        Logout
+                                    </Typography>
+                                </MenuItem>
+
+
+                            </Menu>
+
 
                             <Grid container spacing={2}>
                                 <Grid item xs={5}>

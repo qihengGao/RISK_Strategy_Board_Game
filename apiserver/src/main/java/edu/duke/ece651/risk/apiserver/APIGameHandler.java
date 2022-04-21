@@ -563,22 +563,18 @@ public class APIGameHandler {
     }
 
     private void adjustRank() {
-        logger.info(String.format("RoomID:%d adjusting rank", roomID));
         for (Long userId : players) {
             if (lostPlayer.contains(userId)) {
-                logger.info(String.format("Loser ID:%d ,adjusting rank", userId));
                 Long currElo = userRepository.findByid(userId).orElse(null).getElo();
                 if (currElo >= 10) {
-                    userService.setEloByUserID(userId, (currElo - 10L));
+                    userService.setEloByUserID(userId, (0L));
                 } else {
                     userService.setEloByUserID(userId, (currElo - 10L));
                 }
-                logger.info(String.format("Loser curr elo:%d", userRepository.findByid(userId).orElse(null).getElo()));
             } else {
-                logger.info(String.format("Winner ID:%d ,adjusting rank", userId));
                 Long currElo = userRepository.findByid(userId).orElse(null).getElo();
+                Long addElo = 100 * (1- currElo/(averageElo*roomSize));
                 userService.setEloByUserID(userId, (currElo + (long) roomSize * 10));
-                logger.info(String.format("Winner curr elo:%d", userRepository.findByid(userId).orElse(null).getElo()));
             }
         }
     }

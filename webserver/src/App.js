@@ -7,7 +7,9 @@ import MuiLogin from "./components/MuiLogin.component";
 import MuiRegister from "./components/MUIRegister.component";
 import allRooms from "./components/allRooms.component";
 import joinedRooms from "./components/joinedRooms.component";
+import historyRooms from "./components/allHistoryRooms.component";
 import play from "./components/play.component";
+import record from "./components/history_game.component";
 import testSocket from "./components/testSocket";
 
 class App extends React.Component {
@@ -40,7 +42,9 @@ class App extends React.Component {
                         <Route exact path="/profile" component={Profile}/>
                         <Route exact path="/allRooms" component={allRooms}/>
                         <Route exact path="/joinedRooms" component={joinedRooms}/>
+                        <Route exact path="/historyRooms" component={historyRooms}/>
                         <Route exact path="/play/:roomID" component={play}/>
+                        <Route exact path="/record/:roomID/:roundNumber" component={record}/>
                         <Route exact path="/testSocket" component={testSocket}/>
 
                     </Switch>

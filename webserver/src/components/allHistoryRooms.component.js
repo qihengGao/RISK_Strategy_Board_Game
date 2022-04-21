@@ -21,7 +21,7 @@ const API_URL = "http://localhost:8080";
 export default class allRoomsComponent extends Component {
 
     /**
-     * constructor to build this component
+     * ctor for joined rooms
      * @param props
      */
     constructor(props) {
@@ -35,209 +35,111 @@ export default class allRoomsComponent extends Component {
             rows: [],
             openSnackBar: false,
             snackBarMessage: "Successfully commit the message",
-            snackbarType: "success",
-            openCreateRoomDialog: false,
-            roomSize: null
+            snackbarType: "success"
         };
         //this.initComponent = this.initComponent.bind(this);
     }
 
     /**
-     * render the page of all rooms
+     * render the information in this page+
      * @returns {JSX.Element}
      */
     render() {
-        console.log(this.state.rooms)
+        console.log("Rows: ")
+        console.log(this.state.rows);
         let columns: GridColDef[] = [{
-            field: 'id', headerName: 'Room ID', width: 150
+            field: 'id', headerName: '', width: 90
+        },{
+            field: 'roomID', headerName: 'Room ID', width: 90
         }, {
-            field: 'roomSize', headerName: 'Room Size', width: 150, editable: false,
-        }, {
-            field: 'roomState', headerName: 'Room Status', width: 150, editable: false,
-        }, {
-            field: 'roomAvgElo', headerName: 'Average Rank', width: 150, editable: false,
+            field: 'roundNumber', headerName: 'Round Number', width: 150, editable: false,
         }, {
             field: 'action',
             headerName: '',
             sortable: false,
             /**
-             * render each cell in the list of rooms
+             * render the cells in the list of rooms in joined rooms
              * @param params
              * @returns {JSX.Element}
              */
             renderCell: (params) => {
-                const onClick = (e) => {
-                    e.stopPropagation(); // don't select this row after clicking
+                // const onClick = (e) => {
+                //     e.stopPropagation(); // don't select this row after clicking
+                //
+                //     const api: GridApi = params.api;
+                //     const thisRow: Record<string, GridCellValue> = {};
+                //
+                //     api
+                //         .getAllColumns()
+                //         .filter((c) => c.field !== '__check__' && !!c)
+                //         .forEach(
+                //             (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
+                //         );
+                // };
+                console.log("params:")
+                console.log(params)
 
-                    const api: GridApi = params.api;
-                    const thisRow: Record<string, GridCellValue> = {};
-
-                    api
-                        .getAllColumns()
-                        .filter((c) => c.field !== '__check__' && !!c)
-                        .forEach(
-                            (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
-                        );
-                    axios
-                        .post("/api/game/joinRoom", {
-                            roomID: thisRow.id
-                        }, {
-                            headers: authHeader()
-                        });
-                        // .then(() => {
-                        //         this.handleSnackBarUpdate("success", "Successfully join room!")
-                        //
-                        //     }, error => {
-                        //         this.handleSnackBarUpdate("error", "Failed join room\n" + error.messages)
-                        //     }
-                        // );
-                };
-                return <Button onClick={onClick} href={"play/" + params.id}>Join</Button>;
+                return <Button href={"record/"+params.row.roomID + "/"+params.row.roundNumber} >View</Button>;
             },
         },
         ];
 
         /**
-         * define the elements in the page
+         * define all the elements in the page
          */
         return (
 
-            <div>
-                <div style={{
-                    height: 550,
-                    marginLeft: 50,
-                    marginRight: 50,
-                    marginTop: 40,
-                    marginBottom: 40,
-                }
-                }><Stack
-                    sx={{width: '100%', mb: 1}}
-                    direction="row"
-                    alignItems="flex-start"
-                    columnGap={1}
-
-                >
-
-                    <Button
-                        variant="contained"
-                        size="small" onClick={this.handleCreateRoomButton}>Add new room</Button>
-                </Stack>
-                    <DataGrid
-
-                        rows={this.state.rows}
-                        columns={columns}
-                        pageSize={5}
-                        // rowsPerPageOptions={[5]}
-                        // experimentalFeatures={{newEditingApi: true}}
-                        onCellEditCommit={this.handleCellCommit}
-                    />
-                    <Snackbar open={this.state.openSnackBar} autoHideDuration={6000}
-                              onClose={this.handleSnackBarClose}>
-                        <Alert onClose={this.handleSnackBarClose} severity={this.state.snackbarType} sx={{width: '100%'}}>
-                            {this.state.snackBarMessage}
-                        </Alert>
-                    </Snackbar>
-
-
-                    <Dialog open={this.state.openCreateRoomDialog} onClose={this.handleCreateRoomClose}>
-                        <DialogTitle>Create Room</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                To create a new game room, specify room size here.
-                            </DialogContentText>
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="roomSize"
-                                label="Room Size"
-                                type="number"
-                                fullWidth
-                                variant="standard"
-                                onChange={this.handleRoomSizeChange}
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button variant="contained" onClick={this.handleCreateRoomSubmit}>Create</Button>
-                            <Button onClick={this.handleCreateRoomClose}>Cancel</Button>
-                        </DialogActions>
-                    </Dialog>
-                </div>
-            </div>
-        )
-    }
-
-
-
-
-
-    /**
-     * handle choose of changing room size
-     * @param e
-     */
-    handleRoomSizeChange = (e) => {
-
-        this.setState({
-            roomSize: e.target.value
-        })
-    }
-
-    /**
-     * snack bar handlers
-     * @param event
-     * @param reason
-     */
-    handleSnackBarClose = (event,reason) => {
-        this.setState({openSnackBar: false})
-    };
-
-    handleSnackBarUpdate = (type, message) => {
-        this.setState(
-            {
-                openSnackBar: true,
-                snackBarMessage: message,
-                snackbarType: type
+            <div style={{
+                height: 600,
+                marginLeft: 50,
+                marginRight: 50,
+                marginTop: 40,
+                marginBottom: 40,
             }
-        )
-    }
-
-
-    componentDidMount() {
-        this.getAllRooms();
-
+            }>
+                <DataGrid
+                    rows={this.state.rows}
+                    columns={columns}
+                    pageSize={9}
+                    rowsPerPageOptions={[8]}
+                    // experimentalFeatures={{newEditingApi: true}}
+                    onCellEditCommit={this.handleCellCommit}
+                />
+            </div>)
+            ;
     }
 
     /**
-     * get all rooms data
+     * get data
      */
-    getAllRooms=()=>{
+    componentDidMount() {
         axios
             .get("/api/historyGame/rooms/available", {
                 params: {},
                 headers: authHeader()
             })
             .then(response => {
-
+                console.log(response.data.rooms);
                 let tmpRows = [];
-                for (const room of response.data.rooms) {
+                var idCounter = 0;
+                for(const room of response.data.rooms){
                     tmpRows.push({
-                        id: room.roomID,
-                        roomSize: room.players.length + "/" + room.roomSize,
-                        roomState: "Waiting To Start",
-                        roomAvgElo: room.averageElo
+                        id:idCounter++,
+                        roomID:room.roomID,
+                        roundNumber:room.roundNumber
                     })
                 }
 
-
-                this.setState({
+                console.log("tmpRows")
+                console.log(tmpRows);
+                this.setState( {
 
                     rows: tmpRows
 
                 })
+                console.log(this.state.rows);
 
             });
-    }
-
-    componentDidUpdate() {
 
     }
 
