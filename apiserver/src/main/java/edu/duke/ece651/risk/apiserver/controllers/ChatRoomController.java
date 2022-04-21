@@ -11,10 +11,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ChatRoomController {
     @MessageMapping("/chat/{topic}")
-    @SendTo("/topic/messages")
+    @SendTo("/topic/{topic}")
     public OutputMessage send(
             @DestinationVariable("topic") String topic, Message message)
             throws Exception {
+        System.out.println(topic);
         return new OutputMessage(message.getFrom(), message.getText(), topic);
     }
 }
