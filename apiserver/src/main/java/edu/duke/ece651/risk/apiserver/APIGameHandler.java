@@ -1,7 +1,9 @@
 package edu.duke.ece651.risk.apiserver;
 
+import edu.duke.ece651.risk.apiserver.models.HistoryGame;
 import edu.duke.ece651.risk.apiserver.models.HistoryOrders;
 import edu.duke.ece651.risk.apiserver.models.State;
+import edu.duke.ece651.risk.apiserver.repository.HistoryGameRepository;
 import edu.duke.ece651.risk.apiserver.repository.HistoryOrdersRepository;
 import edu.duke.ece651.risk.apiserver.repository.UserRepository;
 import edu.duke.ece651.risk.apiserver.security.services.UserService;
@@ -39,6 +41,10 @@ public class APIGameHandler {
     @Transient
     @Autowired
     HistoryOrdersRepository historyOrdersRepository;
+
+    @Transient
+    @Autowired
+    HistoryGameRepository historyGameRepository;
 
 
     @Id
@@ -322,6 +328,8 @@ public class APIGameHandler {
                     historyOrdersRepository.save(new HistoryOrders(Long.parseLong(roomID),roundNumber,order));
                 }
 
+
+
                 //check if the game has a winner
                 if (checkWinner() == null) {
                     //if not, go to next round
@@ -525,6 +533,7 @@ public class APIGameHandler {
      * going into placing order for each player
      */
     public void orderingPhase() {
+        historyGameRepository.save(new HistoryGame(Long.parseLong(roomID),roundNumber,this));
         currentState = State.OrderingState.name();
         commitedPlayer.clear();
         commitedPlayer.addAll(lostPlayer);
@@ -541,9 +550,11 @@ public class APIGameHandler {
      * show the game result if this game has a winner
      */
     public void showGameResultPhase() {
+        historyGameRepository.save(new HistoryGame(Long.parseLong(roomID),roundNumber,this));
         currentState = State.EndState.name();
         commitedPlayer.clear();
         adjustRank();
+        historyGameRepository.save(new HistoryGame(Long.parseLong(roomID),roundNumber,this));
     }
 
     private void adjustRank() {

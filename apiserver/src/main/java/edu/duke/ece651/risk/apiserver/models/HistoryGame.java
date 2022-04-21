@@ -1,21 +1,22 @@
 package edu.duke.ece651.risk.apiserver.models;
 
 
+import edu.duke.ece651.risk.apiserver.APIGameHandler;
 import edu.duke.ece651.risk.shared.order.Order;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("HistoryOrders")
-public class HistoryOrders {
+@Document("HistoryGame")
+public class HistoryGame {
     Long roomID;
     Long roundNumber;
-    Order order;
-    public HistoryOrders() {
-    }
 
-    public HistoryOrders(Long roomID, Long roundNumber, Order order) {
+    public HistoryGame(Long roomID, Long roundNumber, APIGameHandler apiGameHandler) {
         this.roomID = roomID;
         this.roundNumber = roundNumber;
-        this.order = order;
+        this.apiGameHandler = apiGameHandler;
+    }
+
+    public HistoryGame() {
     }
 
     public Long getRoomID() {
@@ -34,14 +35,13 @@ public class HistoryOrders {
         this.roundNumber = roundNumber;
     }
 
-    public Order getOrder() {
-        return order;
+    public APIGameHandler getApiGameHandler() {
+        return apiGameHandler;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setApiGameHandler(APIGameHandler apiGameHandler) {
+        this.apiGameHandler = apiGameHandler;
     }
 
-
-
+    APIGameHandler apiGameHandler;
 }
