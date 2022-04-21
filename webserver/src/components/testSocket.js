@@ -5,7 +5,12 @@ import authHeader from "../services/auth-header";
 import SockJS from "sockjs-client"
 import * as Stomp from 'stompjs'
 import AuthService from "../services/auth.service";
-
+import {MessageLeft, MessageRight} from "./Message";
+import {Alert, CircularProgress, Paper, Snackbar} from "@mui/material";
+import Grid from "@mui/material/Grid";
+import TextField from "@material-ui/core/TextField";
+import Button from "@mui/material/Button";
+import SendIcon from '@mui/icons-material/Send';
 
 export default class testSocket extends Component {
     constructor(props) {
@@ -22,7 +27,13 @@ export default class testSocket extends Component {
             socket_client: null,
             topic: "public",
             currentUser: AuthService.getCurrentUser(),
-            socket_message: "demo"
+            socket_message: "",
+            socket_isConnect: false,
+            snackbar_loading_open: true,
+            snackbar_severity: "info",
+            snackbar_message: "Connecting chat server",
+            snackbar_success_open: false,
+            socket_history_messages: []
         };
     }
 
@@ -30,20 +41,32 @@ export default class testSocket extends Component {
     /**
      * handle the action of
      */
-    handleConnectSocket = () => {
+    componentDidMount() {
 
         let client = Stomp.over(new SockJS('http://localhost:8080/chat', null, {
             transports: ['xhr-streaming'],
             headers: {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9...'}
         }));
         client.connect(authHeader(), function (frame) {
-            //setConnected(true);
+
             console.log("connect Stomp")
             client.subscribe('/topic/messages', function (message) {
-                //showMessage(JSON.parse(message.body));
-            });
+                this.setState(prevState => ({
+
+                    socket_history_messages: [...prevState.socket_history_messages, JSON.parse(message.body)]
+
+                }))
+                console.log(this.state.socket_history_messages)
+                React.createElement(
+                    "MessageLeft", {message: message.body.message, timestamp: "123631"}
+                )
+            }.bind(this));
             this.setState({
-                socket_client: client
+                socket_client: client,
+                socket_isConnect: true,
+                snackbar_success_open: true,
+                snackbar_loading_open: false
+
             });
         }.bind(this));
     }
@@ -58,98 +81,101 @@ export default class testSocket extends Component {
             from: this.state.currentUser.username,
             text: this.state.socket_message
         }));
+        this.setState({
+            socket_message: ''
+        })
     }
 
+
+    handleCloseLoadingSnackbar = () => {
+
+        this.setState({
+
+            snackbar_loading_open: false
+        })
+    }
+    handleSocketMessageChange = (e) => {
+
+        this.setState({
+
+            socket_message: e.target.value
+        })
+    }
+
+    handleCloseSuccessSnackbar = () => {
+
+        this.setState({
+            snackbar_success_open: false
+
+        })
+    }
 
     /**
      * render the page (define the elements in the page)
      * @returns {JSX.Element}
      */
     render() {
+
         return (
 
-            <Container component="main" maxWidth="xs">
+            <Container maxWidth="xs">
 
-                {/*<SockJsClient url='http://localhost:8080/chat' topics={['/topic/messages']} headers={authHeader()}*/}
-                {/*              onMessage={(msg) => {*/}
-                {/*                  console.log(msg);*/}
-                {/*              }}*/}
-                {/*              ref={(client) => {*/}
-                {/*                  this.clientRef = client*/}
-                {/*              }}*/}
-                {/*              onConnected={(client) => {*/}
-                {/*                  console.log("onConnected");*/}
-                {/*                  // Subscribe to the Public Topic*/}
-                {/*                  client.subscribe("/topic/public", this.onMessageReceived);*/}
 
-                {/*                  // Tell your username to the server*/}
-                {/*                  client.send(*/}
-                {/*                      "/chat/addUser/1",*/}
-                {/*                      {},*/}
-                {/*                      JSON.stringify({sender: "Ali", type: "JOIN"})*/}
-                {/*                  );*/}
-                {/*              }}/>*/}
-                <div id="main-content" className="container">
-                    <div className="row">
-                        <div className="col-md-12 space-bottom10">
+                <div>
+                    <Paper>
 
-                            <div className="form-group">
-                                <label htmlFor="from">Name?</label>
-                                <input type="text" id="from" className="form-control"
-                                       placeholder="enter your name..."/>
-                            </div>
-                            <button
+                        {
+                            this.state.socket_history_messages.map((item) => (
+                                    item.from === this.state.currentUser.username ?
+                                        <MessageRight message={item.message} timestamp={item.timestamp}/>
+                                        :
+                                        <MessageLeft message={item.message} timestamp={item.timestamp}
+                                                     displayName={item.from}/>
+                                )
+                            )
+                        }
 
-                                onClick={() => this.handleConnectSocket()}>Connect
-                            </button>
-                            <button id="disconnect"
-                                    className="btn btn-default"
-                                    type="submit"
-                                    disabled="disabled">Disconnect
-                            </button>
 
-                        </div>
-                    </div>
-                    <div className="row space-bottom10">
+                    </Paper>
+                    <form noValidate autoComplete="off">
+                        <TextField
+                            label="Message"
+                            value={this.state.socket_message}
+                            onChange={this.handleSocketMessageChange}
+                        />
+                        <Button variant="contained" onClick={this.handleSendMessage}>
+                            <SendIcon/>
+                        </Button>
+                    </form>
 
-                        <div className="col-md-2">
-                            <select name="topic"
-                                    id="topic"
-                                    className="form-control">
-                                <option>Lifestyle</option>
-                                <option>Travel</option>
-                                <option>Career</option>
-                            </select>
-                        </div>
-                        <div className="col-md-6">
-                            <input type="text"
-                                   id="text"
-                                   className="form-control"
-                                   placeholder="enter message ..."/>
-                        </div>
-                        <div className="col-md-4">
-                            <button onClick={() => this.handleSendMessage()}>Send
-                            </button>
-                        </div>
-
-                    </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <table id="conversation" className="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th width="10%">From</th>
-                                    <th width="15%">Topic</th>
-                                    <th width="60%">Message</th>
-                                    <th width="10%">Time</th>
-                                </tr>
-                                </thead>
-                                <tbody id="messages">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
+
+
+                <Snackbar open={this.state.snackbar_loading_open} autoHideDuration={3000}
+                          onClose={this.handleCloseLoadingSnackbar}>
+                    <Alert onClose={this.handleCloseLoadingSnackbar} severity="info" sx={{width: '100%'}}>
+                        <Grid container direction="row" alignItems="center">
+                            <Grid item>
+                                <div>Connecting to chat server</div>
+                            </Grid>
+                            <Grid item>
+                                <CircularProgress/>
+                            </Grid>
+                        </Grid>
+                    </Alert>
+
+                </Snackbar>
+                <Snackbar open={this.state.snackbar_success_open} autoHideDuration={2000}
+                          onClose={this.handleCloseSuccessSnackbar}>
+                    <Alert onClose={this.handleCloseSuccessSnackbar} severity="success" sx={{width: '100%'}}>
+                        <Grid container direction="row" alignItems="center">
+                            <Grid item>
+                                <div>Successfully connect to chat server</div>
+                            </Grid>
+                        </Grid>
+                    </Alert>
+
+                </Snackbar>
             </Container>
 
         );

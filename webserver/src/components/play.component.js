@@ -13,6 +13,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {DataGrid, GridColDef} from "@mui/x-data-grid";
 
+import TestSocket from "./testSocket";
+
 
 let echarts = require('echarts');
 
@@ -131,49 +133,51 @@ export default class play extends Component {
                                 </Grid>
                             </Grid>
 
-                            <div style={{
-                                height: 600,
-                                marginLeft: 50,
-                                marginRight: 50,
-                                marginTop: 40,
-                                marginBottom: 40,
-                            }
-                            }>
-                            <DataGrid
-                                rows={this.state.rows}
-                                columns={columns_chat}
-                                pageSize={9}
-                                rowsPerPageOptions={[8]}
-                            />
-                                </div>
+                            {/*<div style={{*/}
+                            {/*    height: 600,*/}
+                            {/*    marginLeft: 50,*/}
+                            {/*    marginRight: 50,*/}
+                            {/*    marginTop: 40,*/}
+                            {/*    marginBottom: 40,*/}
+                            {/*}*/}
+                            {/*}>*/}
+                            {/*<DataGrid*/}
+                            {/*    rows={this.state.rows}*/}
+                            {/*    columns={columns_chat}*/}
+                            {/*    pageSize={9}*/}
+                            {/*    rowsPerPageOptions={[8]}*/}
+                            {/*/>*/}
+                            {/*    </div>*/}
 
-                            <Box component="form" onSubmit={this.handleRegister} noValidate sx={{ mt: 1 }}>
-                                <label htmlFor="target">Chat Target:</label>
-                                <select name="target" id="target">
-                                    <option value="allies">Your Allies</option>
-                                    <option value="all">All Players</option>
-                                </select>
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="username"
-                                    label="Message"
-                                    name="username"
-                                    autoComplete="username"
-                                    autoFocus
-                                    value={this.state.username}
-                                    onChange={this.onChangeUsername}
-                                />
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{ mt: 3, mb: 2 }}
-                                >
-                                    Send
-                                </Button>
-                            </Box>
+                            {/*<Box component="form" onSubmit={this.handleRegister} noValidate sx={{ mt: 1 }}>*/}
+                            {/*    <label htmlFor="target">Chat Target:</label>*/}
+                            {/*    <select name="target" id="target">*/}
+                            {/*        <option value="allies">Your Allies</option>*/}
+                            {/*        <option value="all">All Players</option>*/}
+                            {/*    </select>*/}
+                            {/*    <TextField*/}
+                            {/*        margin="normal"*/}
+                            {/*        required*/}
+                            {/*        fullWidth*/}
+                            {/*        id="username"*/}
+                            {/*        label="Message"*/}
+                            {/*        name="username"*/}
+                            {/*        autoComplete="username"*/}
+                            {/*        autoFocus*/}
+                            {/*        value={this.state.username}*/}
+                            {/*        onChange={this.onChangeUsername}*/}
+                            {/*    />*/}
+                            {/*    <Button*/}
+                            {/*        type="submit"*/}
+                            {/*        fullWidth*/}
+                            {/*        variant="contained"*/}
+                            {/*        sx={{ mt: 3, mb: 2 }}*/}
+                            {/*    >*/}
+                            {/*        Send*/}
+                            {/*    </Button>*/}
+                            {/*</Box>*/}
+
+                            <TestSocket/>
 
                         </Box>
 

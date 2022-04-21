@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import AuthService from "../services/auth.service";
+import authHeader from "../services/auth-header";
+import axios from "axios";
 
 /**
  * controls the profile to show to the user
@@ -8,7 +10,8 @@ export default class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: AuthService.getCurrentUser()
+            currentUser: AuthService.getCurrentUser(),
+            currentUserElo: 0
         };
     }
 
@@ -18,6 +21,7 @@ export default class Profile extends Component {
      */
     render() {
         const { currentUser } = this.state;
+
         return (
             <div style={{
                 height: 550,
@@ -37,8 +41,8 @@ export default class Profile extends Component {
                     {currentUser.accessToken}
                 </p>
                 <p>
-                    <strong>Elo:</strong>{" "}
-                    {currentUser.elo}
+                    <strong>Rank:</strong>{" "}
+                    {this.state.currentUserElo}
                 </p>
                 <p>
                     <strong>Id:</strong>{" "}
@@ -55,5 +59,23 @@ export default class Profile extends Component {
                 </ul>
             </div>
         );
+    }
+
+    componentDidMount() {
+        this.getUserElo();
+    }
+
+    getUserElo=()=>{
+        axios
+            .get("/api/game/userElo", {
+                params: {},
+                headers: authHeader()
+            })
+            .then(response => {
+                console.log("User Elo:" + response.data)
+                this.setState({
+                    currentUserElo: response.data
+                })
+            })
     }
 }

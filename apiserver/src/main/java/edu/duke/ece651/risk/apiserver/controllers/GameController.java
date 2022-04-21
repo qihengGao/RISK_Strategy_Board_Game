@@ -36,7 +36,6 @@ public class GameController {
     @Autowired
     private UserRepository userRepository;
 
-
     private HashMap<Long, APIGameHandler> rooms;
 
     public GameController() {
@@ -197,7 +196,7 @@ public class GameController {
     @GetMapping("/rooms/available")
     public ResponseEntity<RoomsAvailableResponse> allRooms() {
         Long userId = getUserId();
-        System.out.println("all room elo "+userRepository.findByid(userId).orElse(null).getElo());
+//        System.out.println("all room elo "+userRepository.findByid(userId).orElse(null).getElo());
 //        userRepository.findByid(userId).orElse(null).setElo(1000L);
 //        System.out.println("all room elo "+userRepository.findByid(userId).orElse(null).getElo());
 
@@ -219,11 +218,18 @@ public class GameController {
     @GetMapping("/rooms/joined")
     public ResponseEntity<RoomsAvailableResponse> joinedRooms() {
         Long userId = getUserId();
-        System.out.println("Join room elo "+userRepository.findByid(userId).orElse(null).getElo());
+//        System.out.println("Join room elo "+userRepository.findByid(userId).orElse(null).getElo());
 
         List<APIGameHandler> res = rooms.entrySet().stream()
                 .filter(e -> e.getValue().getPlayers().contains(userId)).map(Map.Entry::getValue).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
+    }
+
+    @GetMapping("/userElo")
+    public ResponseEntity<Long> getUserRank(){
+        Long userId = getUserId();
+        Long currElo = userRepository.findByid(userId).orElse(null).getElo();
+        return ResponseEntity.status(HttpStatus.OK).body(currElo);
     }
 
 
