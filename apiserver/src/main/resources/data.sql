@@ -11,6 +11,14 @@ INSERT INTO game_states(name) VALUES('EndState');
 INSERT INTO game_states(name) VALUES('WaitingToStartState');
 
 
+INSERT INTO predefine_colors(color_name,color_value ) VALUES ('Red', 'Red');
+INSERT INTO predefine_colors(color_name,color_value ) VALUES ('Green', 'Green');
+INSERT INTO predefine_colors(color_name,color_value ) VALUES ('Blue', 'Blue');
+INSERT INTO predefine_colors(color_name,color_value ) VALUES ('Yellow', 'Yellow');
+INSERT INTO predefine_colors(color_name,color_value ) VALUES ('Purple', 'Purple');
+
+
+
 
 INSERT INTO users(email,password,username, elo) VALUES('test@test.com','+','test',100);
 

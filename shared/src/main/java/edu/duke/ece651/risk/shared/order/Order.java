@@ -7,6 +7,7 @@ import edu.duke.ece651.risk.shared.map.RISKMap;
 import java.io.Serializable;
 
 //json resolve for specific order types
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "orderType", visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = AttackOrder.class, name = "Attack"),
