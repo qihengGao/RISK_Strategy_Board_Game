@@ -7,8 +7,12 @@ import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 public class AttackOrder extends Order {
+    public void setAttackChecker(ActionChecker attackChecker) {
+        this.attackChecker = attackChecker;
+    }
+
     //specific checkers for this attack order
-    private final ActionChecker attackChecker;
+    private ActionChecker attackChecker;
 
     public AttackOrder(long ID, String srcTerritory, String destTerritory, String unitUnderOrder, int unitAmount) {
 //        super(ID, srcTerritory, destTerritory, unitUnderOrder, unitAmount, "Attack");

@@ -172,6 +172,7 @@ public class GameController {
         if (place_error_message != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse(place_error_message));
         } else {
+            apiGameHandlerRepository.save(currGame);
             return ResponseEntity.status(HttpStatus.OK).body(new PlaceUnitResponse("Successfully placed unit into map."));
         }
 
@@ -200,6 +201,7 @@ public class GameController {
         if (preprocess_message != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse(preprocess_message));
         } else {
+            apiGameHandlerRepository.save(currGame);
             return ResponseEntity.status(HttpStatus.OK).body(new PlaceUnitResponse("Successfully placed order into map!"));
         }
 

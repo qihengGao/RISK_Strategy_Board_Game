@@ -9,8 +9,12 @@ import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 public class UpgradeUnitOrder extends Order{
+    public void setUpgradeUnitChecker(ActionChecker upgradeUnitChecker) {
+        this.upgradeUnitChecker = upgradeUnitChecker;
+    }
+
     //specific checkers for this unit upgrade order
-    private final ActionChecker upgradeUnitChecker;
+    private ActionChecker upgradeUnitChecker;
 
     /**
      * ctor to specify the chain of rules for this move order

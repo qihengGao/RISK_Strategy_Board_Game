@@ -13,8 +13,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class MoveOrder extends Order {
+  public void setMoveChecker(ActionChecker moveChecker) {
+    this.moveChecker = moveChecker;
+  }
+
   //specific checkers for this move order
-  private final ActionChecker moveChecker;
+  private ActionChecker moveChecker;
 
   /**
    * ctor to specify the chain of rules for this move order

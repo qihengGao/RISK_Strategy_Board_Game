@@ -106,13 +106,13 @@ class BattleFieldTest {
 
         System.out.println(t.getUnitByType("Unit2"));
 
-        assertEquals(t.getUnits().first().getAmount(), 5);
+        assertEquals(t.getUnits().iterator().next().getAmount(), 5);
 
         assertEquals(t.getOwnerID(), 0);
 
         BF.resetAttackersList();
 
-        assertEquals(t.getUnits().first().getAmount(), 5);
+        assertEquals(t.getUnits().iterator().next().getAmount(), 5);
 
     }
 
