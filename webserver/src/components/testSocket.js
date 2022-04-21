@@ -130,7 +130,7 @@ export default class testSocket extends Component {
                                     item.from === this.state.currentUser.id ?
                                         <MessageRight message={item.message} timestamp={item.timestamp}/>
                                         :
-                                        <MessageLeft color={this.props.responseData.idToColor[item.from].colorName} message={item.message} timestamp={item.timestamp}
+                                        <MessageLeft color={this.props.responseData.idToColor[item.from].colorName?this.props.responseData.idToColor[item.from].colorName:"#000000"} message={item.message} timestamp={item.timestamp}
                                                      displayName={this.props.responseData.idToColor[item.from].colorName + ' Player'}
                                                      timestamp={item.timestamp}/>
                                 )
