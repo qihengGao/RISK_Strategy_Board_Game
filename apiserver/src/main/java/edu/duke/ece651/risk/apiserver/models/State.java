@@ -3,7 +3,7 @@ package edu.duke.ece651.risk.apiserver.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "states")
+@Table(name = "game_states")
 /**
  * Role class to be used for authentication
  */
