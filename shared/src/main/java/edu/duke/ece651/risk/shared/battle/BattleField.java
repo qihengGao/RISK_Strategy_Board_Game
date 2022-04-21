@@ -45,9 +45,10 @@ public class BattleField implements Serializable {
     public BattleField(Territory territoryOfContest, AttackResolver attackResolver){
 
         this.currDefenderId = territoryOfContest.getOwnerID();
-        this.currDefendingUnit = territoryOfContest.getUnits();
+        this.currDefendingUnit = new TreeSet<>(new UnitComparator());
         this.attackResolver = attackResolver;
         this.attackers = new HashMap<>();
+        this.currDefendingUnit.addAll(territoryOfContest.getUnits());
     }
 
     /**
