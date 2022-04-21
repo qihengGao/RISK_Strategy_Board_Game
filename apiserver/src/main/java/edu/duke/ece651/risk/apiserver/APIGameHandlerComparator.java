@@ -5,12 +5,19 @@ import edu.duke.ece651.risk.apiserver.APIGameHandler;
 import java.util.Comparator;
 
 public class APIGameHandlerComparator implements Comparator<APIGameHandler> {
+    private long currElo;
+
+    public APIGameHandlerComparator(long currElo) {
+        this.currElo = currElo;
+    }
 
     public int compare(APIGameHandler a, APIGameHandler b){
         if (a.getAverageElo()==b.getAverageElo()){
             return (int)a.getRoomID() - (int)b.getRoomID();
         }
-        return (int)b.getAverageElo() - (int)a.getAverageElo();
+        int diff_a = Math.abs((int)a.getAverageElo() - (int)currElo);
+        int diff_b = Math.abs((int)b.getAverageElo() - (int)currElo);
+        return diff_a - diff_b;
     }
 
 }

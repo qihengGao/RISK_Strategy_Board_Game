@@ -70,9 +70,9 @@ public class GameController {
 //        }
         APIGameHandler gameHandler = new APIGameHandler(roomSize, roomIDCounter++, userId);
         beanFactory.autowireBean(gameHandler);
+        gameHandler.updateAverageElo();
 
         apiGameHandlerRepository.save(gameHandler);
-
         gameHandler.updateAverageElo();
         //rooms.put(gameHandler.getRoomID(), gameHandler);
         return ResponseEntity.ok(new CreateRoomResponse("Successfully create a game room!", gameHandler.getRoomID()));
@@ -225,7 +225,7 @@ public class GameController {
                         && !e.getPlayers().contains(userId)))
                 .collect(Collectors.toList());
 
-        Collections.sort(res, new APIGameHandlerComparator());
+        Collections.sort(res, new APIGameHandlerComparator(userRepository.findByid(userId).orElse(null).getElo()));
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
 
