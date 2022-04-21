@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class HistoryGame {
     Long roomID;
     Long roundNumber;
+    APIGameHandler apiGameHandler;
 
     public HistoryGame(Long roomID, Long roundNumber, APIGameHandler apiGameHandler) {
         this.roomID = roomID;
@@ -43,5 +44,5 @@ public class HistoryGame {
         this.apiGameHandler = apiGameHandler;
     }
 
-    APIGameHandler apiGameHandler;
+
 }

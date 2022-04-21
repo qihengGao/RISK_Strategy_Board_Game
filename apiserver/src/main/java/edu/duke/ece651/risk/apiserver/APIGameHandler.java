@@ -54,6 +54,8 @@ public class APIGameHandler {
     @Transient
     Logger logger;
 
+
+    @Transient
     private Long roundNumber;
 
     //RISK game related fields
@@ -323,10 +325,6 @@ public class APIGameHandler {
                 updateLostPlayer();
 
                 //
-                roundNumber++;
-                for(Order order:temporaryOrders){
-                    historyOrdersRepository.save(new HistoryOrders(Long.parseLong(roomID),roundNumber,order));
-                }
 
 
 
@@ -533,7 +531,7 @@ public class APIGameHandler {
      * going into placing order for each player
      */
     public void orderingPhase() {
-        historyGameRepository.save(new HistoryGame(Long.parseLong(roomID),roundNumber,this));
+        historyGameRepository.save(new HistoryGame(Long.parseLong(roomID),roundNumber++,this));
         currentState = State.OrderingState.name();
         commitedPlayer.clear();
         commitedPlayer.addAll(lostPlayer);
@@ -550,11 +548,12 @@ public class APIGameHandler {
      * show the game result if this game has a winner
      */
     public void showGameResultPhase() {
-        historyGameRepository.save(new HistoryGame(Long.parseLong(roomID),roundNumber,this));
+
         currentState = State.EndState.name();
+
+        historyGameRepository.save(new HistoryGame(Long.parseLong(roomID),roundNumber++,this));
         commitedPlayer.clear();
         adjustRank();
-        historyGameRepository.save(new HistoryGame(Long.parseLong(roomID),roundNumber,this));
     }
 
     private void adjustRank() {

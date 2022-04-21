@@ -2,7 +2,7 @@ package edu.duke.ece651.risk.apiserver.controllers;
 
 import edu.duke.ece651.risk.apiserver.APIGameHandler;
 import edu.duke.ece651.risk.apiserver.payload.response.GameStatusResponse;
-import edu.duke.ece651.risk.apiserver.repository.APIGameHandlerRepository;
+import edu.duke.ece651.risk.apiserver.repository.HistoryGameRepository;
 import edu.duke.ece651.risk.apiserver.repository.UserRepository;
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class HistoryGameController {
     private HashMap<Long, APIGameHandler> rooms;
 
     @Autowired
-    APIGameHandlerRepository apiGameHandlerRepository;
+    HistoryGameRepository historyGameRepository;
 
 
     /**
@@ -51,7 +51,7 @@ public class HistoryGameController {
      * @return ResponseEntity which contains the http code to indicate the result and the room status if the roomID is valid.
      */
     @GetMapping("/gameStatus")
-    public ResponseEntity<GameStatusResponse> gameStatus(@RequestParam Long roomID,@RequestParam Long roundNumber, @RequestParam Long playerID ) {
+    public ResponseEntity<GameStatusResponse> gameStatus(@RequestParam Long roomID, @RequestParam Long roundNumber) {
 
 
         //TODO Using history game handler repo and check if round number valid
@@ -75,37 +75,19 @@ public class HistoryGameController {
         }
     }
 
+
+    //TODO
+    //{
     /**
-     * This method handle the get request of /gameStatus.
-     *
-     * @param roomID The roomID to look up.
-     * @return ResponseEntity which contains the http code to indicate the result and the room status if the roomID is valid.
+     * {
+     *     [
+     *     {
+     *          //all of history repo
+     *     }
+     *     ]
+     * }
      */
-    @GetMapping("/orders")
-    public ResponseEntity<GameStatusResponse> orders(@RequestParam Long roomID,@RequestParam Long roundNumber, @RequestParam Long playerID ) {
-
-
-        //TODO Using history game handler repo and check if round number valid
-        if (apiGameHandlerRepository.existsAPIGameHandlerByRoomID(String.valueOf(roomID)) && apiGameHandlerRepository.findByRoomID(String.valueOf(roomID)).getPlayers().contains(playerID)) {
-            //APIGameHandler apiGameHandler = rooms.get(roomID);
-
-            APIGameHandler apiGameHandler = apiGameHandlerRepository.findByRoomID(String.valueOf(roomID));
-
-            beanFactory.autowireBean(apiGameHandler);
-
-
-            return ResponseEntity.status(HttpStatus.OK).body(new GameStatusResponse(
-                    apiGameHandler.getPlayerState(playerID),
-                    apiGameHandler.getRiskMapByState(),
-                    apiGameHandler.checkWinner(),
-                    apiGameHandler.getIdToColor(),
-                    ""
-            ));
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GameStatusResponse("Room not found!"));
-        }
-    }
-
+    // }
 
     /**
      * This method handle the get request of /gameStatus.
@@ -114,7 +96,7 @@ public class HistoryGameController {
      * @return ResponseEntity which contains the http code to indicate the result and the room status if the roomID is valid.
      */
     @GetMapping("/availableHistoryGame")
-    public ResponseEntity<GameStatusResponse> availableHistoryGame(@RequestParam Long roomID,@RequestParam Long roundNumber, @RequestParam Long playerID ) {
+    public ResponseEntity<GameStatusResponse> availableHistoryGame() {
 
 
         //TODO Using history game handler repo and check if round number valid
