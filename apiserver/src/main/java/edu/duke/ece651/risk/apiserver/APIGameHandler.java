@@ -1,6 +1,8 @@
 package edu.duke.ece651.risk.apiserver;
 
+import edu.duke.ece651.risk.apiserver.models.HistoryOrders;
 import edu.duke.ece651.risk.apiserver.models.State;
+import edu.duke.ece651.risk.apiserver.repository.HistoryOrdersRepository;
 import edu.duke.ece651.risk.apiserver.repository.UserRepository;
 import edu.duke.ece651.risk.apiserver.security.services.UserService;
 import edu.duke.ece651.risk.shared.checker.PlaceRuleChecker;
@@ -33,6 +35,10 @@ public class APIGameHandler {
     @Transient
     @Autowired
     UserService userService;
+
+    @Transient
+    @Autowired
+    HistoryOrdersRepository historyOrdersRepository;
 
 
     @Id
@@ -312,7 +318,9 @@ public class APIGameHandler {
 
                 //
                 roundNumber++;
-
+                for(Order order:temporaryOrders){
+                    historyOrdersRepository.save(new HistoryOrders(Long.parseLong(roomID),roundNumber,order));
+                }
 
                 //check if the game has a winner
                 if (checkWinner() == null) {
