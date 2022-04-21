@@ -4,6 +4,8 @@ import edu.duke.ece651.risk.apiserver.models.HistoryGame;
 import edu.duke.ece651.risk.apiserver.models.HistoryOrders;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface HistoryGameRepository extends MongoRepository<HistoryGame, Integer> {
+import java.util.List;
 
+public interface HistoryGameRepository extends MongoRepository<HistoryGame, Integer> {
+    List<HistoryGame> findHistoryGameByRoomIDAndRoundNumber( Long roomID, Long roundNumber);
 }

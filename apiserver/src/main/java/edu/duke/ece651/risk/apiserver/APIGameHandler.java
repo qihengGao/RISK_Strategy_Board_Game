@@ -54,8 +54,6 @@ public class APIGameHandler {
     @Transient
     Logger logger;
 
-
-    @Transient
     private Long roundNumber;
 
     //RISK game related fields
@@ -152,6 +150,14 @@ public class APIGameHandler {
 
     public void setCompetitive(boolean competitive) {
         this.competitive = competitive;
+    }
+
+    public Long getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(Long roundNumber) {
+        this.roundNumber = roundNumber;
     }
 
     //constructor

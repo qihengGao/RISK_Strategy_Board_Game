@@ -1,7 +1,11 @@
 package edu.duke.ece651.risk.apiserver.controllers;
 
 import edu.duke.ece651.risk.apiserver.APIGameHandler;
+import edu.duke.ece651.risk.apiserver.models.HistoryGame;
+import edu.duke.ece651.risk.apiserver.models.State;
 import edu.duke.ece651.risk.apiserver.payload.response.GameStatusResponse;
+import edu.duke.ece651.risk.apiserver.payload.response.HistoryRoomsAvailableResponse;
+import edu.duke.ece651.risk.apiserver.payload.response.RoomsAvailableResponse;
 import edu.duke.ece651.risk.apiserver.repository.HistoryGameRepository;
 import edu.duke.ece651.risk.apiserver.repository.UserRepository;
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
@@ -14,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -51,28 +57,9 @@ public class HistoryGameController {
      * @return ResponseEntity which contains the http code to indicate the result and the room status if the roomID is valid.
      */
     @GetMapping("/gameStatus")
-    public ResponseEntity<GameStatusResponse> gameStatus(@RequestParam Long roomID, @RequestParam Long roundNumber) {
-
-
-        //TODO Using history game handler repo and check if round number valid
-        if (apiGameHandlerRepository.existsAPIGameHandlerByRoomID(String.valueOf(roomID)) && apiGameHandlerRepository.findByRoomID(String.valueOf(roomID)).getPlayers().contains(playerID)) {
-            //APIGameHandler apiGameHandler = rooms.get(roomID);
-
-            APIGameHandler apiGameHandler = apiGameHandlerRepository.findByRoomID(String.valueOf(roomID));
-
-            beanFactory.autowireBean(apiGameHandler);
-
-
-            return ResponseEntity.status(HttpStatus.OK).body(new GameStatusResponse(
-                    apiGameHandler.getPlayerState(playerID),
-                    apiGameHandler.getRiskMapByState(),
-                    apiGameHandler.checkWinner(),
-                    apiGameHandler.getIdToColor(),
-                    ""
-            ));
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GameStatusResponse("Room not found!"));
-        }
+    public ResponseEntity<HistoryRoomsAvailableResponse> gameStatus(@RequestParam Long roomID, @RequestParam Long roundNumber) {
+        List<HistoryGame> res = historyGameRepository.findHistoryGameByRoomIDAndRoundNumber(roomID, roundNumber);
+        return ResponseEntity.status(HttpStatus.OK).body(new HistoryRoomsAvailableResponse(res));
     }
 
 
@@ -92,32 +79,14 @@ public class HistoryGameController {
     /**
      * This method handle the get request of /gameStatus.
      *
-     * @param roomID The roomID to look up.
-     * @return ResponseEntity which contains the http code to indicate the result and the room status if the roomID is valid.
      */
-    @GetMapping("/availableHistoryGame")
-    public ResponseEntity<GameStatusResponse> availableHistoryGame() {
-
-
-        //TODO Using history game handler repo and check if round number valid
-        if (apiGameHandlerRepository.existsAPIGameHandlerByRoomID(String.valueOf(roomID)) && apiGameHandlerRepository.findByRoomID(String.valueOf(roomID)).getPlayers().contains(playerID)) {
-            //APIGameHandler apiGameHandler = rooms.get(roomID);
-
-            APIGameHandler apiGameHandler = apiGameHandlerRepository.findByRoomID(String.valueOf(roomID));
-
-            beanFactory.autowireBean(apiGameHandler);
-
-
-            return ResponseEntity.status(HttpStatus.OK).body(new GameStatusResponse(
-                    apiGameHandler.getPlayerState(playerID),
-                    apiGameHandler.getRiskMapByState(),
-                    apiGameHandler.checkWinner(),
-                    apiGameHandler.getIdToColor(),
-                    ""
-            ));
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GameStatusResponse("Room not found!"));
-        }
+    @GetMapping("/rooms/available")
+    public ResponseEntity<HistoryRoomsAvailableResponse> availableHistoryGame() {
+        List<HistoryGame> res = historyGameRepository.findAll().stream().collect(Collectors.toList());
+//                .filter(e -> (State.WaitingToStartState.name().equals(e.getCurrentState())
+//                        && !e.getPlayers().contains(userId)))
+//                .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(new HistoryRoomsAvailableResponse(res));
     }
 
 
