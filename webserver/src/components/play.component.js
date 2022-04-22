@@ -36,7 +36,8 @@ export default class play extends Component {
             responseData: undefined,
             openSnackBar: false,
             snackBarMessage: "Successfully commit the message",
-            snackbarType: "error"
+            snackbarType: "error",
+            historyMode:false
         };
         //this.initComponent = this.initComponent.bind(this);
     }
