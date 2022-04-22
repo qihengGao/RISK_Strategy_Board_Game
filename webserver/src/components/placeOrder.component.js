@@ -45,8 +45,10 @@ class unitPlace extends Component {
         let ownTerritory = [];
         let myUnitTypes = [];
         let ownAndAllyTerr = [];
+        // console.log("historyMode:"+this.props.historyMode)
+        // console.log("historyMode :"+(this.props.historyMode?this.props.playerID:AuthService.getCurrentUser().id))
         for (const territory of this.props.room.riskMap.continent) {
-            if (territory.ownerID === this.props.historyMode?this.props.playerID:AuthService.getCurrentUser().id) {
+            if (territory.ownerID === (this.props.historyMode?this.props.playerID:AuthService.getCurrentUser().id)) {
                 ownTerritory.push(territory.name);
                 ownAndAllyTerr.push(territory.name);
                 for (let i = 0; i < 7; i++) {
@@ -56,7 +58,7 @@ class unitPlace extends Component {
                     }
                 }
             } else {
-                if (this.props.room.riskMap.owners[this.props.historyMode?this.props.playerID:AuthService.getCurrentUser().id].alliance.includes(territory.ownerID)) {
+                if (this.props.room.riskMap.owners[(this.props.historyMode?this.props.playerID:AuthService.getCurrentUser().id)].alliance.includes(territory.ownerID)) {
                     ownAndAllyTerr.push(territory.name);
                 }
                 enemyTerritory.push(territory.name);
@@ -64,7 +66,7 @@ class unitPlace extends Component {
         }
         let otherPlayers = [];
         for (var id in this.props.room.idToColor) {
-            if (id != this.props.historyMode?this.props.playerID:AuthService.getCurrentUser().id) {
+            if (id != (this.props.historyMode?this.props.playerID:AuthService.getCurrentUser().id)) {
                 console.log("Other player", id);
                 otherPlayers.push(this.props.room.idToColor[id].colorName)
             }
