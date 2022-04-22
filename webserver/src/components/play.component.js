@@ -74,12 +74,7 @@ export default class play extends Component {
             case "EndState":
                 console.log("logging end state")
                 console.log(this.state.responseData)
-                return <div>Game End! {typeof (this.state.responseData) === "undefined"
-                    ? "Loading!" :
-                    "Winner is " +
-                    this.state.responseData.idToColor[this.state.responseData.winner].colorName +
-                    " Player!"}
-                </div>
+                return <div>Game End! You Win!</div>
             case "LostState":
                 return <div>You lost, try to conquest more next time!</div>
 

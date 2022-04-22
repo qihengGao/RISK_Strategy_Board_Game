@@ -16,6 +16,8 @@ public class GameStatusResponseTest {
 
     @Test
     public void test_setGet(){
+        GameStatusResponse  response1 = new GameStatusResponse("prompt");
+
         Territory territory = new BasicTerritory("test1");
         HashSet<Territory> territories = new HashSet<>();
         territories.add(territory);
@@ -23,6 +25,8 @@ public class GameStatusResponseTest {
         Color color = new Color("red");
         TreeMap<Long, Color> idToColor = new TreeMap<>();
         idToColor.put(0L, color);
+
+        GameStatusResponse  response2= new GameStatusResponse("LostState", riskMap, 0L, idToColor, "prompt");
 
         GameStatusResponse  response = new GameStatusResponse();
         response.setState("state");

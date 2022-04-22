@@ -31,6 +31,10 @@ public class JwtResponseTest {
         response.setUsername("username");
         assertEquals("username", response.getUsername());
 
+        assertEquals(response.getElo(), 30L);
+        response.setElo(100L);
+        assertEquals(response.getElo(), 100L);
+
         assertEquals(roles, response.getRoles());
     }
 }
