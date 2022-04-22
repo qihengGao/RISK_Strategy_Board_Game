@@ -88,6 +88,15 @@ public class APIGameHandler {
     private boolean competitive;
 
     //getters/setters
+
+    public ArrayList<Order> getTemporaryOrders() {
+        return temporaryOrders;
+    }
+
+    public void setTemporaryOrders(ArrayList<Order> temporaryOrders) {
+        this.temporaryOrders = temporaryOrders;
+    }
+
     public String getCurrentState() {
         return currentState;
     }
