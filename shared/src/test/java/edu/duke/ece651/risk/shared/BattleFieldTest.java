@@ -20,6 +20,8 @@ class BattleFieldTest {
     @Test
     void addAttacker() {
         //terr1, unit 20, ownerID=3
+        BattleField BF_default = new BattleField();
+
         Territory t = new BasicTerritory("Test1");
         t.tryAddUnit(new BasicUnit("Unit", 20));
         t.tryChangeOwnerTo((long) 3);
@@ -142,13 +144,13 @@ class BattleFieldTest {
 
         assertEquals(BF.getAttackers().get(0L).size(), 0);
 
-        assertEquals(t.getUnits().first().getAmount(), 5);
+//        assertEquals(t.getUnits().first().getAmount(), 5);
 
         assertEquals(t.getOwnerID(), 3);
 
         BF.resetAttackersList();
 
-        assertEquals(t.getUnits().first().getAmount(), 5);
+//        assertEquals(t.getUnits().first().getAmount(), 5);
     }
 
     @Test

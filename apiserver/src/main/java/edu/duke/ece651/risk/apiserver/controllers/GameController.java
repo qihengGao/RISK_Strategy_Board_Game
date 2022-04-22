@@ -65,6 +65,9 @@ public class GameController {
         System.out.println("User " + userId + " trying to create a Room");
 
         int roomSize = createRoomRequest.getRoomSize();
+
+
+
         APIGameHandler gameHandler = new APIGameHandler(roomSize, roomIDCounter++, userId);
         beanFactory.autowireBean(gameHandler);
         gameHandler.updateAverageElo();

@@ -56,4 +56,10 @@ class MoveOrderTest {
         assertNull(order.executeOrder(riskMap));
         displayMap(riskMap);
     }
+
+    @Test
+    void defaultCtorAndSetter() {
+        MoveOrder order = new MoveOrder();
+        order.setMoveChecker(null);
+    }
 }

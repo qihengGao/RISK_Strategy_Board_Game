@@ -5,6 +5,7 @@ import edu.duke.ece651.risk.shared.factory.AbstractMapFactory;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.MapTextView;
 import edu.duke.ece651.risk.shared.map.RISKMap;
+import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
@@ -103,5 +104,11 @@ class AttackOrderSimpleTest {
 
         Order attack = new AttackOrderSimple(0L, "Test0", "Test7", "Unit", 5);
         assertEquals(attack.executeOrder(riskMap), "You cannot attack Test7 from Test0!");
+    }
+
+    @Test
+    public void test_defaultConstructor_success(){
+        AttackOrderSimple orderSimple = new AttackOrderSimple(1L, null, null, null, 0);
+        orderSimple.setAttackChecker(null);
     }
 }

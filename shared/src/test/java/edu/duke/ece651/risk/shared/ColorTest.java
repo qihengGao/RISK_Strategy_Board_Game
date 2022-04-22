@@ -10,6 +10,15 @@ public class ColorTest {
 
     @Test
     public void test_defaultConstructor(){
+        Color color = new Color();
+        color.setColorName("red");
+        color.setColorValue("red");
+        assertEquals("red", color.getColorName());
+        assertEquals("red", color.getColorValue());
+    }
+
+    @Test
+    public void test_oneParamConstructor(){
         Color color = new Color("red");
         assertEquals("red", color.getColorName());
         assertEquals("red", color.getColorValue());
