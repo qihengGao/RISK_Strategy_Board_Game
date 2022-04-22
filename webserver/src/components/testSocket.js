@@ -43,7 +43,7 @@ export default class testSocket extends Component {
      */
     componentDidMount() {
 
-        let client = Stomp.over(new SockJS("http://"+window.location.hostname+":8080/chat", null, {
+        let client = Stomp.over(new SockJS("http://"+window.location.hostname+":3000/chat", null, {
             transports: ['xhr-streaming'],
             headers: {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9...'}
         }));
