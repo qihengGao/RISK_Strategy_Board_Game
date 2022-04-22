@@ -36,6 +36,7 @@ export default class unitPlace extends Component {
     componentDidMount() {
         let idCounter = 0;
         let tmpRows = [];
+        console.log(this.props.room)
         for (const territory of this.props.room.riskMap.continent) {
             if (territory.ownerID === AuthService.getCurrentUser().id) tmpRows.push({
                 id: idCounter++, territoryName: territory.name, unitAmount: null

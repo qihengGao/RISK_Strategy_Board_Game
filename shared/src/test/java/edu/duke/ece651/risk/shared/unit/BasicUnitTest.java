@@ -61,7 +61,8 @@ public class BasicUnitTest {
 
   @Test
   public void test_set_amount() {
-    Unit u = new BasicUnit("Soldier", 5);
+    Unit u = new BasicUnit();
+    u.setAmount(5);
     assertEquals(5, u.getAmount());
     u.setAmount(10);
     assertEquals(10, u.getAmount());

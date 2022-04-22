@@ -6,6 +6,7 @@ import edu.duke.ece651.risk.shared.unit.BasicUnit;
 import edu.duke.ece651.risk.shared.unit.Unit;
 import edu.duke.ece651.risk.shared.unit.UnitComparator;
 
+import java.util.HashSet;
 import java.util.TreeSet;
 
 /**
@@ -13,21 +14,26 @@ import java.util.TreeSet;
  */
 public class BasicTerritory implements Territory {
   private Long OwnerID;
-  private final String name;
+  private  String name;
   private TreeSet<String> neighbors; // to make in order with repect to name
 
-  private TreeSet<Unit> units;
+  private HashSet<Unit> units;
+
+
   private BattleField battleField;
   private int size;
   private int foodProduction;
   private int techProduction;
+
+  public BasicTerritory() {
+  }
 
   //ctors
   public BasicTerritory(String Name){
     this.OwnerID = -1L;
     this.name = Name;
     this.neighbors = new TreeSet<String>();
-    this.units = new TreeSet<Unit>(new UnitComparator());
+    this.units = new HashSet<Unit>();
     this.battleField = new BattleField(this);
     this.size = 1;
     this.foodProduction = 20; // predetermined as 20
@@ -151,7 +157,7 @@ public class BasicTerritory implements Territory {
    * Returns the iterable list of units that the territory has.
    * @return
    */
-  public TreeSet<Unit> getUnits() {
+  public HashSet<Unit> getUnits() {
     return this.units;
   }
 

@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DiceAttackResolverTest {
     @Test
     public void test_resolveCurrent(){
+        AttackResolver resolver_default = new DiceAttackResolver();
         Random r = new Random(12345);
         int[] list = {-1,0,1,0};
         AttackResolver resolver = new DiceAttackResolver(2);

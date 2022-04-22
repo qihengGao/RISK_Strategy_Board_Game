@@ -4,6 +4,7 @@ import edu.duke.ece651.risk.shared.battle.BattleField;
 import edu.duke.ece651.risk.shared.unit.Unit;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 public interface Territory extends Serializable {
@@ -87,7 +88,7 @@ public interface Territory extends Serializable {
    * Returns the iterable list of units that the territory has.
    * @return
    */
-  public TreeSet<Unit> getUnits();
+  public HashSet<Unit> getUnits();
   
   /**
    * Try to add the unit in the territory. True if added successfully.

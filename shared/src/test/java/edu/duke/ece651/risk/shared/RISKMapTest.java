@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 public class RISKMapTest {
   @Test
   public void test_simpleMap() {
+    RISKMap map_Default = new RISKMap();
     RISKMap map = new RISKMap(new HashSet<Territory>());
     map.tryAddOwner(new Owner(1L));
     assertEquals(0, map.getNumOfContinents());

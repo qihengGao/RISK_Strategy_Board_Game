@@ -5,7 +5,7 @@ import edu.duke.ece651.risk.shared.unit.Unit;
 
 public class SimpleAttackResolver extends AttackResolver {
     public SimpleAttackResolver() {
-        super(null);
+
     }
 
     /**

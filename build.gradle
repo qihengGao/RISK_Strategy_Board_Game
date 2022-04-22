@@ -59,6 +59,8 @@ allprojects{
 
 
 
+
+
     }
     clover{
 
@@ -89,10 +91,9 @@ allprojects{
 
 // Project specific stuff
 project (':shared'){
-//    dependencies {
-//        testImplementation project(':client')
-//        testImplementation project(':server')
-//    }
+    dependencies {
+
+    }
 }
 
 //project (':client'){

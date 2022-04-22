@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OwnerTest {
     @Test
     public void test_defaultConstructor_success(){
+        Owner owner_default = new Owner();
         Owner owner = new Owner(0L, 2, 10, 20);
         assertEquals(0L, owner.getOwnerId());
         assertEquals(2, owner.getCurrTechlevel());

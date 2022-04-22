@@ -1,10 +1,12 @@
 package edu.duke.ece651.risk.apiserver;
 
+import edu.duke.ece651.risk.apiserver.models.HistoryGame;
+import edu.duke.ece651.risk.apiserver.models.HistoryOrders;
 import edu.duke.ece651.risk.apiserver.models.State;
+import edu.duke.ece651.risk.apiserver.repository.HistoryGameRepository;
+import edu.duke.ece651.risk.apiserver.repository.HistoryOrdersRepository;
 import edu.duke.ece651.risk.apiserver.repository.UserRepository;
 import edu.duke.ece651.risk.apiserver.security.services.UserService;
-import edu.duke.ece651.risk.shared.territory.Color;
-import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.checker.PlaceRuleChecker;
 import edu.duke.ece651.risk.shared.checker.PlaceTerrExistChecker;
 import edu.duke.ece651.risk.shared.checker.PlaceTerrIDChecker;
@@ -12,60 +14,94 @@ import edu.duke.ece651.risk.shared.checker.PlaceUnitAmountChecker;
 import edu.duke.ece651.risk.shared.factory.RandomMapFactory;
 import edu.duke.ece651.risk.shared.map.RISKMap;
 import edu.duke.ece651.risk.shared.order.Order;
+import edu.duke.ece651.risk.shared.territory.Color;
+import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
+import edu.duke.ece651.risk.shared.unit.UnitComparator;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.*;
 
+@Document("APIGameHandler")
 public class APIGameHandler {
+    @Transient
     @Autowired
     UserRepository userRepository;
 
+    @Transient
     @Autowired
     UserService userService;
 
+    @Transient
+    @Autowired
+    HistoryOrdersRepository historyOrdersRepository;
+
+    @Transient
+    @Autowired
+    HistoryGameRepository historyGameRepository;
+
+
+    @Id
+    private String roomID;
     //logger to display info in server console
+
+    @Transient
     Logger logger;
 
+    private Long roundNumber;
+
     //RISK game related fields
+
     private ArrayList<Color> predefineColorList = new ArrayList<>();
+
     private HashSet<Long> players; //all joined players
+
     private TreeMap<Long, Color> idToColor; //player id to color
 
     private String currentState; //game's current state
+
     private Set<Long> commitedPlayer; //all committed players
 
     public void setLostPlayer(Set<Long> lostPlayer) {
         this.lostPlayer = lostPlayer;
     }
 
+
     private Set<Long> lostPlayer; //all losted players
+
     private RISKMap riskMap; //the map to play with
+
     private Integer InitUnitAmountPerPlayer; //Initial Total Unit amount available for each player
+
     private ArrayList<Order> temporaryOrders; // temporary order holder
 
     //room related fields
-    private final int roomSize;
-    private final long roomID;
+    private int roomSize;
+
     private long averageElo;
     private boolean competitive;
 
     //getters/setters
+
+    public ArrayList<Order> getTemporaryOrders() {
+        return temporaryOrders;
+    }
+
+    public void setTemporaryOrders(ArrayList<Order> temporaryOrders) {
+        this.temporaryOrders = temporaryOrders;
+    }
+
     public String getCurrentState() {
         return currentState;
     }
+
     public void setCurrentState(String currentState) {
         this.currentState = currentState;
     }
@@ -107,7 +143,7 @@ public class APIGameHandler {
     }
 
     public long getRoomID() {
-        return roomID;
+        return Long.parseLong(roomID);
     }
 
     public long getAverageElo() {
@@ -126,24 +162,33 @@ public class APIGameHandler {
         this.competitive = competitive;
     }
 
+    public Long getRoundNumber() {
+        return roundNumber;
+    }
+
+    public void setRoundNumber(Long roundNumber) {
+        this.roundNumber = roundNumber;
+    }
+
     //constructor
 
-    public APIGameHandler(){
-        this.roomSize = 0;
-        this.roomID = 0;
-        this.averageElo = 0;
-        this.competitive = true;
+    public APIGameHandler() {
+//        this.roomSize = 0;
+//        this.roomID = 0;
+//        this.averageElo = 0;
+//        this.competitive = true;
     }
 
     /**
      * create a new room
+     *
      * @param roomSize
      * @param roomID
      * @param hostID
      */
     public APIGameHandler(int roomSize, long roomID, Long hostID) {
         this.roomSize = roomSize;
-        this.roomID = roomID;
+        this.roomID = String.valueOf(roomID);
         predefineColorList.add(new Color("Red"));
         predefineColorList.add(new Color("Green"));
         predefineColorList.add(new Color("Blue"));
@@ -161,14 +206,16 @@ public class APIGameHandler {
         lostPlayer = new HashSet<>();
         this.averageElo = 0;
         this.competitive = true;
+        this.roundNumber = 0L;
     }
 
-    public void test_user_repo(){
-        System.out.println("Printing elo "+ userRepository.findByid(players.iterator().next()).orElse(null).getElo());
+    public void test_user_repo() {
+        System.out.println("Printing elo " + userRepository.findByid(players.iterator().next()).orElse(null).getElo());
     }
 
     /**
      * return the riskMap according to player state
+     *
      * @return RISKMap
      */
     public RISKMap getRiskMapByState() {
@@ -176,7 +223,7 @@ public class APIGameHandler {
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
 
             for (Territory t : cloneMap.getContinent()) {
-                t.setUnits(new TreeSet<>());
+                t.setUnits(new TreeSet<>(new UnitComparator()));
             }
 
             return cloneMap;
@@ -187,6 +234,7 @@ public class APIGameHandler {
 
     /**
      * try to add a player into this game
+     *
      * @param clientID
      * @return
      */
@@ -205,16 +253,17 @@ public class APIGameHandler {
         }
     }
 
-    public void updateAverageElo(){
+    public void updateAverageElo() {
         Long sum = 0L;
-        for (Long userId : players){
-            sum+=userRepository.findByid(userId).orElse(null).getElo();
+        for (Long userId : players) {
+            sum += userRepository.findByid(userId).orElse(null).getElo();
         }
-        this.averageElo = sum/players.size();
+        this.averageElo = sum / players.size();
     }
 
     /**
      * try to place unit into the map
+     *
      * @param clientID
      * @param unitPlaceOrders
      * @return null if all rules passed; error message if some rule didn't pass
@@ -259,6 +308,7 @@ public class APIGameHandler {
 
     /**
      * try to process all the orders
+     *
      * @param clientID
      * @param orders
      * @return String: null if all orders are executed successfully;
@@ -290,6 +340,10 @@ public class APIGameHandler {
                 increaseTechFoodForAll();
                 updateLostPlayer();
 
+                //
+
+
+
                 //check if the game has a winner
                 if (checkWinner() == null) {
                     //if not, go to next round
@@ -319,6 +373,7 @@ public class APIGameHandler {
 
     /**
      * try to execute all the orders in the cloned map
+     *
      * @param orders
      * @param tmpRiskMap
      * @return String: null if all rules passes; error message if some order is illegal
@@ -339,13 +394,13 @@ public class APIGameHandler {
                 attackOrder.add(order);
             else if (order.getOrderType().equals("Upgrade Tech Level"))
                 upgradeMaxTechOrder.add(order);
-            else{
+            else {
                 allianceOrder.add(order);
             }
 
         }
 
-        for (Order order : allianceOrder){
+        for (Order order : allianceOrder) {
             String errorMessage = order.executeOrder(tmpRiskMap);
             if (errorMessage != null) {
                 String showError = "Your order: " + order + " is illegal!\n"
@@ -388,20 +443,24 @@ public class APIGameHandler {
                 }
             }
         }
+
+
+
         return null;
     }
 
     /**
      * delete all fake alliances from the executing results
+     *
      * @param tmpRiskMap
      */
     private void handleFakeAlliances(RISKMap tmpRiskMap) {
         // store fake alliance
         HashMap<Long, ArrayList<Long>> idToFakeAlliance = new HashMap<>();
-        for (Long id : tmpRiskMap.getOwners().keySet()){
-            for (Long allianceID: tmpRiskMap.getOwners().get(id).getAlliance()){
+        for (Long id : tmpRiskMap.getOwners().keySet()) {
+            for (Long allianceID : tmpRiskMap.getOwners().get(id).getAlliance()) {
                 // alliance does not connect to self, need to del alliance in self's alliance set
-                if (!tmpRiskMap.getOwners().get(allianceID).getAlliance().contains(id)){
+                if (!tmpRiskMap.getOwners().get(allianceID).getAlliance().contains(id)) {
                     idToFakeAlliance.computeIfAbsent(id, x -> new ArrayList<>()).add(allianceID);
                 }
             }
@@ -425,6 +484,7 @@ public class APIGameHandler {
 
     /**
      * Randomly initialize the territories with client ID.
+     *
      * @param n_Terr_per_player
      */
     public void assignTerritoriesToPlayers(int n_Terr_per_player) {
@@ -443,16 +503,17 @@ public class APIGameHandler {
             territory.tryChangeOwnerTo(clientIDList.get(count++ / n_Terr_per_player));
         }
         for (Long clientID : clientIDList) {
-            ArrayList<Integer> totalRest = new ArrayList<Integer>(Arrays.asList(0,2,6));
+            ArrayList<Integer> totalRest = new ArrayList<Integer>(Arrays.asList(0, 2, 6));
             ArrayList<Territory> myTerrs = (ArrayList<Territory>) riskMap.getTerritoriesByOwnerID(clientID);
             for (int i = 0; i < 3; i++) {
-               myTerrs.get(i).increaseSize(totalRest.get(i));
+                myTerrs.get(i).increaseSize(totalRest.get(i));
             }
         }
     }
 
     /**
      * get the state of some player
+     *
      * @param clientID
      * @return
      */
@@ -460,8 +521,7 @@ public class APIGameHandler {
         //check if this player lost
         if (isPlayerLost(clientID)) {
             return State.LostState.name();
-        }
-        else {
+        } else {
             //check if this player has committed
             if (commitedPlayer.contains(clientID))
                 return State.WaitingState.name();
@@ -472,6 +532,7 @@ public class APIGameHandler {
 
     /**
      * going into the unitplacement phase after all players joined the room
+     *
      * @param n_Terr_per_player
      */
     public void unitPlacementPhase(int n_Terr_per_player) {
@@ -486,6 +547,7 @@ public class APIGameHandler {
      * going into placing order for each player
      */
     public void orderingPhase() {
+        historyGameRepository.save(new HistoryGame(Long.parseLong(roomID),roundNumber++,this));
         currentState = State.OrderingState.name();
         commitedPlayer.clear();
         commitedPlayer.addAll(lostPlayer);
@@ -502,31 +564,41 @@ public class APIGameHandler {
      * show the game result if this game has a winner
      */
     public void showGameResultPhase() {
+
         currentState = State.EndState.name();
+
+        historyGameRepository.save(new HistoryGame(Long.parseLong(roomID),roundNumber++,this));
         commitedPlayer.clear();
-        adjustRank();
+        if (isCompetitive()){
+            adjustRank();
+        }
     }
 
-    private void adjustRank() {
-        logger.info(String.format("RoomID:%d adjusting rank", roomID));
-        for (Long userId : players){
-            if (lostPlayer.contains(userId)){
-                logger.info(String.format("Loser ID:%d ,adjusting rank", userId));
-                Long currElo = userRepository.findByid(userId).orElse(null).getElo();
-                if (currElo>=10){
-                    userService.setEloByUserID(userId, (currElo-10L));
-                }
-                else{
-                    userService.setEloByUserID(userId, (currElo-10L));
-                }
-                logger.info(String.format("Loser curr elo:%d", userRepository.findByid(userId).orElse(null).getElo()));
+    public void adjustRank() {
+        for (Long userId : players) {
+            Long currElo = userRepository.findByid(userId).orElse(null).getElo();
+            Long adjustedElo = calcRankRewardForPlayer(currElo, userId);
+            userService.setEloByUserID(userId, (adjustedElo));
+        }
+    }
+
+    public Long calcRankRewardForPlayer(Long currElo, Long userId){
+        float weight = 1.0f / (1 + (float) (Math.pow(10, 1.0f *
+                (currElo - averageElo) / 400)));
+//        System.out.println("currElo:" +currElo+" ,averageElo:"+ averageElo);
+//        System.out.println(weight);
+        long winnerAdjustElo = (long) (averageElo*(weight)*0.1f);
+        long loserAdjustElo = (long)(averageElo*(1-weight)*0.1f);
+//        System.out.println("If win, you get: "+winnerAdjustElo);
+//        System.out.println("If lose, you lost: "+loserAdjustElo);
+        if (lostPlayer.contains(userId)){
+            if (currElo <= loserAdjustElo){
+                return 0L;
             }
-            else {
-                logger.info(String.format("Winner ID:%d ,adjusting rank", userId));
-                Long currElo = userRepository.findByid(userId).orElse(null).getElo();
-                userService.setEloByUserID(userId, (currElo+(long)roomSize*10));
-                logger.info(String.format("Winner curr elo:%d", userRepository.findByid(userId).orElse(null).getElo()));
-            }
+            return currElo-loserAdjustElo;
+        }
+        else{
+            return currElo+winnerAdjustElo;
         }
     }
 

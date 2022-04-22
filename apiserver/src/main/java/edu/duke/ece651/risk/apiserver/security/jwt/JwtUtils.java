@@ -86,6 +86,7 @@ public class JwtUtils {
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         user, user.getPassword(),user.getAuthorities());
+                authentication.setDetails(user);
                 //authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 //SecurityContextHolder.getContext().setAuthentication(authentication);
                 return authentication;

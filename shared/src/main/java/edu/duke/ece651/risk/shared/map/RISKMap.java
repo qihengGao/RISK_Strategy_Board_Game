@@ -10,13 +10,16 @@ import java.awt.image.AreaAveragingScaleFilter;
 import java.util.*;
 
 public class RISKMap implements GameMap {
-  private final HashSet<Territory> continent;
+  private  HashSet<Territory> continent;
 
   public HashMap<Long, Owner> getOwners() {
     return owners;
   }
 
-  private final HashMap<Long, Owner> owners;
+  private  HashMap<Long, Owner> owners;
+
+  public RISKMap() {
+  }
 
   public RISKMap(HashSet<Territory> new_continent) {
     this.continent = new_continent;

@@ -12,6 +12,8 @@ public class UserTest {
     @Test
     public void test_setGet(){
         User user = new User();
+        assertEquals(user.getElo(), 1000L);
+
         user = new User("", "", "", 50L);
 
         user.setId(0L);
@@ -26,7 +28,7 @@ public class UserTest {
         user.setPassword("password");
         assertEquals("password", user.getPassword());
 
-        assertNull(user.getElo());
+        assertEquals(user.getElo(), 50L);
 
         user.setElo(0L);
         assertEquals(user.getElo(), 0L);

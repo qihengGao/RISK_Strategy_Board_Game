@@ -2,16 +2,25 @@ package edu.duke.ece651.risk.apiserver.controllers;
 
 import edu.duke.ece651.risk.apiserver.APIGameHandler;
 import edu.duke.ece651.risk.apiserver.APIGameHandlerComparator;
+import edu.duke.ece651.risk.apiserver.models.GroceryItem;
+import edu.duke.ece651.risk.apiserver.models.HistoryGame;
 import edu.duke.ece651.risk.apiserver.models.State;
 import edu.duke.ece651.risk.apiserver.payload.request.CreateRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.JoinRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.PlaceOrderRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.PlaceUnitRequest;
 import edu.duke.ece651.risk.apiserver.payload.response.*;
+import edu.duke.ece651.risk.apiserver.repository.APIGameHandlerRepository;
+import edu.duke.ece651.risk.apiserver.repository.ItemRepository;
 import edu.duke.ece651.risk.apiserver.repository.UserRepository;
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,6 +34,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -44,6 +56,10 @@ public class GameController {
 
     private long roomIDCounter;
 
+    @Autowired
+    MongoTemplate mongoTemplate;
+    @Autowired
+    APIGameHandlerRepository apiGameHandlerRepository;
 
     /**
      * This method handle the post request of /createRoom.
@@ -59,16 +75,34 @@ public class GameController {
         System.out.println("User " + userId + " trying to create a Room");
 
         int roomSize = createRoomRequest.getRoomSize();
-//        if (roomSize<2 || roomSize > 5) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CreateRoomResponse("Failed to create a room! Room size must be between 2~5!", null));
-//        }
-        APIGameHandler gameHandler = new APIGameHandler(roomSize, roomIDCounter++, userId);
+
+        final Aggregation aggregation = newAggregation(
+                match(new Criteria("_id").ne(null)),
+                sort(Sort.by(Sort.Direction.DESC, "_id"))
+        );
+
+        final AggregationResults<APIGameHandler> results = mongoTemplate.aggregate(aggregation, "APIGameHandler", APIGameHandler.class);
+        Long newRoomID = 0L;
+        if (results.getMappedResults().size()>0){
+            newRoomID = results.getMappedResults().get(0).getRoomID() + 1L;
+        }
+
+
+        APIGameHandler gameHandler = new APIGameHandler(roomSize, newRoomID, userId);
         beanFactory.autowireBean(gameHandler);
-
         gameHandler.updateAverageElo();
-        rooms.put(gameHandler.getRoomID(), gameHandler);
-        return ResponseEntity.ok(new CreateRoomResponse("Successfully create a game room!", gameHandler.getRoomID()));
+        gameHandler.setCompetitive(createRoomRequest.isCompetitive());
 
+        String message = "Successfully create a game room!";
+        if(gameHandler.isCompetitive()){
+            message = "Successfully create a competitive game room!";
+        }
+
+        System.out.println(message);
+
+        apiGameHandlerRepository.save(gameHandler);
+
+        return ResponseEntity.ok(new CreateRoomResponse(message, gameHandler.getRoomID()));
     }
 
 
@@ -84,11 +118,13 @@ public class GameController {
 
         Long userId = getUserId();
         Long roomID = joinRoomRequest.getRoomID();
-        APIGameHandler apiGameHandler = rooms.get(roomID);
-
+        //APIGameHandler apiGameHandler = rooms.get(roomID);
+        APIGameHandler apiGameHandler = apiGameHandlerRepository.findByRoomID(String.valueOf(roomID));
+        beanFactory.autowireBean(apiGameHandler);
         if (apiGameHandler == null || !apiGameHandler.tryAddPlayer(userId)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new JoinRoomResponse("Failed to join! Room not found or Room full!", roomID));
         } else {
+            apiGameHandlerRepository.save(apiGameHandler);
             return ResponseEntity.status(HttpStatus.OK).body(new JoinRoomResponse("Successfully joined a game room!", roomID));
         }
 
@@ -119,8 +155,14 @@ public class GameController {
         Long userId = getUserId();
 //        System.out.println(userRepository.findByid(userId).orElse(null).getElo());
 
-        if (rooms.containsKey(roomID) && rooms.get(roomID).getPlayers().contains(userId)) {
-            APIGameHandler apiGameHandler = rooms.get(roomID);
+        if (apiGameHandlerRepository.existsAPIGameHandlerByRoomID(String.valueOf(roomID)) && apiGameHandlerRepository.findByRoomID(String.valueOf(roomID)).getPlayers().contains(userId)) {
+            //APIGameHandler apiGameHandler = rooms.get(roomID);
+
+            APIGameHandler apiGameHandler = apiGameHandlerRepository.findByRoomID(String.valueOf(roomID));
+
+            beanFactory.autowireBean(apiGameHandler);
+
+
             return ResponseEntity.status(HttpStatus.OK).body(new GameStatusResponse(
                     apiGameHandler.getPlayerState(userId),
                     apiGameHandler.getRiskMapByState(),
@@ -144,8 +186,9 @@ public class GameController {
     public ResponseEntity<PlaceUnitResponse> placeUnit(@Valid @RequestBody PlaceUnitRequest placeUnitRequest) {
         Long userId = getUserId();
         Long roomID = placeUnitRequest.getRoomID();
-        APIGameHandler currGame = rooms.get(roomID);
-
+        //APIGameHandler currGame = rooms.get(roomID);
+        APIGameHandler currGame = apiGameHandlerRepository.findByRoomID(String.valueOf(roomID));
+        beanFactory.autowireBean(currGame);
         if (currGame == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Cannot find room " + roomID + "!"));
         }
@@ -155,6 +198,7 @@ public class GameController {
         if (place_error_message != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse(place_error_message));
         } else {
+            apiGameHandlerRepository.save(currGame);
             return ResponseEntity.status(HttpStatus.OK).body(new PlaceUnitResponse("Successfully placed unit into map."));
         }
 
@@ -171,7 +215,8 @@ public class GameController {
         Long userId = getUserId();
         Long roomID = placeOrderRequest.getRoomID();
 
-        APIGameHandler currGame = rooms.get(roomID);
+        APIGameHandler currGame = apiGameHandlerRepository.findByRoomID(String.valueOf(roomID));
+        beanFactory.autowireBean(currGame);
 
         if (currGame == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse("Cannot find room " + roomID + "!"));
@@ -182,6 +227,7 @@ public class GameController {
         if (preprocess_message != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new PlaceUnitResponse(preprocess_message));
         } else {
+            apiGameHandlerRepository.save(currGame);
             return ResponseEntity.status(HttpStatus.OK).body(new PlaceUnitResponse("Successfully placed order into map!"));
         }
 
@@ -194,18 +240,16 @@ public class GameController {
      */
     @Transactional
     @GetMapping("/rooms/available")
-    public ResponseEntity<RoomsAvailableResponse> allRooms() {
+    public ResponseEntity<RoomsAvailableResponse> allRooms(@RequestParam Boolean competitive) {
         Long userId = getUserId();
 //        System.out.println("all room elo "+userRepository.findByid(userId).orElse(null).getElo());
-//        userRepository.findByid(userId).orElse(null).setElo(1000L);
-//        System.out.println("all room elo "+userRepository.findByid(userId).orElse(null).getElo());
 
-        List<APIGameHandler> res = rooms.entrySet().stream()
-                .filter(e -> (State.WaitingToStartState.name().equals(e.getValue().getCurrentState())
-                        && !e.getValue().getPlayers().contains(userId)))
-                .map(Map.Entry::getValue).collect(Collectors.toList());
+        List<APIGameHandler> res = apiGameHandlerRepository.findAll().stream()
+                .filter(e -> (competitive.equals(e.isCompetitive()) && (State.WaitingToStartState.name().equals(e.getCurrentState())
+                        && !e.getPlayers().contains(userId))))
+                .collect(Collectors.toList());
 
-        Collections.sort(res, new APIGameHandlerComparator());
+        Collections.sort(res, new APIGameHandlerComparator(userRepository.findByid(userId).orElse(null).getElo()));
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
 
@@ -220,8 +264,8 @@ public class GameController {
         Long userId = getUserId();
 //        System.out.println("Join room elo "+userRepository.findByid(userId).orElse(null).getElo());
 
-        List<APIGameHandler> res = rooms.entrySet().stream()
-                .filter(e -> e.getValue().getPlayers().contains(userId)).map(Map.Entry::getValue).collect(Collectors.toList());
+        List<APIGameHandler> res = apiGameHandlerRepository.findAll().stream()
+                .filter(e -> e.getPlayers().contains(userId)).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
 

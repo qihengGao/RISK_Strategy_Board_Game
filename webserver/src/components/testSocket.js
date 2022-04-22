@@ -43,14 +43,15 @@ export default class testSocket extends Component {
      */
     componentDidMount() {
 
-        let client = Stomp.over(new SockJS('http://localhost:8080/chat', null, {
+        let client = Stomp.over(new SockJS("http://"+window.location.hostname+":3000/chat", null, {
             transports: ['xhr-streaming'],
             headers: {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9...'}
         }));
         client.connect(authHeader(), function (frame) {
 
             console.log("connect Stomp")
-            client.subscribe('/topic/messages', function (message) {
+            client.subscribe('/topic/' + this.props.roomID + '/user/' + AuthService.getCurrentUser().id, function (message) {
+                console.log(JSON.parse(message.body))
                 this.setState(prevState => ({
 
                     socket_history_messages: [...prevState.socket_history_messages, JSON.parse(message.body)]
@@ -77,7 +78,7 @@ export default class testSocket extends Component {
      */
     handleSendMessage = () => {
 
-        this.state.socket_client.send("/app/chat/" + this.state.topic, {}, JSON.stringify({
+        this.state.socket_client.send("/app/chat/" + this.props.roomID, {}, JSON.stringify({
             from: this.state.currentUser.username,
             text: this.state.socket_message
         }));
@@ -126,11 +127,12 @@ export default class testSocket extends Component {
 
                         {
                             this.state.socket_history_messages.map((item) => (
-                                    item.from === this.state.currentUser.username ?
+                                    item.from === this.state.currentUser.id ?
                                         <MessageRight message={item.message} timestamp={item.timestamp}/>
                                         :
-                                        <MessageLeft message={item.message} timestamp={item.timestamp}
-                                                     displayName={item.from}/>
+                                        <MessageLeft color={this.props.responseData.idToColor[item.from].colorName?this.props.responseData.idToColor[item.from].colorName:"#000000"} message={item.message} timestamp={item.timestamp}
+                                                     displayName={this.props.responseData.idToColor[item.from].colorName + ' Player'}
+                                                     timestamp={item.timestamp}/>
                                 )
                             )
                         }

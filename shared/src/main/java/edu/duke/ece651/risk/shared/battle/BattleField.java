@@ -16,11 +16,14 @@ import java.util.TreeSet;
 // src.id
 // battleF(dest)
 public class BattleField implements Serializable {
-    private Territory territoryOfContest; // include defender territory ID
+    //private Territory territoryOfContest; // include defender territory ID
     private long currDefenderId; // current defender, battle still ongoing
     private TreeSet<Unit> currDefendingUnit; // current defending units
     private HashMap<Long, TreeSet<Unit>> attackers;
     private AttackResolver attackResolver;
+
+    public BattleField() {
+    }
 
     public HashMap<Long, TreeSet<Unit>> getAttackers() {
         return attackers;
@@ -40,11 +43,12 @@ public class BattleField implements Serializable {
      * @param attackResolver
      */
     public BattleField(Territory territoryOfContest, AttackResolver attackResolver){
-        this.territoryOfContest = territoryOfContest;
+
         this.currDefenderId = territoryOfContest.getOwnerID();
-        this.currDefendingUnit = territoryOfContest.getUnits();
+        this.currDefendingUnit = new TreeSet<>(new UnitComparator());
         this.attackResolver = attackResolver;
         this.attackers = new HashMap<>();
+        this.currDefendingUnit.addAll(territoryOfContest.getUnits());
     }
 
     /**
@@ -96,7 +100,8 @@ public class BattleField implements Serializable {
 
         for (long attackerId : this.attackers.keySet()) {
             TreeSet<Unit> attackers = this.attackers.get(attackerId);
-            TreeSet<Unit> defenders = this.currDefendingUnit;
+            TreeSet<Unit> defenders = new TreeSet<>(new UnitComparator());
+            defenders.addAll(territory.getUnits());
 
             int round = 0;
             while(attackers.size() > 0 && defenders.size() > 0){

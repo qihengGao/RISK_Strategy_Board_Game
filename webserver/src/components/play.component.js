@@ -9,9 +9,7 @@ import Snackbar from '@mui/material/Snackbar';
 import {Alert} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
+import {GridColDef} from "@mui/x-data-grid";
 
 import TestSocket from "./testSocket";
 
@@ -75,12 +73,12 @@ export default class play extends Component {
             case "EndState":
                 console.log("logging end state")
                 console.log(this.state.responseData)
-                return <div>Game End! {typeof(this.state.responseData)==="undefined"
-                    ?"Loading!":
+                return <div>Game End! {typeof (this.state.responseData) === "undefined"
+                    ? "Loading!" :
                     "Winner is " +
                     this.state.responseData.idToColor[this.state.responseData.winner].colorName +
                     " Player!"}
-                    </div>
+                </div>
             case "LostState":
                 return <div>You lost, try to conquest more next time!</div>
 
@@ -121,7 +119,7 @@ export default class play extends Component {
                 (<div className="alert alert-danger" role="alert">{this.state.message}</div>)
                 :
                 (
-                    <div id="upper" style={{marginTop:"3%"}}>
+                    <div id="upper" style={{marginTop: "3%"}}>
                         <Box sx={{flexGrow: 1}}>
 
                             <Grid container spacing={2}>
@@ -177,7 +175,7 @@ export default class play extends Component {
                             {/*    </Button>*/}
                             {/*</Box>*/}
 
-                            <TestSocket/>
+                            <TestSocket {...this.state}/>
 
                         </Box>
 
@@ -208,8 +206,6 @@ export default class play extends Component {
     }
 
 
-
-
     componentDidUpdate() {
         this.initComponent();
     }
@@ -237,7 +233,7 @@ export default class play extends Component {
                     //console.log(this.refs.main)
                     let columnarChart = echarts.init(this.refs.main);
                     let allianceColors = [];
-                    for (const allianceID of response.data.riskMap.owners[AuthService.getCurrentUser().id].alliance){
+                    for (const allianceID of response.data.riskMap.owners[AuthService.getCurrentUser().id].alliance) {
                         allianceColors.push(response.data.idToColor[allianceID].colorName)
                     }
                     console.log("allianceColors: ", allianceColors)
@@ -301,10 +297,10 @@ export default class play extends Component {
                     function addNewTerritory(territory) {
 
                         let label = "";
-                        label += "Size:"+territory.size + "\n";
+                        label += "Size:" + territory.size + "\n";
                         for (const unit of territory.units) {
-                            if (unit.amount >0){
-                                label += response.data.idToColor[unit.ownerId].colorName + "'s" + unit.amount + " " + unit.type + " level " + unit.level+"\n";
+                            if (unit.amount > 0) {
+                                label += response.data.idToColor[unit.ownerId].colorName + "'s" + unit.amount + " " + unit.type + " level " + unit.level + "\n";
                             }
                         }
 
@@ -385,6 +381,6 @@ export default class play extends Component {
 
 
                 }
-);
+            );
     }
 }

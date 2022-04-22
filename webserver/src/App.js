@@ -5,9 +5,12 @@ import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import MuiLogin from "./components/MuiLogin.component";
 import MuiRegister from "./components/MUIRegister.component";
-import allRooms from "./components/allRooms.component";
+import normalRooms from "./components/allNormalRooms.component";
+import competitiveRooms from "./components/allCompetitiveRooms.component"
 import joinedRooms from "./components/joinedRooms.component";
+import historyRooms from "./components/allHistoryRooms.component";
 import play from "./components/play.component";
+import record from "./components/history_game.component";
 import testSocket from "./components/testSocket";
 
 class App extends React.Component {
@@ -38,9 +41,12 @@ class App extends React.Component {
                         <Route exact path="/login" component={MuiLogin}/>
                         <Route exact path="/register" component={MuiRegister}/>
                         <Route exact path="/profile" component={Profile}/>
-                        <Route exact path="/allRooms" component={allRooms}/>
+                        <Route exact path="/normalRooms" component={normalRooms}/>
+                        <Route exact path="/competitiveRooms" component={competitiveRooms}/>
                         <Route exact path="/joinedRooms" component={joinedRooms}/>
+                        <Route exact path="/historyGames" component={historyRooms}/>
                         <Route exact path="/play/:roomID" component={play}/>
+                        <Route exact path="/record/:roomID/:roundNumber" component={record}/>
                         <Route exact path="/testSocket" component={testSocket}/>
 
                     </Switch>

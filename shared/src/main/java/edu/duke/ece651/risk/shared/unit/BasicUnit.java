@@ -13,12 +13,15 @@ import java.util.Objects;
 public class BasicUnit implements Unit {
     //unit information
     private long ownerId;
-    private final String unitType;
-    private final int levelBound;
+    private String unitType;
+    private int levelBound;
     private int level;
     private int amount;
     private int[] predefinedBonus = new int[] {0, 1, 3, 5, 8, 11, 15};
     private int[] predefinedAccumulativeCosts = new int[] {0, 3, 11, 30, 55, 90, 140};
+
+    public BasicUnit() {
+    }
 
     @Override
     public boolean equals(Object o) {

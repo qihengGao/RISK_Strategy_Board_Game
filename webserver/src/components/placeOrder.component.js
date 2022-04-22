@@ -37,7 +37,7 @@ class unitPlace extends Component {
     componentDidMount() {
         let orderChoices = ["Move", "Attack", "Upgrade Unit", "Upgrade Tech Level"];
         // console.log("ROOMSIZE:", Object.keys(this.props.room.idToColor).length)
-        if (Object.keys(this.props.room.idToColor).length > 2){
+        if (Object.keys(this.props.room.idToColor).length > 2) {
             orderChoices.push("Form Alliance");
         }
 
@@ -56,21 +56,21 @@ class unitPlace extends Component {
                     }
                 }
             } else {
-                if (this.props.room.riskMap.owners[AuthService.getCurrentUser().id].alliance.includes(territory.ownerID)){
+                if (this.props.room.riskMap.owners[AuthService.getCurrentUser().id].alliance.includes(territory.ownerID)) {
                     ownAndAllyTerr.push(territory.name);
                 }
                 enemyTerritory.push(territory.name);
             }
         }
         let otherPlayers = [];
-        for (var id in this.props.room.idToColor){
-            if (id != AuthService.getCurrentUser().id){
+        for (var id in this.props.room.idToColor) {
+            if (id != AuthService.getCurrentUser().id) {
                 console.log("Other player", id);
                 otherPlayers.push(this.props.room.idToColor[id].colorName)
             }
         }
 
-            this.setState(prevState => ({
+        this.setState(prevState => ({
             columns: [
                 {field: 'id', headerName: 'ID', width: 30},
                 {
@@ -93,8 +93,7 @@ class unitPlace extends Component {
                             row.orderType === "Upgrade Tech Level" ||
                             row.orderType === "Form Alliance") {
                             return [];
-                        }
-                        else if (row.orderType === "Attack"){
+                        } else if (row.orderType === "Attack") {
                             return ownTerritory;
                         }
                         return ownAndAllyTerr;
@@ -165,7 +164,24 @@ class unitPlace extends Component {
                 }
             ]
         }))
+        let idcount = -1;
+        if (this.props.historyMode) {
+            console.log("historyMode");
+            console.log(this.props.responseData.temporaryOrders);
+            let selfOrders = this.props.responseData.temporaryOrders.filter((order) => {
+                console.log(order.playerID)
+                return order.playerID === this.props.playerID
+            }).map((order)=>{
+                idcount+=1
+                return {...order,id:idcount,source:order.srcTerritory,target:order.destTerritory }
+            })
 
+            console.log(selfOrders);
+            console.log(this.props.playerID);
+            this.setState({
+                rows: selfOrders
+            })
+        }
     }
 
     /**
@@ -310,15 +326,15 @@ class unitPlace extends Component {
 
     handleCommit(e) {
         const ColorToId = new Map();
-        for (var id in this.props.room.idToColor){
+        for (var id in this.props.room.idToColor) {
             ColorToId.set(this.props.room.idToColor[id].colorName, id)
         }
-        console.log("ColorToID:",ColorToId);
+        console.log("ColorToID:", ColorToId);
 
         let orders = [];
         console.log("logging", this.props.room);
         for (const row of this.state.rows) {
-            console.log("row alliance",row.allianceWith);
+            console.log("row alliance", row.allianceWith);
             orders.push({
                 srcTerritory: row.source,
                 destTerritory: row.target,

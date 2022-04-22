@@ -37,7 +37,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    private Long elo = 50L;
+    private Long elo = 1000L;
 
     /**
      * default constructor

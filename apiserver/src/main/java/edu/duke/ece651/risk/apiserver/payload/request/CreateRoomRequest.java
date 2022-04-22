@@ -12,6 +12,8 @@ public class CreateRoomRequest {
     @Max(5)
     private int roomSize;
 
+    private boolean competitive;
+
     /**
      * get room size
      * @return room size
@@ -27,4 +29,14 @@ public class CreateRoomRequest {
     public void setRoomSize(int roomSize) {
         this.roomSize = roomSize;
     }
+
+
+    public boolean isCompetitive() {
+        return competitive;
+    }
+
+    public void setCompetitive(boolean competitive) {
+        this.competitive = competitive;
+    }
+
 }

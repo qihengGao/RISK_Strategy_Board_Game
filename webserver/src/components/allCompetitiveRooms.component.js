@@ -17,8 +17,7 @@ import {
 
 const API_URL = "http://localhost:8080";
 
-
-export default class allRoomsComponent extends Component {
+export default class allCompetitiveRoomsComponent extends Component {
 
     /**
      * constructor to build this component
@@ -37,7 +36,8 @@ export default class allRoomsComponent extends Component {
             snackBarMessage: "Successfully commit the message",
             snackbarType: "success",
             openCreateRoomDialog: false,
-            roomSize: null
+            roomSize: null,
+            roomCompetitive: true
         };
         //this.initComponent = this.initComponent.bind(this);
     }
@@ -84,13 +84,13 @@ export default class allRoomsComponent extends Component {
                         }, {
                             headers: authHeader()
                         });
-                        // .then(() => {
-                        //         this.handleSnackBarUpdate("success", "Successfully join room!")
-                        //
-                        //     }, error => {
-                        //         this.handleSnackBarUpdate("error", "Failed join room\n" + error.messages)
-                        //     }
-                        // );
+                    // .then(() => {
+                    //         this.handleSnackBarUpdate("success", "Successfully join room!")
+                    //
+                    //     }, error => {
+                    //         this.handleSnackBarUpdate("error", "Failed join room\n" + error.messages)
+                    //     }
+                    // );
                 };
                 return <Button onClick={onClick} href={"play/" + params.id}>Join</Button>;
             },
@@ -126,7 +126,7 @@ export default class allRoomsComponent extends Component {
 
                         rows={this.state.rows}
                         columns={columns}
-                        pageSize={5}
+                        pageSize={10}
                         // rowsPerPageOptions={[5]}
                         // experimentalFeatures={{newEditingApi: true}}
                         onCellEditCommit={this.handleCellCommit}
@@ -193,6 +193,7 @@ export default class allRoomsComponent extends Component {
         axios
             .post("/api/game/createRoom", {
                 roomSize: this.state.roomSize,
+                competitive: this.state.roomCompetitive
             }, {headers: authHeader()})
             .then((response) => {
                 //console.log(response);
@@ -250,7 +251,9 @@ export default class allRoomsComponent extends Component {
     getAllRooms=()=>{
         axios
             .get("/api/game/rooms/available", {
-                params: {},
+                params: {
+                    competitive:true
+                },
                 headers: authHeader()
             })
             .then(response => {

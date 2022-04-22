@@ -135,10 +135,18 @@ class Navbar extends React.Component {
                         <Button
                             key="All rooms"
                             component={Link}
-                            href="/allRooms"
+                            href="/normalRooms"
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
                             All rooms
+                        </Button>
+                        <Button
+                            key="Competitive rooms"
+                            component={Link}
+                            href="/competitiveRooms"
+                            sx={{my: 2, color: 'white', display: 'block'}}
+                        >
+                            Competitive rooms
                         </Button>
                         <Button
                             key="joinedRooms"
@@ -147,6 +155,14 @@ class Navbar extends React.Component {
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
                             Joined rooms
+                        </Button>
+                        <Button
+                            key="historyRooms"
+                            component={Link}
+                            href="/historyGames"
+                            sx={{my: 2, color: 'white', display: 'block'}}
+                        >
+                            History Games
                         </Button>
                     </Box>
                     {currentUser ? (<Box sx={{flexGrow: 0}}>
