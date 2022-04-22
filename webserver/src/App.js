@@ -44,7 +44,7 @@ class App extends React.Component {
                         <Route exact path="/joinedRooms" component={joinedRooms}/>
                         <Route exact path="/historyRooms" component={historyRooms}/>
                         <Route exact path="/play/:roomID" component={play}/>
-                        <Route exact path="/record/:roomID/:roundNumber" component={record}/>
+                        <Route exact path="/record/:roomID" component={record}/>
                         <Route exact path="/testSocket" component={testSocket}/>
 
                     </Switch>

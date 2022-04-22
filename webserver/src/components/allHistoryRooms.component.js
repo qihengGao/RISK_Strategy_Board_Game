@@ -48,14 +48,12 @@ export default class allRoomsComponent extends Component {
         console.log("Rows: ")
         console.log(this.state.rows);
         let columns: GridColDef[] = [{
-            field: 'id', headerName: '', width: 90
-        },{
             field: 'roomID', headerName: 'Room ID', width: 90
         }, {
             field: 'roundNumber', headerName: 'Round Number', width: 150, editable: false,
         }, {
             field: 'action',
-            headerName: '',
+            headerName: 'View',
             sortable: false,
             /**
              * render the cells in the list of rooms in joined rooms
@@ -79,7 +77,7 @@ export default class allRoomsComponent extends Component {
                 console.log("params:")
                 console.log(params)
 
-                return <Button href={"record/"+params.row.roomID + "/"+params.row.roundNumber} >View</Button>;
+                return <Button href={"record/"+params.row.roomID } >View</Button>;
             },
         },
         ];
