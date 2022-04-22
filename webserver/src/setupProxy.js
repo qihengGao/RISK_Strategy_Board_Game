@@ -13,7 +13,7 @@ module.exports = function (app) {
                 request.setHeader("origin", "http://localhost:8080");
             },
             onProxyRes: function (proxyRes, req, res) {
-                proxyRes.headers['Access-Control-Allow-Origin'] = "http://:"+os.hostname()+":8081"
+                proxyRes.headers['Access-Control-Allow-Origin'] = "http://"+os.hostname()+":8081"
             }
         })
     );
