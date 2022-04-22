@@ -17,13 +17,12 @@ import java.util.TreeSet;
 // battleF(dest)
 public class BattleField implements Serializable {
     //private Territory territoryOfContest; // include defender territory ID
+    private long currDefenderId; // current defender, battle still ongoing
     private TreeSet<Unit> currDefendingUnit; // current defending units
     private HashMap<Long, TreeSet<Unit>> attackers;
     private AttackResolver attackResolver;
 
     public BattleField() {
-        this.currDefendingUnit = new TreeSet<>(new UnitComparator());
-        this.attackers = new HashMap<>();
     }
 
     public HashMap<Long, TreeSet<Unit>> getAttackers() {
@@ -44,9 +43,12 @@ public class BattleField implements Serializable {
      * @param attackResolver
      */
     public BattleField(Territory territoryOfContest, AttackResolver attackResolver){
+
+        this.currDefenderId = territoryOfContest.getOwnerID();
         this.currDefendingUnit = new TreeSet<>(new UnitComparator());
         this.attackResolver = attackResolver;
         this.attackers = new HashMap<>();
+        this.currDefendingUnit.addAll(territoryOfContest.getUnits());
     }
 
     /**
@@ -95,8 +97,6 @@ public class BattleField implements Serializable {
      * @param territory
      */
     public void fightAllBattle(Territory territory){
-        this.currDefendingUnit = new TreeSet<>(new UnitComparator());
-        this.currDefendingUnit.addAll(territory.getUnits());
 
         for (long attackerId : this.attackers.keySet()) {
             TreeSet<Unit> attackers = this.attackers.get(attackerId);
@@ -111,7 +111,6 @@ public class BattleField implements Serializable {
                 if (attackers.size() != 0) {
                     territory.tryChangeOwnerTo(attackerId);
                 }
-                System.out.println("attackers left in Battlefield "+attackers);
                 territory.setUnits(attackers);
             }
         }
