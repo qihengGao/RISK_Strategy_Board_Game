@@ -77,7 +77,7 @@ export default class allRoomsComponent extends Component {
                 console.log("params:")
                 console.log(params)
 
-                return <Button href={"record/"+params.row.roomID } >View</Button>;
+                return <Button href={"record/"+params.row.roomID+"/"+ params.row.roundNumber} >View</Button>;
             },
         },
         ];
