@@ -135,7 +135,7 @@ class Navbar extends React.Component {
                         <Button
                             key="All rooms"
                             component={Link}
-                            href="/rooms/normal/all"
+                            href="/normalRooms"
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
                             All rooms
@@ -143,7 +143,7 @@ class Navbar extends React.Component {
                         <Button
                             key="Competitive rooms"
                             component={Link}
-                            href="/rooms/competitive/all"
+                            href="/competitiveRooms"
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
                             Competitive rooms
@@ -151,7 +151,7 @@ class Navbar extends React.Component {
                         <Button
                             key="joinedRooms"
                             component={Link}
-                            href="/rooms/joined/all"
+                            href="/joinedRooms"
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
                             Joined rooms
@@ -159,7 +159,7 @@ class Navbar extends React.Component {
                         <Button
                             key="historyRooms"
                             component={Link}
-                            href="/rooms/record/all"
+                            href="/historyGames"
                             sx={{my: 2, color: 'white', display: 'block'}}
                         >
                             History Games

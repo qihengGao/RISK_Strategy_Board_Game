@@ -3,6 +3,7 @@ package edu.duke.ece651.risk.apiserver.controllers;
 import edu.duke.ece651.risk.apiserver.APIGameHandler;
 import edu.duke.ece651.risk.apiserver.APIGameHandlerComparator;
 import edu.duke.ece651.risk.apiserver.models.GroceryItem;
+import edu.duke.ece651.risk.apiserver.models.HistoryGame;
 import edu.duke.ece651.risk.apiserver.models.State;
 import edu.duke.ece651.risk.apiserver.payload.request.CreateRoomRequest;
 import edu.duke.ece651.risk.apiserver.payload.request.JoinRoomRequest;
@@ -15,6 +16,11 @@ import edu.duke.ece651.risk.apiserver.repository.UserRepository;
 import edu.duke.ece651.risk.apiserver.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -29,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -48,6 +55,9 @@ public class GameController {
     }
 
     private long roomIDCounter;
+
+    @Autowired
+    MongoTemplate mongoTemplate;
     @Autowired
     APIGameHandlerRepository apiGameHandlerRepository;
 
@@ -66,9 +76,15 @@ public class GameController {
 
         int roomSize = createRoomRequest.getRoomSize();
 
+        final Aggregation aggregation = newAggregation(
+                match(new Criteria("_id").ne(null)),
+                sort(Sort.by(Sort.Direction.DESC, "_id"))
+        );
 
+        final AggregationResults<APIGameHandler> results = mongoTemplate.aggregate(aggregation, "APIGameHandler", APIGameHandler.class);
+        Long newRoomID = results.getMappedResults().get(0).getRoomID() + 1L;
 
-        APIGameHandler gameHandler = new APIGameHandler(roomSize, roomIDCounter++, userId);
+        APIGameHandler gameHandler = new APIGameHandler(roomSize, newRoomID, userId);
         beanFactory.autowireBean(gameHandler);
         gameHandler.updateAverageElo();
         gameHandler.setCompetitive(createRoomRequest.isCompetitive());

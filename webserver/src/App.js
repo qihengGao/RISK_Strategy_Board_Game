@@ -41,10 +41,10 @@ class App extends React.Component {
                         <Route exact path="/login" component={MuiLogin}/>
                         <Route exact path="/register" component={MuiRegister}/>
                         <Route exact path="/profile" component={Profile}/>
-                        <Route exact path="/rooms/normal/all" component={normalRooms}/>
-                        <Route exact path="/rooms/competitive/all" component={competitiveRooms}/>
-                        <Route exact path="/rooms/joined/all" component={joinedRooms}/>
-                        <Route exact path="/rooms/record/all" component={historyRooms}/>
+                        <Route exact path="/normalRooms" component={normalRooms}/>
+                        <Route exact path="/competitiveRooms" component={competitiveRooms}/>
+                        <Route exact path="/joinedRooms" component={joinedRooms}/>
+                        <Route exact path="/historyGames" component={historyRooms}/>
                         <Route exact path="/play/:roomID" component={play}/>
                         <Route exact path="/record/:roomID" component={record}/>
                         <Route exact path="/testSocket" component={testSocket}/>
