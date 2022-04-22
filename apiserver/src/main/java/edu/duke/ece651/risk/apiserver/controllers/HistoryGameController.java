@@ -32,13 +32,6 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 @RestController
 @RequestMapping("/api/historyGame")
 public class HistoryGameController {
-    @Autowired
-    private AutowireCapableBeanFactory beanFactory;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    private HashMap<Long, APIGameHandler> rooms;
 
     @Autowired
     HistoryGameRepository historyGameRepository;
@@ -46,17 +39,6 @@ public class HistoryGameController {
     @Autowired
     MongoTemplate mongoTemplate;
 
-    /**
-     * This is a helper function to get the current user id.
-     *
-     * @return The user ID of current user.
-     */
-    protected Long getUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        userDetails.setElo(1000L);
-        return userDetails.getId();
-    }
 
 
     /**
@@ -73,21 +55,11 @@ public class HistoryGameController {
     }
 
 
-    //TODO
-    //{
-    /**
-     * {
-     *     [
-     *     {
-     *          //all of history repo
-     *     }
-     *     ]
-     * }
-     */
-    // }
+
 
     /**
      * This method handle the get request of /gameStatus.
+     *
      */
     @GetMapping("/rooms/available")
     public ResponseEntity<HistoryRoomsAvailableResponse> availableHistoryGame() {

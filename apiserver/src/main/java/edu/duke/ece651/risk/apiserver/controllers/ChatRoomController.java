@@ -33,6 +33,12 @@ public class ChatRoomController {
     private ChatRoomMessageRepository chatRoomMessageRepository;
 
 
+    /**
+     * This is a chat room controller, using mongoDB to persist store the history message.
+     * @param roomID RoomID of the message.
+     * @param message Message it self.
+     * @param accessor Stomp accessor contains the raw message of Stomp protocol.
+     */
     @MessageMapping("/chat/{roomID}")
     public void simple(@DestinationVariable String roomID, Message message, StompHeaderAccessor accessor) {
 

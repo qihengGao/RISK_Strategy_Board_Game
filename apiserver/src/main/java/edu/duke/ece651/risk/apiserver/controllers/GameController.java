@@ -265,6 +265,11 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.OK).body(new RoomsAvailableResponse(res));
     }
 
+
+    /**
+     * Obtain the elo information.
+     * @return The specified user's elo.
+     */
     @GetMapping("/userElo")
     public ResponseEntity<Long> getUserRank(){
         Long userId = getUserId();
