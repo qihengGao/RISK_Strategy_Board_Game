@@ -65,18 +65,24 @@ public class GameController {
         System.out.println("User " + userId + " trying to create a Room");
 
         int roomSize = createRoomRequest.getRoomSize();
-//        if (roomSize<2 || roomSize > 5) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CreateRoomResponse("Failed to create a room! Room size must be between 2~5!", null));
-//        }
+
+
+
         APIGameHandler gameHandler = new APIGameHandler(roomSize, roomIDCounter++, userId);
         beanFactory.autowireBean(gameHandler);
         gameHandler.updateAverageElo();
+        gameHandler.setCompetitive(createRoomRequest.isCompetitive());
+
+        String message = "Successfully create a game room!";
+        if(gameHandler.isCompetitive()){
+            message = "Successfully create a competitive game room!";
+        }
+
+        System.out.println(message);
 
         apiGameHandlerRepository.save(gameHandler);
-        gameHandler.updateAverageElo();
-        //rooms.put(gameHandler.getRoomID(), gameHandler);
-        return ResponseEntity.ok(new CreateRoomResponse("Successfully create a game room!", gameHandler.getRoomID()));
 
+        return ResponseEntity.ok(new CreateRoomResponse(message, gameHandler.getRoomID()));
     }
 
 
@@ -214,15 +220,13 @@ public class GameController {
      */
     @Transactional
     @GetMapping("/rooms/available")
-    public ResponseEntity<RoomsAvailableResponse> allRooms() {
+    public ResponseEntity<RoomsAvailableResponse> allRooms(@RequestParam Boolean competitive) {
         Long userId = getUserId();
-//        System.out.println("all room elo "+userRepository.findByid(userId).orElse(null).getElo());
-//        userRepository.findByid(userId).orElse(null).setElo(1000L);
 //        System.out.println("all room elo "+userRepository.findByid(userId).orElse(null).getElo());
 
         List<APIGameHandler> res = apiGameHandlerRepository.findAll().stream()
-                .filter(e -> (State.WaitingToStartState.name().equals(e.getCurrentState())
-                        && !e.getPlayers().contains(userId)))
+                .filter(e -> (competitive.equals(e.isCompetitive()) && (State.WaitingToStartState.name().equals(e.getCurrentState())
+                        && !e.getPlayers().contains(userId))))
                 .collect(Collectors.toList());
 
         Collections.sort(res, new APIGameHandlerComparator(userRepository.findByid(userId).orElse(null).getElo()));

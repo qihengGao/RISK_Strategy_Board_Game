@@ -568,7 +568,9 @@ public class APIGameHandler {
 
         historyGameRepository.save(new HistoryGame(Long.parseLong(roomID),roundNumber++,this));
         commitedPlayer.clear();
-        adjustRank();
+        if (isCompetitive()){
+            adjustRank();
+        }
     }
 
     public void adjustRank() {

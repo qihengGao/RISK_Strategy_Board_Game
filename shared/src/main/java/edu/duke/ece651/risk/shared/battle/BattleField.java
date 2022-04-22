@@ -48,7 +48,6 @@ public class BattleField implements Serializable {
         this.currDefendingUnit = new TreeSet<>(new UnitComparator());
         this.attackResolver = attackResolver;
         this.attackers = new HashMap<>();
-        this.currDefendingUnit.addAll(territoryOfContest.getUnits());
     }
 
     /**
@@ -97,6 +96,7 @@ public class BattleField implements Serializable {
      * @param territory
      */
     public void fightAllBattle(Territory territory){
+        this.currDefendingUnit.addAll(territory.getUnits());
 
         for (long attackerId : this.attackers.keySet()) {
             TreeSet<Unit> attackers = this.attackers.get(attackerId);
@@ -111,6 +111,7 @@ public class BattleField implements Serializable {
                 if (attackers.size() != 0) {
                     territory.tryChangeOwnerTo(attackerId);
                 }
+                System.out.println("attackers left in Battlefield "+attackers);
                 territory.setUnits(attackers);
             }
         }

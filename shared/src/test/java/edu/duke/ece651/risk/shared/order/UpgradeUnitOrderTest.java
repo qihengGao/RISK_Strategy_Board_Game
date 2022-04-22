@@ -66,4 +66,10 @@ class UpgradeUnitOrderTest {
         order_.setPlayerID(1L);
         assertEquals(1L, order_.getPlayerID());
     }
+
+    @Test
+    public void DefCtor(){
+        UpgradeUnitOrder order = new UpgradeUnitOrder();
+        order.setUpgradeUnitChecker(null);
+    }
 }

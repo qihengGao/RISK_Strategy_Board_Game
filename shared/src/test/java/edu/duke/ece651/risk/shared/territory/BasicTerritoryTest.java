@@ -14,6 +14,7 @@ import java.util.TreeSet;
 public class BasicTerritoryTest {
     @Test
     public void test_newTerritory() {
+        Territory t_def = new BasicTerritory();
         Territory t1 = new BasicTerritory("FitzPatrick");
         assertEquals(t1.getName(), "FitzPatrick");
         assertFalse(t1.getNeighbors().iterator().hasNext());
