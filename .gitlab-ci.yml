@@ -183,7 +183,7 @@ selenium_web_ui_test:
 
 generate_clover_report:
  image: gradle:7.4.1-jdk17
- stage: test
+ stage: deploy
  script:
    - gradle cloverAggregateReports
    - mkdir coverageout
@@ -204,7 +204,7 @@ generate_clover_report:
 
 generate_coverage_summary:
  image: python:3.7-alpine3.14
- stage: test
+ stage: deploy
  script:
    - pip3 install bs4
    - python3 scripts/clover.py
@@ -243,7 +243,7 @@ generate_js_coverage_report:
 
 pages:
   image: alpine:3.14
-  stage: test
+  stage: deploy
   tags:
     - docker
   needs:
