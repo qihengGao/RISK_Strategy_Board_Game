@@ -100,7 +100,8 @@ public class BattleField implements Serializable {
 
         for (long attackerId : this.attackers.keySet()) {
             TreeSet<Unit> attackers = this.attackers.get(attackerId);
-            TreeSet<Unit> defenders = this.currDefendingUnit;
+            TreeSet<Unit> defenders = new TreeSet<>(new UnitComparator());
+            defenders.addAll(territory.getUnits());
 
             int round = 0;
             while(attackers.size() > 0 && defenders.size() > 0){

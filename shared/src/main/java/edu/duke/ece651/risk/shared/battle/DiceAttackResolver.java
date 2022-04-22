@@ -23,6 +23,7 @@ public class DiceAttackResolver extends AttackResolver {
     }
 
     public DiceAttackResolver() {
+        this.random = new Random(12345);
     }
 
     /**
