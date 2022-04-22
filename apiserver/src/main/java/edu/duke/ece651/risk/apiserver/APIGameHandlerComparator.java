@@ -17,6 +17,9 @@ public class APIGameHandlerComparator implements Comparator<APIGameHandler> {
         }
         int diff_a = Math.abs((int)a.getAverageElo() - (int)currElo);
         int diff_b = Math.abs((int)b.getAverageElo() - (int)currElo);
+        if (diff_a == diff_b){
+            return (int)b.getAverageElo() - (int)a.getAverageElo();
+        }
         return diff_a - diff_b;
     }
 

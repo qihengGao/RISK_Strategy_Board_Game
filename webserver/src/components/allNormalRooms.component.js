@@ -18,7 +18,7 @@ import {
 const API_URL = "http://localhost:8080";
 
 
-export default class allRoomsComponent extends Component {
+export default class allNormalRooms extends Component {
 
     /**
      * constructor to build this component
@@ -37,7 +37,8 @@ export default class allRoomsComponent extends Component {
             snackBarMessage: "Successfully commit the message",
             snackbarType: "success",
             openCreateRoomDialog: false,
-            roomSize: null
+            roomSize: null,
+            roomCompetitive: false
         };
         //this.initComponent = this.initComponent.bind(this);
     }
@@ -126,7 +127,7 @@ export default class allRoomsComponent extends Component {
 
                         rows={this.state.rows}
                         columns={columns}
-                        pageSize={5}
+                        pageSize={10}
                         // rowsPerPageOptions={[5]}
                         // experimentalFeatures={{newEditingApi: true}}
                         onCellEditCommit={this.handleCellCommit}
@@ -193,6 +194,7 @@ export default class allRoomsComponent extends Component {
         axios
             .post("/api/game/createRoom", {
                 roomSize: this.state.roomSize,
+                competitive: this.state.roomCompetitive
             }, {headers: authHeader()})
             .then((response) => {
                 //console.log(response);
@@ -250,7 +252,9 @@ export default class allRoomsComponent extends Component {
     getAllRooms=()=>{
         axios
             .get("/api/game/rooms/available", {
-                params: {},
+                params: {
+                    competitive:false
+                },
                 headers: authHeader()
             })
             .then(response => {
