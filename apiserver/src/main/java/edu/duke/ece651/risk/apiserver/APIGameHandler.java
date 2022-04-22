@@ -18,6 +18,7 @@ import edu.duke.ece651.risk.shared.territory.Color;
 import edu.duke.ece651.risk.shared.territory.Owner;
 import edu.duke.ece651.risk.shared.territory.Territory;
 import edu.duke.ece651.risk.shared.unit.BasicUnit;
+import edu.duke.ece651.risk.shared.unit.UnitComparator;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -222,7 +223,7 @@ public class APIGameHandler {
             RISKMap cloneMap = (RISKMap) SerializationUtils.clone(riskMap);
 
             for (Territory t : cloneMap.getContinent()) {
-                t.setUnits(new TreeSet<>());
+                t.setUnits(new TreeSet<>(new UnitComparator()));
             }
 
             return cloneMap;

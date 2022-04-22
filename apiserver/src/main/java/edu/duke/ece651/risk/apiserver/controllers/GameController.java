@@ -82,7 +82,11 @@ public class GameController {
         );
 
         final AggregationResults<APIGameHandler> results = mongoTemplate.aggregate(aggregation, "APIGameHandler", APIGameHandler.class);
-        Long newRoomID = results.getMappedResults().get(0).getRoomID() + 1L;
+        Long newRoomID = 0L;
+        if (results.getMappedResults().size()>0){
+            newRoomID = results.getMappedResults().get(0).getRoomID() + 1L;
+        }
+
 
         APIGameHandler gameHandler = new APIGameHandler(roomSize, newRoomID, userId);
         beanFactory.autowireBean(gameHandler);

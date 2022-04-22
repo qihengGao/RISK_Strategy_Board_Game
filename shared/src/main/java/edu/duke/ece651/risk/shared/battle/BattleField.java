@@ -17,12 +17,13 @@ import java.util.TreeSet;
 // battleF(dest)
 public class BattleField implements Serializable {
     //private Territory territoryOfContest; // include defender territory ID
-    private long currDefenderId; // current defender, battle still ongoing
     private TreeSet<Unit> currDefendingUnit; // current defending units
     private HashMap<Long, TreeSet<Unit>> attackers;
     private AttackResolver attackResolver;
 
     public BattleField() {
+        this.currDefendingUnit = new TreeSet<>(new UnitComparator());
+        this.attackers = new HashMap<>();
     }
 
     public HashMap<Long, TreeSet<Unit>> getAttackers() {
@@ -43,8 +44,6 @@ public class BattleField implements Serializable {
      * @param attackResolver
      */
     public BattleField(Territory territoryOfContest, AttackResolver attackResolver){
-
-        this.currDefenderId = territoryOfContest.getOwnerID();
         this.currDefendingUnit = new TreeSet<>(new UnitComparator());
         this.attackResolver = attackResolver;
         this.attackers = new HashMap<>();
@@ -96,6 +95,7 @@ public class BattleField implements Serializable {
      * @param territory
      */
     public void fightAllBattle(Territory territory){
+        this.currDefendingUnit = new TreeSet<>(new UnitComparator());
         this.currDefendingUnit.addAll(territory.getUnits());
 
         for (long attackerId : this.attackers.keySet()) {
