@@ -5,7 +5,10 @@ module.exports = function (app) {
         createProxyMiddleware({
             target: 'http://localhost:8080',
             ws: true,
-            changeOrigin: true
+            changeOrigin: true,
+            onProxyReq: function(request) {
+                request.setHeader("origin", "http://localhost:8080");
+            },
         })
     );
     app.listen(3000);
