@@ -290,4 +290,17 @@ class APIGameHandlerTest {
         game.tryAddPlayer(3L);
         System.out.println(displayMap(game.getRiskMap()));
     }
+
+    @Test
+    void calcRankRewardForPlayer(){
+        APIGameHandler game = new APIGameHandler(3, 0, 1L);
+        game.setAverageElo(1000);
+        game.calcRankRewardForPlayer(0L, 2L);
+        game.calcRankRewardForPlayer(100L, 2L);
+        game.calcRankRewardForPlayer(500L, 2L);
+        game.calcRankRewardForPlayer(800L, 2L);
+        game.calcRankRewardForPlayer(900L, 2L);
+        game.calcRankRewardForPlayer(1100L, 2L);
+        game.calcRankRewardForPlayer(1500L, 2L);
+    }
 }

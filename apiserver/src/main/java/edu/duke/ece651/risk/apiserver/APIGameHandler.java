@@ -562,20 +562,31 @@ public class APIGameHandler {
         adjustRank();
     }
 
-    private void adjustRank() {
+    public void adjustRank() {
         for (Long userId : players) {
-            if (lostPlayer.contains(userId)) {
-                Long currElo = userRepository.findByid(userId).orElse(null).getElo();
-                if (currElo >= 10) {
-                    userService.setEloByUserID(userId, (0L));
-                } else {
-                    userService.setEloByUserID(userId, (currElo - 10L));
-                }
-            } else {
-                Long currElo = userRepository.findByid(userId).orElse(null).getElo();
-                Long addElo = 100 * (1- currElo/(averageElo*roomSize));
-                userService.setEloByUserID(userId, (currElo + (long) roomSize * 10));
+            Long currElo = userRepository.findByid(userId).orElse(null).getElo();
+            Long adjustedElo = calcRankRewardForPlayer(currElo, userId);
+            userService.setEloByUserID(userId, (adjustedElo));
+        }
+    }
+
+    public Long calcRankRewardForPlayer(Long currElo, Long userId){
+        float weight = 1.0f / (1 + (float) (Math.pow(10, 1.0f *
+                (currElo - averageElo) / 400)));
+//        System.out.println("currElo:" +currElo+" ,averageElo:"+ averageElo);
+//        System.out.println(weight);
+        long winnerAdjustElo = (long) (averageElo*(weight)*0.1f);
+        long loserAdjustElo = (long)(averageElo*(1-weight)*0.1f);
+//        System.out.println("If win, you get: "+winnerAdjustElo);
+//        System.out.println("If lose, you lost: "+loserAdjustElo);
+        if (lostPlayer.contains(userId)){
+            if (currElo <= loserAdjustElo){
+                return 0L;
             }
+            return currElo-loserAdjustElo;
+        }
+        else{
+            return currElo+winnerAdjustElo;
         }
     }
 

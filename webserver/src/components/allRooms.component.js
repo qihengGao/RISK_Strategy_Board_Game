@@ -257,6 +257,8 @@ export default class allRoomsComponent extends Component {
 
                 let tmpRows = [];
                 for (const room of response.data.rooms) {
+                    console.log("room.averageElo")
+                    console.log(room.averageElo)
                     tmpRows.push({
                         id: room.roomID,
                         roomSize: room.players.length + "/" + room.roomSize,
