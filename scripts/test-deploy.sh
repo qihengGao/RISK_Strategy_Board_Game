@@ -8,7 +8,7 @@ do
         echo "Giving up after 150 attempts/s to connect!"
         exit 1
     fi
-    x=`curl -s -X GET http://localhost:3000/api/test/all`
+    x=`curl -s -X GET http://localhost:8081/api/test/all`
     echo $x
     let count=count+1
     sleep 1s
