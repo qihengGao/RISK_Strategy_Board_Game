@@ -1,0 +1,7 @@
+# syntax=docker/dockerfile:1
+FROM node:16
+WORKDIR /webServer
+COPY ./webserver .
+RUN npm ci
+EXPOSE 8081
+CMD ["npm","run", "start"]
